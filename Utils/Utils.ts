@@ -1,0 +1,1 @@
+export const apiPath="https://eventhive-cd088-default-rtdb.firebaseio.com";
