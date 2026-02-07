@@ -46,12 +46,12 @@ export const dashboardRoutes: RouteConfig[] = [
   {
     path: "Events",
     component: Events,
-    roles: ["Organizer"], // View My Events
+    roles: ["SuperAdmin","Organizer"], // View My Events
   },
   {
-    path: "Users",
+    path: "Registrations",
     component: EventRegistrationsTable,
-    roles: ["Organizer"], // View My Attendees
+    roles: ["SuperAdmin","Organizer"], // View My Attendees
   },
   {
     path: "AddWebsiteContent",

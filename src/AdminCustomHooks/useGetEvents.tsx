@@ -20,12 +20,10 @@ const useGetEvents = () => {
     // Keep data fresh for 5 minutes
     staleTime: 1000 * 60 * 5, 
   });
-
   return {
     data: data ?? [], // Always return an array
     isLoading,
     error: error ? (error as Error).message : null,
   };
 };
-
 export default useGetEvents;

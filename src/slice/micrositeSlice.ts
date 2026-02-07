@@ -4,7 +4,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 // Export this so you can use it in axios.get<EventData>
 export interface EventData {
   eventId: string;
-  eventName: string;
+  EventName: string;
   primaryColor: string; // Renamed to camelCase (standard convention)
   secondaryColor?: string; // Optional field
   logoUrl?: string;

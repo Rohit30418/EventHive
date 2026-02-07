@@ -68,7 +68,7 @@ const EventCard: React.FC<EventCardTypes> = ({ event, index }) => {
         {/* Action Button (Pushed to bottom) */}
         <div className="mt-auto pt-4 border-t border-gray-50">
           <Link
-            to={`/Eventsite/${event.id}`}
+            to={`/Event/${event.id}`}
             className="flex items-center justify-center w-full py-3 rounded-xl bg-primary text-white font-semibold shadow-md shadow-primary/20 hover:bg-primary/90 hover:shadow-lg transition-all duration-200 group-hover:translate-x-1"
           >
             View Details <i className="fa-solid fa-arrow-right ml-2 text-sm"></i>

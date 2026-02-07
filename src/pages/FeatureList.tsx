@@ -22,7 +22,7 @@ const FeatureList = () => {
           {/* Icon Container */}
           <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
             <i
-              className={`fa-solid ${featureIcons[item]} text-xl text-primary-300 group-hover:text-white transition-colors duration-300`}
+              className={`fa-solid ${featureIcons[item]} text-xl text-primary-300 text-white transition-colors duration-300`}
               aria-hidden="true"
             ></i>
           </div>

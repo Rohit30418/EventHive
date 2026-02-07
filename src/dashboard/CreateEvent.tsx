@@ -13,6 +13,10 @@ import useAddEvent from "../AdminCustomHooks/useAddEvent";
 import AddSpeakersModal from "./AddSpeakersModal";
 import { apiPath } from "../../Utils/Utils";
 
+// ------------------ HELPERS -------------------------
+// Gets today's date in YYYY-MM-DD format for the input 'min' attribute
+const todayDate = new Date().toISOString().split("T")[0];
+
 // ------------------ ZOD SCHEMA ----------------------
 const speakerSchema = z.object({
   speakerName: z.string().min(2, "Name required"),
@@ -22,7 +26,14 @@ const speakerSchema = z.object({
 
 const eventSchema = z.object({
   EventName: z.string().min(3, "Event Name must be at least 3 chars"),
-  eventDate: z.string().min(1, "Date is required"),
+  eventDate: z.string()
+    .min(1, "Date is required")
+    .refine((date) => {
+      const selected = new Date(date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return selected >= today;
+    }, { message: "Event must be scheduled for today or a future date" }),
   location: z.string().min(2, "Location is required"),
   eventType: z.enum(["Technology", "Webinar", "Music", "Art", "Sports"], {
     errorMap: () => ({ message: "Select a valid event type" }),
@@ -35,7 +46,6 @@ const eventSchema = z.object({
   speakers: z.array(speakerSchema).optional(),
 });
 
-// ------------------ TS TYPES -------------------------
 type EventFormData = z.infer<typeof eventSchema>;
 type SpeakerType = z.infer<typeof speakerSchema>;
 
@@ -45,9 +55,8 @@ interface UserData {
   userId: string;
 }
 
-// ------------------ FIXED: COMPONENTS MOVED OUTSIDE -------------------
+// ------------------ COMPONENTS -------------------
 
-// 1. Move InputGroup OUTSIDE the main component
 const InputGroup = ({ label, error, children, icon: Icon }: any) => (
   <div className="space-y-1.5">
     <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
@@ -58,9 +67,7 @@ const InputGroup = ({ label, error, children, icon: Icon }: any) => (
   </div>
 );
 
-// 2. Move inputClass OUTSIDE the main component
 const inputClass = "w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none placeholder-gray-400 dark:placeholder-gray-500";
-
 
 // ------------------ MAIN COMPONENT -------------------
 const CreateEvent: React.FC = () => {
@@ -95,7 +102,6 @@ const CreateEvent: React.FC = () => {
 
   const watchedValues = watch();
 
-  // ------------------ FETCH EVENT -------------------
   const fetchEvent = useCallback(async () => {
     if (!EventID) return;
     setLoadingEvent(true);
@@ -119,7 +125,6 @@ const CreateEvent: React.FC = () => {
     fetchEvent();
   }, [fetchEvent]);
 
-  // ------------------ HANDLERS -------------------
   const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -173,7 +178,6 @@ const CreateEvent: React.FC = () => {
     <div className="min-h-screen bg-gray-50/50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
-        {/* HEADER */}
         <div className="mb-10 text-center sm:text-left">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
             {EventID ? "Edit Event" : "Create New Event"}
@@ -183,10 +187,8 @@ const CreateEvent: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
-          {/* LEFT COLUMN: FORM */}
           <form onSubmit={handleSubmit(onSubmit)} className="lg:col-span-2 space-y-8">
             
-            {/* CARD 1: EVENT DETAILS */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
                 <Calendar className="text-primary" size={20} /> Event Details
@@ -205,6 +207,7 @@ const CreateEvent: React.FC = () => {
                   <InputGroup label="Date" icon={Calendar} error={errors.eventDate}>
                     <input
                       type="date"
+                      min={todayDate} // <-- PREVENTS PAST DATE SELECTION IN UI
                       {...register("eventDate")}
                       className={`${inputClass} text-gray-600 dark:text-gray-300`}
                     />
@@ -242,7 +245,7 @@ const CreateEvent: React.FC = () => {
               </div>
             </div>
 
-            {/* CARD 2: BRANDING */}
+            {/* BRANDING CARD */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
                 <Palette className="text-primary" size={20} /> Branding
@@ -320,7 +323,7 @@ const CreateEvent: React.FC = () => {
               </div>
             </div>
 
-            {/* CARD 3: SPEAKERS */}
+            {/* SPEAKERS CARD */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 sm:p-8">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
@@ -370,7 +373,6 @@ const CreateEvent: React.FC = () => {
               )}
             </div>
 
-            {/* ACTION BUTTONS */}
             <div className="flex justify-end gap-4 pt-4">
                <button type="button" onClick={() => navigate(-1)} className="px-6 py-3 rounded-xl text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                  Cancel
@@ -386,13 +388,12 @@ const CreateEvent: React.FC = () => {
             </div>
           </form>
 
-          {/* RIGHT COLUMN: STICKY PREVIEW */}
+          {/* PREVIEW COLUMN */}
           <div className="hidden lg:block lg:col-span-1">
              <div className="sticky top-8 space-y-4">
                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Live Preview</h3>
                
                <div className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700 transform transition-all hover:scale-[1.02] duration-300">
-                 {/* PREVIEW BANNER */}
                  <div 
                    className="h-48 w-full relative"
                    style={{
@@ -400,7 +401,6 @@ const CreateEvent: React.FC = () => {
                    }}
                  >
                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                   
                    <div className="absolute bottom-4 left-4 right-4 text-white">
                       <span className="px-2 py-1 bg-white/20 backdrop-blur-md rounded-md text-xs font-medium border border-white/10">
                          {watchedValues.eventType || "Event Type"}
@@ -411,7 +411,6 @@ const CreateEvent: React.FC = () => {
                    </div>
                  </div>
 
-                 {/* PREVIEW BODY */}
                  <div className="p-6">
                     <div className="flex items-start gap-4 mb-6">
                        <div className="flex-1">
@@ -452,7 +451,6 @@ const CreateEvent: React.FC = () => {
 
         </div>
 
-        {/* MODAL */}
         {isModalOpen && (
           <AddSpeakersModal
             onClose={() => {

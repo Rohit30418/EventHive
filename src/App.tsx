@@ -56,7 +56,7 @@ function App() {
           </Route>
 
           {/* ================= MICROSITE ROUTES (Public Event Pages) ================= */}
-          <Route path="Eventsite/:id" element={<MicrositeLayout />}>
+          <Route path="Event/:id" element={<MicrositeLayout />}>
             <Route index element={<MicrositeHome />} />
           </Route>
 

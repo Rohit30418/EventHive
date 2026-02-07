@@ -1,23 +1,39 @@
-import { apiPath } from "../../../Utils/Utils"
-import axios from "axios"
-const GetOrgniserData = async () => {
-try {
-const res= await axios.get(`${apiPath}/orgnisers.json`);
-const data=await res.data;
+import axios from "axios";
+import { apiPath } from "../../../Utils/Utils"; 
 
-const formatteData=Object.keys(data).map((key)=>(
-    {
-        id:key,
-        ...data[key]
-    }
-))
+// 🟢 ADD THIS EXPORTED TYPE DEFINITION
+export type Organizer = {
+  id: string;
+  fullName: string;
+  companyName: string;
+  email: string;
+  phone: string;
+  isApproved: boolean;
+  role?: string;
+  [key: string]: any; // Allow other properties
+};
 
-return formatteData;
-
-} catch (error) {
+const GetOrgniserData = async (): Promise<Organizer[]> => {
+  try {
+    // Ensure this matches your Firebase node name exactly (Case Sensitive)
+    const res = await axios.get(`${apiPath}/Organizer.json`);
     
-}
+    if (!res.data) return [];
 
-}
+    const data = res.data;
 
-export default GetOrgniserData
+    // Convert Object to Array
+    const formattedData: Organizer[] = Object.keys(data).map((key) => ({
+      id: key,
+      ...data[key],
+    }));
+
+    return formattedData;
+
+  } catch (error) {
+    console.error("Error fetching organizers:", error);
+    return [];
+  }
+};
+
+export default GetOrgniserData;

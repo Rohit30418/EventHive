@@ -1,48 +1,27 @@
 import { z } from "zod";
 
-
-//Orgniser Registration Schema
-export const validationSchema = z
-  .object({
-    fullName: z
-      .string()
-      .min(3, "Name must be at least 3 characters long")
-      .nonempty("Name is required"),
-
-    email: z
-      .string()
-      .email("Invalid email address")
-      .nonempty("Email is required"),
-
-    phone: z
-      .string()
-      .min(10, "Phone must be at least 10 digits")
-      .regex(/^\d+$/, "Phone must contain only numbers")
-      .optional(),
-
-    companyName: z
-      .string()
-      .min(1, "Company name is required")
-      .optional(),
-
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .nonempty("Password is required"),
-
-    confirmPassword: z
-      .string()
-      .nonempty("Confirm Password is required"),
-
-    consent: z.literal(true, {
-    message: "You must agree  terms and conditions",
-    }),
-  })
-
-  // ✅ Cross-field validation for matching passwords
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords do not match",
-  });
-
-
+export const validationSchema = z.object({
+  fullName: z.string().min(3, "Full name must be at least 3 characters"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  companyName: z.string().min(2, "Company name is required"),
+  // Date of Birth Validation
+  dob: z.string()
+    .refine((date) => !isNaN(Date.parse(date)), "Invalid date of birth")
+    .refine((date) => {
+      const birthDate = new Date(date);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age >= 18 && age <= 60;
+    }, "Age must be between 18 and 60 years old"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string(),
+  consent: z.boolean().refine((val) => val === true, "You must accept the terms"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});

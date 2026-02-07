@@ -6,10 +6,11 @@ import axios from "axios";
 import { apiPath } from "../../Utils/Utils";
 import { Loader2, UploadCloud, X, Check, Calendar, User, Smartphone, Briefcase, Mail } from "lucide-react";
 import { toast } from "react-toastify"; // Assume you have this setup
+import { useParams } from "react-router-dom";
 
 // 1. Props Interface
 interface EventRegistrationProps {
-  eventId: string;
+//   eventId: string;
   primaryColor?: string;
 }
 
@@ -18,7 +19,22 @@ const registrationSchema = z.object({
   fullName: z.string().min(3, "Full Name must be at least 3 characters"),
   email: z.string().email("Please enter a valid email address"),
   designation: z.string().min(2, "Designation is required"),
-  dob: z.string().refine((date) => !isNaN(Date.parse(date)), "Invalid date of birth"),
+ dob: z.string()
+    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format")
+    .refine((date) => {
+      const birthDate = new Date(date);
+      const today = new Date();
+      
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      // Adjust age if the birthday hasn't occurred yet this year
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      return age >= 18 && age <= 60;
+    }, "Age must be between 18 and 60 years old"),
   gender: z.string().refine((val) => ["male", "female", "others"].includes(val), {
     message: "Please select your gender",
   }),
@@ -84,7 +100,6 @@ const StyledInput = ({
 );
 
 const EventRegistration: React.FC<EventRegistrationProps> = ({
-  eventId,
   primaryColor = "#4F46E5",
 }) => {
   const [photoBase64, setPhotoBase64] = useState<string>("");
@@ -99,6 +114,8 @@ const EventRegistration: React.FC<EventRegistrationProps> = ({
   } = useForm<FormData>({
     resolver: zodResolver(registrationSchema),
   });
+
+  const {id}=useParams();
 
   // Watch interests for dynamic styling
   const selectedInterests = watch("interests") || [];
@@ -122,10 +139,10 @@ const EventRegistration: React.FC<EventRegistrationProps> = ({
         ...rest,
         photo: photoBase64,
         timestamp: new Date().toISOString(),
-        eventId,
+        eventId: id,
       };
 
-      await axios.post(`${apiPath}/Registrations/${eventId}.json`, payload);
+      await axios.post(`${apiPath}/Registrations/${id}.json`, payload);
 
       toast.success("🎉 Registration successful! See you there.");
       reset();

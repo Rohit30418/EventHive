@@ -2,17 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { apiPath } from '../../../Utils/Utils';
-
-// Define the shape of your Organizer data
-export type Organizer = {
-  id: string;
-  fullName: string;
-  companyName: string;
-  email: string;
-  phone: string;
-  isApproved: boolean;
-  role?: string;
-};
+import GetOrgniserData, { type Organizer } from './GetOrgniserData';
 
 const ManageRequest = () => {
   // --- STATE ---
@@ -25,25 +15,19 @@ const ManageRequest = () => {
   const [itemPerPage, setItemPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // --- 1. FETCH DATA ---
+  // --- 1. FETCH DATA (Refactored) ---
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data: response } = await axios.get(`${apiPath}/Organizer.json`);
+      // Use the helper function here
+      const formatted = await GetOrgniserData();
       
-      if (response) {
-        // Convert Firebase Object to Array
-        const formatted: Organizer[] = Object.entries(response).map(([key, val]: any) => ({
-            id: key,
-            ...val
-        }));
-        
+      if (formatted.length > 0) {
         // Sort: Pending users first
         const sortedData = formatted.sort((a, b) => {
             if (a.isApproved === b.isApproved) return 0;
             return a.isApproved ? 1 : -1; 
         });
-
         setData(sortedData);
       } else {
         setData([]);
@@ -63,7 +47,7 @@ const ManageRequest = () => {
   // --- 2. APPROVE / REJECT LOGIC ---
   const updateStatus = async (id: string, status: boolean) => {
     try {
-      // Optimistic UI Update (Update screen instantly)
+      // Optimistic UI Update
       setData(prev => prev.map(item => item.id === id ? { ...item, isApproved: status } : item));
 
       // Send to Firebase
@@ -77,24 +61,20 @@ const ManageRequest = () => {
   };
 
   // --- 3. FILTER & PAGINATION LOGIC ---
-  
-  // A. Filter by Search
   const filteredData = useMemo(() => {
     return data.filter(org => 
-      org.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      org.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      org.companyName.toLowerCase().includes(searchQuery.toLowerCase())
+      org.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      org.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      org.companyName?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [data, searchQuery]);
 
-  // B. Calculate Pagination Indices
   const totalPages = Math.ceil(filteredData.length / itemPerPage);
   const firstIndex = (currentPage - 1) * itemPerPage;
   const lastIndex = firstIndex + itemPerPage;
   const currentData = filteredData.slice(firstIndex, lastIndex);
   const arrPages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  // C. Checkbox Logic (Derived State)
   const isAllChecked = currentData.length > 0 && currentData.every(org => checkedItems[org.id]);
 
   // --- 4. HANDLERS ---
@@ -115,7 +95,7 @@ const ManageRequest = () => {
 
   const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemPerPage(Number(e.target.value));
-    setCurrentPage(1); // Reset to page 1 when changing limit
+    setCurrentPage(1); 
   };
 
   // --- 5. RENDER ---
@@ -150,6 +130,7 @@ const ManageRequest = () => {
         </div>
       </div>
 
+      {/* TABLE CONTENT */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
@@ -199,7 +180,6 @@ const ManageRequest = () => {
                     </td>
                     <td className="p-4">
                         <div className="flex justify-center gap-3">
-                            {/* Approve Button */}
                             {!org.isApproved && (
                                 <button 
                                     onClick={() => updateStatus(org.id, true)}
@@ -209,8 +189,6 @@ const ManageRequest = () => {
                                     <i className="fa fa-check"></i>
                                 </button>
                             )}
-                            
-                            {/* Reject / Revoke Button */}
                             <button 
                                 onClick={() => updateStatus(org.id, false)}
                                 className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm"
@@ -230,7 +208,6 @@ const ManageRequest = () => {
                     <td colSpan={6} className="p-4">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
                             
-                            {/* Rows Per Page */}
                             <div className="flex items-center gap-2">
                                 <span>Rows per page:</span>
                                 <select 
@@ -244,7 +221,6 @@ const ManageRequest = () => {
                                 </select>
                             </div>
 
-                            {/* Page Selector */}
                             <div className="flex items-center gap-2">
                                 <span>Page</span>
                                 <select 
@@ -259,7 +235,6 @@ const ManageRequest = () => {
                                 <span>of {totalPages}</span>
                             </div>
 
-                            {/* Navigation Buttons */}
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
