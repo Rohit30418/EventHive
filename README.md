@@ -1,3 +1,4 @@
+
 # 🚀 EventHive
 
 **EventHive** is a scalable, production-ready event management platform built with a strong focus on performance, security, and modular architecture.
@@ -80,6 +81,20 @@ It enables users to create, manage, and explore events while giving organizers p
  ┣ 📜PrivateRoute.tsx
  ┗ 📜RoleBasedRoutes.tsx
 ```
+
+# 🚀 EventHive
+
+<a href="https://eventhive.rohitpant.in/" target="_blank">
+  <img width="1920" height="5356" alt="EventHive Live Demo Screenshot" src="https://github.com/user-attachments/assets/dfee95f7-4787-4bf0-b066-d15ba108680f" />
+</a>
+
+
+
+
+
+---
+
+**EventHive** is a scalable, production-ready event management platform built with a strong focus on performance, security, and modular architecture.
 
 ## 👤 Author
 
