@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Pie } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { auth } from "../../Firebase"; 

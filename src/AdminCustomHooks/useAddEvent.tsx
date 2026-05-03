@@ -4,15 +4,13 @@ import { apiPath } from "../../Utils/Utils";
 import { auth } from '../Firebase';      
 import { toast } from 'react-toastify';      
 
-// Define the shape of the data coming from your form
-interface EventData {
+export interface EventData {
   EventName: string;
   eventDate: string;
   location: string;
   eventType: string; 
   banner: string;
   description?: string;
-
 }
 
 const useAddEvent = () => {
@@ -24,14 +22,12 @@ const useAddEvent = () => {
     setError(null);
 
     try {
-      // 1. Get the current logged-in user
       const user = auth.currentUser;
-      
-      if (!user) {
-        throw new Error("You must be logged in to create an event.");
-      }
+      if (!user) throw new Error("You must be logged in.");
 
-      // 2. Add hidden system fields (User ID, Date)
+      // SECURITY FIX: Get the token
+      const token = await user.getIdToken();
+
       const payload = {
         ...data,
         userId: user.uid,            
@@ -39,17 +35,17 @@ const useAddEvent = () => {
         createdAt: new Date().toISOString(),
       };
 
-      // 3. Send to Firebase
-      await axios.post(`${apiPath}/Events.json`, payload);
+      // SECURITY FIX: Pass token in query string
+      await axios.post(`${apiPath}/Events.json?auth=${token}`, payload);
       
       toast.success("Event created successfully! 🎉");
-      return true; // Return true so the form can reset
+      return true;
 
     } catch (err: any) {
       console.error("Add Event Error:", err);
-      const errorMessage = err.message || "Failed to create event";
-      setError(errorMessage);
-      toast.error(errorMessage);
+      const msg = err.message || "Failed to create event";
+      setError(msg);
+      toast.error(msg);
       return false;
     } finally {
       setIsLoading(false);

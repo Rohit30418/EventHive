@@ -20,19 +20,15 @@ const fetchRegistrations = async (): Promise<Registration[]> => {
   // 1. Outer Loop: Iterate through each EVENT ID (The folders)
   Object.keys(data).forEach((eventId) => {
     const eventRegistrations = data[eventId];
-
     if (!eventRegistrations) return;
-
-    // 2. Inner Loop: Iterate through each REGISTRATION ID inside that event
+   // 2. Inner Loop: Iterate through each REGISTRATION ID inside that event
     Object.keys(eventRegistrations).forEach((regId) => {
       const userDetails = eventRegistrations[regId];
-
       // Combine it all into a single flat object for the table
       flat.push({
-        regId: regId,        // The unique key for this specific registration
-        // We use the folder name (eventId) as the source of truth for the event ID
+        regId: regId,    
         eventId: eventId,    
-        ...userDetails,      // Spread the actual user data (name, email, etc.)
+        ...userDetails,   
       });
     });
   });

@@ -45,7 +45,7 @@ const Header = () => {
 
   // Header Background
   const headerBg = scrolled 
-    ? "bg-[#030303]/90 backdrop-blur-md border-white/10 py-3 shadow-md" // Scrolled (Dark Glass)
+    ? "bg-[#030719]/80 backdrop-blur-md border-white/10 py-3 shadow-md" // Scrolled (Dark Glass)
     : "bg-transparent border-transparent py-4 md:py-6"; // Top (Transparent)
 
   const navLinks = [
@@ -61,9 +61,9 @@ const Header = () => {
         
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2 cursor-pointer group relative z-50">
-          <div className="relative w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center overflow-hidden shadow-lg shadow-indigo-500/20">
-             <div className="w-3 h-3 bg-white rounded-full relative z-10" />
-          </div>
+       
+          <img src="./sitelogo.png" alt="logo" className="w-12" />
+
           <h1 className={`text-xl md:text-2xl font-bold tracking-tight transition-colors ${logoText}`}>
             Event<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Hive</span>
           </h1>

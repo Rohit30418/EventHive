@@ -35,9 +35,10 @@ const eventSchema = z.object({
       return selected >= today;
     }, { message: "Event must be scheduled for today or a future date" }),
   location: z.string().min(2, "Location is required"),
-  eventType: z.enum(["Technology", "Webinar", "Music", "Art", "Sports"], {
-    errorMap: () => ({ message: "Select a valid event type" }),
-  }),
+  eventType: z.string().refine(
+    (val) => ["Technology", "Webinar", "Music", "Art", "Sports"].includes(val),
+    { message: "Select a valid event type" }
+  ),
   banner: z.string().min(1, "Banner image is required"),
   BannerTagLine: z.string().min(3, "Tagline required"),
   AboutArea: z.string().min(10, "Description must be longer"),

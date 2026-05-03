@@ -1,7 +1,6 @@
 import axios from "axios";
 import { apiPath } from "../../../Utils/Utils"; 
 
-// 🟢 ADD THIS EXPORTED TYPE DEFINITION
 export type Organizer = {
   id: string;
   fullName: string;

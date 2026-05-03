@@ -19,7 +19,7 @@ const registrationSchema = z.object({
   fullName: z.string().min(3, "Full Name must be at least 3 characters"),
   email: z.string().email("Please enter a valid email address"),
   designation: z.string().min(2, "Designation is required"),
- dob: z.string()
+  dob: z.string()
     .refine((date) => !isNaN(Date.parse(date)), "Invalid date format")
     .refine((date) => {
       const birthDate = new Date(date);
@@ -49,7 +49,7 @@ const registrationSchema = z.object({
       "Only .jpg, .png, and .webp formats are supported"
     ),
   interests: z.array(z.string()).min(1, "Please select at least one area of interest"),
- consent: z.boolean().refine((val) => val === true, {
+  consent: z.boolean().refine((val) => val === true, {
   message: "You must agree to the terms and conditions",
 }),
 });
@@ -109,16 +109,14 @@ const EventRegistration: React.FC<EventRegistrationProps> = ({
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(registrationSchema),
   });
 
-  const {id}=useParams();
 
-  // Watch interests for dynamic styling
-  const selectedInterests = watch("interests") || [];
+  
+  const {id}=useParams();
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

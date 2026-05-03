@@ -3,32 +3,48 @@ import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Loader2 } from "lucide-react";
 
+// Helper Import
 import GetOrgniserData from "./GetOrgniserData";
 import useGetEvents from "../../AdminCustomHooks/useGetEvents";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+// Define Interface for your Organizer Data
+interface Organizer {
+  id: string;
+  fullName: string;
+  email: string;
+  isApproved: boolean;
+}
+
 const SuperAdminDashboard = () => {
-  const [organizers, setOrganizers] = useState([]);
+  // TS Generic: Tell useState this is an array of Organizers
+  const [organizers, setOrganizers] = useState<Organizer[]>([]);
   const [orgLoading, setOrgLoading] = useState(true);
   
-  // 1. Get 'isLoading' from the events hook
+  // Custom Hook for events
   const { data: allEvents, isLoading: eventsLoading } = useGetEvents();
 
   // Fetch Organizers
   useEffect(() => {
     const fetchData = async () => {
-      setOrgLoading(true);
-      const data = await GetOrgniserData();
-      if (data) {
-        setOrganizers(data.reverse());
+      try {
+        setOrgLoading(true);
+        const data = await GetOrgniserData();
+        
+        if (data) {
+          setOrganizers([...data].reverse());
+        }
+      } catch (error) {
+        console.error("Failed to fetch organizers", error);
+      } finally {
+        setOrgLoading(false);
       }
-      setOrgLoading(false);
     };
     fetchData();
   }, []);
 
-  // Stats Calculations
+  // Stats Calculations (Derived State)
   const totalEvents = allEvents?.length || 0;
   const totalOrganizers = organizers.length;
   const approvedOrganizers = organizers.filter((o) => o.isApproved).length;
@@ -45,13 +61,12 @@ const SuperAdminDashboard = () => {
     ],
   };
 
-  // 2. Update Loading Check: Wait for BOTH Organizers AND Events
+  // 3. Loading State: Wait for BOTH sources
   if (orgLoading || eventsLoading) {
     return (
-        <div className="h-[80vh] flex items-center justify-center">
-            <Loader2 className="animate-spin text-indigo-600" size={40} />
-            {/* Optional: Add text to show what is happening */}
-            <span className="ml-2 text-gray-500 font-medium">Loading Dashboard...</span>
+        <div className="h-[80vh] flex items-center justify-center flex-col">
+            <Loader2 className="animate-spin text-indigo-600 mb-4" size={40} />
+            <span className="text-gray-500 font-medium">Loading Dashboard...</span>
         </div>
     );
   }
@@ -95,8 +110,9 @@ const SuperAdminDashboard = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Newest Organizers</h2>
           <ul className="space-y-4">
-            {organizers.slice(0, 5).map((org, i) => (
-               <li key={i} className="flex justify-between items-center border-b pb-2 last:border-0">
+            {organizers.slice(0, 5).map((org) => (
+               // TS FIX: Use org.id instead of index (i)
+               <li key={org.id || Math.random()} className="flex justify-between items-center border-b pb-2 last:border-0">
                   <div>
                     <p className="font-medium text-gray-800">{org.fullName}</p>
                     <p className="text-xs text-gray-500">{org.email}</p>

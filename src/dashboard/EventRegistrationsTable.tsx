@@ -147,14 +147,26 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
               />
            </div>
 
-           <button
-            onClick={() => exportToExcel(filteredData, eventName)}
-            disabled={filteredData.length === 0}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-semibold hover:bg-emerald-700 disabled:opacity-40 shadow-md"
-          >
-            <FileSpreadsheet size={18} />
-            <span>Export CSV</span>
-          </button>
+          <button
+  onClick={() => {
+    const excelData = filteredData.map((reg) => ({
+      ...reg,
+      userId: reg.regId, 
+      fullName: reg.fullName || "Guest",
+      email: reg.email || "No Email",
+      mobile: reg.mobile || "-",
+      designation: reg.designation || "Participant",
+      gender: reg.gender || "-"
+    }));
+
+    exportToExcel(excelData, eventName);
+  }}
+  disabled={filteredData.length === 0}
+  className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-semibold hover:bg-emerald-700 disabled:opacity-40 shadow-md transition-all active:scale-95"
+>
+  <FileSpreadsheet size={18} />
+  <span>Export CSV</span>
+</button>
         </div>
       </div>
 

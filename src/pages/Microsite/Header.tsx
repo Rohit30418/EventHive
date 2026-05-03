@@ -117,7 +117,7 @@ const Header = () => {
         }}
       >
         <div className="flex flex-col p-6 space-y-2 h-full overflow-y-auto">
-          {["About", "Schedule", "Speakers", "Contact"].map((item, index) => (
+          {["About", "Schedule", "Speakers", "Contact"].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}

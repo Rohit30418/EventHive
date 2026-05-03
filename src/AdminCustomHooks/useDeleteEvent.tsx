@@ -4,9 +4,9 @@ import { apiPath } from "../../Utils/Utils";
 const useDeleteEvent = () => {
   const [isLoading]=useState(false);
   const [error,setError]=useState<string | null>(null);
-  function deleteEvent(id:string){
+ async function deleteEvent(id:string){
   try {
-  axios.delete(`${apiPath}/Events/${id}.json`);
+ await axios.delete(`${apiPath}/Events/${id}.json`);
   } catch (error) {
     if (error instanceof Error) {
     setError(error.message);

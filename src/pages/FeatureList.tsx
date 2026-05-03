@@ -1,7 +1,6 @@
-import React from "react";
 
 const FeatureList = () => {
-  const featureIcons = {
+  const featureIcons:Record<string, string> = {
     "Create unlimited events": "fa-calendar-plus",
     "Manage attendees": "fa-user-group",
     "Live stats dashboard": "fa-chart-line",

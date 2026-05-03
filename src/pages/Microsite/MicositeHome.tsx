@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Calendar, MapPin, Play, Clock, ArrowRight } from "lucide-react"; 
 import { useAppSelector } from "../../store/hooks"; 
-
 // Components
 import EventRegistration from "../EventRegistration";
 import PricingSection from "./PricingSection";
@@ -21,13 +20,11 @@ const hexToRgba = (hex: string, opacity: number) => {
 /* ============================ COUNTDOWN COMPONENT ============================ */
 const CountdownTimer = ({ targetDate, themeColor }: { targetDate: string, themeColor: string }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
   useEffect(() => {
     if (!targetDate) return;
     const interval = setInterval(() => {
-      const diff = new Date(targetDate).getTime() - new Date().getTime();
+    const diff = new Date(targetDate).getTime() - new Date().getTime();
       if (diff <= 0) return setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -69,6 +66,10 @@ const MicrositeHome = () => {
   // --- Dynamic Colors ---
   const primaryColor = (data as any).PrimaryColor || (data as any).primaryColor || "#4F46E5";   
   const secondaryColor = (data as any).SecondaryColor || (data as any).secondaryColor || "#9333ea"; 
+
+  // --- Check if Event has Passed ---
+  const eventDateStr = (data as any)?.eventDate;
+  const isEventPassed = eventDateStr ? new Date(eventDateStr).getTime() < new Date().getTime() : false;
 
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -128,11 +129,14 @@ const MicrositeHome = () => {
                 transition={{ duration: 0.8 }}
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-white"
               >
-                {(data?.EventName || "Upcoming Event").split(' ').map((word: string, i: number) => (
+                {((data as any)?.EventName || "Upcoming Event").split(' ').map((word: string, i: number) => (
                   <span key={i} className="inline-block mr-2 sm:mr-3">
                     {i === 1 ? (
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-white"
-                            style={{ to: primaryColor, backgroundImage: `linear-gradient(to right, #ffffff, ${primaryColor})` }}>
+                           style={{
+                               backgroundImage: `linear-gradient(to right, #ffffff, ${primaryColor})`
+                           }}
+                      >
                         {word}
                       </span>
                     ) : word}
@@ -155,12 +159,17 @@ const MicrositeHome = () => {
                 transition={{ delay: 0.5 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               >
+                {/* --- UPDATED BUTTON BASED ON isEventPassed --- */}
                 <button 
-                  onClick={() => document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth'})}
-                  className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2"
-                  style={{ backgroundColor: primaryColor }}
+                  onClick={() => !isEventPassed && document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth'})}
+                  disabled={isEventPassed}
+                  className={`w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 flex items-center justify-center gap-2 
+                    ${isEventPassed ? 'opacity-60 cursor-not-allowed bg-slate-600' : 'shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1'}`}
+                  style={{ backgroundColor: !isEventPassed ? primaryColor : undefined }}
                 >
-                  Get Tickets <ArrowRight size={18} />
+                  {isEventPassed ? "Registration Closed" : (
+                    <>Get Tickets <ArrowRight size={18} /></>
+                  )}
                 </button>
                 <button 
                    className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white border hover:bg-white/5 transition-all"
@@ -209,9 +218,11 @@ const MicrositeHome = () => {
                    <div className="pt-6 border-t border-white/10">
                       <div className="flex items-center gap-2 mb-3 text-slate-300">
                         <Clock size={16} className="text-white" />
-                        <span className="text-xs font-bold uppercase tracking-widest">Event Starts In</span>
+                        <span className="text-xs font-bold uppercase tracking-widest">
+                            {isEventPassed ? "Event Has Ended" : "Event Starts In"}
+                        </span>
                       </div>
-                      <CountdownTimer targetDate={(data as any)?.eventDate} themeColor={primaryColor} />
+                      {!isEventPassed && <CountdownTimer targetDate={(data as any)?.eventDate} themeColor={primaryColor} />}
                    </div>
                 </div>
               </motion.div>
@@ -313,8 +324,6 @@ const MicrositeHome = () => {
                                 />
                                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                      style={{ background: `linear-gradient(to top, ${hexToRgba(primaryColor, 0.8)}, transparent)` }} />
-                                
-                                {/* Social Icons overlay could go here */}
                             </div>
                             <div className="p-5 text-center">
                                 <h4 className="font-bold text-lg text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">
@@ -334,8 +343,21 @@ const MicrositeHome = () => {
       
       <PricingSection primaryColor={primaryColor} secondaryColor={secondaryColor} />
       
+      {/* --- UPDATED REGISTRATION SECTION --- */}
       <div id="registration" className="py-12 bg-white scroll-mt-20">
-        <EventRegistration primaryColor={primaryColor} />
+        {isEventPassed ? (
+            <div className="max-w-3xl mx-auto text-center py-20 px-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
+                <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Clock size={32} className="text-slate-500" />
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">Registration Closed</h2>
+                <p className="text-lg text-slate-600">
+                    The registration for this event has ended as the date has already passed. Thank you for your interest, and we hope to see you at our next event!
+                </p>
+            </div>
+        ) : (
+            <EventRegistration primaryColor={primaryColor} />
+        )}
       </div>
 
       <section className="relative h-[300px] sm:h-[400px] w-full bg-slate-100">

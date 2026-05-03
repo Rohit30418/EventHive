@@ -4,13 +4,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // --- CONTEXT & UTILS ---
-import AuthProvider, { useAuth } from "./dashboard/AuthContext"; // ⚠️ Verify path
-import { dashboardRoutes, type RouteConfig } from "../Utils/dashboardRoutes"; // ⚠️ Verify path
+import AuthProvider, { useAuth } from "./dashboard/AuthContext";
+import { dashboardRoutes, type RouteConfig } from "../Utils/dashboardRoutes"; 
 // --- LAYOUTS ---
 import Mainlayout from "./Layout/Mainlayout";
 import DashboardLayout from "./Layout/DashboardLayout";
 import MicrositeLayout from "./Layout/MicrositeLayout"; // If you have this
-// import PrivateRoute from "./routes/PrivateRoute"; // We will define this below if not imported
 
 // --- COMPONENTS ---
 import Preloader from "./common/Preloader"; // Or use a simple <div>Loading...</div>
@@ -24,27 +23,29 @@ const AllEvents = lazy(() => import("./pages/AllEvents"));
 const EventRegistration = lazy(() => import("./pages/EventRegistration"));
 const MicrositeHome = lazy(() => import("./pages/Microsite/MicositeHome"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const Unauthorized=lazy(()=>import("./pages/Unauthorized"));
 
 // ------------------- SMART REDIRECT COMPONENT -------------------
 // This decides where a user goes when they hit "/Dashboard" directly
 const DashboardRedirect = () => {
-  const { role } = useAuth();
-
+  const { role,loading } = useAuth();
+  if (loading) {
+    return <Preloader />; 
+  }
   if (role === "SuperAdmin") return <Navigate to="SuperAdmin" replace />;
   if (role === "Organizer") return <Navigate to="OrganizerAdmin" replace />;
-  
-  // Fallback for unknown roles or errors
   return <Navigate to="/Login" replace />;
 };
 
 // ------------------- MAIN APP COMPONENT -------------------
 function App() {
   return (
+      <AuthProvider>
     <Suspense fallback={<Preloader />}>
       <ToastContainer position="top-right" autoClose={3000} theme="colored" />
       
       {/* 1. Global Auth Provider wraps the whole app */}
-      <AuthProvider>
+    
         <Routes>
           {/* ================= PUBLIC ROUTES ================= */}
           <Route path="/" element={<Mainlayout />}>
@@ -61,10 +62,7 @@ function App() {
           </Route>
 
           {/* ================= PROTECTED DASHBOARD ROUTES ================= */}
-          {/* Level 1 Security: The Layout 
-              We use <PrivateRoute> with NO roles here. 
-              This means "Any logged-in user can see the sidebar/header".
-          */}
+         
           <Route 
             path="Dashboard" 
             element={
@@ -75,7 +73,7 @@ function App() {
           >
             {/* Index: Redirects to the correct sub-page based on role */}
             <Route index element={<DashboardRedirect />} />
-
+            
             {/* Level 2 Security: The Specific Pages */}
             {dashboardRoutes.map((route: RouteConfig, index: number) => {
               const Component = route.component;
@@ -95,9 +93,10 @@ function App() {
 
           {/* ================= 404 CATCH ALL ================= */}
           <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </AuthProvider>
+          <Route path="/unauthorized" element={<Unauthorized></Unauthorized>}></Route>
+        </Routes> 
     </Suspense>
+      </AuthProvider>
   );
 }
 

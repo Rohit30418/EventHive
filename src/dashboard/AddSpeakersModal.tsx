@@ -9,15 +9,15 @@ import { X, User, Briefcase, Camera, UploadCloud, Loader2 } from "lucide-react";
 const AddSpeakerSchema = z.object({
   speakerName: z.string().min(3, "Name must be at least 3 characters"),
   speakerDesignation: z.string().min(3, "Designation must be at least 3 characters"),
-  speakerImage: z.string().min(1, "Profile picture is required"),
+  speakerImage: z.string().optional(), 
 });
 
-type FormData = z.infer<typeof AddSpeakerSchema>;
+type SpeakerFormData = z.infer<typeof AddSpeakerSchema>;
 
 interface Props {
   onClose: () => void;
-  onSave: (data: FormData) => void;
-  defaultData?: FormData | null;
+  onSave: (data: SpeakerFormData) => void;
+  defaultData?: SpeakerFormData | null;
 }
 
 const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
@@ -30,9 +30,13 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
     setValue,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<SpeakerFormData>({
     resolver: zodResolver(AddSpeakerSchema),
-    defaultValues: defaultData || {},
+    defaultValues: defaultData || {
+        speakerName: "",
+        speakerDesignation: "",
+        speakerImage: ""
+    },
   });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +57,7 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
     reader.readAsDataURL(file);
   };
 
-  const onFormSubmit = async (data: FormData) => {
+  const onFormSubmit = async (data: SpeakerFormData) => {
     onSave(data);
     reset();
   };
@@ -61,7 +65,7 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 flex items-center justify-center z-[999]"
+        className="fixed inset-0 flex items-center justify-center z-[999] p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -72,31 +76,32 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
           onClick={onClose} 
         />
 
-        {/* MODAL CARD */}
+        {/* MODAL CARD - Removed overflow-hidden here */}
         <motion.div
-          className="bg-white dark:bg-gray-800 rounded-[2rem] shadow-2xl w-full max-w-md relative overflow-hidden z-10"
+          className="bg-white dark:bg-gray-800 rounded-[2rem] shadow-2xl w-full max-w-md relative z-10 mt-20"
           initial={{ scale: 0.95, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 20 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           
-          {/* DECORATIVE HEADER BACKGROUND - USING PRIMARY COLOR */}
-          <div className="h-32 bg-primary absolute top-0 w-full" />
+          {/* DECORATIVE HEADER BACKGROUND */}
+          <div className="h-32 bg-indigo-600 absolute -top-16 w-full rounded-t-[2rem]" />
 
-          {/* CLOSE BUTTON */}
+          {/* CLOSE BUTTON - Increased z-index */}
           <button 
+            type="button" 
             onClick={onClose} 
-            className="absolute top-4 right-4 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all backdrop-blur-md z-20"
+            className="absolute -top-12 right-4 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all backdrop-blur-md z-30"
           >
             <X size={20} />
           </button>
 
-          <div className="px-8 pb-8 pt-6 relative">
+          <div className="px-8 pb-8 pt-6 relative z-20">
             <form onSubmit={handleSubmit(onFormSubmit)}>
               
-              {/* IMAGE UPLOAD SECTION (CENTERED AVATAR) */}
-              <div className="flex flex-col items-center -mt-16 mb-6">
+              {/* IMAGE UPLOAD SECTION */}
+              <div className="flex flex-col items-center -mt-24 mb-6">
                 <div 
                   className="relative group cursor-pointer"
                   onMouseEnter={() => setIsHoveringImage(true)}
@@ -113,7 +118,7 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
                   <label 
                     htmlFor="speaker-upload"
                     className={`block w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-lg overflow-hidden relative bg-gray-100 dark:bg-gray-700 transition-all duration-300 
-                    ${errors.speakerImage ? 'ring-4 ring-red-100 dark:ring-red-900/50' : 'group-hover:ring-4 group-hover:ring-primary/20'}`}
+                    ${errors.speakerImage ? 'ring-4 ring-red-100 dark:ring-red-900/50' : 'group-hover:ring-4 group-hover:ring-indigo-500/20'}`}
                   >
                     {preview ? (
                       <img src={preview} alt="Speaker" className="w-full h-full object-cover" />
@@ -160,7 +165,7 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
                     className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700/50 border rounded-xl text-gray-900 dark:text-white placeholder-gray-400 transition-all outline-none ${
                       errors.speakerName 
                       ? "border-red-300 dark:border-red-800 focus:border-red-500" 
-                      : "border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                      : "border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
                     }`}
                   />
                   {errors.speakerName && (
@@ -179,7 +184,7 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
                     className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700/50 border rounded-xl text-gray-900 dark:text-white placeholder-gray-400 transition-all outline-none ${
                       errors.speakerDesignation 
                       ? "border-red-300 dark:border-red-800 focus:border-red-500" 
-                      : "border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                      : "border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
                     }`}
                   />
                   {errors.speakerDesignation && (
@@ -200,7 +205,7 @@ const AddSpeakersModal = ({ onClose, onSave, defaultData }: Props) => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 active:scale-95 transition-all shadow-lg shadow-primary/30 flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="px-4 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 active:scale-95 transition-all shadow-lg shadow-indigo-500/30 flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : (defaultData ? "Update Changes" : "Add Speaker")}
                 </button>
