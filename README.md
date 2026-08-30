@@ -6,7 +6,8 @@ EventHive demonstrates practical frontend engineering patterns including protect
 
 ## Preview
 
-<img width="1365" height="842" alt="EventHive application preview" src="https://github.com/user-attachments/assets/640f3035-22d6-4612-ae43-b8abb6c741d5" />
+<img width="1229" height="770" alt="image" src="https://github.com/user-attachments/assets/841a78ad-7cf0-4825-9d61-774de95efe69" />
+
 
 ## Product Overview
 
@@ -33,20 +34,10 @@ EventHive provides dedicated experiences for public users, organizers, and super
 
 ## Visual Overview
 
-> **Screenshot Placeholder — Public Home / Event Discovery**  
-> Public-facing homepage or event listing showcasing the discovery experience.
+<img width="1907" height="815" alt="image" src="https://github.com/user-attachments/assets/54747f00-2ce4-46c0-a684-50cdbb70e93e" />
+<img width="1152" height="814" alt="image" src="https://github.com/user-attachments/assets/3fa3114c-0bf1-4fda-bb8c-405f6082443a" />
 
-> **Screenshot Placeholder — Super Admin Dashboard**  
-> Dashboard view showing platform metrics, organizer requests, or administrative controls.
 
-> **Screenshot Placeholder — Organizer Dashboard**  
-> Organizer view showing event statistics, management actions, and registrations.
-
-> **Screenshot Placeholder — Event Registration Flow**  
-> Registration form or attendee onboarding experience.
-
-> **Screenshot Placeholder — Event Microsite**  
-> Generated event microsite with event branding, speakers, pricing, video, and content sections.
 
 ## Key Features
 
