@@ -8,40 +8,31 @@ interface UserData {
   designation?: string;
   gender?: string;
   userId: string;
-  [key: string]: any;
 }
 
 export const exportToExcel = (data: UserData[], eventName: string) => {
-
   const sanitizedData = data.map((user) => ({
     "Full Name": user.fullName || "N/A",
-    "Email": user.email || "N/A",
-    "Mobile": user.mobile || "-",
-    "Designation": user.designation || "Participant",
-    "Gender": user.gender || "-",
+    Email: user.email || "N/A",
+    Mobile: user.mobile || "-",
+    Designation: user.designation || "Participant",
+    Gender: user.gender || "-",
     "User ID": user.userId,
   }));
 
-  // 2. CREATE WORKSHEET
   const worksheet = XLSX.utils.json_to_sheet(sanitizedData);
-  
-  // 3. AUTO-ADJUST COLUMN WIDTH
-  // This makes the file look professional immediately upon opening.
-  const wscols = [
-    { wch: 20 }, // Full Name
-    { wch: 30 }, // Email (needs more space)
-    { wch: 15 }, // Mobile
-    { wch: 20 }, // Designation
-    { wch: 10 }, // Gender
-    { wch: 25 }, // User ID
+  worksheet["!cols"] = [
+    { wch: 20 },
+    { wch: 30 },
+    { wch: 15 },
+    { wch: 20 },
+    { wch: 10 },
+    { wch: 25 },
   ];
-  worksheet["!cols"] = wscols;
 
-  // 4. CREATE WORKBOOK
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
 
-  // 5. WRITE FILE
   const excelBuffer = XLSX.write(workbook, {
     bookType: "xlsx",
     type: "array",
@@ -51,7 +42,6 @@ export const exportToExcel = (data: UserData[], eventName: string) => {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
   });
 
-  // 6. DOWNLOAD
-  const fileName = `${eventName.replace(/\s+/g, '_')}_Registrations.xlsx`;
+  const fileName = `${eventName.replace(/\s+/g, "_")}_Registrations.xlsx`;
   saveAs(fileBlob, fileName);
 };

@@ -1,29 +1,29 @@
-import React, { useState, useMemo, useEffect } from "react";
-import axios from "axios"; 
+import React, { useEffect, useMemo, useState } from "react";
+import axios from "axios";
 import { auth } from "../Firebase";
-import { apiPath } from "../../Utils/Utils"; 
+import { apiPath } from "../../Utils/Utils";
 import useGetRegistrations from "../AdminCustomHooks/useGetRegistrations";
 import useGetEvents from "../AdminCustomHooks/useGetEvents";
-import { exportToExcel } from "../utils/exportToExcel";
-import { exportIDCardPDF } from "../utils/exportIDCardPDF";
-import { 
-  Search, FileSpreadsheet, FileBadge, User, 
-  Mail, Phone, Loader2, ChevronLeft, ChevronRight 
-} from "lucide-react";
+import { Search, FileSpreadsheet, FileBadge, User, Mail, Phone, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { ErrorState, PageLoader } from "../common/StateViews";
+import useDeleteRegistration from "../AdminCustomHooks/useDeleteRegistration";
+import type { EventType } from "../Types/eventType";
+import type { Registration } from "../Types/registrationType";
+
+type ExportIDCardPDFFn =
+  typeof import("../utils/exportIDCardPDF").exportIDCardPDF;
+
+type ExportUserData = Parameters<ExportIDCardPDFFn>[0];
 
 interface Props {
-  eventId?: string; 
+  eventId?: string;
   eventName?: string;
 }
 
 const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventName = "All Events" }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-
-  // 1. Get Auth & User Role
   const [currentUser, setCurrentUser] = useState<{ uid: string; role: string } | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -32,7 +32,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
       if (user) {
         try {
           const res = await axios.get(`${apiPath}/Organizer/${user.uid}.json`);
-          const role = res.data?.role || "Organizer"; 
+          const role = res.data?.role || "Organizer";
           setCurrentUser({ uid: user.uid, role });
         } catch (err) {
           console.error("Error fetching user role:", err);
@@ -47,208 +47,252 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
     return () => unsubscribe();
   }, []);
 
-  // 2. Fetch Data
-  const { data: allRegistrations = [], isLoading: regLoading } = useGetRegistrations();
-  const { data: allEvents = [], isLoading: eventsLoading } = useGetEvents();
-  
-  // 3. Filter Logic
+  const { data: allRegistrations = [], isLoading: regLoading, error: regError, refetch: refetchRegistrations } = useGetRegistrations();
+  const { data: allEvents = [], isLoading: eventsLoading, error: eventsError } = useGetEvents();
+  const { deleteRegistration, isLoading: isDeleting } = useDeleteRegistration();
+
+  const handleDelete = async (eventId: string, regId: string, fullName?: string) => {
+    const confirmed = window.confirm(
+      `Delete registration for "${fullName || "this participant"}"? This can't be undone.`
+    );
+    if (!confirmed) return;
+
+    const success = await deleteRegistration(eventId, regId);
+    if (success) refetchRegistrations();
+  };
+
   const filteredData = useMemo(() => {
     if (!currentUser) return [];
 
     let allowedEventIds: Set<string> | null = null;
 
     if (currentUser.role !== "SuperAdmin") {
-        allowedEventIds = new Set(
-            allEvents
-            .filter((event: any) => String(event.userId) === String(currentUser.uid))
-            .map((event: any) => String(event.id))
-        );
+      allowedEventIds = new Set(
+        allEvents
+          .filter((event: EventType) => String(event.userId) === String(currentUser.uid))
+          .map((event: EventType) => String(event.id))
+      );
     }
 
-    const results = allRegistrations.filter(reg => {
+    return allRegistrations.filter((reg) => {
       const regEventId = String(reg.eventId);
 
-      if (allowedEventIds && !allowedEventIds.has(regEventId)) return false; 
+      if (allowedEventIds && !allowedEventIds.has(regEventId)) return false;
       if (propEventId && regEventId !== String(propEventId)) return false;
 
       if (searchTerm) {
         const q = searchTerm.toLowerCase();
         return (
           (reg.fullName && reg.fullName.toLowerCase().includes(q)) ||
-          (reg.email && reg.email.toLowerCase().includes(q))
+          (reg.email && reg.email.toLowerCase().includes(q)) ||
+          (reg.mobile && reg.mobile.toLowerCase().includes(q))
         );
       }
 
       return true;
     });
-
-    return results;
   }, [allRegistrations, allEvents, currentUser, propEventId, searchTerm]);
 
-  // 4. Pagination Logic (Derived)
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / itemsPerPage));
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Reset page when search changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, itemsPerPage]);
 
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  // UI Helper: Initials
-  const getInitials = (name: string) => {
-    if (!name) return "??";
-    return name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase();
+  const getInitials = (name?: string) => {
+    if (!name) return "NA";
+
+    return name
+      .trim()
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
   };
 
-  // --- RENDERING ---
+  const handleExportIDCard = async (
+    user: Registration,
+    displayEventName: string
+  ) => {
+    const { exportIDCardPDF } = await import("../utils/exportIDCardPDF");
 
-  if (regLoading || eventsLoading || authLoading) {
-    return (
-      <div className="bg-white rounded-2xl border border-slate-200 p-20 flex flex-col items-center justify-center shadow-sm">
-        <Loader2 className="animate-spin text-indigo-600 mb-4" size={40} />
-        <p className="text-slate-500 font-medium italic">Synchronizing participant data...</p>
-      </div>
-    );
-  }
+    const pdfUser = {
+      ...user,
+      fullName: user.fullName ?? "Attendee",
+      email: user.email ?? "N/A",
+      mobile: user.mobile ?? "N/A",
+      designation: user.designation ?? "Participant",
+      dob: user.dob ?? "",
+      gender: user.gender ?? "N/A",
+      photo: user.photo ?? "",
+      interests: user.interests ?? [],
+      consent: user.consent ?? false,
+      timestamp: user.timestamp ?? "",
+    } as ExportUserData;
 
-  return (
-    <div className="bg-white border border-slate-200 rounded-[1.5rem] shadow-sm overflow-hidden flex flex-col h-full">
-      
-      {/* TOOLBAR */}
-      <div className="p-6 md:p-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-50/30">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-            {propEventId ? `Attendees: ${eventName}` : "All Attendees"}
-          </h2>
-          <p className="text-slate-500 text-sm mt-1 flex items-center gap-2">
-             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-             {currentUser?.role === "SuperAdmin" ? "Total System Records: " : "My Event Records: "}
-             <span className="font-bold text-slate-700">{filteredData.length}</span>
-          </p>
-        </div>
+    exportIDCardPDF(pdfUser, displayEventName);
+  };
 
-        <div className="flex flex-col sm:flex-row gap-3">
-           <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input 
-                 type="text" 
-                 placeholder="Search name or email..." 
-                 className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none w-full sm:w-64"
-                 onChange={(e) => setSearchTerm(e.target.value)}
-                 value={searchTerm}
-              />
-           </div>
+  const handleExportExcel = async () => {
+    const { exportToExcel } = await import("../utils/exportToExcel");
 
-          <button
-  onClick={() => {
     const excelData = filteredData.map((reg) => ({
       ...reg,
-      userId: reg.regId, 
+      userId: reg.regId,
       fullName: reg.fullName || "Guest",
       email: reg.email || "No Email",
       mobile: reg.mobile || "-",
       designation: reg.designation || "Participant",
-      gender: reg.gender || "-"
+      gender: reg.gender || "-",
     }));
 
     exportToExcel(excelData, eventName);
-  }}
-  disabled={filteredData.length === 0}
-  className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-semibold hover:bg-emerald-700 disabled:opacity-40 shadow-md transition-all active:scale-95"
->
-  <FileSpreadsheet size={18} />
-  <span>Export CSV</span>
-</button>
+  };
+
+  if (regLoading || eventsLoading || authLoading) {
+    return <PageLoader label="Synchronizing participant data..." />;
+  }
+
+  if (regError || eventsError) {
+    return (
+      <ErrorState
+        title="Could not load registrations"
+        description={String(regError || eventsError)}
+      />
+    );
+  }
+
+  return (
+    <div className="eh-card overflow-hidden rounded-[2rem]">
+      <div className="border-b border-slate-200/80 bg-gradient-to-br from-white via-slate-50 to-indigo-50/50 p-6 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-8">
+        <div className="flex flex-col justify-between gap-6 xl:flex-row xl:items-center">
+          <div>
+            <p className="mb-2 text-xs font-black uppercase tracking-[0.24em] text-indigo-600 dark:text-indigo-400">
+              Registration Center
+            </p>
+            <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-3xl">
+              {propEventId ? `Attendees: ${eventName}` : "All Attendees"}
+            </h2>
+            <p className="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.14)]" />
+              {currentUser?.role === "SuperAdmin" ? "Total system records:" : "My event records:"}
+              <span className="font-black text-slate-800 dark:text-slate-100">{filteredData.length}</span>
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="relative min-w-[260px]">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input
+                type="text"
+                placeholder="Search name, email or phone..."
+                className="eh-input py-3 pl-11 pr-4 text-sm font-semibold"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+              />
+            </div>
+
+            <button
+              onClick={handleExportExcel}
+              disabled={filteredData.length === 0}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <FileSpreadsheet size={18} /> Export CSV
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* TABLE */}
-      <div className="overflow-x-auto flex-1">
-        <table className="w-full text-left border-collapse">
+      <div className="eh-table-wrap border-0">
+        <table className="eh-table text-left">
           <thead>
-            <tr className="bg-slate-50/50 border-b border-slate-100">
-              <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider">Participant</th>
-              <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider">Contact Details</th>
-              <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider">Associated Event</th>
-              <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">Actions</th>
+            <tr>
+              <th className="px-6 py-4">Participant</th>
+              <th className="px-6 py-4">Contact Details</th>
+              <th className="px-6 py-4">Associated Event</th>
+              <th className="px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {currentData.length > 0 ? (
-              currentData.map((user: any, index: number) => {
-                const eventInfo = allEvents.find((e: any) => String(e.id) === String(user.eventId));
-                
-                let displayEventName = "Unknown Event";
-                let badgeStyle = "bg-red-50 text-red-600 border-red-200";
-
-                if (eventInfo) {
-                    displayEventName = eventInfo.EventName || eventInfo.eventName || "Unnamed Event";
-                    badgeStyle = "bg-white border-slate-200 text-slate-600";
-                } else {
-                    displayEventName = "Event ID Mismatch"; 
-                }
+              currentData.map((user: Registration, index: number) => {
+                const eventInfo = allEvents.find((event: EventType) => String(event.id) === String(user.eventId));
+                const displayEventName = eventInfo ? eventInfo.EventName || eventInfo.eventName || "Unnamed Event" : "Event ID Mismatch";
+                const badgeStyle = eventInfo
+                  ? "border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                  : "border-red-200 bg-red-50 text-red-600 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300";
 
                 return (
-                  <tr key={user.id || index} className="group hover:bg-slate-50/80">
-                    <td className="py-4 px-6">
+                  <tr key={user.id || user.regId || index} className="group">
+                    <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold border border-indigo-200">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-black text-indigo-700 ring-1 ring-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 dark:ring-indigo-900">
                           {getInitials(user.fullName)}
                         </div>
                         <div>
-                          <p className="font-semibold text-slate-900">{user.fullName || "N/A"}</p>
-                          <p className="text-xs text-slate-400">{user.designation || "Participant"}</p>
+                          <p className="font-black text-slate-950 dark:text-white">{user.fullName || "N/A"}</p>
+                          <p className="text-xs font-semibold text-slate-400">{user.designation || "Participant"}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
-                      <div className="text-sm text-slate-600 flex flex-col gap-0.5">
-                        <span className="flex items-center gap-1.5"><Mail size={12}/> {user.email}</span>
-                        <span className="flex items-center gap-1.5 text-slate-400"><Phone size={12}/> {user.mobile || "No Phone"}</span>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1 text-sm text-slate-600 dark:text-slate-300">
+                        <span className="flex items-center gap-2"><Mail size={13} /> {user.email || "No Email"}</span>
+                        <span className="flex items-center gap-2 text-slate-400"><Phone size={13} /> {user.mobile || "No Phone"}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
-                        <div className="flex flex-col gap-1">
-                           <span className={`inline-block px-3 py-1 border rounded-full text-[11px] font-medium shadow-sm w-fit ${badgeStyle}`}>
-                             {displayEventName}
-                           </span>
-                           {!eventInfo && (
-                             <span className="text-[10px] text-slate-400 font-mono select-all">
-                               ID: {user.eventId?.substring(0, 15)}...
-                             </span>
-                           )}
-                        </div>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1.5">
+                        <span className={`w-fit rounded-full border px-3 py-1 text-[11px] font-black ${badgeStyle}`}>
+                          {displayEventName}
+                        </span>
+                        {!eventInfo && (
+                          <span className="select-all font-mono text-[10px] text-slate-400">
+                            ID: {user.eventId?.substring(0, 15)}...
+                          </span>
+                        )}
+                      </div>
                     </td>
-                    <td className="py-4 px-6 text-right">
-                      <button
-                        onClick={() => exportIDCardPDF(user, displayEventName)}
-                        className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg border border-transparent hover:border-indigo-100"
-                        title="Download Badge"
-                      >
-                        <FileBadge size={20} />
-                      </button>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex justify-end gap-1">
+                        <button
+                          onClick={() => handleExportIDCard(user, displayEventName)}
+                          className="rounded-xl border border-transparent p-2 text-slate-400 hover:border-indigo-100 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:border-indigo-900 dark:hover:bg-indigo-950/50"
+                          title="Download Badge"
+                        >
+                          <FileBadge size={20} />
+                        </button>
+                        {currentUser?.role === "SuperAdmin" && (
+                          <button
+                            onClick={() => handleDelete(user.eventId, user.regId, user.fullName)}
+                            disabled={isDeleting}
+                            className="rounded-xl border border-transparent p-2 text-slate-400 hover:border-red-100 hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:border-red-900 dark:hover:bg-red-950/40"
+                            title="Delete Registration"
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={4} className="py-20 text-center">
-                    <div className="flex flex-col items-center opacity-40">
-                      <User size={48} className="mb-2" />
-                      <p className="font-medium">No registrations match your account.</p>
-                      {currentUser?.role !== "SuperAdmin" && (
-                          <p className="text-sm">Only registrations for events created by you are shown.</p>
-                      )}
-                    </div>
+                <td colSpan={4} className="px-6 py-20 text-center">
+                  <div className="mx-auto flex max-w-sm flex-col items-center text-slate-400">
+                    <User size={52} className="mb-3" />
+                    <p className="font-black text-slate-600 dark:text-slate-300">No registrations match your filters.</p>
+                    {currentUser?.role !== "SuperAdmin" && <p className="mt-1 text-sm">Only registrations for events created by you are shown.</p>}
+                  </div>
                 </td>
               </tr>
             )}
@@ -256,74 +300,60 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
         </table>
       </div>
 
-      {/* FOOTER & PAGINATION */}
       {filteredData.length > 0 && (
-          <div className="border-t border-slate-100 bg-slate-50/50 p-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-600">
-            
-            {/* Left: Rows Per Page */}
-            <div className="flex items-center gap-3">
-               <span>Rows per page:</span>
-               <select 
-                 className="bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none focus:border-indigo-500 text-xs font-medium cursor-pointer"
-                 value={itemsPerPage}
-                 onChange={(e) => setItemsPerPage(Number(e.target.value))}
-               >
-                 <option value={5}>5</option>
-                 <option value={10}>10</option>
-                 <option value={20}>20</option>
-                 <option value={50}>50</option>
-               </select>
-               <span className="text-slate-400">
-                 {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredData.length)} of {filteredData.length}
-               </span>
-            </div>
-
-            {/* Right: Navigation */}
-            <div className="flex items-center gap-2">
-               <button
-                 onClick={() => handlePageChange(currentPage - 1)}
-                 disabled={currentPage === 1}
-                 className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-               >
-                 <ChevronLeft size={16} />
-               </button>
-               
-               {/* Page Numbers */}
-               <div className="flex gap-1">
-                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    // Simple logic to show window of pages, can be advanced later
-                    let p = i + 1;
-                    if (totalPages > 5 && currentPage > 3) {
-                       p = currentPage - 2 + i;
-                    }
-                    if (p > totalPages) return null;
-
-                    return (
-                      <button
-                        key={p}
-                        onClick={() => handlePageChange(p)}
-                        className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-medium transition-colors ${
-                          currentPage === p 
-                          ? 'bg-indigo-600 text-white shadow-sm' 
-                          : 'bg-white border border-slate-200 hover:bg-slate-50 text-slate-600'
-                        }`}
-                      >
-                        {p}
-                      </button>
-                    );
-                 })}
-               </div>
-
-               <button
-                 onClick={() => handlePageChange(currentPage + 1)}
-                 disabled={currentPage === totalPages}
-                 className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-               >
-                 <ChevronRight size={16} />
-               </button>
-            </div>
-
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 bg-slate-50/70 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300 sm:flex-row">
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <span className="font-semibold">Rows per page:</span>
+            <select
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none focus:border-indigo-500 dark:border-slate-700 dark:bg-slate-900"
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+            </select>
+            <span className="text-slate-400">
+              {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredData.length)} of {filteredData.length}
+            </span>
           </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="rounded-xl border border-slate-200 bg-white p-2 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900"
+            >
+              <ChevronLeft size={16} />
+            </button>
+
+            <div className="flex gap-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let p = i + 1;
+                if (totalPages > 5 && currentPage > 3) p = currentPage - 2 + i;
+                if (p > totalPages) return null;
+                return (
+                  <button
+                    key={p}
+                    onClick={() => handlePageChange(p)}
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-black ${currentPage === p ? "bg-indigo-600 text-white shadow-sm" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"}`}
+                  >
+                    {p}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="rounded-xl border border-slate-200 bg-white p-2 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,151 +1,282 @@
 import { useAppSelector } from "../../store/hooks";
-import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react"; 
+import { useEffect, useMemo, useState } from "react";
+import {
+  ArrowRight,
+  CalendarCheck,
+  Menu,
+  Sparkles,
+  Ticket,
+  X,
+} from "lucide-react";
 
 interface EventData {
   PrimaryColor?: string;
+  SecondaryColor?: string;
   color?: string;
   EventName?: string;
 }
+
+const hexToRgba = (hex: string, opacity: number) => {
+  const clean = hex?.replace("#", "");
+
+  if (!clean || clean.length !== 6) {
+    return `rgba(79, 70, 229, ${opacity})`;
+  }
+
+  const bigint = parseInt(clean, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // 1. Get Data from Redux
-  const data = useAppSelector((state) => state.microsite.eventData) as EventData | null;
-  
-  // 2. Resolve Dynamic Color (Default to Indigo if missing)
-  const primaryColor = data?.PrimaryColor || data?.color || "#4F46E5"; 
+  const data = useAppSelector(
+    (state) => state.microsite.eventData
+  ) as EventData | null;
+
+  const primaryColor = data?.PrimaryColor || data?.color || "#4F46E5";
+  const secondaryColor = data?.SecondaryColor || "#06B6D4";
+
+  const eventName = data?.EventName || "EventHive";
+
+  const logoLetter = eventName?.charAt(0)?.toUpperCase() || "E";
+
+  const navItems = useMemo(
+    () => [
+      { name: "About", href: "experience" },
+      { name: "Sponsors", href: "sponsors" },
+      { name: "Speakers", href: "speakers" },
+      { name: "Pricing", href: "pricing" },
+    ],
+    []
+  );
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 12);
     };
-    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isMobileMenuOpen]);
 
-  const textColorClass = isScrolled || isMobileMenuOpen ? "text-slate-900" : "text-white";
-  const burgerColor = isScrolled || isMobileMenuOpen ? "text-slate-900" : "text-white";
+  const scrollToSection = (id: string) => {
+    setIsMobileMenuOpen(false);
+
+    if (id === "top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  const goToRegistration = () => {
+    scrollToSection("registration");
+  };
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out border-b ${
-        isScrolled
-          ? "bg-white/90 backdrop-blur-md shadow-sm border-slate-200/50 py-3"
-          : "bg-transparent border-transparent py-5"
-      }`}
-    >
-      <div className="container mx-auto px-6 flex justify-between items-center relative z-50">
-        
-        {/* ================= DYNAMIC LOGO (COMMON SHAPE) ================= */}
-        <a href="#" className="flex items-center gap-2 group">
-          {/* Dynamic Color Icon */}
-          <div 
-            className="relative w-8 h-8 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-105"
-            style={{ 
-                backgroundColor: primaryColor,
-                boxShadow: `0 4px 12px ${primaryColor}66` // Dynamic Glow
-            }}
-          >
-             <div className="w-3 h-3 bg-white rounded-full relative z-10" />
-          </div>
-          
-          {/* Text Name */}
-          <h1 className={`text-xl font-bold tracking-tight transition-colors duration-300 ${textColorClass}`}>
-            Event<span style={{ color: primaryColor }}>Hive</span>
-          </h1>
-        </a>
-
-        {/* ================= DESKTOP NAV ================= */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {["About", "Schedule", "Speakers", "Contact"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 relative group ${textColorClass}`}
-            >
-              {item}
-              <span 
-                className="absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full"
-                style={{ backgroundColor: primaryColor }}
-              ></span>
-            </a>
-          ))}
-
-          {/* Glowing CTA Button */}
-          <button 
-            onClick={() => document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth'})}
-            className="group relative px-6 py-2.5 rounded-full text-white text-sm font-bold shadow-lg overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
-            style={{ 
-                backgroundColor: primaryColor,
-                boxShadow: `0 4px 20px -5px ${primaryColor}99`
-            }}
-          >
-            <span className="relative z-10">Register Now</span>
-            <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-            <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent z-0" />
-          </button>
-        </nav>
-
-        {/* ================= MOBILE HAMBURGER ================= */}
-        <button
-          className={`md:hidden p-2 -mr-2 rounded-full hover:bg-black/5 transition-all ${burgerColor}`}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* ================= MOBILE MENU ================= */}
-      <div
-        className={`absolute top-0 left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-2xl transition-all duration-500 ease-in-out md:hidden flex flex-col`}
-        style={{ 
-            height: isMobileMenuOpen ? "100vh" : "0px",
-            opacity: isMobileMenuOpen ? 1 : 0,
-            pointerEvents: isMobileMenuOpen ? "auto" : "none",
-            paddingTop: isMobileMenuOpen ? "80px" : "0px"
-        }}
+    <>
+      <header
+        className={`fixed left-0 top-0 z-[100] w-full transition-all duration-300 ${
+          isScrolled
+            ? "py-3"
+            : "py-4"
+        }`}
       >
-        <div className="flex flex-col p-6 space-y-2 h-full overflow-y-auto">
-          {["About", "Schedule", "Speakers", "Contact"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-2xl font-bold text-slate-800 px-4 py-4 border-b border-gray-100 flex justify-between items-center group active:scale-[0.98] transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
+        <div className="mx-auto w-full max-w-7xl px-4  lg:px-0">
+          <div
+            className={`flex items-center justify-between gap-4 rounded-[1.6rem] border px-3 py-2.5 transition-all duration-300 sm:px-4 ${
+              isScrolled
+                ? "border-slate-200/80 bg-white/92 shadow-[0_18px_55px_rgba(15,23,42,0.10)] backdrop-blur-2xl"
+                : "border-white/50 bg-white/78 shadow-[0_10px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl"
+            }`}
+          >
+            {/* Brand */}
+            <button
+              type="button"
+              onClick={() => scrollToSection("top")}
+              className="group flex min-w-0 items-center gap-3 text-left"
+              aria-label="Go to event home"
             >
-              {item}
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: primaryColor }}>
-                <ArrowRight size={24} />
-              </span>
-            </a>
-          ))}
-          
-          <div className="mt-8 px-2">
-            <button 
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth'});
+              <span
+                className="relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-2xl text-base font-black text-white shadow-lg transition-transform group-hover:scale-105"
+                style={{
+                  background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                  boxShadow: `0 14px 30px ${hexToRgba(primaryColor, 0.25)}`,
                 }}
-                className="w-full py-4 rounded-xl text-white font-bold text-lg text-center shadow-xl active:scale-[0.98] transition-transform flex justify-center items-center gap-2"
-                style={{ backgroundColor: primaryColor }}
+              >
+                {logoLetter}
+                <span className="absolute inset-0 translate-x-[-120%] bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-[120%]" />
+              </span>
+
+              <span className="min-w-0">
+                <span className="block max-w-[150px] truncate text-base font-black tracking-tight text-slate-950 sm:max-w-[240px] sm:text-lg">
+                  {eventName}
+                </span>
+
+                <span className="hidden text-[10px] font-black uppercase tracking-[0.22em] text-slate-400 sm:block">
+                  Event Microsite
+                </span>
+              </span>
+            </button>
+
+            {/* Desktop Nav */}
+            <nav className="hidden items-center rounded-full border border-slate-200 bg-white/80 p-1 shadow-sm backdrop-blur-xl lg:flex">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() => scrollToSection(item.href)}
+                  className="rounded-full px-4 py-2 text-sm font-black text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-950"
+                >
+                  {item.name}
+                </button>
+              ))}
+            </nav>
+
+            {/* Desktop CTA */}
+            <div className="hidden items-center gap-2 md:flex">
+              <button
+                type="button"
+                onClick={() => scrollToSection("experience")}
+                className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-black text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-slate-50 xl:inline-flex"
+              >
+                <Sparkles size={16} />
+                Details
+              </button>
+
+              <button
+                type="button"
+                onClick={goToRegistration}
+                className="group inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-black text-white shadow-lg transition-all hover:-translate-y-0.5"
+                style={{
+                  background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                  boxShadow: `0 16px 34px ${hexToRgba(primaryColor, 0.22)}`,
+                }}
+              >
+                Register
+                <ArrowRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </button>
+            </div>
+
+            {/* Mobile Toggle */}
+            <button
+              type="button"
+              className="relative z-[120] rounded-2xl border border-slate-200 bg-white p-2.5 text-slate-950 shadow-sm transition-all hover:bg-slate-50 md:hidden"
+              onClick={() => setIsMobileMenuOpen((value) => !value)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
             >
-               Register Now <ArrowRight size={20} />
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile Overlay */}
+      <div
+        className={`fixed inset-0 z-[90] bg-slate-950/50 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+          isMobileMenuOpen
+            ? "opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Menu */}
+      <aside
+        className={`fixed left-3 right-3 top-24 z-[110] overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_28px_90px_rgba(15,23,42,0.22)] transition-all duration-300 md:hidden ${
+          isMobileMenuOpen
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-4 opacity-0"
+        }`}
+      >
+        <div className="p-4">
+          <div
+            className="mb-4 rounded-[1.5rem] p-5 text-white"
+            style={{
+              background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+            }}
+          >
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-xl">
+              <Ticket size={23} />
+            </div>
+
+            <h3 className="line-clamp-2 text-xl font-black leading-tight">
+              {eventName}
+            </h3>
+
+            <p className="mt-2 text-sm font-medium leading-6 text-white/75">
+              Explore event details and register from this mobile-friendly
+              microsite.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            {navItems.map((item) => (
+              <button
+                key={item.name}
+                type="button"
+                onClick={() => scrollToSection(item.href)}
+                className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-base font-black text-slate-800 transition-all hover:bg-white"
+              >
+                {item.name}
+                <ArrowRight size={18} style={{ color: primaryColor }} />
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div
+              className="mb-2 flex items-center gap-2 text-sm font-black"
+              style={{ color: primaryColor }}
+            >
+              <CalendarCheck size={16} />
+              Ready to attend?
+            </div>
+
+            <p className="text-sm leading-6 text-slate-500">
+              Complete your registration and keep your event pass ready.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={goToRegistration}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-center font-black text-white shadow-lg"
+            style={{
+              background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+            }}
+          >
+            Register Now
+            <ArrowRight size={18} />
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 

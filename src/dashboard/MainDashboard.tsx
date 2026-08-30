@@ -1,17 +1,12 @@
-import Footer from "./Footer"
-import Header from "./Header"
-import OrgniserDashboard from "./OrganizerAdmin/OrganizerDashboard"
-import SuperAdminDashboard from "./SuperAdmin/SuperAdminDashboard"
+import OrganizerDashboard from "./OrganizerAdmin/OrganizerDashboard";
+import SuperAdminDashboard from "./SuperAdmin/SuperAdminDashboard";
+import { useAuth } from "./AuthContext";
 
 const MainDashboard = () => {
-  return (
-    <div>
-      <Header></Header>
-      <OrgniserDashboard></OrgniserDashboard>
-      <SuperAdminDashboard></SuperAdminDashboard>
-      <Footer></Footer>
-    </div>
-  )
-}
+  const { role } = useAuth();
 
-export default MainDashboard
+  if (role === "SuperAdmin") return <SuperAdminDashboard />;
+  return <OrganizerDashboard />;
+};
+
+export default MainDashboard;
