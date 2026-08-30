@@ -7,21 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies and Build
+# Dependencies and build output
 node_modules
 dist
 dist-ssr
 *.local
 
-# 🚨 CRITICAL: Environment Variables (Security) 🚨
+# Environment variables
 .env
 .env.*
-!.env.example 
+!.env.example
 
-# 🔒 Firebase Configurations (Code Protection/Deterrent) 🔒
-# Ignoring these means anyone who clones the repo has to manually figure out the backend
-.firebaserc
-firebase.json
+# Firebase local/cache files
+.firebase/
 firebase-debug.log
 firebase-debug.err
 

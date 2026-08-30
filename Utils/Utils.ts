@@ -1,1 +1,2 @@
-export const apiPath="https://eventhive-cd088-default-rtdb.firebaseio.com";
+export const apiPath = import.meta.env.VITE_FIREBASE_DATABASE_URL;
+
