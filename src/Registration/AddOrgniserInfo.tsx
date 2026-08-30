@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import {apiPath} from "../../Utils/Utils";
-
+import { auth } from "../Firebase";
 
 
 type OrgniserData = {
@@ -29,7 +29,10 @@ const [success, setSuccess] = useState<boolean>(false);
     setSuccess(false);
 
     try {
-      const response = await axios.post(`${apiPath}/Organizer.json`, {
+           const user = auth.currentUser;
+      if (!user) throw new Error("You must be logged in.");
+      const token = await user.getIdToken();
+      const response = await axios.post(`${apiPath}/Organizer.json?auth="${token}`, {
         ...payload,
         role: "Organizer",
         isApproved: false,

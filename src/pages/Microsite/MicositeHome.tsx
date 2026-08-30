@@ -1,378 +1,666 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import { Calendar, MapPin, Play, Clock, ArrowRight } from "lucide-react"; 
-import { useAppSelector } from "../../store/hooks"; 
-// Components
+import {
+  ArrowRight,
+  ArrowDown,
+  Award,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Navigation,
+  Play,
+  ShieldCheck,
+  Sparkles,
+  UsersRound,
+} from "lucide-react";
+import { ErrorState } from "../../common/StateViews";
+import { useAppSelector } from "../../store/hooks";
 import EventRegistration from "../EventRegistration";
 import PricingSection from "./PricingSection";
 import VideoSection from "./VideoSection";
 
-/* ============================ UTILS ============================ */
 const hexToRgba = (hex: string, opacity: number) => {
-  if (!hex) return `rgba(0, 0, 0, ${opacity})`;
-  const bigint = parseInt(hex.replace("#", ""), 16);
+  if (!hex) return `rgba(16, 185, 129, ${opacity})`; // Default to Emerald
+
+  const normalized = hex.replace("#", "");
+  if (normalized.length !== 6) return `rgba(16, 185, 129, ${opacity})`;
+
+  const bigint = parseInt(normalized, 16);
   const r = (bigint >> 16) & 255;
   const g = (bigint >> 8) & 255;
   const b = bigint & 255;
+
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
-/* ============================ COUNTDOWN COMPONENT ============================ */
-const CountdownTimer = ({ targetDate, themeColor }: { targetDate: string, themeColor: string }) => {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  useEffect(() => {
-    if (!targetDate) return;
-    const interval = setInterval(() => {
-    const diff = new Date(targetDate).getTime() - new Date().getTime();
-      if (diff <= 0) return setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [targetDate]);
+const formatDate = (value?: string) => {
+  if (!value) return "05 May 2026";
 
-  return (
-    <div className="grid grid-cols-4 gap-2 sm:gap-4 mt-6">
-      {Object.entries(timeLeft).map(([key, val]) => (
-        <div key={key} className="flex flex-col items-center">
-          <div 
-            className="w-full aspect-square rounded-lg sm:rounded-xl flex items-center justify-center backdrop-blur-md border transition-colors duration-500 shadow-lg"
-            style={{ 
-                backgroundColor: hexToRgba(themeColor, 0.15), 
-                borderColor: hexToRgba(themeColor, 0.3) 
-            }}
-          >
-            <span className="text-lg sm:text-2xl font-bold text-white">
-              {val < 10 ? `0${val}` : val}
-            </span>
-          </div>
-          <span className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-300">{key}</span>
-        </div>
-      ))}
-    </div>
-  );
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 };
 
-/* ============================ MAIN PAGE ============================ */
 const MicrositeHome = () => {
   const { eventData: data } = useAppSelector((state) => state.microsite);
-  
-  if (!data) return null; 
+  const event = (data ?? {}) as any;
 
-  // --- Dynamic Colors ---
-  const primaryColor = (data as any).PrimaryColor || (data as any).primaryColor || "#4F46E5";   
-  const secondaryColor = (data as any).SecondaryColor || (data as any).secondaryColor || "#9333ea"; 
+  const primaryColor = event.PrimaryColor || event.primaryColor || "#00A676";
+  const secondaryColor =
+    event.SecondaryColor || event.secondaryColor || "#FACC15";
 
-  // --- Check if Event has Passed ---
-  const eventDateStr = (data as any)?.eventDate;
-  const isEventPassed = eventDateStr ? new Date(eventDateStr).getTime() < new Date().getTime() : false;
+  const eventDateStr = event.eventDate;
+  const isEventPassed = eventDateStr
+    ? new Date(eventDateStr).getTime() < new Date().getTime()
+    : false;
+
+  // 1. Hook for the cinematic image showcase slideshow index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // 2. High-quality professional event imagery
+  const heroImages = useMemo(
+    () => [
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1556761175-59a31e16e581?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80",
+    ],
+    []
+  );
+
+  // Professional real user fallback portraits
+  const fallbackPortraits = useMemo(
+    () => [
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=512&q=80", // Professional man
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=512&q=80", // Professional woman
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=512&q=80", // Corporate man
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=512&q=80", // Creative woman
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=512&q=80", // Tech man
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=512&q=80", // Tech woman
+    ],
+    []
+  );
+
+  // --- NEW: Dummy Speaker Data Fallback ---
+  const dummySpeakers = useMemo(
+    () => [
+      {
+        speakerName: "Alex Johnson",
+        speakerDesignation: "Founder & CEO",
+        speakerImage: fallbackPortraits[0],
+      },
+      {
+        speakerName: "Sarah Chen",
+        speakerDesignation: "Chief Product Officer",
+        speakerImage: fallbackPortraits[1],
+      },
+      {
+        speakerName: "Michael Brown",
+        speakerDesignation: "Head of Growth",
+        speakerImage: fallbackPortraits[2],
+      },
+      {
+        speakerName: "Elena Rodriguez",
+        speakerDesignation: "VP of Engineering",
+        speakerImage: fallbackPortraits[3],
+      },
+    ],
+    [fallbackPortraits]
+  );
+
+  // Determine which speakers to show
+  const rawSpeakers = Array.isArray(event.speakers) ? event.speakers : [];
+  const speakers = rawSpeakers.length > 0 ? rawSpeakers : dummySpeakers;
+
+  // 3. Slideshow Interval (Runs hooks before early returns)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4500); // 4.5 seconds per slide
+    return () => clearInterval(timer);
+  }, [heroImages.length]);
 
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.65, ease: "easeOut" },
+    },
   };
 
+  const staggerWrap: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08 } },
+  };
+
+  const valueProps = [
+    {
+      title: "Curated Sessions",
+      desc: "Focused sessions designed around real audience value.",
+      icon: <Award size={22} />,
+    },
+    {
+      title: "Networking Ready",
+      desc: "Connect with attendees, speakers and event communities.",
+      icon: <UsersRound size={22} />,
+    },
+    {
+      title: "Smooth Registration",
+      desc: "Simple digital registration experience for every attendee.",
+      icon: <ShieldCheck size={22} />,
+    },
+  ];
+
+  const agendaItems = [
+    { time: "09:30 AM", title: "Registration and welcome" },
+    { time: "10:30 AM", title: "Opening keynote session" },
+    { time: "12:00 PM", title: "Networking and experience zone" },
+  ];
+
+  if (!data) {
+    return (
+      <ErrorState
+        title="No event data found"
+        description="This event page does not have enough content to render yet."
+        className="mx-auto my-28 max-w-2xl"
+      />
+    );
+  }
+
   return (
-    <div className="font-sans text-slate-900 bg-slate-50 overflow-x-hidden w-full">
-      <style>{`
-        ::selection { background-color: ${primaryColor}; color: white; }
-      `}</style>
+    <div
+      id="top"
+      className="w-full overflow-x-hidden bg-[#FAFAFA] font-sans text-slate-900 antialiased"
+    >
+      <style>
+        {`
+          ::selection {
+            background-color: ${primaryColor};
+            color: white;
+          }
+        `}
+      </style>
 
-      {/* ============================ 1. HERO SECTION ============================ */}
-      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
-        
-        {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video 
-            src="/41823-431406517_medium.mp4" 
-            autoPlay muted loop playsInline
-            className="w-full h-full object-cover"
-          />
-          {/* Smart Gradient Overlay */}
-          <div 
-            className="absolute inset-0 z-10"
-            style={{
-                background: `linear-gradient(to bottom right, 
-                    ${hexToRgba("#020617", 0.9)} 0%, 
-                    ${hexToRgba("#020617", 0.7)} 50%, 
-                    ${hexToRgba(primaryColor, 0.6)} 100%)`
-            }}
-           />
-           {/* Mobile Vignette */}
-           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 z-10 pointer-events-none md:hidden" />
-        </div>
-        
-        <div className="container mx-auto px-4 sm:px-6 relative z-20 pt-24 pb-12">
-          <div className="flex flex-col lg:flex-row items-center  justify-between gap-12 lg:gap-20">
+      {/* HERO SECTION */}
+      <section className="relative px-4 pb-16 pt-32 sm:px-8 lg:pb-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
             
-            {/* LEFT: Text Content */}
-            <div className="w-full lg:w-9/12 max-w-4xl text-center lg:text-left pt-6 lg:pt-12">
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md mb-6 border border-white/10 mx-auto lg:mx-0"
-                style={{ backgroundColor: hexToRgba(primaryColor, 0.2) }}
-              >
-                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: primaryColor }} />
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white">
-                  {(data as any)?.EventType || "Global Summit"} 2026
-                </span>
-              </motion.div>
-
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-white"
-              >
-                {((data as any)?.EventName || "Upcoming Event").split(' ').map((word: string, i: number) => (
-                  <span key={i} className="inline-block mr-2 sm:mr-3">
-                    {i === 1 ? (
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-white"
-                           style={{
-                               backgroundImage: `linear-gradient(to right, #ffffff, ${primaryColor})`
-                           }}
-                      >
-                        {word}
-                      </span>
-                    ) : word}
-                  </span>
-                ))}
-              </motion.h1>
-
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
-              >
-                {(data as any)?.ShortDesc || "Join us for an unforgettable experience where innovation meets community. Secure your spot today."}
-              </motion.p>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-              >
-                {/* --- UPDATED BUTTON BASED ON isEventPassed --- */}
-                <button 
-                  onClick={() => !isEventPassed && document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth'})}
-                  disabled={isEventPassed}
-                  className={`w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 flex items-center justify-center gap-2 
-                    ${isEventPassed ? 'opacity-60 cursor-not-allowed bg-slate-600' : 'shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1'}`}
-                  style={{ backgroundColor: !isEventPassed ? primaryColor : undefined }}
+            {/* Left Content */}
+            <motion.div
+              initial="hidden"
+              animate="show"
+              variants={staggerWrap}
+              className="flex flex-col text-left"
+            >
+              {/* Tags */}
+              <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3">
+                <div
+                  className="flex items-center gap-2 rounded-full border border-emerald-200/50 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-wider"
+                  style={{ color: primaryColor }}
                 >
-                  {isEventPassed ? "Registration Closed" : (
-                    <>Get Tickets <ArrowRight size={18} /></>
-                  )}
-                </button>
-                <button 
-                   className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white border hover:bg-white/5 transition-all"
-                   style={{ borderColor: hexToRgba(primaryColor, 0.4) }}
-                >
-                  Full Schedule
-                </button>
-              </motion.div>
-            </div>
-
-            {/* RIGHT: Glass Card */}
-            <div className="w-full lg:w-[420px]">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="w-full backdrop-blur-xl bg-black/40 p-6 sm:p-8 rounded-3xl shadow-2xl relative overflow-hidden border border-white/10"
-              >
-                {/* Glow Effect */}
-                <div 
-                    className="absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[80px] opacity-40 pointer-events-none" 
+                  <div
+                    className="h-2 w-2 rounded-full"
                     style={{ backgroundColor: primaryColor }}
-                />
-
-                <div className="space-y-6 relative z-10">
-                   <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl text-white shrink-0" style={{ backgroundColor: hexToRgba(primaryColor, 0.25) }}>
-                        <Calendar size={24} />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Date</p>
-                        <p className="text-lg sm:text-xl font-semibold text-white leading-tight">{(data as any)?.eventDate || "TBA"}</p>
-                      </div>
-                   </div>
-
-                   <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl text-white shrink-0" style={{ backgroundColor: hexToRgba(primaryColor, 0.25) }}>
-                        <MapPin size={24} />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Location</p>
-                        <p className="text-lg sm:text-xl font-semibold text-white leading-tight">{(data as any)?.location || "TBA"}</p>
-                      </div>
-                   </div>
-                   
-                   <div className="pt-6 border-t border-white/10">
-                      <div className="flex items-center gap-2 mb-3 text-slate-300">
-                        <Clock size={16} className="text-white" />
-                        <span className="text-xs font-bold uppercase tracking-widest">
-                            {isEventPassed ? "Event Has Ended" : "Event Starts In"}
-                        </span>
-                      </div>
-                      {!isEventPassed && <CountdownTimer targetDate={(data as any)?.eventDate} themeColor={primaryColor} />}
-                   </div>
+                  />
+                  {event.eventType || "Webinar & In-Person"}
+                </div>
+                <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600">
+                  <Sparkles size={14} className="text-amber-500" />
+                  Limited Early Bird Seats
                 </div>
               </motion.div>
-            </div>
 
+              {/* Headings */}
+              <motion.h1
+                variants={fadeInUp}
+                className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tight text-[#0f172a] sm:text-6xl lg:text-7xl"
+              >
+                {event.EventName
+                  ? event.EventName.split(" ").slice(0, 2).join(" ")
+                  : "Startup Founders"}
+                <br />
+                {event.EventName
+                  ? event.EventName.split(" ").slice(2).join(" ")
+                  : "Bootcamp"}
+              </motion.h1>
+              <motion.h2
+                variants={fadeInUp}
+                className="mt-2 text-4xl font-extrabold sm:text-5xl lg:text-5xl"
+                style={{ color: primaryColor }}
+              >
+                {event.BannerTagLine || "Scale Up."}
+              </motion.h2>
+
+              <motion.p
+                variants={fadeInUp}
+                className="mt-6 max-w-xl text-lg font-medium leading-relaxed text-slate-500"
+              >
+                {event.ShortDesc ||
+                  "A comprehensive workshop on scaling your startup from idea to Series A. Covers funding strategies, team building, unit economics, and hyper-scalable product-market fit."}
+              </motion.p>
+
+              {/* Event Info Row */}
+              <motion.div variants={fadeInUp} className="mt-8 flex items-center gap-8">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <Calendar size={18} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                      Date
+                    </p>
+                    <p className="mt-0.5 font-bold text-slate-900">
+                      {formatDate(event.eventDate)}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="h-10 w-px bg-slate-200" />
+
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <MapPin size={18} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                      Location
+                    </p>
+                    <p className="mt-0.5 font-bold text-slate-900">
+                      {event.location || "Delhi, India"}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div
+                variants={fadeInUp}
+                className="mt-10 flex flex-wrap items-center gap-4"
+              >
+                <button
+                  onClick={() =>
+                    !isEventPassed &&
+                    document
+                      .getElementById("registration")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  disabled={isEventPassed}
+                  className="group flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-600 disabled:opacity-70"
+                  style={{ backgroundColor: primaryColor }}
+                >
+                  {isEventPassed ? "Closed" : "Register Now"}
+                  {!isEventPassed && (
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  )}
+                </button>
+
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("experience")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
+                >
+                  Explore Details
+                  <ArrowDown size={16} className="text-slate-400" />
+                </button>
+
+                <button className="ml-2 flex items-center gap-3 text-sm font-bold text-slate-700 transition-opacity hover:opacity-80">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                    <Play size={16} className="ml-1" fill="currentColor" />
+                  </div>
+                  Watch Trailer
+                </button>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Content - Cinematic Image Showcase */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.75, delay: 0.2, ease: "easeOut" }}
+              className="relative mx-auto w-full max-w-[600px] lg:mx-0 lg:w-full lg:max-w-none group"
+            >
+              {/* Aspect Ratio Container */}
+              <div className="relative aspect-[4/3] lg:aspect-[12/10] overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-2xl ring-1 ring-slate-900/5">
+                
+                {/* Images Layer */}
+                {heroImages.map((src, idx) => (
+                  <div
+                    key={src}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                    }`}
+                  >
+                    <img
+                      src={src}
+                      alt="Event showcase"
+                      className="h-full w-full object-cover"
+                      style={{
+                        transform: idx === currentImageIndex ? "scale(1.04)" : "scale(1)",
+                        transitionProperty: "transform",
+                        transitionTimingFunction: "linear",
+                        transitionDuration: idx === currentImageIndex ? "5000ms" : "0ms", 
+                      }}
+                    />
+                  </div>
+                ))}
+
+                {/* Subtle Gradient Overlay */}
+                <div className="absolute inset-0 z-20 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent pointer-events-none" />
+
+                {/* Top Right Info Chips */}
+                <div className="absolute right-6 top-6 z-30 flex flex-col items-end gap-2 text-right">
+                  <div className="rounded-full bg-slate-950/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md ring-1 ring-white/20">
+                    {formatDate(event.eventDate)}
+                  </div>
+                  <div className="rounded-full bg-slate-950/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md ring-1 ring-white/20">
+                    {event.location || "Delhi, India"}
+                  </div>
+                </div>
+
+                {/* Bottom Left Minimal Text */}
+                <div className="absolute bottom-10 left-8 right-8 z-30">
+                  <h3 className="text-xl font-black uppercase tracking-tight text-white drop-shadow-md sm:text-2xl">
+                    {event.EventName || "STARTUP FOUNDERS BOOTCAMP"}
+                  </h3>
+                  <p className="mt-1.5 max-w-sm text-xs font-semibold text-white/80 drop-shadow-md sm:text-sm">
+                    {event.BannerTagLine || "Launch Your Vision. Scale Your Impact."}
+                  </p>
+                </div>
+
+                {/* Hover Arrows (Desktop only usually) */}
+                <button
+                  onClick={() => setCurrentImageIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
+                  className="absolute left-4 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/30 text-white opacity-0 backdrop-blur-md transition-all hover:bg-slate-950/50 group-hover:opacity-100"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={() => setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)}
+                  className="absolute right-4 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/30 text-white opacity-0 backdrop-blur-md transition-all hover:bg-slate-950/50 group-hover:opacity-100"
+                >
+                  <ChevronRight size={20} />
+                </button>
+
+                {/* Slideshow Indicators */}
+                <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
+                  {heroImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentImageIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentImageIndex
+                          ? "w-6 bg-white"
+                          : "w-1.5 bg-white/40 hover:bg-white/60"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+            
           </div>
         </div>
       </section>
 
-      {/* ============================ 2. ABOUT SECTION ============================ */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-20 bg-white">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <motion.div 
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                className="order-2 lg:order-1"
+      {/* EXPERIENCE SECTION */}
+      <section id="experience" className="bg-white px-4 py-16 sm:px-6 lg:py-24 border-t border-slate-100">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <p
+              className="mb-4 text-xs font-bold uppercase tracking-wider"
+              style={{ color: primaryColor }}
             >
-                <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: secondaryColor }}>
-                    The Experience
-                </h2>
-                <h2 className="text-3xl  sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
-                    Why you can't <br/> miss this <span className="text-transparent bg-clip-text bg-gradient-to-r" style={{ backgroundImage: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})` }}>Event</span>.
-                </h2>
-                <p className="text-base sm:text-lg text-slate-600 leading-relaxed whitespace-pre-line mb-8">
-                    {(data as any).AboutArea || "We bring together the brightest minds in the industry for a day of inspiration, learning, and networking."}
-                </p>
-
-                <div className="grid grid-cols-3 gap-6 border-t pt-8">
-                    <div>
-                        <h4 className="text-3xl font-bold text-slate-900 mb-1">20+</h4>
-                        <p className="text-sm text-slate-500 font-medium">Speakers</p>
-                    </div>
-                    <div>
-                        <h4 className="text-3xl font-bold text-slate-900 mb-1">500+</h4>
-                        <p className="text-sm text-slate-500 font-medium">Attendees</p>
-                    </div>
-                    <div>
-                        <h4 className="text-3xl font-bold text-slate-900 mb-1">10+</h4>
-                        <p className="text-sm text-slate-500 font-medium">Sponsors</p>
-                    </div>
+              The experience
+            </p>
+            <h2 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl sm:leading-tight">
+              Why you should not miss this{" "}
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})`,
+                }}
+              >
+                event
+              </span>
+              .
+            </h2>
+            <p className="mt-6 whitespace-pre-line text-lg font-normal leading-relaxed text-slate-600">
+              {event.AboutArea ||
+                "We bring together the right audience, useful content and a memorable experience designed for professionals."}
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {valueProps.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5"
+                >
+                  <div
+                    className="mb-4 grid h-12 w-12 place-items-center rounded-2xl text-white"
+                    style={{
+                      background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <h3 className="text-base font-semibold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm font-normal leading-relaxed text-slate-600">
+                    {item.desc}
+                  </p>
                 </div>
-            </motion.div>
-
-            <div className="relative group order-1 lg:order-2">
-                <div className="absolute -inset-2 bg-gradient-to-r opacity-20 rounded-3xl blur-xl group-hover:opacity-30 transition-opacity duration-500" 
-                      style={{ backgroundImage: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})` }} />
-                
-                <div className="relative bg-slate-100 rounded-2xl h-[300px] sm:h-[450px] w-full overflow-hidden shadow-2xl">
-                      <img 
-                        src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-                        alt="Event Crowd"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6 sm:p-8">
-                          <div className="text-white flex items-center gap-4">
-                             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-md flex items-center justify-center cursor-pointer hover:scale-110 transition-all shadow-lg"
-                                  style={{ backgroundColor: hexToRgba(primaryColor, 0.6) }}>
-                                <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white ml-1" />
-                             </div>
-                             <span className="font-bold text-lg sm:text-xl tracking-tight">Watch Highlights</span>
-                          </div>
-                      </div>
-                </div>
+              ))}
             </div>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="relative"
+          >
+            <div
+              className="absolute -inset-3 rounded-[2rem] opacity-20 blur-2xl"
+              style={{ background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }}
+            />
+            <div className="relative overflow-hidden rounded-[2.2rem] bg-slate-950 p-5 text-white shadow-2xl">
+              <div className="relative h-[320px] overflow-hidden rounded-[1.7rem] sm:h-[440px]">
+                <img
+                  src={event.banner || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"}
+                  alt="Event experience"
+                  className="h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div
+                    className="mb-4 flex h-14 w-14 items-center justify-center rounded-full backdrop-blur-md"
+                    style={{ backgroundColor: hexToRgba(primaryColor, 0.75) }}
+                  >
+                    <Play className="ml-1 fill-white" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold tracking-tight">Event highlights</h3>
+                  <p className="mt-2 max-w-md text-sm leading-6 text-slate-300">
+                    A premium event experience designed for attendees, speakers and organizers.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {agendaItems.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-xl"
+                  >
+                    <p className="text-xs font-bold uppercase tracking-wider text-cyan-200">
+                      {item.time}
+                    </p>
+                    <p className="mt-2 text-sm font-medium leading-snug text-white">
+                      {item.title}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ============================ 3. SPEAKERS SECTION ============================ */}
-      {(data as any).speakers && (data as any).speakers.length > 0 && (
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-20 bg-slate-50 relative overflow-hidden">
-             {/* Dynamic Background Blob */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full filter blur-[100px] opacity-5 pointer-events-none" 
-                 style={{ backgroundColor: primaryColor }} />
-
-            <div className="max-w-7xl mx-auto relative z-10">
-                <div className="text-center mb-12 sm:mb-16">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
-                        World Class <span style={{ color: primaryColor }}>Speakers</span>
-                    </h2>
-                    <p className="mt-4 text-slate-500 max-w-2xl mx-auto">
-                        Learn from the industry leaders and visionaries shaping the future.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-                    {(data as any).speakers.map((sp: any, i: number) => (
-                        <motion.div
-                            key={i}
-                            whileHover={{ y: -8 }}
-                            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-slate-100 group"
-                        >
-                            <div className="h-72 sm:h-64 overflow-hidden relative">
-                                <img 
-                                    src={sp.photo} 
-                                    alt={sp.speakerName}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                />
-                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                     style={{ background: `linear-gradient(to top, ${hexToRgba(primaryColor, 0.8)}, transparent)` }} />
-                            </div>
-                            <div className="p-5 text-center">
-                                <h4 className="font-bold text-lg text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">
-                                    {sp.speakerName}
-                                </h4>
-                                <p className="text-xs font-bold uppercase tracking-wider" style={{ color: secondaryColor }}>{sp.speakerDesignation}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+      {/* SPEAKERS */}
+      {speakers.length > 0 && (
+        <section
+          id="speakers"
+          className="relative overflow-hidden bg-slate-50 px-4 py-16 sm:px-6 lg:py-24"
+        >
+          <div
+            className="absolute right-0 top-0 h-[30rem] w-[30rem] rounded-full opacity-10 blur-[120px]"
+            style={{ backgroundColor: primaryColor }}
+          />
+          <div className="relative z-10 mx-auto max-w-7xl">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p
+                className="mb-3 text-xs font-bold uppercase tracking-wider"
+                style={{ color: primaryColor }}
+              >
+                Speaker lineup
+              </p>
+              <h2 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl sm:leading-tight">
+                Meet the people on stage
+              </h2>
+              <p className="mt-4 text-lg font-normal leading-relaxed text-slate-600">
+                Speaker cards use the actual event speaker data added by the organizer.
+              </p>
             </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {speakers.map((sp: any, i: number) => {
+                // Pick a realistic human portrait based on the index
+                const fallbackImg = fallbackPortraits[i % fallbackPortraits.length];
+
+                return (
+                  <motion.div
+                    key={`${sp.speakerName}-${i}`}
+                    whileHover={{ y: -8 }}
+                    className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_55px_rgba(15,23,42,0.07)] transition-all hover:shadow-2xl"
+                  >
+                    <div className="relative h-72 overflow-hidden bg-slate-100">
+                      <img
+                        src={sp.speakerImage || fallbackImg}
+                        alt={sp.speakerName}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null; // Prevent infinite fallback loops
+                          e.currentTarget.src = fallbackImg; // Set to real user portrait on load failure
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                    </div>
+                    <div className="p-5 text-center">
+                      <h4 className="text-lg font-bold text-slate-900">
+                        {sp.speakerName}
+                      </h4>
+                      <p
+                        className="mt-1 text-xs font-semibold uppercase tracking-wider"
+                        style={{ color: primaryColor }}
+                      >
+                        {sp.speakerDesignation}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
         </section>
       )}
 
-      {/* ============================ 4. OTHER SECTIONS ============================ */}
-      <VideoSection primaryColor={primaryColor} />
-      
+      <VideoSection primaryColor={primaryColor} secondaryColor={secondaryColor} />
       <PricingSection primaryColor={primaryColor} secondaryColor={secondaryColor} />
-      
-      {/* --- UPDATED REGISTRATION SECTION --- */}
-      <div id="registration" className="py-12 bg-white scroll-mt-20">
+
+      {/* REGISTRATION */}
+      <div id="registration" className="scroll-mt-24 bg-white px-4 py-14 sm:px-6">
         {isEventPassed ? (
-            <div className="max-w-3xl mx-auto text-center py-20 px-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
-                <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Clock size={32} className="text-slate-500" />
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">Registration Closed</h2>
-                <p className="text-lg text-slate-600">
-                    The registration for this event has ended as the date has already passed. Thank you for your interest, and we hope to see you at our next event!
-                </p>
+          <div className="mx-auto max-w-3xl rounded-[2rem] border border-slate-200 bg-slate-50 px-6 py-20 text-center shadow-sm">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-slate-200 text-slate-500">
+              <Clock size={32} />
             </div>
+            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              Registration Closed
+            </h2>
+            <p className="text-lg font-normal leading-relaxed text-slate-600">
+              The registration for this event has ended because the event date has passed.
+            </p>
+          </div>
         ) : (
-            <EventRegistration primaryColor={primaryColor} />
+          <EventRegistration primaryColor={primaryColor} />
         )}
       </div>
 
-      <section className="relative h-[300px] sm:h-[400px] w-full bg-slate-100">
-         <iframe
-            src={`https://maps.google.com/maps?q=${encodeURIComponent((data as any).location || "New York")}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-            width="100%"
-            height="100%"
-            loading="lazy"
-            title="Event Location"
-            className="absolute inset-0 grayscale contrast-125 opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-            style={{ border: 0 }}
+      {/* MAP */}
+      <section className="relative h-[340px] w-full bg-slate-100 sm:h-[430px]">
+        <iframe
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(
+            event.location || "New Delhi"
+          )}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+          width="100%"
+          height="100%"
+          loading="lazy"
+          title="Event Location"
+          className="absolute inset-0 grayscale transition-all duration-500 hover:grayscale-0"
+          style={{ border: 0 }}
         />
-        <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20" style={{ backgroundColor: primaryColor }}></div>
+        <div
+          className="pointer-events-none absolute inset-0 opacity-10 mix-blend-overlay"
+          style={{ backgroundColor: primaryColor }}
+        />
+        <div className="absolute bottom-6 left-1/2 w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 rounded-[1.7rem] border border-white/70 bg-white/90 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.14)] backdrop-blur-xl">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div
+                className="grid h-12 w-12 place-items-center rounded-2xl text-white"
+                style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+              >
+                <Navigation size={22} />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Event Location
+                </p>
+                <p className="text-base font-bold text-slate-900">
+                  {event.location || "Venue TBA"}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() =>
+                document
+                  .getElementById("registration")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+              style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+            >
+              Register Now
+              <ArrowRight size={17} />
+            </button>
+          </div>
+        </div>
       </section>
-
     </div>
   );
 };

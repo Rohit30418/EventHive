@@ -1,29 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { apiPath } from "../../Utils/Utils";
+import type { EventType } from "../Types/eventType";
 
-const fetchEvents = async () => {
-  const res = await axios.get(`${apiPath}/Events.json`);
-  const data = res.data || {};
+type EventPayload = Omit<EventType, "id">;
+type EventsResponse = Record<string, EventPayload>;
 
-  // Convert Firebase Object to Array
-  return Object.keys(data).map((key) => ({
-    id: key,
-    ...data[key],
+export const fetchEvents = async (): Promise<EventType[]> => {
+  const res = await axios.get<EventsResponse | null>(`${apiPath}/Events.json`);
+  const data = res.data ?? {};
+
+  return Object.entries(data).map(([id, event]) => ({
+    id,
+    ...event,
   }));
 };
 
 const useGetEvents = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch, isFetching } = useQuery<EventType[]>({
     queryKey: ["events"],
     queryFn: fetchEvents,
-    // Keep data fresh for 5 minutes
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 1000 * 60 * 5,
   });
+
   return {
-    data: data ?? [], // Always return an array
+    data: data ?? [],
     isLoading,
-    error: error ? (error as Error).message : null,
+    isFetching,
+    error: error ? error.message : null,
+    refetch,
   };
 };
+
 export default useGetEvents;

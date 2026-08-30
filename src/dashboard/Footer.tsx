@@ -1,11 +1,12 @@
 const Footer = () => {
   return (
-    
-    <footer className="bg-white fixed bottom-0 shadow-inner mt-auto px-6 py-4 text-sm text-gray-600 flex flex-col sm:flex-row items-center justify-between">
-      <span>&copy; {new Date().getFullYear()} EventPro Admin Dashboard. All rights reserved.</span>
-      <div className="mt-2 sm:mt-0 space-x-4">
-        <a href="/privacy" className="hover:underline">Privacy Policy</a>
-        <a href="/terms" className="hover:underline">Terms of Service</a>
+    <footer className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white/80 px-5 py-4 text-sm font-semibold text-slate-500 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
+      <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+        <span>© {new Date().getFullYear()} EventHive Admin Dashboard. All rights reserved.</span>
+        <div className="flex gap-4">
+          <a href="/privacy" className="hover:text-indigo-600 dark:hover:text-indigo-300">Privacy</a>
+          <a href="/terms" className="hover:text-indigo-600 dark:hover:text-indigo-300">Terms</a>
+        </div>
       </div>
     </footer>
   );

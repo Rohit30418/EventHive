@@ -1,32 +1,30 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { apiPath } from '../../../Utils/Utils';
-import GetOrgniserData, { type Organizer } from './GetOrgniserData';
-
+import React, { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { Check, ChevronLeft, ChevronRight, RefreshCw, Search, UserRoundX, X } from "lucide-react";
+import { ErrorState, PageLoader } from "../../common/StateViews";
+import { apiPath } from "../../../Utils/Utils";
+import GetOrganizerData from "./GetOrganizerData";
+import type { Organizer } from "../../Types/organizerType";
+import { auth } from "../../Firebase";
 const ManageRequest = () => {
-  // --- STATE ---
   const [data, setData] = useState<Organizer[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState(false);
-
-  // Pagination State
+  const [error, setError] = useState<string | null>(null);
   const [itemPerPage, setItemPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  // --- 1. FETCH DATA (Refactored) ---
+  
   const fetchData = async () => {
     setLoading(true);
+    setError(null);
     try {
-      // Use the helper function here
-      const formatted = await GetOrgniserData();
-      
+      const formatted = await GetOrganizerData();
       if (formatted.length > 0) {
-        // Sort: Pending users first
         const sortedData = formatted.sort((a, b) => {
-            if (a.isApproved === b.isApproved) return 0;
-            return a.isApproved ? 1 : -1; 
+          if (a.isApproved === b.isApproved) return 0;
+          return a.isApproved ? 1 : -1;
         });
         setData(sortedData);
       } else {
@@ -34,7 +32,9 @@ const ManageRequest = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to load requests");
+      const message = error instanceof Error ? error.message : "Failed to load requests";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -44,49 +44,48 @@ const ManageRequest = () => {
     fetchData();
   }, []);
 
-  // --- 2. APPROVE / REJECT LOGIC ---
   const updateStatus = async (id: string, status: boolean) => {
     try {
-      // Optimistic UI Update
-      setData(prev => prev.map(item => item.id === id ? { ...item, isApproved: status } : item));
-
-      // Send to Firebase
-      await axios.patch(`${apiPath}/Organizer/${id}.json`, { isApproved: status });
-      
+      setData((prev) => prev.map((item) => (item.id === id ? { ...item, isApproved: status } : item)));
+     const user = auth.currentUser;
+       if (!user) throw new Error("You must be logged in.");
+      const token = await user.getIdToken();
+      await axios.patch(`${apiPath}/Organizer/${id}.json?auth=${token}`, { isApproved: status });
       toast.success(status ? "User Approved ✅" : "User Access Revoked ❌");
     } catch (error) {
       toast.error("Update failed, reverting changes.");
-      fetchData(); // Reload real data on error
+      fetchData();
     }
   };
 
-  // --- 3. FILTER & PAGINATION LOGIC ---
   const filteredData = useMemo(() => {
-    return data.filter(org => 
-      org.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      org.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      org.companyName?.toLowerCase().includes(searchQuery.toLowerCase())
+    const query = searchQuery.toLowerCase();
+    return data.filter(
+      (org) =>
+        org.fullName?.toLowerCase().includes(query) ||
+        org.email?.toLowerCase().includes(query) ||
+        org.companyName?.toLowerCase().includes(query)
     );
   }, [data, searchQuery]);
 
-  const totalPages = Math.ceil(filteredData.length / itemPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / itemPerPage));
   const firstIndex = (currentPage - 1) * itemPerPage;
   const lastIndex = firstIndex + itemPerPage;
   const currentData = filteredData.slice(firstIndex, lastIndex);
   const arrPages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const isAllChecked = currentData.length > 0 && currentData.every((org) => checkedItems[org.id]);
 
-  const isAllChecked = currentData.length > 0 && currentData.every(org => checkedItems[org.id]);
-
-  // --- 4. HANDLERS ---
   const toggleAll = () => {
     const newVal = !isAllChecked;
     const newChecked = { ...checkedItems };
-    currentData.forEach(org => { newChecked[org.id] = newVal; });
+    currentData.forEach((org) => {
+      newChecked[org.id] = newVal;
+    });
     setCheckedItems(newChecked);
   };
 
   const toggleOne = (id: string) => {
-    setCheckedItems(prev => ({ ...prev, [id]: !prev[id] }));
+    setCheckedItems((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const handlePageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -95,176 +94,178 @@ const ManageRequest = () => {
 
   const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemPerPage(Number(e.target.value));
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  // --- 5. RENDER ---
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
-      
-      {/* HEADER */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-         <div>
-            <h1 className="text-2xl font-bold text-gray-800">Organizer Requests</h1>
-            <p className="text-sm text-gray-500">Manage approval status for new signups</p>
-         </div>
-         <button 
-            onClick={fetchData} 
-            className="text-sm bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
-         >
-            <i className="fa fa-refresh"></i> Refresh
-         </button>
+    <div className="space-y-7">
+      <div className="rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-indigo-50 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.06)] dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-8">
+        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
+          <div>
+            <p className="mb-2 text-xs font-black uppercase tracking-[0.24em] text-indigo-600 dark:text-indigo-400">Approval Queue</p>
+            <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white">Organizer Requests</h1>
+            <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Review, approve, revoke and search organizer signups.</p>
+          </div>
+          <button
+            onClick={fetchData}
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+          >
+            <RefreshCw size={16} className={loading ? "animate-spin" : ""} /> Refresh
+          </button>
+        </div>
       </div>
 
-      {/* SEARCH BAR */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6 flex justify-end">
-        <div className="relative w-full md:w-72">
+      <div className="eh-card rounded-[2rem] p-4 md:p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-950/40">
+              <p className="text-xs font-bold text-slate-400">Total</p>
+              <p className="text-2xl font-black text-slate-950 dark:text-white">{data.length}</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 px-4 py-3 dark:bg-amber-950/30">
+              <p className="text-xs font-bold text-amber-600">Pending</p>
+              <p className="text-2xl font-black text-amber-700 dark:text-amber-300">{data.filter((x) => !x.isApproved).length}</p>
+            </div>
+            <div className="rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-950/30">
+              <p className="text-xs font-bold text-emerald-600">Approved</p>
+              <p className="text-2xl font-black text-emerald-700 dark:text-emerald-300">{data.filter((x) => x.isApproved).length}</p>
+            </div>
+            <div className="rounded-2xl bg-indigo-50 px-4 py-3 dark:bg-indigo-950/30">
+              <p className="text-xs font-bold text-indigo-600">Showing</p>
+              <p className="text-2xl font-black text-indigo-700 dark:text-indigo-300">{filteredData.length}</p>
+            </div>
+          </div>
+
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
-                type="text"
-                placeholder="Search name, email, company..."
-                value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+              type="text"
+              placeholder="Search name, email, company..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="eh-input py-3 pl-11 pr-4 text-sm font-semibold"
             />
-            <i className="fa fa-search absolute left-3 top-2.5 text-gray-400"></i>
+          </div>
         </div>
       </div>
 
-      {/* TABLE CONTENT */}
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-        </div>
+        <PageLoader label="Loading approval requests..." />
+      ) : error ? (
+        <ErrorState title="Could not load approval requests" description={error} onAction={fetchData} />
       ) : filteredData.length === 0 ? (
-        <div className="text-center py-10 bg-white rounded-xl border border-gray-200">
-            <p className="text-gray-500">No requests found matching your criteria.</p>
+        <div className="eh-card flex min-h-[320px] flex-col items-center justify-center rounded-[2rem] p-8 text-center">
+          <UserRoundX className="mb-4 text-slate-300" size={58} />
+          <p className="text-xl font-black text-slate-900 dark:text-white">No requests found</p>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Try a different search term or refresh the queue.</p>
         </div>
       ) : (
-        <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+        <div className="eh-card overflow-hidden rounded-[2rem]">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-                <thead className="bg-indigo-600 text-white">
+            <table className="eh-table text-left">
+              <thead>
                 <tr>
-                    <th className="p-4 w-10 text-center">
-                    <input type="checkbox" checked={isAllChecked} onChange={toggleAll} className="cursor-pointer h-4 w-4" />
-                    </th>
-                    <th className="p-4 text-sm font-semibold uppercase tracking-wider">Full Name</th>
-                    <th className="p-4 text-sm font-semibold uppercase tracking-wider">Company</th>
-                    <th className="p-4 text-sm font-semibold uppercase tracking-wider">Email</th>
-                    <th className="p-4 text-sm font-semibold uppercase tracking-wider">Status</th>
-                    <th className="p-4 text-center text-sm font-semibold uppercase tracking-wider">Actions</th>
+                  <th className="w-12 px-5 py-4 text-center">
+                    <input type="checkbox" checked={isAllChecked} onChange={toggleAll} className="h-4 w-4 cursor-pointer accent-indigo-600" />
+                  </th>
+                  <th className="px-5 py-4">Full Name</th>
+                  <th className="px-5 py-4">Company</th>
+                  <th className="px-5 py-4">Email</th>
+                  <th className="px-5 py-4">Status</th>
+                  <th className="px-5 py-4 text-center">Actions</th>
                 </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {currentData.map((org) => (
-                    <tr key={org.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="p-4 text-center">
-                        <input 
-                            type="checkbox" 
-                            checked={!!checkedItems[org.id]} 
-                            onChange={() => toggleOne(org.id)} 
-                            className="cursor-pointer h-4 w-4 rounded border-gray-300 text-indigo-600"
-                        />
+                  <tr key={org.id}>
+                    <td className="px-5 py-4 text-center">
+                      <input
+                        type="checkbox"
+                        checked={!!checkedItems[org.id]}
+                        onChange={() => toggleOne(org.id)}
+                        className="h-4 w-4 cursor-pointer rounded accent-indigo-600"
+                      />
                     </td>
-                    <td className="p-4 font-medium text-gray-900">{org.fullName}</td>
-                    <td className="p-4 text-gray-600">{org.companyName}</td>
-                    <td className="p-4 text-gray-500 text-sm">{org.email}</td>
-                    <td className="p-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            org.isApproved 
-                            ? "bg-green-100 text-green-700 border border-green-200" 
-                            : "bg-orange-100 text-orange-700 border border-orange-200"
-                        }`}>
-                            {org.isApproved ? "Approved" : "Pending"}
-                        </span>
-                    </td>
-                    <td className="p-4">
-                        <div className="flex justify-center gap-3">
-                            {!org.isApproved && (
-                                <button 
-                                    onClick={() => updateStatus(org.id, true)}
-                                    className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-all shadow-sm"
-                                    title="Approve User"
-                                >
-                                    <i className="fa fa-check"></i>
-                                </button>
-                            )}
-                            <button 
-                                onClick={() => updateStatus(org.id, false)}
-                                className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm"
-                                title={org.isApproved ? "Revoke Access" : "Reject User"}
-                            >
-                                <i className="fa fa-xmark"></i>
-                            </button>
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-black text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                          {org.fullName?.charAt(0) || "O"}
                         </div>
+                        <span className="font-black text-slate-950 dark:text-white">{org.fullName}</span>
+                      </div>
                     </td>
-                    </tr>
+                    <td className="px-5 py-4 font-semibold text-slate-600 dark:text-slate-300">{org.companyName}</td>
+                    <td className="px-5 py-4 text-sm font-medium text-slate-500 dark:text-slate-400">{org.email}</td>
+                    <td className="px-5 py-4">
+                      <span className={`rounded-full border px-3 py-1 text-xs font-black ${org.isApproved ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300" : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300"}`}>
+                        {org.isApproved ? "Approved" : "Pending"}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <div className="flex justify-center gap-2">
+                        {!org.isApproved && (
+                          <button
+                            onClick={() => updateStatus(org.id, true)}
+                            className="rounded-xl bg-emerald-50 p-2 text-emerald-600 hover:bg-emerald-600 hover:text-white dark:bg-emerald-950/40 dark:text-emerald-300"
+                            title="Approve User"
+                          >
+                            <Check size={17} />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => updateStatus(org.id, false)}
+                          className="rounded-xl bg-red-50 p-2 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300"
+                          title={org.isApproved ? "Revoke Access" : "Reject User"}
+                        >
+                          <X size={17} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
-                </tbody>
-                
-                {/* FOOTER */}
-                <tfoot className="bg-gray-50 border-t border-gray-200">
-                <tr>
-                    <td colSpan={6} className="p-4">
-                        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
-                            
-                            <div className="flex items-center gap-2">
-                                <span>Rows per page:</span>
-                                <select 
-                                    className="bg-white border border-gray-300 rounded px-2 py-1 outline-none focus:border-indigo-500"
-                                    onChange={handleItemsPerPageChange} 
-                                    value={itemPerPage}
-                                >
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                </select>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <span>Page</span>
-                                <select 
-                                    className="bg-white border border-gray-300 rounded px-2 py-1 outline-none focus:border-indigo-500"
-                                    onChange={handlePageChange} 
-                                    value={currentPage}
-                                >
-                                    {arrPages.map(page => (
-                                        <option key={page} value={page}>{page}</option>
-                                    ))}
-                                </select>
-                                <span>of {totalPages}</span>
-                            </div>
-
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                    disabled={currentPage === 1}
-                                    className={`px-3 py-1 rounded border ${
-                                        currentPage === 1 
-                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                        : 'bg-white hover:bg-indigo-50 text-indigo-600 border-indigo-200'
-                                    }`}
-                                >
-                                    <i className="fa fa-angle-left"></i> Prev
-                                </button>
-                                <button
-                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                    disabled={currentPage === totalPages}
-                                    className={`px-3 py-1 rounded border ${
-                                        currentPage === totalPages 
-                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                        : 'bg-white hover:bg-indigo-50 text-indigo-600 border-indigo-200'
-                                    }`}
-                                >
-                                    Next <i className="fa fa-angle-right"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
+              </tbody>
             </table>
+          </div>
+
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-200 bg-slate-50/70 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300 md:flex-row">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Rows per page:</span>
+              <select className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none dark:border-slate-700 dark:bg-slate-900" onChange={handleItemsPerPageChange} value={itemPerPage}>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span>Page</span>
+              <select className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none dark:border-slate-700 dark:bg-slate-900" onChange={handlePageChange} value={currentPage}>
+                {arrPages.map((page) => (
+                  <option key={page} value={page}>{page}</option>
+                ))}
+              </select>
+              <span>of {totalPages}</span>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+              >
+                <ChevronLeft size={15} /> Prev
+              </button>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+              >
+                Next <ChevronRight size={15} />
+              </button>
+            </div>
           </div>
         </div>
       )}

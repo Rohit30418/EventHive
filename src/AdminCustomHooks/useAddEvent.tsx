@@ -2,7 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { apiPath } from "../../Utils/Utils"; 
 import { auth } from '../Firebase';      
-import { toast } from 'react-toastify';      
+import { toast } from 'react-toastify';  
+import { useQueryClient } from '@tanstack/react-query';
+import { getErrorMessage } from '../utils/error';    
 
 export interface EventData {
   EventName: string;
@@ -16,7 +18,7 @@ export interface EventData {
 const useAddEvent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const queryClient = useQueryClient();
   const addEvent = async (data: EventData) => {
     setIsLoading(true);
     setError(null);
@@ -37,13 +39,13 @@ const useAddEvent = () => {
 
       // SECURITY FIX: Pass token in query string
       await axios.post(`${apiPath}/Events.json?auth=${token}`, payload);
-      
+      await queryClient.invalidateQueries({ queryKey: ["events"] });
       toast.success("Event created successfully! 🎉");
       return true;
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Add Event Error:", err);
-      const msg = err.message || "Failed to create event";
+      const msg = getErrorMessage(err, "Failed to create event");
       setError(msg);
       toast.error(msg);
       return false;

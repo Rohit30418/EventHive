@@ -1,39 +1,25 @@
+import { BarChart3, CalendarPlus, Mail, QrCode, ShieldCheck, UsersRound } from "lucide-react";
 
-const FeatureList = () => {
-  const featureIcons:Record<string, string> = {
-    "Create unlimited events": "fa-calendar-plus",
-    "Manage attendees": "fa-user-group",
-    "Live stats dashboard": "fa-chart-line",
-    "QR code check-ins": "fa-qrcode",
-    "Automated emails": "fa-envelope-circle-check",
-    "Secure & reliable": "fa-shield-check",
-  };
+const features = [
+  { label: "Create unlimited events", icon: CalendarPlus },
+  { label: "Manage attendees", icon: UsersRound },
+  { label: "Live stats dashboard", icon: BarChart3 },
+  { label: "QR code check-ins", icon: QrCode },
+  { label: "Automated emails", icon: Mail },
+  { label: "Secure & reliable", icon: ShieldCheck },
+];
 
-  const features = Object.keys(featureIcons);
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-6 mt-8">
-      {features.map((item, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-4 group cursor-default"
-        >
-          {/* Icon Container */}
-          <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-            <i
-              className={`fa-solid ${featureIcons[item]} text-xl text-primary-300 text-white transition-colors duration-300`}
-              aria-hidden="true"
-            ></i>
-          </div>
-
-          {/* Text */}
-          <span className="text-slate-200 font-medium text-base group-hover:text-white transition-colors duration-200">
-            {item}
-          </span>
+const FeatureList = () => (
+  <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {features.map(({ label, icon: Icon }) => (
+      <div key={label} className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-cyan-200 ring-1 ring-white/10 transition-all duration-300 group-hover:bg-cyan-400 group-hover:text-slate-950">
+          <Icon size={19} />
         </div>
-      ))}
-    </div>
-  );
-};
+        <span className="text-sm font-bold text-slate-100 transition-colors group-hover:text-white">{label}</span>
+      </div>
+    ))}
+  </div>
+);
 
 export default FeatureList;

@@ -1,9 +1,7 @@
-import Header from "../dashboard/Header"
+import DashboardShell from "../dashboard/Header";
+
 const DashboardLayout = () => {
-  return (
-    <div>
-   <Header></Header>
-    </div>
-  )
-}
-export default DashboardLayout
+  return <DashboardShell />;
+};
+
+export default DashboardLayout;

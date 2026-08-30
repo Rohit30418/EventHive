@@ -1,46 +1,45 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { apiPath } from "../../Utils/Utils";
+import { auth } from "../Firebase";
+import type { Registration } from "../Types/registrationType";
 
-interface Registration {
-  regId: string;
-  eventId: string; // The ID of the event this user registered for
-  fullName?: string;
-  email?: string;
-  mobile?: string;
-  [key: string]: any;
-}
+type RegistrationPayload = Omit<Registration, "regId" | "eventId">;
+type RegistrationsResponse = Record<string, Record<string, RegistrationPayload>>;
 
-const fetchRegistrations = async (): Promise<Registration[]> => {
-  const res = await axios.get(`${apiPath}/Registrations.json`);
-  const data = res.data || {};
-  
-  const flat: Registration[] = [];
+export const fetchRegistrations = async (): Promise<Registration[]> => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("You must be logged in to view registrations.");
 
-  // 1. Outer Loop: Iterate through each EVENT ID (The folders)
-  Object.keys(data).forEach((eventId) => {
-    const eventRegistrations = data[eventId];
-    if (!eventRegistrations) return;
-   // 2. Inner Loop: Iterate through each REGISTRATION ID inside that event
-    Object.keys(eventRegistrations).forEach((regId) => {
-      const userDetails = eventRegistrations[regId];
-      // Combine it all into a single flat object for the table
-      flat.push({
-        regId: regId,    
-        eventId: eventId,    
-        ...userDetails,   
-      });
-    });
-  });
+  const token = await user.getIdToken();
+  const res = await axios.get<RegistrationsResponse | null>(
+    `${apiPath}/Registrations.json?auth=${token}`
+  );
+  const data = res.data ?? {};
 
-  return flat;
+  return Object.entries(data).flatMap(([eventId, eventRegistrations]) =>
+    Object.entries(eventRegistrations ?? {}).map(([regId, details]) => ({
+      regId,
+      eventId,
+      ...details,
+    }))
+  );
 };
 
 const useGetRegistrations = () => {
-  return useQuery<Registration[]>({
+  const { data, isLoading, error, refetch, isFetching } = useQuery<Registration[]>({
     queryKey: ["registrations"],
     queryFn: fetchRegistrations,
+    staleTime: 1000 * 60 * 3,
   });
+
+  return {
+    data: data ?? [],
+    isLoading,
+    isFetching,
+    error: error ? error.message : null,
+    refetch,
+  };
 };
 
 export default useGetRegistrations;

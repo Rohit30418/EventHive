@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "dev": "vite",
+  "build": "tsc -b && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "test": "vitest run",
+  "test:watch": "vitest"
+},
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
     "@reduxjs/toolkit": "^2.9.2",

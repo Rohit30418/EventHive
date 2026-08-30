@@ -1,13 +1,25 @@
-import { motion } from "motion/react"
+import type { ButtonHTMLAttributes, FC, ReactNode } from "react";
 
-interface ButtoninterfaceProps{
- text:string,
- padding?:string,
+interface ButtoninterfaceProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  text?: string;
+  padding?: string;
+  icon?: ReactNode;
+  variant?: "primary" | "secondary" | "danger";
 }
-const Button:React.FC<ButtoninterfaceProps> = ({text,padding}) => {
+
+const Button: FC<ButtoninterfaceProps> = ({ text, padding, icon, variant = "primary", className = "", children, ...props }) => {
+  const variantClass = variant === "secondary" ? "eh-btn-secondary" : variant === "danger" ? "eh-btn-danger" : "eh-btn-primary";
+
   return (
-    <motion.button whileHover={{scale:1.02}} className={`bg-gradient-to-r from-[#FA831E] from-[10%] to-[#F4B930] to-[100%]" hover:bg-white  text-white cursor-pointer transition-all duration-200 ${padding?padding:"px-6 py-3"}  rounded-full font-semibold shadow`}>{text}</motion.button>
-  )
-}
+    <button
+      type="button"
+      className={`${variantClass} ${padding ? padding : "px-6 py-3"} ${className}`}
+      {...props}
+    >
+      {icon}
+      {children || text}
+    </button>
+  );
+};
 
-export default Button
+export default Button;
