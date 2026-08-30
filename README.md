@@ -1,82 +1,128 @@
-# 🚀 EventHive
+# EventHive
 
-EventHive is a multi-role event management platform built with React and TypeScript. It supports public event discovery, organizer onboarding, protected dashboards, attendee registrations, custom event microsites, exports, and Firebase-backed authentication/data flows.
+A multi-role event management platform built with React and TypeScript for event discovery, organizer onboarding, role-based administration, attendee registration, event microsites, analytics, and export workflows.
 
-> Built as a frontend engineering portfolio project with a focus on reusable UI, role-based routing, type safety, validation, data fetching, testing, and performance-conscious React patterns.
+EventHive demonstrates practical frontend engineering patterns including protected routing, server-state management, form validation, reusable UI, code splitting, testing, and Firebase-backed application flows.
 
 ## Preview
 
-<img width="1365" height="842" alt="image" src="https://github.com/user-attachments/assets/640f3035-22d6-4612-ae43-b8abb6c741d5" />
+<img width="1365" height="842" alt="EventHive application preview" src="https://github.com/user-attachments/assets/640f3035-22d6-4612-ae43-b8abb6c741d5" />
 
-## ✨ Key Features
+## Product Overview
+
+EventHive provides dedicated experiences for public users, organizers, and super administrators.
+
+### Super Admin
+- Review organizer registration requests
+- Approve or revoke organizer access
+- View platform-level dashboard metrics
+- Manage organizer and event administration workflows
+
+### Organizer
+- Create and manage events
+- Configure event content and microsites
+- Manage attendee registrations
+- Export attendee data
+- View organizer-specific dashboard insights
+
+### Public User
+- Discover available events
+- View event details and microsites
+- Register for events
+- Access event-specific information such as speakers, pricing, and media content
+
+## Visual Overview
+
+> **Screenshot Placeholder — Public Home / Event Discovery**  
+> Public-facing homepage or event listing showcasing the discovery experience.
+
+> **Screenshot Placeholder — Super Admin Dashboard**  
+> Dashboard view showing platform metrics, organizer requests, or administrative controls.
+
+> **Screenshot Placeholder — Organizer Dashboard**  
+> Organizer view showing event statistics, management actions, and registrations.
+
+> **Screenshot Placeholder — Event Registration Flow**  
+> Registration form or attendee onboarding experience.
+
+> **Screenshot Placeholder — Event Microsite**  
+> Generated event microsite with event branding, speakers, pricing, video, and content sections.
+
+## Key Features
 
 - Multi-role access for **Super Admin**, **Organizer**, and **User** flows
+- Firebase Authentication-based user sessions
 - Protected and role-aware dashboard routes
-- Event creation, management, discovery, and registration
-- Organizer approval workflow
-- Event microsite builder with speakers, pricing, videos, and configurable content
-- Firebase Authentication
-- Firebase Realtime Database integration
-- Firebase Storage integration
+- Organizer approval and access-management workflow
+- Event creation, editing, discovery, and registration
+- Configurable event microsites
+- Speaker, pricing, video, and event-content sections
+- Search, filtering, pagination, loading, error, and empty states
 - Excel attendee export
 - PDF attendee ID-card generation
 - QR-code support
-- Search, filtering, pagination, loading, error, and empty states
-- Responsive UI built with Tailwind CSS
+- Dashboard metrics and charts
+- Responsive interface built with Tailwind CSS
 
-## 🧠 Engineering Highlights
+## Engineering Highlights
 
-### Route-level code splitting
+### Route-Level Code Splitting
 
-Major layouts and pages are loaded with `React.lazy` and `Suspense` to reduce the initial JavaScript loaded by the browser.
+Major layouts and pages are loaded with `React.lazy` and `Suspense`, reducing the amount of JavaScript required during the initial application load.
 
-### Role-based routing
+### Role-Based Routing
 
-Protected dashboard routes are generated from route configuration and validated by `PrivateRoute`, allowing different screens for Super Admin and Organizer roles.
+Protected dashboard routes use authentication state and allowed-role checks to control which areas of the frontend are accessible to Super Admin and Organizer users.
 
-### Server-state handling
+### Server-State Management
 
-TanStack React Query is used for data fetching and caching. Event queries use a configured stale time to reduce unnecessary requests.
+TanStack React Query is used for remote data fetching and caching. Event queries use configured stale times to reduce unnecessary network requests while keeping server-backed data manageable.
 
-### Forms and validation
+### Client-State Management
 
-Organizer and attendee flows use React Hook Form with Zod schemas for typed validation and predictable form handling.
+Redux Toolkit is used for shared client-side application state where global state is useful across components and routes.
 
-### Type safety
+### Form Handling and Validation
 
-The project uses TypeScript in strict mode with typed event, registration, organizer, route, and Redux models.
+React Hook Form and Zod are used for typed form handling and schema-based validation in organizer and attendee registration workflows.
+
+### Type Safety
+
+The application uses TypeScript in strict mode with typed models for events, registrations, organizers, routing, and application state.
 
 ### Testing
 
-Vitest and React Testing Library cover route guards, UI components, data hooks, organizer registration, and validation schemas.
+Vitest and React Testing Library are used for route guards, UI components, data hooks, organizer registration, and validation logic.
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Area | Technology |
 | --- | --- |
-| UI | React 19, Tailwind CSS 4, Framer Motion |
+| Frontend | React 19 |
 | Language | TypeScript |
+| Styling | Tailwind CSS 4 |
 | Build Tool | Vite |
 | Routing | React Router 7 |
-| Global State | Redux Toolkit + React Redux |
+| Global State | Redux Toolkit, React Redux |
 | Server State | TanStack React Query |
 | Forms | React Hook Form |
 | Validation | Zod |
 | Backend Services | Firebase Authentication, Realtime Database, Storage |
-| HTTP | Axios |
-| Charts | Chart.js + react-chartjs-2 |
+| HTTP Client | Axios |
+| Charts | Chart.js, react-chartjs-2 |
 | Export | jsPDF, xlsx, file-saver |
-| Testing | Vitest + React Testing Library |
+| Motion | Framer Motion |
+| Testing | Vitest, React Testing Library |
 
-## 🏗 Architecture
+## Application Architecture
 
 ```text
 EventHive/
-├── public/                     # Static assets
+├── public/
 ├── src/
-│   ├── AdminCustomHooks/       # Event/registration data hooks
+│   ├── AdminCustomHooks/       # Event and registration data hooks
 │   ├── common/                 # Shared UI and application states
-│   ├── components/             # Reusable feature/UI components
+│   ├── components/             # Reusable UI and feature components
 │   ├── constants/              # Shared constants
 │   ├── dashboard/              # Organizer and Super Admin dashboards
 │   ├── Layout/                 # Public, dashboard and microsite layouts
@@ -87,40 +133,40 @@ EventHive/
 │   ├── store/                  # Redux store and typed hooks
 │   ├── Types/                  # Shared TypeScript models
 │   ├── utils/                  # Export and error utilities
-│   ├── App.tsx                 # Routes and application composition
+│   ├── App.tsx                 # Routing and application composition
 │   ├── Firebase.ts             # Firebase client initialization
 │   └── main.tsx                # Application entry point
-├── Utils/                      # Shared route/API helpers (planned cleanup)
+├── Utils/                      # Shared route and API helpers
 ├── .env.example
+├── .firebaserc
+├── firebase.json
 ├── package.json
 ├── tsconfig.app.json
 └── vite.config.ts
 ```
 
-> Folder naming and feature-based organization are planned for a later refactor so the current working application can remain stable during portfolio/interview preparation.
-
-## 🔐 Authentication and Authorization Flow
+## Authentication and Role Flow
 
 ```text
 Firebase Authentication
         ↓
-AuthContext resolves current user
+AuthContext resolves the current user
         ↓
-User role loaded from Firebase data
+User role is loaded from Firebase data
         ↓
-PrivateRoute checks authentication + allowed role
+PrivateRoute validates authentication and allowed role
         ↓
 Role-specific dashboard route is rendered
 ```
 
-Frontend route guards improve user experience, while Firebase security rules should remain the source of truth for backend data authorization.
+Frontend route guards control navigation and UI access. Backend authorization should remain enforced through Firebase security rules.
 
-## ⚡ Data Flow Example
+## Data Flow
 
 ```text
-React component
+React Component
       ↓
-Custom hook
+Custom Hook
       ↓
 TanStack React Query
       ↓
@@ -129,9 +175,20 @@ Axios
 Firebase Realtime Database REST API
 ```
 
-## 🧪 Tests
+This separation keeps remote data concerns outside presentation components and makes loading, error, caching, and refetch behavior easier to manage.
 
-The repository includes tests for areas such as:
+## Performance Considerations
+
+- Route-level code splitting with `React.lazy` and `Suspense`
+- React Query caching with configured stale times
+- Memoized filtering and derived data where repeated calculations are unnecessary
+- Pagination for large registration datasets
+- Reusable loading, error, and empty states
+- Vite-based production builds and asset bundling
+
+## Testing
+
+The repository includes tests covering areas such as:
 
 - `PrivateRoute`
 - `EventCard`
@@ -139,7 +196,7 @@ The repository includes tests for areas such as:
 - organizer registration
 - registration validation schemas
 
-Run the complete test suite with:
+Run the test suite with:
 
 ```bash
 npm test
@@ -151,7 +208,7 @@ Run tests in watch mode with:
 npm run test:watch
 ```
 
-## 🚀 Local Setup
+## Local Setup
 
 ### 1. Clone the repository
 
@@ -168,19 +225,21 @@ npm install
 
 ### 3. Configure environment variables
 
-Copy `.env.example` to `.env`:
+Copy `.env.example` to `.env`.
+
+macOS / Linux:
 
 ```bash
 cp .env.example .env
 ```
 
-On Windows PowerShell:
+Windows PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Fill in your Firebase web-app values:
+Add your Firebase web-app configuration values:
 
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
@@ -193,49 +252,46 @@ VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 VITE_FIREBASE_DATABASE_URL=https://your-project-default-rtdb.firebaseio.com
 ```
 
-### 4. Start development
+### 4. Start the development server
 
 ```bash
 npm run dev
 ```
 
-## 📦 Available Scripts
+## Available Scripts
 
 ```bash
-npm run dev        # Start Vite development server
-npm run build      # Type-check and create production build
+npm run dev        # Start the Vite development server
+npm run build      # Type-check and create a production build
 npm run lint       # Run ESLint
-npm test           # Run Vitest once
+npm test           # Run the Vitest test suite once
 npm run test:watch # Run Vitest in watch mode
-npm run preview    # Preview production build locally
+npm run preview    # Preview the production build locally
 ```
 
-## 📸 Screenshots
+## Firebase Hosting
 
-Real UI screenshots should be captured from the current deployed build rather than using outdated mockups. Recommended portfolio captures:
+The project includes Firebase Hosting configuration for the Vite production output.
 
-1. Public EventHive home/events experience
-2. Super Admin dashboard
-3. Organizer dashboard
-4. Event registration form
-5. Generated event microsite
+```text
+npm run build
+      ↓
+dist/
+      ↓
+Firebase Hosting
+```
 
-Once captured, keep them in `docs/screenshots/` and embed them here so recruiters can understand the product without running it locally.
+`firebase.json` uses `dist` as the hosting directory and includes an SPA rewrite to `index.html` so React Router routes work correctly when opened directly.
 
-## 🔒 Environment Configuration
+## Environment Configuration
 
-Firebase client configuration and the Realtime Database URL are loaded through Vite environment variables. `.env` files are ignored by Git, while `.env.example` documents the variables required to run the application.
+Firebase client configuration and the Realtime Database URL are loaded through Vite environment variables using the `VITE_` prefix.
 
-Firebase web configuration identifies a Firebase project and should still be paired with correctly configured Authentication, Realtime Database, and Storage security rules.
+The real `.env` file is excluded from version control, while `.env.example` documents the values required to run the project locally.
 
-## 🗺 Roadmap
+Firebase web configuration identifies the Firebase project; application data access should still be protected with appropriate Firebase Authentication and database/storage security rules.
 
-- Feature-based folder organization
-- Firebase Hosting CI/CD with GitHub Actions
-- Additional integration/component test coverage
-- Current production screenshots
-- Repository metadata and live-demo link
+## Author
 
-## 👤 Author
-
-**Rohit Pant**
+**Rohit Pant**  
+Frontend Developer
