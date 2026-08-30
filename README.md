@@ -6,7 +6,7 @@ EventHive is a multi-role event management platform built with React and TypeScr
 
 ## Preview
 
-![EventHive project preview](./public/hero.png)
+<img width="1365" height="842" alt="image" src="https://github.com/user-attachments/assets/640f3035-22d6-4612-ae43-b8abb6c741d5" />
 
 ## ✨ Key Features
 
