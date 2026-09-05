@@ -47,8 +47,8 @@ const ManageRequest = () => {
   const updateStatus = async (id: string, status: boolean) => {
     try {
       setData((prev) => prev.map((item) => (item.id === id ? { ...item, isApproved: status } : item)));
-      const user = auth.currentUser;
-      if (!user) throw new Error("You must be logged in.");
+     const user = auth.currentUser;
+       if (!user) throw new Error("You must be logged in.");
       const token = await user.getIdToken();
       await axios.patch(`${apiPath}/Organizer/${id}.json?auth=${token}`, { isApproved: status });
       toast.success(status ? "User Approved ✅" : "User Access Revoked ❌");
@@ -97,9 +97,6 @@ const ManageRequest = () => {
     setCurrentPage(1);
   };
 
-  if (loading) return <PageLoader label="Loading organizer requests..." />;
-  if (error) return <ErrorState title="Could not load organizer requests" description={error} />;
-
   return (
     <div className="space-y-7">
       <div className="rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-indigo-50 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.06)] dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-8">
@@ -111,150 +108,167 @@ const ManageRequest = () => {
           </div>
           <button
             onClick={fetchData}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition-all hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
           >
-            <RefreshCw size={17} /> Refresh
+            <RefreshCw size={16} className={loading ? "animate-spin" : ""} /> Refresh
           </button>
         </div>
       </div>
 
-      <div className="eh-card overflow-hidden rounded-[2rem]">
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-5 dark:border-slate-800 md:flex-row md:items-center md:justify-between">
-          <div className="relative w-full md:max-w-md">
+      <div className="eh-card rounded-[2rem] p-4 md:p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-950/40">
+              <p className="text-xs font-bold text-slate-400">Total</p>
+              <p className="text-2xl font-black text-slate-950 dark:text-white">{data.length}</p>
+            </div>
+            <div className="rounded-2xl bg-amber-50 px-4 py-3 dark:bg-amber-950/30">
+              <p className="text-xs font-bold text-amber-600">Pending</p>
+              <p className="text-2xl font-black text-amber-700 dark:text-amber-300">{data.filter((x) => !x.isApproved).length}</p>
+            </div>
+            <div className="rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-950/30">
+              <p className="text-xs font-bold text-emerald-600">Approved</p>
+              <p className="text-2xl font-black text-emerald-700 dark:text-emerald-300">{data.filter((x) => x.isApproved).length}</p>
+            </div>
+            <div className="rounded-2xl bg-indigo-50 px-4 py-3 dark:bg-indigo-950/30">
+              <p className="text-xs font-bold text-indigo-600">Showing</p>
+              <p className="text-2xl font-black text-indigo-700 dark:text-indigo-300">{filteredData.length}</p>
+            </div>
+          </div>
+
+          <div className="relative w-full md:w-80">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
-              type="search"
+              type="text"
+              placeholder="Search name, email, company..."
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search name, email or company..."
               className="eh-input py-3 pl-11 pr-4 text-sm font-semibold"
             />
           </div>
-          <div className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-            Showing <span className="font-black text-slate-900 dark:text-white">{filteredData.length}</span> organizers
-          </div>
         </div>
+      </div>
 
-        <div className="eh-table-wrap border-0">
-          <table className="eh-table text-left">
-            <thead>
-              <tr>
-                <th className="px-5 py-4">
-                  <input type="checkbox" checked={isAllChecked} onChange={toggleAll} aria-label="Select all visible organizers" />
-                </th>
-                <th className="px-5 py-4">Organizer</th>
-                <th className="px-5 py-4">Company</th>
-                <th className="px-5 py-4">Status</th>
-                <th className="px-5 py-4 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {currentData.length > 0 ? (
-                currentData.map((org) => (
+      {loading ? (
+        <PageLoader label="Loading approval requests..." />
+      ) : error ? (
+        <ErrorState title="Could not load approval requests" description={error} onAction={fetchData} />
+      ) : filteredData.length === 0 ? (
+        <div className="eh-card flex min-h-[320px] flex-col items-center justify-center rounded-[2rem] p-8 text-center">
+          <UserRoundX className="mb-4 text-slate-300" size={58} />
+          <p className="text-xl font-black text-slate-900 dark:text-white">No requests found</p>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Try a different search term or refresh the queue.</p>
+        </div>
+      ) : (
+        <div className="eh-card overflow-hidden rounded-[2rem]">
+          <div className="overflow-x-auto">
+            <table className="eh-table text-left">
+              <thead>
+                <tr>
+                  <th className="w-12 px-5 py-4 text-center">
+                    <input type="checkbox" checked={isAllChecked} onChange={toggleAll} className="h-4 w-4 cursor-pointer accent-indigo-600" />
+                  </th>
+                  <th className="px-5 py-4">Full Name</th>
+                  <th className="px-5 py-4">Company</th>
+                  <th className="px-5 py-4">Email</th>
+                  <th className="px-5 py-4">Status</th>
+                  <th className="px-5 py-4 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                {currentData.map((org) => (
                   <tr key={org.id}>
-                    <td className="px-5 py-4">
+                    <td className="px-5 py-4 text-center">
                       <input
                         type="checkbox"
-                        checked={Boolean(checkedItems[org.id])}
+                        checked={!!checkedItems[org.id]}
                         onChange={() => toggleOne(org.id)}
-                        aria-label={`Select ${org.fullName || org.email || "organizer"}`}
+                        className="h-4 w-4 cursor-pointer rounded accent-indigo-600"
                       />
                     </td>
                     <td className="px-5 py-4">
-                      <div>
-                        <p className="font-black text-slate-950 dark:text-white">{org.fullName || "Unnamed organizer"}</p>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">{org.email || "No email"}</p>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-black text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                          {org.fullName?.charAt(0) || "O"}
+                        </div>
+                        <span className="font-black text-slate-950 dark:text-white">{org.fullName}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">
-                      {org.companyName || "—"}
-                    </td>
+                    <td className="px-5 py-4 font-semibold text-slate-600 dark:text-slate-300">{org.companyName}</td>
+                    <td className="px-5 py-4 text-sm font-medium text-slate-500 dark:text-slate-400">{org.email}</td>
                     <td className="px-5 py-4">
-                      <span
-                        className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-black ${
-                          org.isApproved
-                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
-                            : "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
-                        }`}
-                      >
-                        {org.isApproved ? <Check size={14} /> : <UserRoundX size={14} />}
+                      <span className={`rounded-full border px-3 py-1 text-xs font-black ${org.isApproved ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300" : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300"}`}>
                         {org.isApproved ? "Approved" : "Pending"}
                       </span>
                     </td>
-                    <td className="px-5 py-4 text-right">
-                      <button
-                        onClick={() => updateStatus(org.id, !org.isApproved)}
-                        className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-black transition-colors ${
-                          org.isApproved
-                            ? "bg-red-50 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300"
-                            : "bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white dark:bg-emerald-950/40 dark:text-emerald-300"
-                        }`}
-                      >
-                        {org.isApproved ? <X size={16} /> : <Check size={16} />}
-                        {org.isApproved ? "Revoke" : "Approve"}
-                      </button>
+                    <td className="px-5 py-4">
+                      <div className="flex justify-center gap-2">
+                        {!org.isApproved && (
+                          <button
+                            onClick={() => updateStatus(org.id, true)}
+                            className="rounded-xl bg-emerald-50 p-2 text-emerald-600 hover:bg-emerald-600 hover:text-white dark:bg-emerald-950/40 dark:text-emerald-300"
+                            title="Approve User"
+                          >
+                            <Check size={17} />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => updateStatus(org.id, false)}
+                          className="rounded-xl bg-red-50 p-2 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300"
+                          title={org.isApproved ? "Revoke Access" : "Reject User"}
+                        >
+                          <X size={17} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5} className="px-6 py-16 text-center text-slate-500">
-                    No organizer requests match your search.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="flex flex-col gap-4 border-t border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-950/40 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-            <span className="font-semibold">Rows per page:</span>
-            <select
-              value={itemPerPage}
-              onChange={handleItemsPerPageChange}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none dark:border-slate-700 dark:bg-slate-900"
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-            </select>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-              disabled={currentPage === 1}
-              className="rounded-xl border border-slate-200 bg-white p-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900"
-            >
-              <ChevronLeft size={16} />
-            </button>
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-200 bg-slate-50/70 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300 md:flex-row">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Rows per page:</span>
+              <select className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none dark:border-slate-700 dark:bg-slate-900" onChange={handleItemsPerPageChange} value={itemPerPage}>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
 
-            <select
-              value={currentPage}
-              onChange={handlePageChange}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none dark:border-slate-700 dark:bg-slate-900"
-            >
-              {arrPages.map((page) => (
-                <option key={page} value={page}>
-                  Page {page} of {totalPages}
-                </option>
-              ))}
-            </select>
+            <div className="flex items-center gap-2">
+              <span>Page</span>
+              <select className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold outline-none dark:border-slate-700 dark:bg-slate-900" onChange={handlePageChange} value={currentPage}>
+                {arrPages.map((page) => (
+                  <option key={page} value={page}>{page}</option>
+                ))}
+              </select>
+              <span>of {totalPages}</span>
+            </div>
 
-            <button
-              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-              disabled={currentPage === totalPages}
-              className="rounded-xl border border-slate-200 bg-white p-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900"
-            >
-              <ChevronRight size={16} />
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+              >
+                <ChevronLeft size={15} /> Prev
+              </button>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+              >
+                Next <ChevronRight size={15} />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
