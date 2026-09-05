@@ -38,7 +38,13 @@ describe("PrivateRoute", () => {
   });
 
   it("redirects unauthenticated users to login", () => {
-    mockedUseAuth.mockReturnValue({ user: null, role: null, loading: false, logout });
+    mockedUseAuth.mockReturnValue({
+      user: null,
+      role: null,
+      isApproved: null,
+      loading: false,
+      logout,
+    });
 
     renderProtectedRoute(["Organizer"]);
 
@@ -46,17 +52,57 @@ describe("PrivateRoute", () => {
   });
 
   it("redirects users without an allowed role", () => {
-    mockedUseAuth.mockReturnValue({ user, role: "Organizer", loading: false, logout });
+    mockedUseAuth.mockReturnValue({
+      user,
+      role: "Organizer",
+      isApproved: true,
+      loading: false,
+      logout,
+    });
 
     renderProtectedRoute(["SuperAdmin"]);
 
     expect(screen.getByText("Unauthorized page")).toBeInTheDocument();
   });
 
-  it("renders protected content for an allowed role", () => {
-    mockedUseAuth.mockReturnValue({ user, role: "Organizer", loading: false, logout });
+  it("redirects an organizer whose approval is still pending", () => {
+    mockedUseAuth.mockReturnValue({
+      user,
+      role: "Organizer",
+      isApproved: false,
+      loading: false,
+      logout,
+    });
 
     renderProtectedRoute(["Organizer"]);
+
+    expect(screen.getByText("Unauthorized page")).toBeInTheDocument();
+  });
+
+  it("renders protected content for an approved organizer", () => {
+    mockedUseAuth.mockReturnValue({
+      user,
+      role: "Organizer",
+      isApproved: true,
+      loading: false,
+      logout,
+    });
+
+    renderProtectedRoute(["Organizer"]);
+
+    expect(screen.getByText("Protected content")).toBeInTheDocument();
+  });
+
+  it("renders protected content for an allowed super admin", () => {
+    mockedUseAuth.mockReturnValue({
+      user,
+      role: "SuperAdmin",
+      isApproved: null,
+      loading: false,
+      logout,
+    });
+
+    renderProtectedRoute(["SuperAdmin"]);
 
     expect(screen.getByText("Protected content")).toBeInTheDocument();
   });
