@@ -34,22 +34,19 @@ const EventRegistrationsTable = lazy(
 
 export interface RouteConfig {
   path: string;
-  component: React.ComponentType<any>;
+  component: React.ComponentType;
   roles: string[];
 }
 
 // ==================== ROUTE CONFIGURATION ====================
 
 export const dashboardRoutes: RouteConfig[] = [
-
   // ------------------ SUPER ADMIN ROUTES ------------------
-
   {
     path: "SuperAdmin",
     component: SuperAdminDashboard,
     roles: ["SuperAdmin"],
   },
-
   {
     path: "ManageRequest",
     component: ManageRequest,
@@ -57,25 +54,21 @@ export const dashboardRoutes: RouteConfig[] = [
   },
 
   // ------------------ ORGANIZER ROUTES ------------------
-
   {
     path: "OrganizerAdmin",
     component: OrganizerDashboard,
     roles: ["Organizer"],
   },
-
   {
     path: "Events",
     component: Events,
     roles: ["SuperAdmin", "Organizer"],
   },
-
   {
     path: "Registrations",
     component: EventRegistrationsTable,
     roles: ["SuperAdmin", "Organizer"],
   },
-
   {
     path: "AddWebsiteContent",
     component: AddwebsiteContentForm,
@@ -83,13 +76,11 @@ export const dashboardRoutes: RouteConfig[] = [
   },
 
   // ------------------ SHARED / COMMON ROUTES ------------------
-
   {
     path: "CreateEvent",
     component: CreateEvent,
     roles: ["SuperAdmin", "Organizer"],
   },
-
   {
     path: "EditEvent/:EventID",
     component: CreateEvent,
