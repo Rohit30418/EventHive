@@ -9,13 +9,17 @@ interface Props {
 }
 
 const PrivateRoute: FC<Props> = ({ allowedRoles, children }) => {
-  const { user, role, loading } = useAuth();
+  const { user, role, isApproved, loading } = useAuth();
   const location = useLocation();
 
   if (loading) return <Preloader />;
 
   if (!user) {
     return <Navigate to="/Login" state={{ from: location }} replace />;
+  }
+
+  if (role === "Organizer" && isApproved !== true) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   if (allowedRoles && role && !allowedRoles.includes(role)) {

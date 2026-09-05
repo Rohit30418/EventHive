@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiPath } from "../../../Utils/Utils";
-import { auth } from "../../Firebase";
 import { registrationSchema, type RegistrationFormData } from "./registrationSchema";
 
 const useEventRegistrationForm = () => {
@@ -51,11 +50,10 @@ const useEventRegistrationForm = () => {
         eventId: id,
       };
 
-      const user = auth.currentUser;
-      if (!user) throw new Error("You must be logged in.");
-
-      const token = await user.getIdToken();
-      await axios.post(`${apiPath}/Registrations/${id}.json?auth=${token}`, payload);
+      // Attendee registration is a public flow. Organizers and Super Admins
+      // still use Firebase Authentication for dashboard access, but attendees
+      // do not need an EventHive account just to register for an event.
+      await axios.post(`${apiPath}/Registrations/${id}.json`, payload);
 
       toast.success("Registration successful! See you there.");
       form.reset();

@@ -157,6 +157,11 @@ const OrganizerRegistration = () => {
       const token = await user.getIdToken();
       await axios.put(`${apiPath}/Organizer/${user.uid}.json?auth=${token}`, profileData);
 
+      // createUserWithEmailAndPassword signs the new organizer in automatically.
+      // Keep pending organizers out of the authenticated dashboard session until
+      // the Super Admin explicitly approves the account.
+      await auth.signOut();
+
       toast.success("Account created successfully. Approval is pending.");
       reset();
       navigate("/Login");
