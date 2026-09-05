@@ -26,7 +26,7 @@ describe("EventCard", () => {
     expect(screen.getByText("Technology")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /View Event/i })).toHaveAttribute(
       "href",
-      "/Event/event-123"
+      "/events/frontend-summit-2026/event-123"
     );
   });
 });
