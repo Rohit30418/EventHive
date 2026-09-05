@@ -1,7 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { auth } from "../Firebase";
-import { apiPath } from "../../Utils/Utils";
 import useGetRegistrations from "../AdminCustomHooks/useGetRegistrations";
 import useGetEvents from "../AdminCustomHooks/useGetEvents";
 import { Search, FileSpreadsheet, FileBadge, User, Mail, Phone, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
@@ -9,6 +6,7 @@ import { ErrorState, PageLoader } from "../common/StateViews";
 import useDeleteRegistration from "../AdminCustomHooks/useDeleteRegistration";
 import type { EventType } from "../Types/eventType";
 import type { Registration } from "../Types/registrationType";
+import { useAuth } from "./AuthContext";
 
 type ExportIDCardPDFFn =
   typeof import("../utils/exportIDCardPDF").exportIDCardPDF;
@@ -24,28 +22,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [currentUser, setCurrentUser] = useState<{ uid: string; role: string } | null>(null);
-  const [authLoading, setAuthLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const res = await axios.get(`${apiPath}/Organizer/${user.uid}.json`);
-          const role = res.data?.role || "Organizer";
-          setCurrentUser({ uid: user.uid, role });
-        } catch (err) {
-          console.error("Error fetching user role:", err);
-          setCurrentUser({ uid: user.uid, role: "Organizer" });
-        }
-      } else {
-        setCurrentUser(null);
-      }
-      setAuthLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const { user, role, loading: authLoading } = useAuth();
 
   const { data: allRegistrations = [], isLoading: regLoading, error: regError, refetch: refetchRegistrations } = useGetRegistrations();
   const { data: allEvents = [], isLoading: eventsLoading, error: eventsError } = useGetEvents();
@@ -62,14 +39,14 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
   };
 
   const filteredData = useMemo(() => {
-    if (!currentUser) return [];
+    if (!user) return [];
 
     let allowedEventIds: Set<string> | null = null;
 
-    if (currentUser.role !== "SuperAdmin") {
+    if (role !== "SuperAdmin") {
       allowedEventIds = new Set(
         allEvents
-          .filter((event: EventType) => String(event.userId) === String(currentUser.uid))
+          .filter((event: EventType) => String(event.userId) === String(user.uid))
           .map((event: EventType) => String(event.id))
       );
     }
@@ -91,7 +68,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
 
       return true;
     });
-  }, [allRegistrations, allEvents, currentUser, propEventId, searchTerm]);
+  }, [allRegistrations, allEvents, user, role, propEventId, searchTerm]);
 
   const totalPages = Math.max(1, Math.ceil(filteredData.length / itemsPerPage));
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -119,23 +96,23 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
   };
 
   const handleExportIDCard = async (
-    user: Registration,
+    userData: Registration,
     displayEventName: string
   ) => {
     const { exportIDCardPDF } = await import("../utils/exportIDCardPDF");
 
     const pdfUser = {
-      ...user,
-      fullName: user.fullName ?? "Attendee",
-      email: user.email ?? "N/A",
-      mobile: user.mobile ?? "N/A",
-      designation: user.designation ?? "Participant",
-      dob: user.dob ?? "",
-      gender: user.gender ?? "N/A",
-      photo: user.photo ?? "",
-      interests: user.interests ?? [],
-      consent: user.consent ?? false,
-      timestamp: user.timestamp ?? "",
+      ...userData,
+      fullName: userData.fullName ?? "Attendee",
+      email: userData.email ?? "N/A",
+      mobile: userData.mobile ?? "N/A",
+      designation: userData.designation ?? "Participant",
+      dob: userData.dob ?? "",
+      gender: userData.gender ?? "N/A",
+      photo: userData.photo ?? "",
+      interests: userData.interests ?? [],
+      consent: userData.consent ?? false,
+      timestamp: userData.timestamp ?? "",
     } as ExportUserData;
 
     exportIDCardPDF(pdfUser, displayEventName);
@@ -183,7 +160,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
             </h2>
             <p className="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.14)]" />
-              {currentUser?.role === "SuperAdmin" ? "Total system records:" : "My event records:"}
+              {role === "SuperAdmin" ? "Total system records:" : "My event records:"}
               <span className="font-black text-slate-800 dark:text-slate-100">{filteredData.length}</span>
             </p>
           </div>
@@ -223,30 +200,30 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
           </thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {currentData.length > 0 ? (
-              currentData.map((user: Registration, index: number) => {
-                const eventInfo = allEvents.find((event: EventType) => String(event.id) === String(user.eventId));
+              currentData.map((registration: Registration, index: number) => {
+                const eventInfo = allEvents.find((event: EventType) => String(event.id) === String(registration.eventId));
                 const displayEventName = eventInfo ? eventInfo.EventName || eventInfo.eventName || "Unnamed Event" : "Event ID Mismatch";
                 const badgeStyle = eventInfo
                   ? "border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                   : "border-red-200 bg-red-50 text-red-600 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300";
 
                 return (
-                  <tr key={user.id || user.regId || index} className="group">
+                  <tr key={registration.id || registration.regId || index} className="group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-black text-indigo-700 ring-1 ring-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 dark:ring-indigo-900">
-                          {getInitials(user.fullName)}
+                          {getInitials(registration.fullName)}
                         </div>
                         <div>
-                          <p className="font-black text-slate-950 dark:text-white">{user.fullName || "N/A"}</p>
-                          <p className="text-xs font-semibold text-slate-400">{user.designation || "Participant"}</p>
+                          <p className="font-black text-slate-950 dark:text-white">{registration.fullName || "N/A"}</p>
+                          <p className="text-xs font-semibold text-slate-400">{registration.designation || "Participant"}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1 text-sm text-slate-600 dark:text-slate-300">
-                        <span className="flex items-center gap-2"><Mail size={13} /> {user.email || "No Email"}</span>
-                        <span className="flex items-center gap-2 text-slate-400"><Phone size={13} /> {user.mobile || "No Phone"}</span>
+                        <span className="flex items-center gap-2"><Mail size={13} /> {registration.email || "No Email"}</span>
+                        <span className="flex items-center gap-2 text-slate-400"><Phone size={13} /> {registration.mobile || "No Phone"}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -256,7 +233,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                         </span>
                         {!eventInfo && (
                           <span className="select-all font-mono text-[10px] text-slate-400">
-                            ID: {user.eventId?.substring(0, 15)}...
+                            ID: {registration.eventId?.substring(0, 15)}...
                           </span>
                         )}
                       </div>
@@ -264,15 +241,15 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-1">
                         <button
-                          onClick={() => handleExportIDCard(user, displayEventName)}
+                          onClick={() => handleExportIDCard(registration, displayEventName)}
                           className="rounded-xl border border-transparent p-2 text-slate-400 hover:border-indigo-100 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:border-indigo-900 dark:hover:bg-indigo-950/50"
                           title="Download Badge"
                         >
                           <FileBadge size={20} />
                         </button>
-                        {currentUser?.role === "SuperAdmin" && (
+                        {role === "SuperAdmin" && (
                           <button
-                            onClick={() => handleDelete(user.eventId, user.regId, user.fullName)}
+                            onClick={() => handleDelete(registration.eventId, registration.regId, registration.fullName)}
                             disabled={isDeleting}
                             className="rounded-xl border border-transparent p-2 text-slate-400 hover:border-red-100 hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:border-red-900 dark:hover:bg-red-950/40"
                             title="Delete Registration"
@@ -291,7 +268,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                   <div className="mx-auto flex max-w-sm flex-col items-center text-slate-400">
                     <User size={52} className="mb-3" />
                     <p className="font-black text-slate-600 dark:text-slate-300">No registrations match your filters.</p>
-                    {currentUser?.role !== "SuperAdmin" && <p className="mt-1 text-sm">Only registrations for events created by you are shown.</p>}
+                    {role !== "SuperAdmin" && <p className="mt-1 text-sm">Only registrations for events created by you are shown.</p>}
                   </div>
                 </td>
               </tr>
