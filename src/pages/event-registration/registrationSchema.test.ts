@@ -1,11 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { registrationSchema } from "./registrationSchema";
 
-const createFileList = (file: File): FileList => {
-  const transfer = new DataTransfer();
-  transfer.items.add(file);
-  return transfer.files;
-};
+const createFileList = (file: File): FileList => [file] as unknown as FileList;
 
 const validData = {
   fullName: "Rohit Pant",
