@@ -22,7 +22,17 @@ const AddOrganizerInfo = () => {
   const [success, setSuccess] = useState(false);
 
   const handleAddOrganizer = async (formData: OrganizerFormData) => {
-    const { confirmPassword: _confirmPassword, ...payload } = formData;
+    const payload: Omit<OrganizerFormData, "confirmPassword"> = {
+      fullName: formData.fullName,
+      email: formData.email,
+      password: formData.password,
+      consent: formData.consent,
+      phone: formData.phone,
+      companyName: formData.companyName,
+      role: formData.role,
+      isApproved: formData.isApproved,
+    };
+
     setIsLoading(true);
     setError(null);
     setSuccess(false);

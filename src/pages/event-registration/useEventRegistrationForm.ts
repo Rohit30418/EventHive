@@ -42,9 +42,8 @@ const useEventRegistrationForm = () => {
         );
       }
 
-      const { photo: _photo, ...rest } = data;
       const payload = {
-        ...rest,
+        ...data,
         photo: photoBase64,
         timestamp: new Date().toISOString(),
         eventId: id,
