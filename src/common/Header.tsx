@@ -22,283 +22,108 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] =
-    useState(false);
-
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
   const location = useLocation();
   const { user } = useAuth();
 
-  /* ========================================
-     HEADER FIXED ONLY AFTER SCROLL
-  ======================================== */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 12);
     handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener(
-        "scroll",
-        handleScroll
-      );
-    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* ========================================
-     LOCK BODY WHEN MOBILE MENU OPEN
-  ======================================== */
   useEffect(() => {
-    document.body.style.overflow =
-      isMobileMenuOpen ? "hidden" : "";
-
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
 
-  /* ========================================
-     CLOSE MOBILE MENU ON ROUTE CHANGE
-  ======================================== */
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  /* ========================================
-     HEADER UI BASED ON SCROLL
-  ======================================== */
-  const headerBg = scrolled
-    ? `
-        border-slate-200/80
-        bg-white/95
-        py-3
-        shadow-[0_12px_35px_rgba(15,23,42,0.08)]
-        backdrop-blur-xl
-      `
-    : `
-        border-slate-200/40
-        bg-white
-        py-4
-      `;
-
   return (
     <>
-      {/* ========================================
-          PLACEHOLDER
+      {scrolled && <div className="h-[74px] md:h-[78px]" aria-hidden="true" />}
 
-          Prevents content from jumping upward
-          when header changes to fixed.
-      ======================================== */}
-      {scrolled && (
-        <div
-          className="h-[76px] md:h-[80px]"
-          aria-hidden="true"
-        />
-      )}
-
-      {/* ========================================
-          HEADER
-      ======================================== */}
       <header
-        className={`
-          z-50
-          w-full
-          border-b
-          px-5
-          transition-all
-          duration-300
-          lg:px-0
-
-          ${
-            scrolled
-              ? "fixed left-0 top-0"
-              : "relative"
-          }
-
-          ${headerBg}
-        `}
+        className={`z-50 w-full border-b px-5 transition-all duration-300 lg:px-0 ${
+          scrolled
+            ? "fixed left-0 top-0 border-[#eadfd7] bg-[#fffaf6]/95 py-3 shadow-[0_14px_35px_rgba(30,28,27,0.06)] backdrop-blur-xl"
+            : "relative border-[#efe5de] bg-[#fffaf6] py-4"
+        }`}
       >
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
-
-          {/* ========================================
-              LOGO
-          ======================================== */}
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-5">
           <Link
             to="/"
-            className="group relative z-50 flex items-center gap-3"
+            className="relative z-50 flex items-center gap-3"
             aria-label="EventHive home"
           >
-            <div className="relative grid h-11 w-11 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-500 text-lg font-black text-white shadow-lg shadow-indigo-500/20">
+            <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-[#ef6f30] bg-[#fff4ec] font-['Manrope',sans-serif] text-base font-extrabold text-[#ef6f30]">
               E
-
-              <span className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/40 to-white/0 opacity-0 transition-opacity group-hover:opacity-100" />
-            </div>
-
-            <div>
-              <h1 className="text-xl font-black tracking-tight text-slate-950 md:text-2xl">
-                Event
-                <span className="eh-gradient-text">
-                  Hive
-                </span>
-              </h1>
-
-              <p className="hidden text-[10px] font-black uppercase tracking-[0.24em] text-slate-400 sm:block">
-                Event OS
-              </p>
-            </div>
+            </span>
+            <span className="font-['Manrope',sans-serif] text-xl font-extrabold tracking-[-0.04em] text-[#1e1c1b] md:text-2xl">
+              Event<span className="text-[#ef6f30]">Hive</span>
+            </span>
           </Link>
 
-          {/* ========================================
-              DESKTOP NAVIGATION
-          ======================================== */}
-          <nav className="hidden items-center rounded-full border border-slate-200/80 bg-white/70 p-1 shadow-sm backdrop-blur-xl md:flex">
+          <nav className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => {
               const active =
                 link.href === "/Events" &&
-                location.pathname.toLowerCase() ===
-                  "/events";
+                location.pathname.toLowerCase() === "/events";
 
               return (
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`
-                    rounded-full
-                    px-4
-                    py-2
-                    text-sm
-                    font-bold
-                    transition-all
-                    duration-200
-
-                    ${
-                      active
-                        ? "bg-indigo-50 text-indigo-700"
-                        : "text-slate-600 hover:bg-indigo-50 hover:text-indigo-700"
-                    }
-                  `}
+                  className={`relative py-2 text-sm font-semibold transition-colors ${
+                    active
+                      ? "text-[#ef6f30]"
+                      : "text-[#6f6a65] hover:text-[#1e1c1b]"
+                  }`}
                 >
                   {link.name}
+                  {active && (
+                    <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[#ef6f30]" />
+                  )}
                 </a>
               );
             })}
           </nav>
 
-          {/* ========================================
-              DESKTOP ACTIONS
-          ======================================== */}
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden items-center gap-2 md:flex">
             {user ? (
               <>
                 <Link
                   to="/Dashboard"
-                  className="
-                    inline-flex
-                    items-center
-                    gap-2
-                    rounded-full
-                    border
-                    border-slate-200
-                    bg-white/80
-                    px-4
-                    py-2
-                    text-sm
-                    font-black
-                    text-slate-700
-                    shadow-sm
-                    transition-all
-                    hover:-translate-y-0.5
-                    hover:border-indigo-200
-                    hover:text-indigo-700
-                  "
+                  className="inline-flex items-center gap-2 rounded-full border border-[#e8ddd5] bg-white px-4 py-2.5 text-sm font-bold text-[#4f4a46] transition-all hover:border-[#ef6f30]/40 hover:text-[#ef6f30]"
                 >
-                  <LayoutDashboard size={16} />
-
-                  Dashboard
+                  <LayoutDashboard size={16} /> Dashboard
                 </Link>
-
                 <Link
                   to="/Logout"
-                  className="
-                    inline-flex
-                    items-center
-                    gap-2
-                    rounded-full
-                    bg-slate-950
-                    px-5
-                    py-3
-                    text-sm
-                    font-black
-                    text-white
-                    shadow-lg
-                    shadow-slate-950/10
-                    transition-all
-                    hover:-translate-y-0.5
-                    hover:bg-indigo-700
-                  "
+                  className="inline-flex items-center gap-2 rounded-full bg-[#1e1c1b] px-5 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#ef6f30]"
                 >
-                  <LogOut size={16} />
-
-                  Logout
+                  <LogOut size={16} /> Logout
                 </Link>
               </>
             ) : (
               <>
                 <Link
                   to="/Login"
-                  className="
-                    inline-flex
-                    items-center
-                    gap-2
-                    rounded-full
-                    px-4
-                    py-2
-                    text-sm
-                    font-black
-                    text-slate-600
-                    transition
-                    hover:bg-indigo-50
-                    hover:text-indigo-700
-                  "
+                  className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold text-[#625d59] transition-colors hover:text-[#ef6f30]"
                 >
-                  <LogIn size={16} />
-
-                  Log In
+                  <LogIn size={16} /> Log In
                 </Link>
-
                 <Link
                   to="/OrganizerRegistration"
-                  className="
-                    group
-                    inline-flex
-                    items-center
-                    gap-2
-                    rounded-full
-                    bg-gradient-to-r
-                    from-indigo-600
-                    via-violet-600
-                    to-cyan-500
-                    px-5
-                    py-3
-                    text-sm
-                    font-black
-                    text-white
-                    shadow-lg
-                    shadow-indigo-500/25
-                    transition-all
-                    hover:-translate-y-0.5
-                    hover:shadow-indigo-500/35
-                  "
+                  className="group inline-flex items-center gap-2 rounded-full bg-[#1e1c1b] px-5 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#ef6f30]"
                 >
-                  Get Started
-
+                  Create account
                   <ArrowRight
                     size={16}
                     className="transition-transform group-hover:translate-x-1"
@@ -308,171 +133,54 @@ const Header = () => {
             )}
           </div>
 
-          {/* ========================================
-              MOBILE MENU BUTTON
-          ======================================== */}
           <button
             type="button"
-            className="
-              relative
-              z-50
-              rounded-2xl
-              border
-              border-slate-200
-              bg-white/80
-              p-2.5
-              text-slate-950
-              shadow-sm
-              transition-colors
-              active:bg-indigo-50
-              md:hidden
-            "
-            onClick={() =>
-              setIsMobileMenuOpen(
-                (value) => !value
-              )
-            }
-            aria-label={
-              isMobileMenuOpen
-                ? "Close menu"
-                : "Open menu"
-            }
+            className="relative z-50 rounded-full border border-[#e8ddd5] bg-white p-2.5 text-[#1e1c1b] shadow-sm md:hidden"
+            onClick={() => setIsMobileMenuOpen((value) => !value)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? (
-              <X size={27} />
-            ) : (
-              <Menu size={27} />
-            )}
+            {isMobileMenuOpen ? <X size={25} /> : <Menu size={25} />}
           </button>
         </div>
 
-        {/* ========================================
-            MOBILE MENU
-        ======================================== */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-              }}
-              transition={{
-                duration: 0.22,
-              }}
-              className="
-                absolute
-                left-0
-                top-full
-                flex
-                h-[calc(100dvh-100%)]
-                w-full
-                flex-col
-                overflow-hidden
-                bg-white/96
-                px-5
-                pb-6
-                pt-5
-                text-slate-950
-                backdrop-blur-2xl
-                md:hidden
-              "
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-0 top-full flex h-[calc(100dvh-100%)] w-full flex-col overflow-y-auto border-t border-[#efe5de] bg-[#fffaf6] px-5 pb-6 pt-5 md:hidden"
             >
-              {/* Background effects */}
-              <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-indigo-300/20 blur-[100px]" />
-
-              <div className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-cyan-300/20 blur-[90px]" />
-
-              {/* ========================================
-                  MOBILE NAV LINKS
-              ======================================== */}
-              <div className="relative z-10 space-y-2">
+              <div className="space-y-2">
                 {navLinks.map((link, index) => (
                   <motion.a
                     key={link.name}
                     href={link.href}
-                    onClick={() =>
-                      setIsMobileMenuOpen(false)
-                    }
-                    initial={{
-                      opacity: 0,
-                      x: -18,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                    }}
-                    transition={{
-                      delay: index * 0.05,
-                    }}
-                    className="
-                      group
-                      flex
-                      items-center
-                      justify-between
-                      rounded-2xl
-                      border
-                      border-slate-200
-                      bg-white/80
-                      px-5
-                      py-4
-                      text-lg
-                      font-bold
-                      text-slate-800
-                      shadow-sm
-                      transition
-                      hover:bg-indigo-50
-                      hover:text-indigo-700
-                    "
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.04 }}
+                    className="group flex items-center justify-between rounded-2xl border border-[#eee3db] bg-white px-5 py-4 font-['Manrope',sans-serif] text-lg font-bold text-[#2c2927]"
                   >
                     <span>{link.name}</span>
-
                     <ChevronRight
-                      size={20}
-                      className="
-                        text-slate-400
-                        transition-transform
-                        group-hover:translate-x-1
-                        group-hover:text-indigo-500
-                      "
+                      size={19}
+                      className="text-[#b1a9a3] transition-transform group-hover:translate-x-1 group-hover:text-[#ef6f30]"
                     />
                   </motion.a>
                 ))}
               </div>
 
-              {/* ========================================
-                  MOBILE BOTTOM ACTIONS
-              ======================================== */}
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 18,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{
-                  delay: 0.2,
-                }}
-                className="relative z-10 mt-auto space-y-3"
-              >
-                <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm">
-                  <div className="mb-2 flex items-center gap-2 text-sm font-black text-indigo-700">
-                    <Sparkles size={16} />
-
-                    Ready to launch?
+              <div className="mt-auto space-y-3 pt-8">
+                <div className="rounded-3xl border border-[#f1dfd2] bg-[#fff1e8] p-5">
+                  <div className="mb-2 flex items-center gap-2 text-sm font-extrabold text-[#ef6f30]">
+                    <Sparkles size={16} /> Build your next event
                   </div>
-
-                  <p className="text-sm leading-6 text-slate-500">
-                    Create, publish and manage
-                    events from a clean organizer
-                    workspace.
+                  <p className="text-sm leading-6 text-[#77736f]">
+                    Create event pages, collect registrations and manage your
+                    workflow from one place.
                   </p>
                 </div>
 
@@ -480,118 +188,38 @@ const Header = () => {
                   <>
                     <Link
                       to="/Dashboard"
-                      onClick={() =>
-                        setIsMobileMenuOpen(false)
-                      }
-                      className="
-                        flex
-                        w-full
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-2xl
-                        border
-                        border-slate-200
-                        bg-white
-                        py-4
-                        text-center
-                        font-black
-                        text-slate-700
-                        shadow-sm
-                        hover:text-indigo-700
-                      "
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e8ddd5] bg-white py-4 font-bold text-[#4f4a46]"
                     >
-                      <LayoutDashboard size={18} />
-
-                      Dashboard
+                      <LayoutDashboard size={18} /> Dashboard
                     </Link>
-
                     <Link
                       to="/Logout"
-                      onClick={() =>
-                        setIsMobileMenuOpen(false)
-                      }
-                      className="
-                        flex
-                        w-full
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-2xl
-                        bg-slate-950
-                        py-4
-                        text-center
-                        font-black
-                        text-white
-                        shadow-lg
-                        shadow-slate-950/10
-                      "
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1e1c1b] py-4 font-bold text-white"
                     >
-                      Logout
-
-                      <LogOut size={18} />
+                      Logout <LogOut size={18} />
                     </Link>
                   </>
                 ) : (
                   <>
                     <Link
                       to="/Events"
-                      onClick={() =>
-                        setIsMobileMenuOpen(false)
-                      }
-                      className="
-                        flex
-                        w-full
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-2xl
-                        border
-                        border-slate-200
-                        bg-white
-                        py-4
-                        text-center
-                        font-black
-                        text-slate-700
-                        shadow-sm
-                        hover:text-indigo-700
-                      "
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex w-full items-center justify-center gap-2 rounded-full border border-[#e8ddd5] bg-white py-4 font-bold text-[#4f4a46]"
                     >
-                      <CalendarDays size={18} />
-
-                      Browse Events
+                      <CalendarDays size={18} /> Browse Events
                     </Link>
-
                     <Link
                       to="/OrganizerRegistration"
-                      onClick={() =>
-                        setIsMobileMenuOpen(false)
-                      }
-                      className="
-                        flex
-                        w-full
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-2xl
-                        bg-gradient-to-r
-                        from-indigo-600
-                        to-cyan-500
-                        py-4
-                        text-center
-                        font-black
-                        text-white
-                        shadow-lg
-                        shadow-indigo-500/25
-                      "
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-[#ef6f30] py-4 font-bold text-white"
                     >
-                      Get Started
-
-                      <ArrowRight size={18} />
+                      Create account <ArrowRight size={18} />
                     </Link>
                   </>
                 )}
-              </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
