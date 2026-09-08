@@ -20,7 +20,7 @@ const Home = () => {
   }, [data]);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white text-slate-950 selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen overflow-x-hidden bg-[#fffaf6] text-[#1e1c1b] selection:bg-[#ef6f30] selection:text-white">
       <HomeHero heroEvent={featuredEvents[0]} />
       <HomeSections
         featuredEvents={featuredEvents}
