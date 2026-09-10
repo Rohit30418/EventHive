@@ -57,6 +57,51 @@
   --eh-focus-ring: rgba(239, 111, 48, 0.14);
   --eh-shadow: 0 24px 70px rgba(30, 28, 27, 0.09);
   --eh-soft-shadow: 0 16px 44px rgba(30, 28, 27, 0.06);
+
+  /*
+    Runtime Tailwind palette bridge.
+    This ensures existing dashboard classes like bg-indigo-600,
+    text-violet-600 and bg-cyan-50 follow the centralized EventHive theme.
+  */
+  --color-primary: var(--eh-primary);
+  --color-secondary: var(--eh-secondary);
+  --color-accent: var(--eh-accent);
+
+  --color-indigo-50: var(--eh-primary-50);
+  --color-indigo-100: var(--eh-primary-100);
+  --color-indigo-200: var(--eh-primary-200);
+  --color-indigo-300: var(--eh-primary-300);
+  --color-indigo-400: var(--eh-primary-400);
+  --color-indigo-500: var(--eh-primary-500);
+  --color-indigo-600: var(--eh-primary-600);
+  --color-indigo-700: var(--eh-primary-700);
+  --color-indigo-800: var(--eh-primary-800);
+  --color-indigo-900: var(--eh-primary-900);
+  --color-indigo-950: var(--eh-primary-950);
+
+  --color-violet-50: var(--eh-primary-50);
+  --color-violet-100: var(--eh-primary-100);
+  --color-violet-200: var(--eh-primary-200);
+  --color-violet-300: var(--eh-primary-300);
+  --color-violet-400: var(--eh-primary-400);
+  --color-violet-500: var(--eh-primary-500);
+  --color-violet-600: var(--eh-primary-600);
+  --color-violet-700: var(--eh-primary-700);
+  --color-violet-800: var(--eh-primary-800);
+  --color-violet-900: var(--eh-primary-900);
+  --color-violet-950: var(--eh-primary-950);
+
+  --color-cyan-50: var(--eh-accent-50);
+  --color-cyan-100: var(--eh-accent-100);
+  --color-cyan-200: var(--eh-accent-200);
+  --color-cyan-300: var(--eh-accent-300);
+  --color-cyan-400: var(--eh-accent-400);
+  --color-cyan-500: var(--eh-accent-500);
+  --color-cyan-600: var(--eh-accent-600);
+  --color-cyan-700: var(--eh-accent-700);
+  --color-cyan-800: var(--eh-accent-800);
+  --color-cyan-900: var(--eh-accent-900);
+  --color-cyan-950: var(--eh-accent-950);
 }
 
 .dark {
