@@ -25,6 +25,9 @@ import {
   Landmark,
   ChevronLeft,
   AlertCircle,
+  CalendarCheck,
+  Globe2,
+  Users,
 } from "lucide-react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../Firebase";
@@ -45,7 +48,6 @@ type FieldProps = {
   error?: FieldError;
 };
 
-// Extracted field component to keep the form clean and optimized
 const Field = ({
   label,
   name,
@@ -56,13 +58,13 @@ const Field = ({
   error,
 }: FieldProps) => (
   <div className="space-y-2">
-    <label htmlFor={name} className="ml-1 text-xs font-black uppercase tracking-[0.18em] text-slate-500">
+    <label htmlFor={name} className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">
       {label}
     </label>
     <div className="group relative">
       <Icon
         size={18}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600"
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a39b95] transition-colors group-focus-within:text-[#ef6f30]"
       />
       <input
         id={name}
@@ -70,24 +72,25 @@ const Field = ({
         type={type}
         placeholder={placeholder}
         aria-invalid={Boolean(error)}
-        className={`w-full rounded-2xl border border-slate-200 bg-slate-50 py-4 pl-12 pr-4 font-semibold outline-none transition-all placeholder:text-slate-400 focus:border-indigo-300 focus:bg-white focus:ring-4 focus:ring-indigo-100 ${
-          error ? "border-red-300 focus:border-red-400 focus:ring-red-100" : ""
+        className={`w-full rounded-2xl border bg-[#fffaf6] py-4 pl-12 pr-4 font-semibold text-[#1e1c1b] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#ef6f30] focus:bg-white focus:ring-4 focus:ring-[#ef6f30]/10 ${
+          error ? "border-red-300" : "border-[#eadfd7]"
         }`}
       />
     </div>
-    {error && (
-      <p className="ml-1 text-xs font-bold text-red-500">
-        {error.message}
-      </p>
-    )}
+    {error && <p className="text-xs font-bold text-red-500">{error.message}</p>}
   </div>
 );
 
-// OPTIMIZATION 1: Moved static array outside the component to prevent memory reallocation on keystrokes
 const paymentOptions = [
   { id: "card" as PaymentMethod, label: "Card", icon: CreditCard, hint: "Visa / MasterCard" },
   { id: "upi" as PaymentMethod, label: "UPI", icon: Smartphone, hint: "Instant approval" },
   { id: "bank" as PaymentMethod, label: "NetBanking", icon: Landmark, hint: "Indian banks" },
+];
+
+const organizerBenefits = [
+  { icon: CalendarCheck, text: "Create and publish your own events" },
+  { icon: Globe2, text: "Launch branded public event microsites" },
+  { icon: Users, text: "Manage attendee registrations from one dashboard" },
 ];
 
 const OrganizerRegistration = () => {
@@ -124,7 +127,6 @@ const OrganizerRegistration = () => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 700));
-
       toast.info("Payment verified. Creating organizer account...");
 
       const userCredential = await createUserWithEmailAndPassword(
@@ -156,10 +158,6 @@ const OrganizerRegistration = () => {
 
       const token = await user.getIdToken();
       await axios.put(`${apiPath}/Organizer/${user.uid}.json?auth=${token}`, profileData);
-
-      // createUserWithEmailAndPassword signs the new organizer in automatically.
-      // Keep pending organizers out of the authenticated dashboard session until
-      // the Super Admin explicitly approves the account.
       await auth.signOut();
 
       toast.success("Account created successfully. Approval is pending.");
@@ -184,47 +182,65 @@ const OrganizerRegistration = () => {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.14),transparent_34rem),radial-gradient(circle_at_top_right,rgba(6,182,212,0.12),transparent_30rem),linear-gradient(180deg,#ffffff_0%,#fbfbff_52%,#ffffff_100%)] px-4 py-8 text-slate-950 sm:px-6">
-      
-      {/* OPTIMIZATION 2: Zero-cost radial gradients instead of heavy CSS blurs */}
-      <div className="pointer-events-none absolute left-[-10rem] top-24 h-[600px] w-[600px] bg-[radial-gradient(closest-side,rgba(196,181,253,0.3),transparent)]" />
-      <div className="pointer-events-none absolute bottom-0 right-[-8rem] h-[600px] w-[600px] bg-[radial-gradient(closest-side,rgba(103,232,249,0.3),transparent)]" />
+    <section className="bg-[#fffaf6] px-4 py-8 text-[#1e1c1b] sm:px-6 sm:py-12 lg:py-16">
+      <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-[2rem] border border-[#eee3db] bg-white shadow-[0_24px_70px_rgba(30,28,27,0.08)] lg:grid-cols-[0.82fr_1.18fr]">
+        <aside className="bg-[#ef6f30] p-7 text-white sm:p-9 lg:p-12">
+          <div className="flex h-full flex-col">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
+                <span className="h-px w-9 bg-white/60" /> Organizer onboarding
+              </div>
+              <h1 className="mt-6 max-w-md font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.02] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+                Build your event presence with EventHive.
+              </h1>
+              <p className="mt-5 max-w-md text-sm leading-7 text-white/75 sm:text-base">
+                Create your organizer account, publish event pages and manage registrations from one focused workspace.
+              </p>
+            </div>
 
-      {/* OPTIMIZATION 3: will-change-transform forces this layer to the GPU, preventing text input repaints */}
-      <div className="relative z-10 w-full  max-w-2xl overflow-hidden rounded-[2.2rem] border border-white/80 bg-white/72 shadow-[0_28px_90px_rgba(15,23,42,0.13)] backdrop-blur-2xl will-change-transform">
-        
-        <div className="bg-white/92 p-6 sm:p-10 lg:p-12">
-          
-      
-          <div className="mx-auto max-w-xl">
-            <div className="mb-8 text-center">
-              <div className="mx-auto mb-5 flex max-w-[200px] items-center gap-2">
+            <div className="mt-8 space-y-3 lg:mt-auto lg:pt-12">
+              {organizerBenefits.map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#ef6f30]">
+                    <Icon size={16} />
+                  </span>
+                  <p className="pt-1 text-sm font-semibold leading-6 text-white/90">{text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <div className="p-6 sm:p-9 lg:p-12">
+          <div className="mx-auto max-w-2xl">
+            <div className="mb-8">
+              <div className="mb-5 flex max-w-[220px] items-center gap-2">
                 {[1, 2].map((item) => (
                   <div
                     key={item}
-                    className={`h-2 flex-1 rounded-full transition-colors ${
-                      step >= item ? "bg-indigo-600" : "bg-slate-200"
+                    className={`h-1.5 flex-1 rounded-full transition-colors ${
+                      step >= item ? "bg-[#ef6f30]" : "bg-[#eee3db]"
                     }`}
                   />
                 ))}
               </div>
 
-              <p className="mb-2 text-xs font-black uppercase tracking-[0.18em] text-indigo-600">Step {step} of 2</p>
-
-              <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
-                {step === 1 ? "Create organizer account" : "Complete secure payment"}
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#ef6f30]">
+                Step {step} of 2
+              </p>
+              <h2 className="mt-3 font-['Manrope',sans-serif] text-3xl font-extrabold tracking-[-0.04em] text-[#1e1c1b] sm:text-4xl">
+                {step === 1 ? "Create organizer account" : "Complete demo payment"}
               </h2>
-
-              <p className="mt-3 text-sm leading-6 text-slate-500">
+              <p className="mt-3 text-sm leading-6 text-[#77736f]">
                 {step === 1 ? (
                   <>
                     Already have an account?{" "}
-                    <Link to="/Login" className="font-black text-indigo-600 hover:text-indigo-700">
+                    <Link to="/Login" className="font-extrabold text-[#ef6f30] hover:text-[#cf5924]">
                       Log in
                     </Link>
                   </>
                 ) : (
-                  "Your subscription is mocked for demo flow and account creation continues after payment confirmation."
+                  "This payment step is mocked for the EventHive demo flow."
                 )}
               </p>
             </div>
@@ -249,7 +265,7 @@ const OrganizerRegistration = () => {
                   error={errors.fullName}
                 />
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <Field
                     label="Email"
                     name="email"
@@ -259,7 +275,6 @@ const OrganizerRegistration = () => {
                     register={register}
                     error={errors.email}
                   />
-
                   <Field
                     label="Phone"
                     name="phone"
@@ -270,7 +285,7 @@ const OrganizerRegistration = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <Field
                     label="Date of Birth"
                     name="dob"
@@ -279,7 +294,6 @@ const OrganizerRegistration = () => {
                     register={register}
                     error={errors.dob}
                   />
-
                   <Field
                     label="Company"
                     name="companyName"
@@ -290,7 +304,7 @@ const OrganizerRegistration = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <Field
                     label="Password"
                     name="password"
@@ -300,7 +314,6 @@ const OrganizerRegistration = () => {
                     register={register}
                     error={errors.password}
                   />
-
                   <Field
                     label="Confirm Password"
                     name="confirmPassword"
@@ -312,33 +325,31 @@ const OrganizerRegistration = () => {
                   />
                 </div>
 
-                <div className="pt-2">
-                  <label className="group flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 transition-colors hover:border-indigo-200 hover:bg-indigo-50/40">
+                <div className="pt-1">
+                  <label className="group flex cursor-pointer items-start gap-3 rounded-2xl border border-[#eadfd7] bg-[#fffaf6] p-4 transition-colors hover:border-[#ef6f30]/35">
                     <span className="relative mt-0.5 flex items-center">
                       <input
                         {...register("consent")}
                         type="checkbox"
-                        className="peer h-5 w-5 appearance-none rounded-md border border-slate-300 bg-white transition-all checked:border-indigo-600 checked:bg-indigo-600"
+                        className="peer h-5 w-5 appearance-none rounded-md border border-[#cfc6bf] bg-white transition-all checked:border-[#ef6f30] checked:bg-[#ef6f30]"
                       />
                       <CheckCircle
                         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100"
                         size={12}
                       />
                     </span>
-                    <span className="text-sm font-semibold leading-6 text-slate-600 group-hover:text-slate-800">
+                    <span className="text-sm font-semibold leading-6 text-[#6e6762]">
                       I agree to the Terms and Privacy Policy and confirm the organizer details are accurate.
                     </span>
                   </label>
                   {errors.consent && (
-                    <p className="ml-1 mt-2 text-xs font-bold text-red-500">
-                      {errors.consent.message}
-                    </p>
+                    <p className="mt-2 text-xs font-bold text-red-500">{errors.consent.message}</p>
                   )}
                 </div>
 
                 <button
                   type="submit"
-                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-6 py-4 text-sm font-bold text-white transition-all hover:bg-indigo-600"
+                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#1e1c1b] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#ef6f30]"
                 >
                   Proceed to Payment <ArrowRight size={18} />
                 </button>
@@ -346,15 +357,15 @@ const OrganizerRegistration = () => {
             )}
 
             {step === 2 && (
-              <div className="space-y-7">
-                <div className="rounded-[1.5rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-indigo-50 p-6">
-                  <div className="flex items-center justify-between gap-4">
+              <div className="space-y-6">
+                <div className="rounded-[1.5rem] border border-[#f0ded2] bg-[#fff3eb] p-5 sm:p-6">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-sm font-bold text-slate-500">Organizer Pro Subscription</p>
-                      <h3 className="mt-1 text-3xl font-black text-slate-950">$50.00</h3>
+                      <p className="text-sm font-bold text-[#77736f]">Organizer Pro Subscription</p>
+                      <h3 className="mt-1 font-['Manrope',sans-serif] text-3xl font-extrabold text-[#1e1c1b]">$50.00</h3>
                     </div>
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
-                      <span className="h-2 w-2 rounded-full bg-emerald-500" /> Secure
+                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#ef6f30]">
+                      <span className="h-2 w-2 rounded-full bg-[#ef6f30]" /> Demo checkout
                     </div>
                   </div>
                 </div>
@@ -369,43 +380,43 @@ const OrganizerRegistration = () => {
                         key={method.id}
                         type="button"
                         onClick={() => setPaymentMethod(method.id)}
-                        className={`rounded-2xl border-2 p-4 text-left transition-all ${
+                        className={`rounded-2xl border p-4 text-left transition-all ${
                           selected
-                            ? "border-indigo-600 bg-indigo-50 text-indigo-700 shadow-lg shadow-indigo-600/10"
-                            : "border-slate-200 bg-white text-slate-500 hover:border-indigo-200"
+                            ? "border-[#ef6f30] bg-[#fff3eb] text-[#cf5924]"
+                            : "border-[#eadfd7] bg-white text-[#77736f] hover:border-[#ef6f30]/40"
                         }`}
                       >
-                        <Icon size={24} className="mb-3" />
-                        <span className="block text-sm font-black">{method.label}</span>
+                        <Icon size={22} className="mb-3" />
+                        <span className="block text-sm font-extrabold">{method.label}</span>
                         <span className="mt-1 block text-xs font-semibold opacity-75">{method.hint}</span>
                       </button>
                     );
                   })}
                 </div>
 
-                <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="rounded-[1.5rem] border border-[#eadfd7] bg-[#fffaf6] p-5">
                   {paymentMethod === "card" && (
                     <div className="space-y-4">
-                      <input type="text" readOnly className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-600 outline-none" value="4242 4242 4242 4242" />
+                      <input type="text" readOnly className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#625d59] outline-none" value="4242 4242 4242 4242" />
                       <div className="grid grid-cols-2 gap-4">
-                        <input type="text" readOnly className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-600 outline-none" value="12/30" />
-                        <input type="text" readOnly className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-600 outline-none" value="123" />
+                        <input type="text" readOnly className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#625d59] outline-none" value="12/30" />
+                        <input type="text" readOnly className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#625d59] outline-none" value="123" />
                       </div>
                     </div>
                   )}
 
                   {paymentMethod === "upi" && (
                     <div className="space-y-3">
-                      <label className="ml-1 text-xs font-black uppercase tracking-[0.18em] text-slate-500">UPI ID</label>
-                      <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-800 outline-none focus:border-indigo-300 focus:bg-white focus:ring-4 focus:ring-indigo-100" />
-                      <p className="text-xs font-semibold text-slate-400">Open your UPI app to approve the request.</p>
+                      <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">UPI ID</label>
+                      <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#1e1c1b] outline-none focus:border-[#ef6f30] focus:ring-4 focus:ring-[#ef6f30]/10" />
+                      <p className="text-xs font-semibold text-[#9a938d]">Open your UPI app to approve the request.</p>
                     </div>
                   )}
 
                   {paymentMethod === "bank" && (
                     <div className="space-y-3">
-                      <label className="ml-1 text-xs font-black uppercase tracking-[0.18em] text-slate-500">Select bank</label>
-                      <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-800 outline-none focus:border-indigo-300 focus:bg-white focus:ring-4 focus:ring-indigo-100">
+                      <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">Select bank</label>
+                      <select className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#1e1c1b] outline-none focus:border-[#ef6f30] focus:ring-4 focus:ring-[#ef6f30]/10">
                         <option>HDFC Bank</option>
                         <option>SBI</option>
                         <option>ICICI Bank</option>
@@ -420,7 +431,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={() => setStep(1)}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm font-bold text-slate-700 transition-all hover:bg-slate-50 sm:flex-1"
+                    className="flex items-center justify-center gap-2 rounded-full border border-[#eadfd7] bg-white px-6 py-4 text-sm font-bold text-[#625d59] transition-all hover:border-[#ef6f30]/40 hover:text-[#ef6f30] sm:flex-1"
                   >
                     <ChevronLeft size={18} /> Back
                   </button>
@@ -429,7 +440,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={handlePaymentAndRegistration}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-6 py-4 text-sm font-bold text-white transition-all hover:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
+                    className="flex items-center justify-center gap-2 rounded-full bg-[#ef6f30] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#dc5f23] disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
                   >
                     {isProcessing ? (
                       <>
@@ -447,7 +458,7 @@ const OrganizerRegistration = () => {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 };
 
