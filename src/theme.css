@@ -1,0 +1,200 @@
+/*
+  EventHive global theme tokens
+  -----------------------------
+  Change the values in :root to update the brand palette across the public
+  website and dashboard. Existing indigo/violet/cyan Tailwind utilities are
+  intentionally mapped to this warm palette so older admin screens inherit the
+  same brand without needing a risky mass rewrite.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* Brand */
+  --eh-primary: #ef6f30;
+  --eh-primary-hover: #dc5f23;
+  --eh-secondary: #f18651;
+  --eh-accent: #f6a06f;
+
+  /* Primary scale */
+  --eh-primary-50: #fff7f2;
+  --eh-primary-100: #ffede4;
+  --eh-primary-200: #fbd8c7;
+  --eh-primary-300: #f8b998;
+  --eh-primary-400: #f49a70;
+  --eh-primary-500: #f18651;
+  --eh-primary-600: #ef6f30;
+  --eh-primary-700: #d95c21;
+  --eh-primary-800: #b94a1b;
+  --eh-primary-900: #963c18;
+  --eh-primary-950: #51200b;
+
+  /* Accent scale */
+  --eh-accent-50: #fff9f5;
+  --eh-accent-100: #fff0e7;
+  --eh-accent-200: #fde0ce;
+  --eh-accent-300: #f9c8aa;
+  --eh-accent-400: #f6ae85;
+  --eh-accent-500: #f6a06f;
+  --eh-accent-600: #eb8550;
+  --eh-accent-700: #c96936;
+  --eh-accent-800: #a6532f;
+  --eh-accent-900: #87452a;
+  --eh-accent-950: #492216;
+
+  /* Surfaces / text */
+  --eh-bg: #fffaf6;
+  --eh-bg-soft: #fff7f1;
+  --eh-surface: rgba(255, 255, 255, 0.92);
+  --eh-surface-solid: #ffffff;
+  --eh-border: #eee3db;
+  --eh-border-strong: #dfd0c6;
+  --eh-text: #1e1c1b;
+  --eh-muted: #77736f;
+  --eh-muted-strong: #625d59;
+
+  /* Effects */
+  --eh-focus-ring: rgba(239, 111, 48, 0.14);
+  --eh-shadow: 0 24px 70px rgba(30, 28, 27, 0.09);
+  --eh-soft-shadow: 0 16px 44px rgba(30, 28, 27, 0.06);
+}
+
+.dark {
+  color-scheme: dark;
+  --eh-bg: #171513;
+  --eh-bg-soft: #1c1917;
+  --eh-surface: rgba(33, 30, 28, 0.9);
+  --eh-surface-solid: #211e1c;
+  --eh-border: rgba(255, 224, 207, 0.12);
+  --eh-border-strong: rgba(255, 224, 207, 0.2);
+  --eh-text: #fffaf6;
+  --eh-muted: #b7aaa1;
+  --eh-muted-strong: #d1c4bb;
+  --eh-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+  --eh-soft-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+}
+
+/*
+  Tailwind semantic colors + compatibility mapping.
+  New UI can use bg-primary / text-primary / border-primary.
+  Existing admin classes such as bg-indigo-600 automatically inherit orange.
+*/
+@theme {
+  --color-primary: var(--eh-primary);
+  --color-secondary: var(--eh-secondary);
+  --color-accent: var(--eh-accent);
+
+  --color-indigo-50: var(--eh-primary-50);
+  --color-indigo-100: var(--eh-primary-100);
+  --color-indigo-200: var(--eh-primary-200);
+  --color-indigo-300: var(--eh-primary-300);
+  --color-indigo-400: var(--eh-primary-400);
+  --color-indigo-500: var(--eh-primary-500);
+  --color-indigo-600: var(--eh-primary-600);
+  --color-indigo-700: var(--eh-primary-700);
+  --color-indigo-800: var(--eh-primary-800);
+  --color-indigo-900: var(--eh-primary-900);
+  --color-indigo-950: var(--eh-primary-950);
+
+  --color-violet-50: var(--eh-primary-50);
+  --color-violet-100: var(--eh-primary-100);
+  --color-violet-200: var(--eh-primary-200);
+  --color-violet-300: var(--eh-primary-300);
+  --color-violet-400: var(--eh-primary-400);
+  --color-violet-500: var(--eh-primary-500);
+  --color-violet-600: var(--eh-primary-600);
+  --color-violet-700: var(--eh-primary-700);
+  --color-violet-800: var(--eh-primary-800);
+  --color-violet-900: var(--eh-primary-900);
+  --color-violet-950: var(--eh-primary-950);
+
+  --color-cyan-50: var(--eh-accent-50);
+  --color-cyan-100: var(--eh-accent-100);
+  --color-cyan-200: var(--eh-accent-200);
+  --color-cyan-300: var(--eh-accent-300);
+  --color-cyan-400: var(--eh-accent-400);
+  --color-cyan-500: var(--eh-accent-500);
+  --color-cyan-600: var(--eh-accent-600);
+  --color-cyan-700: var(--eh-accent-700);
+  --color-cyan-800: var(--eh-accent-800);
+  --color-cyan-900: var(--eh-accent-900);
+  --color-cyan-950: var(--eh-accent-950);
+}
+
+/* Shared EventHive components now use the same global tokens. */
+body {
+  color: var(--eh-text);
+  background: var(--eh-bg);
+}
+
+::selection {
+  color: #ffffff;
+  background: var(--eh-primary);
+}
+
+.eh-page-shell,
+.eh-page {
+  background:
+    radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--eh-primary) 10%, transparent), transparent 28rem),
+    radial-gradient(circle at 90% 5%, color-mix(in srgb, var(--eh-accent) 18%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--eh-bg) 0%, var(--eh-bg-soft) 58%, var(--eh-surface-solid) 100%);
+}
+
+.dark .eh-page-shell,
+.dark .eh-page {
+  background:
+    radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--eh-primary) 12%, transparent), transparent 28rem),
+    var(--eh-bg);
+}
+
+.eh-card,
+.eh-glass-card,
+.eh-panel {
+  border-color: var(--eh-border);
+  box-shadow: var(--eh-soft-shadow);
+}
+
+.eh-gradient-text {
+  background-image: linear-gradient(135deg, var(--eh-primary), var(--eh-secondary) 55%, var(--eh-accent));
+}
+
+.eh-btn-primary {
+  background: var(--eh-primary);
+  color: #ffffff;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--eh-primary) 24%, transparent);
+}
+
+.eh-btn-primary:hover {
+  background: var(--eh-primary-hover);
+  box-shadow: 0 20px 42px color-mix(in srgb, var(--eh-primary) 30%, transparent);
+}
+
+.eh-btn-secondary:hover {
+  border-color: color-mix(in srgb, var(--eh-primary) 35%, transparent);
+  color: var(--eh-primary);
+}
+
+.eh-input:hover {
+  border-color: color-mix(in srgb, var(--eh-primary) 34%, transparent);
+}
+
+.eh-input:focus {
+  border-color: color-mix(in srgb, var(--eh-primary) 66%, transparent);
+  box-shadow: 0 0 0 4px var(--eh-focus-ring);
+}
+
+.eh-table tbody tr:hover {
+  background: color-mix(in srgb, var(--eh-primary) 5%, transparent);
+}
+
+.eh-kicker {
+  border-color: color-mix(in srgb, var(--eh-primary) 18%, transparent);
+  background: color-mix(in srgb, var(--eh-primary) 8%, transparent);
+  color: var(--eh-primary-700);
+}
+
+.dark .eh-kicker {
+  border-color: color-mix(in srgb, var(--eh-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--eh-primary) 13%, transparent);
+  color: var(--eh-primary-300);
+}
