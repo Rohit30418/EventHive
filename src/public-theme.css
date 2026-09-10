@@ -1,58 +1,47 @@
 .public-theme {
-  --eh-bg: #fffaf6;
-  --eh-surface: rgba(255, 255, 255, 0.9);
-  --eh-surface-solid: #ffffff;
-  --eh-border: rgba(30, 28, 27, 0.09);
-  --eh-muted: #77736f;
-  --eh-text: #1e1c1b;
-  --eh-primary: #ef6f30;
-  --eh-secondary: #f18651;
-  --eh-accent: #f6a06f;
-  --eh-shadow: 0 24px 70px rgba(30, 28, 27, 0.09);
-  --eh-soft-shadow: 0 18px 45px rgba(30, 28, 27, 0.06);
-  background: #fffaf6;
-  color: #1e1c1b;
+  background: var(--eh-bg);
+  color: var(--eh-text);
 }
 
 .public-theme .eh-page-shell,
 .public-theme .eh-page {
   background:
-    radial-gradient(circle at 8% 0%, rgba(239, 111, 48, 0.10), transparent 28rem),
-    radial-gradient(circle at 92% 5%, rgba(250, 210, 190, 0.34), transparent 28rem),
-    linear-gradient(180deg, #fffaf6 0%, #fff7f1 55%, #ffffff 100%);
+    radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--eh-primary) 10%, transparent), transparent 28rem),
+    radial-gradient(circle at 92% 5%, color-mix(in srgb, var(--eh-accent) 20%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--eh-bg) 0%, var(--eh-bg-soft) 55%, var(--eh-surface-solid) 100%);
 }
 
 .public-theme .eh-gradient-text {
-  background-image: linear-gradient(135deg, #ef6f30, #f18651 55%, #f6a06f);
+  background-image: linear-gradient(135deg, var(--eh-primary), var(--eh-secondary) 55%, var(--eh-accent));
 }
 
 .public-theme .eh-btn-primary {
-  background: #ef6f30;
+  background: var(--eh-primary);
   color: #ffffff;
-  box-shadow: 0 16px 34px rgba(239, 111, 48, 0.22);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--eh-primary) 22%, transparent);
 }
 
 .public-theme .eh-btn-primary:hover {
-  background: #dc5f23;
-  box-shadow: 0 20px 42px rgba(239, 111, 48, 0.28);
+  background: var(--eh-primary-hover);
+  box-shadow: 0 20px 42px color-mix(in srgb, var(--eh-primary) 28%, transparent);
 }
 
 .public-theme .eh-card,
 .public-theme .eh-glass-card {
-  border-color: #eee3db;
-  box-shadow: 0 16px 44px rgba(30, 28, 27, 0.06);
+  border-color: var(--eh-border);
+  box-shadow: var(--eh-soft-shadow);
 }
 
 .public-theme .eh-input:focus {
-  border-color: rgba(239, 111, 48, 0.65);
-  box-shadow: 0 0 0 4px rgba(239, 111, 48, 0.12);
+  border-color: color-mix(in srgb, var(--eh-primary) 65%, transparent);
+  box-shadow: 0 0 0 4px var(--eh-focus-ring);
 }
 
 .public-theme .eh-table tbody tr:hover {
-  background: rgba(239, 111, 48, 0.045);
+  background: color-mix(in srgb, var(--eh-primary) 5%, transparent);
 }
 
 .public-theme ::selection {
   color: #ffffff;
-  background: #ef6f30;
+  background: var(--eh-primary);
 }
