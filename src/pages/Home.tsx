@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import useGetEvent from "../AdminCustomHooks/useGetEvents";
 import HomeHero from "./home/HomeHero";
 import HomeSections from "./home/HomeSections";
-import AppDownloadSection from "./home/AppDownloadSection";
 
 const Home = () => {
   const { isLoading, data, error } = useGetEvent();
@@ -28,7 +27,6 @@ const Home = () => {
         isLoading={isLoading}
         error={error}
       />
-      <AppDownloadSection featuredEvent={featuredEvents[0]} />
     </div>
   );
 };
