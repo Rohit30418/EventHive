@@ -54,9 +54,9 @@ const EventCard: React.FC<EventCardTypes> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.2) }}
-      className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-[#eee3db] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#ef6f30]/35 hover:shadow-[0_22px_55px_rgba(30,28,27,0.08)]"
+      className="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[var(--eh-border)] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[var(--eh-primary-300)] hover:shadow-[var(--eh-soft-shadow)]"
     >
-      <div className="relative h-56 overflow-hidden bg-[#f4ebe5]">
+      <div className="relative h-56 overflow-hidden bg-[var(--eh-primary-50)]">
         <img
           src={event.banner || fallbackImage}
           alt={event.EventName || "Event banner"}
@@ -67,36 +67,36 @@ const EventCard: React.FC<EventCardTypes> = ({
         <div className="absolute inset-0 bg-gradient-to-t from-[#1e1c1b]/65 via-transparent to-transparent" />
 
         <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3">
-          <span className="rounded-full bg-[#fffaf6]/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#ef6f30] backdrop-blur-sm">
+          <span className="rounded-full bg-[var(--eh-bg)]/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.13em] text-[var(--eh-primary)] backdrop-blur-sm">
             {category}
           </span>
-          <span className="rounded-full border border-white/25 bg-[#1e1c1b]/65 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+          <span className="rounded-full border border-white/25 bg-[#1e1c1b]/65 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.13em] text-white backdrop-blur-sm">
             {status}
           </span>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="line-clamp-2 font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.08] tracking-[-0.035em] text-[#1e1c1b]">
+        <h3 className="line-clamp-2 font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.1] tracking-[0.002em] text-[var(--eh-text)]">
           {event.EventName || "Untitled Event"}
         </h3>
 
         {(event.ShortDesc || event.BannerTagLine || event.description) && (
-          <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#77736f]">
+          <p className="mt-3 line-clamp-2 text-sm font-medium leading-6 tracking-[0.006em] text-[var(--eh-muted)]">
             {event.ShortDesc || event.BannerTagLine || event.description}
           </p>
         )}
 
-        <div className="mt-5 space-y-3 border-t border-[#f0e5de] pt-5">
-          <p className="flex items-center gap-3 text-sm font-semibold text-[#5f5955]">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#fff0e6] text-[#ef6f30]">
+        <div className="mt-5 space-y-3 border-t border-[var(--eh-border)] pt-5">
+          <p className="flex items-center gap-3 text-sm font-semibold tracking-[0.004em] text-[var(--eh-muted-strong)]">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--eh-primary-100)] text-[var(--eh-primary)]">
               <CalendarDays size={16} />
             </span>
             {formatDate(event.eventDate)}
           </p>
 
-          <p className="flex items-center gap-3 text-sm font-semibold text-[#5f5955]">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#fff0e6] text-[#ef6f30]">
+          <p className="flex items-center gap-3 text-sm font-semibold tracking-[0.004em] text-[var(--eh-muted-strong)]">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--eh-primary-100)] text-[var(--eh-primary)]">
               <MapPin size={16} />
             </span>
             <span className="truncate">
@@ -109,10 +109,10 @@ const EventCard: React.FC<EventCardTypes> = ({
           <Link
             to={destination}
             state={{ event }}
-            className="group/btn flex items-center justify-between border-t border-[#1e1c1b] pt-4 text-sm font-extrabold text-[#1e1c1b] transition-colors hover:text-[#ef6f30]"
+            className="group/btn flex items-center justify-between border-t border-[var(--eh-text)] pt-4 text-sm font-extrabold tracking-[0.01em] text-[var(--eh-text)] transition-colors hover:text-[var(--eh-primary)]"
           >
             {variant === "public" ? "View Event" : "Manage Event"}
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-[#1e1c1b] text-white transition-all group-hover/btn:bg-[#ef6f30]">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--eh-text)] text-white transition-all group-hover/btn:bg-[var(--eh-primary)]">
               <ArrowUpRight size={16} />
             </span>
           </Link>
