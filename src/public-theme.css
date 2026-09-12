@@ -1,6 +1,24 @@
 .public-theme {
   background: var(--eh-bg);
   color: var(--eh-text);
+  letter-spacing: 0.004em;
+}
+
+.public-theme h1,
+.public-theme h2,
+.public-theme h3 {
+  font-family: "Manrope", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.public-theme p,
+.public-theme li,
+.public-theme a,
+.public-theme button,
+.public-theme input,
+.public-theme select,
+.public-theme textarea {
+  letter-spacing: 0.004em;
 }
 
 .public-theme .eh-page-shell,
