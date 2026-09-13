@@ -2,13 +2,11 @@ import type { FC } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
+import "../public-theme.css";
 
 const Mainlayout: FC = () => {
-  // const location = useLocation();
-  // const compactFooterPages = location.pathname.toLowerCase() === "/login" || location.pathname.toLowerCase() === "/logout" || location.pathname.toLowerCase() === "/orgniserregistration";
-
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white text-slate-950 antialiased">
+    <div className="public-theme min-h-screen overflow-x-hidden bg-[#fffaf6] text-[#1e1c1b] antialiased">
       <Header />
       <main className="relative">
         <Outlet />
