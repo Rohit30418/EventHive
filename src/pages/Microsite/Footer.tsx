@@ -58,13 +58,15 @@ const Footer = () => {
                 Explore
               </p>
               <div className="mt-4 flex flex-col items-start gap-3">
-                <button
-                  type="button"
-                  onClick={() => scrollTo("experience")}
-                  className="text-sm font-bold text-white/65 hover:text-white"
-                >
-                  About event
-                </button>
+                {(event?.AboutArea || event?.description) && (
+                  <button
+                    type="button"
+                    onClick={() => scrollTo("experience")}
+                    className="text-sm font-bold text-white/65 hover:text-white"
+                  >
+                    About event
+                  </button>
+                )}
                 {event?.speakers?.length ? (
                   <button
                     type="button"
