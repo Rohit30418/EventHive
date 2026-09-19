@@ -85,23 +85,23 @@ const Login = () => {
   };
 
   return (
-    <section className="bg-[#fffaf6] px-4 py-10 text-[#1e1c1b] sm:px-6 sm:py-14 lg:py-20">
+    <section className="bg-[#fffaf6] px-4 py-8 text-[#1e1c1b] sm:px-6 sm:py-10 lg:py-14">
       <div className="mx-auto grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-[#eee3db] bg-white shadow-[0_24px_70px_rgba(30,28,27,0.08)] lg:grid-cols-[0.92fr_1.08fr]">
-        <aside className="relative overflow-hidden bg-[#1e1c1b] p-7 text-white sm:p-10 lg:p-12">
+        <aside className="relative overflow-hidden bg-[#1e1c1b] p-6 text-white sm:p-8 lg:p-10">
           <div className="relative z-10 flex h-full flex-col">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#f6a06f]">
                 <span className="h-px w-9 bg-[#ef6f30]" /> Organizer workspace
               </div>
-              <h1 className="mt-6 max-w-md font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.02] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+              <h1 className="mt-6 max-w-md font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
                 Welcome back to your event control center.
               </h1>
-              <p className="mt-5 max-w-md text-sm leading-7 text-white/60 sm:text-base">
+              <p className="mt-4 max-w-md text-sm leading-7 text-white/60 sm:text-base">
                 Sign in to manage events, review registrations and keep your public event experience up to date.
               </p>
             </div>
 
-            <div className="mt-8 space-y-3 lg:mt-auto lg:pt-12">
+            <div className="mt-7 space-y-3 lg:mt-auto lg:pt-10">
               {highlights.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#ef6f30] text-white">
@@ -114,11 +114,11 @@ const Login = () => {
           </div>
         </aside>
 
-        <div className="p-6 sm:p-9 lg:p-12">
+        <div className="p-6 sm:p-8 lg:p-10">
           <div className="mx-auto max-w-md">
-            <div className="mb-8">
+            <div className="mb-6">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#ef6f30]">Secure sign in</p>
-              <h2 className="mt-3 font-['Manrope',sans-serif] text-3xl font-extrabold tracking-[-0.04em] text-[#1e1c1b] sm:text-4xl">
+              <h2 className="mt-3 font-['Manrope',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#1e1c1b] sm:text-3xl">
                 Log in to EventHive
               </h2>
               <p className="mt-3 text-sm leading-6 text-[#77736f]">
@@ -143,7 +143,7 @@ const Login = () => {
                     type="email"
                     {...register("Email")}
                     placeholder="name@company.com"
-                    className={`w-full rounded-2xl border bg-[#fffaf6] py-4 pl-12 pr-4 font-semibold text-[#1e1c1b] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#ef6f30] focus:bg-white focus:ring-4 focus:ring-[#ef6f30]/10 ${
+                    className={`w-full rounded-2xl border bg-[#fffaf6] py-3.5 pl-12 pr-4 font-semibold text-[#1e1c1b] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#ef6f30] focus:bg-white focus:ring-4 focus:ring-[#ef6f30]/10 ${
                       errors.Email ? "border-red-300" : "border-[#eadfd7]"
                     }`}
                   />
