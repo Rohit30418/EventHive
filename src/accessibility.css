@@ -84,15 +84,15 @@ html.a11y-hide-images video {
   visibility: hidden !important;
 }
 
-html.a11y-grayscale body {
+html.a11y-grayscale #root {
   filter: grayscale(1);
 }
 
-html.a11y-invert body {
+html.a11y-invert #root {
   filter: invert(1) hue-rotate(180deg);
 }
 
-html.a11y-invert.a11y-grayscale body {
+html.a11y-invert.a11y-grayscale #root {
   filter: invert(1) hue-rotate(180deg) grayscale(1);
 }
 
@@ -138,4 +138,13 @@ html.a11y-pause-animations *::after {
     width: calc(100vw - 1.5rem);
     max-height: calc(100dvh - 6rem);
   }
+}
+
+
+/* Always keep the floating controls viewport-fixed.
+   They are rendered through a portal directly under <body>, outside #root,
+   so page-level visual accessibility filters cannot change their containing block. */
+.eh-floating-actions,
+.eh-accessibility-panel {
+  position: fixed !important;
 }
