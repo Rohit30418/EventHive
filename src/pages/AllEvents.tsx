@@ -12,7 +12,7 @@ import { ErrorState } from "../common/StateViews";
 import { type EventType } from "../Types/eventType";
 
 const categories = ["All", "Technology", "Webinar", "Music", "Art", "Sports"];
-const EVENTS_PER_PAGE = 6;
+const EVENTS_PER_PAGE = 4;
 type EventView = "all" | "upcoming" | "past";
 
 const EventCardSkeleton = () => (
