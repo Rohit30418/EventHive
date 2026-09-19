@@ -197,7 +197,7 @@ const FloatingTools = () => {
         ) : (
           <button
             type="button"
-            className="eh-floating-action opacity-55"
+            className={`eh-floating-action opacity-55 ${isMicrosite ? "hidden" : ""}`}
             aria-label="Phone support number pending"
             title="Phone number pending"
           >
@@ -219,7 +219,7 @@ const FloatingTools = () => {
         ) : (
           <button
             type="button"
-            className="eh-floating-action opacity-55"
+            className={`eh-floating-action opacity-55 ${isMicrosite ? "hidden" : ""}`}
             aria-label="WhatsApp number pending"
             title="WhatsApp number pending"
           >
