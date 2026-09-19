@@ -155,8 +155,8 @@ const MicrositeHome = () => {
       style={themeStyle}
       className="w-full overflow-x-hidden bg-[#fbfaf8] text-slate-950 antialiased"
     >
-      <section className="px-4 pb-14 pt-28 sm:px-6 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-36">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
+      <section className="px-4 pb-12 pt-26 sm:px-6 sm:pb-14 sm:pt-30 lg:pb-18 lg:pt-32">
+        <div className="mx-auto grid max-w-7xl items-center gap-9 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
           <div className="max-w-2xl">
             <div
               className="inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em]"
@@ -173,13 +173,13 @@ const MicrositeHome = () => {
               {event.eventType || event.category || "Event"}
             </div>
 
-            <h1 className="mt-6 max-w-3xl font-['Manrope',sans-serif] text-[2.55rem] font-extrabold leading-[1.08] tracking-[-0.006em] sm:text-[3.4rem] lg:text-[4.15rem]">
+            <h1 className="mt-6 max-w-3xl font-['Manrope',sans-serif] text-[2.55rem] font-extrabold leading-[1.08] tracking-[-0.006em] sm:text-[3.15rem] lg:text-[3.8rem]">
               {event.EventName || "Event"}
             </h1>
 
             {event.BannerTagLine && (
               <p
-                className="mt-4 max-w-2xl font-['Manrope',sans-serif] text-xl font-bold leading-8 sm:text-2xl"
+                className="mt-4 max-w-2xl font-['Manrope',sans-serif] text-lg font-bold leading-7 sm:text-xl"
                 style={{ color: primaryColor }}
               >
                 {event.BannerTagLine}
@@ -265,8 +265,8 @@ const MicrositeHome = () => {
                 background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
               }}
             />
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-white bg-slate-900 shadow-[0_22px_60px_rgba(15,23,42,0.12)]">
-              <div className="aspect-[4/3] sm:aspect-[16/11]">
+            <div className="relative overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-900 shadow-[0_18px_48px_rgba(15,23,42,0.10)]">
+              <div className="aspect-[4/3] sm:aspect-[16/10]">
                 {event.banner ? (
                   <img
                     src={event.banner}
@@ -329,11 +329,11 @@ const MicrositeHome = () => {
                 {aboutCopy}
               </p>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="mt-7 grid gap-3 sm:grid-cols-3">
                 {benefits.map(({ icon: Icon, title, text }) => (
                   <article
                     key={title}
-                    className="rounded-[1.25rem] border border-slate-200 bg-[#fbfaf8] p-5"
+                    className="rounded-[1.15rem] border border-slate-200 bg-[#fbfaf8] p-4"
                   >
                     <span
                       className="grid h-10 w-10 place-items-center rounded-xl"
