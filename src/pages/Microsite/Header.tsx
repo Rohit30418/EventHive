@@ -12,15 +12,21 @@ const Header = () => {
   const secondaryColor =
     event?.SecondaryColor || event?.secondaryColor || "#F18651";
   const eventName = event?.EventName || "EventHive";
+  const eventLogo = event?.logo || event?.logoUrl;
   const hasSpeakers = Boolean(event?.speakers?.length);
+  const hasLocation = Boolean(event?.location);
+  const isEventPassed = event?.eventDate
+    ? new Date(event.eventDate).getTime() < Date.now()
+    : false;
 
   const navItems = useMemo(
     () => [
       { name: "About", href: "experience", visible: true },
       { name: "Speakers", href: "speakers", visible: hasSpeakers },
+      { name: "Location", href: "location", visible: hasLocation },
       { name: "Registration", href: "registration", visible: true },
     ],
-    [hasSpeakers]
+    [hasSpeakers, hasLocation]
   );
 
   useEffect(() => {
@@ -67,12 +73,16 @@ const Header = () => {
             aria-label="Go to event home"
           >
             <span
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-extrabold text-white"
+              className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl text-sm font-extrabold text-white"
               style={{
                 background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
               }}
             >
-              {eventName.charAt(0).toUpperCase()}
+              {eventLogo ? (
+                <img src={eventLogo} alt="" className="h-full w-full object-cover" />
+              ) : (
+                eventName.charAt(0).toUpperCase()
+              )}
             </span>
             <span className="min-w-0">
               <span className="block max-w-[190px] truncate font-['Manrope',sans-serif] text-base font-extrabold text-slate-950 sm:max-w-[280px]">
@@ -102,12 +112,13 @@ const Header = () => {
           <div className="hidden md:block">
             <button
               type="button"
-              onClick={() => scrollToSection("registration")}
-              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-extrabold text-white"
-              style={{ backgroundColor: primaryColor }}
+              onClick={() => !isEventPassed && scrollToSection("registration")}
+              disabled={isEventPassed}
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+              style={!isEventPassed ? { backgroundColor: primaryColor } : undefined}
             >
-              Register
-              <ArrowRight size={16} />
+              {isEventPassed ? "Closed" : "Register"}
+              {!isEventPassed && <ArrowRight size={16} />}
             </button>
           </div>
 
@@ -150,14 +161,17 @@ const Header = () => {
 
             <button
               type="button"
-              onClick={() => scrollToSection("registration")}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-extrabold text-white"
-              style={{
-                background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-              }}
+              onClick={() => !isEventPassed && scrollToSection("registration")}
+              disabled={isEventPassed}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+              style={
+                !isEventPassed
+                  ? { background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }
+                  : undefined
+              }
             >
-              Register now
-              <ArrowRight size={16} />
+              {isEventPassed ? "Registration closed" : "Register now"}
+              {!isEventPassed && <ArrowRight size={16} />}
             </button>
           </aside>
         </>
