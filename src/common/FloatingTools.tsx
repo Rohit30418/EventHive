@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 import {
   Accessibility,
   AlignJustify,
@@ -63,9 +64,15 @@ const classMap: Array<[keyof Omit<AccessibilityState, "textSize">, string]> = [
 ];
 
 const FloatingTools = () => {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const [settings, setSettings] = useState<AccessibilityState>(defaultState);
+
+  const hideOnPrivateRoutes =
+    pathname.toLowerCase() === "/login" ||
+    pathname.toLowerCase() === "/logout" ||
+    pathname.toLowerCase().startsWith("/dashboard");
 
   useEffect(() => {
     try {
@@ -158,6 +165,8 @@ const FloatingTools = () => {
         ? "border-[var(--eh-primary)] bg-[var(--eh-primary-100)] text-[var(--eh-primary-800)]"
         : "border-[var(--eh-border)] bg-white text-[var(--eh-muted-strong)] hover:border-[var(--eh-primary)]"
     }`;
+
+  if (hideOnPrivateRoutes) return null;
 
   return createPortal(
     <>
