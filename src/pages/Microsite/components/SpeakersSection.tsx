@@ -14,9 +14,9 @@ const SpeakersSection = ({
   return (
     <section
       id="speakers"
-      className="scroll-mt-24 bg-[#fbfaf8] px-4 py-14 sm:px-6 sm:py-16 lg:py-20"
+      className="scroll-mt-24 bg-[#fbfaf8] py-14 sm:py-16 lg:py-20"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <p
             className="text-[11px] font-extrabold uppercase tracking-[0.16em]"
