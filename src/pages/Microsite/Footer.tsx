@@ -9,6 +9,7 @@ const Footer = () => {
   const secondaryColor =
     event?.SecondaryColor || event?.secondaryColor || "#F18651";
   const eventName = event?.EventName || "EventHive";
+  const eventLogo = event?.logo || event?.logoUrl;
 
   const scrollTo = (id: string) => {
     document
@@ -23,12 +24,16 @@ const Footer = () => {
           <div>
             <Link to="/" className="inline-flex items-center gap-3">
               <span
-                className="grid h-11 w-11 place-items-center rounded-xl text-sm font-extrabold text-white"
+                className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl text-sm font-extrabold text-white"
                 style={{
                   background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                 }}
               >
-                {eventName.charAt(0).toUpperCase()}
+                {eventLogo ? (
+                  <img src={eventLogo} alt="" className="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  eventName.charAt(0).toUpperCase()
+                )}
               </span>
               <div>
                 <p className="max-w-[280px] truncate font-['Manrope',sans-serif] text-lg font-extrabold">
@@ -69,6 +74,15 @@ const Footer = () => {
                     Speakers
                   </button>
                 ) : null}
+                {event?.location && (
+                  <button
+                    type="button"
+                    onClick={() => scrollTo("location")}
+                    className="text-sm font-bold text-white/65 hover:text-white"
+                  >
+                    Location
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => scrollTo("registration")}
