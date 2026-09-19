@@ -13,6 +13,7 @@ const Header = () => {
     event?.SecondaryColor || event?.secondaryColor || "#F18651";
   const eventName = event?.EventName || "EventHive";
   const eventLogo = event?.logo || event?.logoUrl;
+  const hasAbout = Boolean(event?.AboutArea || event?.description);
   const hasSpeakers = Boolean(event?.speakers?.length);
   const hasMedia = Boolean(event?.banner || event?.videoPoster || event?.videoUrl);
   const hasLocation = Boolean(event?.location);
@@ -22,13 +23,13 @@ const Header = () => {
 
   const navItems = useMemo(
     () => [
-      { name: "About", href: "experience", visible: true },
+      { name: "About", href: "experience", visible: hasAbout },
       { name: "Speakers", href: "speakers", visible: hasSpeakers },
       { name: "Highlights", href: "highlights", visible: hasMedia },
       { name: "Location", href: "location", visible: hasLocation },
       { name: "Registration", href: "registration", visible: true },
     ],
-    [hasSpeakers, hasMedia, hasLocation]
+    [hasAbout, hasSpeakers, hasMedia, hasLocation]
   );
 
   useEffect(() => {
@@ -90,9 +91,11 @@ const Header = () => {
               <span className="block max-w-[190px] truncate font-['Manrope',sans-serif] text-base font-extrabold text-slate-950 sm:max-w-[280px]">
                 {eventName}
               </span>
-              <span className="hidden text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400 sm:block">
-                Event microsite
-              </span>
+              {(event?.eventType || event?.category) && (
+                <span className="hidden text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400 sm:block">
+                  {event.eventType || event.category}
+                </span>
+              )}
             </span>
           </button>
 
