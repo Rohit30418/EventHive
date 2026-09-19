@@ -238,17 +238,19 @@ const MicrositeHome = () => {
                 {!isEventPassed && <ArrowRight size={17} />}
               </button>
 
-              <button
-                type="button"
-                onClick={() =>
-                  document
-                    .getElementById("experience")
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
-                }
-                className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-extrabold text-slate-800 hover:border-slate-400"
-              >
-                About the event
-              </button>
+              {hasAbout && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    document
+                      .getElementById("experience")
+                      ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                  }
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-extrabold text-slate-800 hover:border-slate-400"
+                >
+                  About the event
+                </button>
+              )}
             </div>
           </div>
 
