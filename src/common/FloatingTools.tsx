@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Accessibility,
   AlignJustify,
@@ -158,7 +159,7 @@ const FloatingTools = () => {
         : "border-[var(--eh-border)] bg-white text-[var(--eh-muted-strong)] hover:border-[var(--eh-primary)]"
     }`;
 
-  return (
+  return createPortal(
     <>
       <div
         className="eh-floating-actions"
@@ -319,7 +320,8 @@ const FloatingTools = () => {
           </div>
         </aside>
       )}
-    </>
+    </>,
+    document.body
   );
 };
 
