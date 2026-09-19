@@ -10,7 +10,6 @@ import {
   Mail,
   ShieldCheck,
   Smartphone,
-  Sparkles,
   TicketCheck,
   UploadCloud,
   User,
@@ -18,7 +17,7 @@ import {
 } from "lucide-react";
 import StyledInput from "./event-registration/StyledInput";
 import useEventRegistrationForm from "./event-registration/useEventRegistrationForm";
-import { hexToRgba, interestsList, trustPoints } from "./event-registration/presentation";
+import { interestsList, trustPoints } from "./event-registration/presentation";
 
 interface EventRegistrationProps {
   primaryColor?: string;
@@ -46,23 +45,9 @@ const EventRegistration = ({
   };
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 lg:py-16">
-      <div
-        className="absolute -left-32 top-10 h-[30rem] w-[30rem] rounded-full blur-[130px]"
-        style={{
-          backgroundColor: hexToRgba(primaryColor, 0.12),
-        }}
-      />
-
-      <div
-        className="absolute -right-32 bottom-10 h-[30rem] w-[30rem] rounded-full blur-[130px]"
-        style={{
-          backgroundColor: hexToRgba(secondaryColor, 0.12),
-        }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mx-auto mb-9 max-w-3xl text-center">
+    <section className="bg-[#fbfaf8] px-4 py-12 sm:px-6 sm:py-14 lg:py-16">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 max-w-3xl sm:mb-10">
           <span
             className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] shadow-sm"
             style={{ color: primaryColor }}
@@ -71,35 +56,21 @@ const EventRegistration = ({
             Secure Registration
           </span>
 
-          <h2 className="mt-5 text-3xl font-black text-slate-950 sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-extrabold leading-[1.15] text-slate-950 sm:text-3xl lg:text-4xl">
             Reserve your seat in a few simple steps.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
+          <p className="mt-3 max-w-2xl text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
             Submit your attendee details. Your photo helps create a clean event
             identity and badge experience.
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="grid gap-6 lg:grid-cols-[0.68fr_1.32fr] lg:items-start">
           {/* Left Info Panel */}
-          <aside className="relative overflow-hidden rounded-[1.6rem] bg-slate-950 p-6 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
-            <div
-              className="absolute -right-20 -top-20 h-72 w-72 rounded-full blur-[100px]"
-              style={{
-                backgroundColor: hexToRgba(primaryColor, 0.45),
-              }}
-            />
-
-            <div
-              className="absolute -bottom-24 left-0 h-72 w-72 rounded-full blur-[100px]"
-              style={{
-                backgroundColor: hexToRgba(secondaryColor, 0.32),
-              }}
-            />
-
+          <aside className="rounded-[1.5rem] bg-slate-950 p-6 text-white lg:sticky lg:top-24 lg:h-fit">
             <div className="relative z-10">
-              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-xl">
+              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 ">
                 <TicketCheck size={26} />
               </div>
 
@@ -117,7 +88,7 @@ const EventRegistration = ({
                 {trustPoints.map((item) => (
                   <div
                     key={item}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-xl"
+                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-4 "
                   >
                     <span
                       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white"
@@ -133,29 +104,16 @@ const EventRegistration = ({
                 ))}
               </div>
 
-              <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-white/10 p-5 backdrop-blur-xl">
-                <div className="mb-3 flex items-center gap-2 text-cyan-100">
-                  <Sparkles size={16} />
-                  <span className="text-xs font-black uppercase tracking-[0.18em]">
-                    Helpful tip
-                  </span>
-                </div>
-
-                <p className="text-sm font-medium leading-7 text-slate-300">
-                  Use a clear front-facing photo. This improves badge visibility
-                  and check-in verification.
-                </p>
-              </div>
             </div>
           </aside>
 
           {/* Form */}
-          <div className="overflow-hidden rounded-[2.2rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+          <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
             <div className="h-2 w-full" style={gradientStyle} />
 
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="space-y-6 p-5 sm:p-6 lg:p-8"
+              className="space-y-6 p-5 sm:p-7 lg:p-8"
             >
               {serverError && (
                 <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-700">
@@ -229,7 +187,7 @@ const EventRegistration = ({
                 </div>
               </section>
 
-              <section className="rounded-[1.7rem] border border-slate-200 bg-slate-50/70 p-5 sm:p-6">
+              <section className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-5">
                 <div className="mb-5 flex items-center gap-3">
                   <div
                     className="flex h-11 w-11 items-center justify-center rounded-2xl text-white"
@@ -288,38 +246,6 @@ const EventRegistration = ({
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3">
-                      {["male", "female", "others"].map((gender) => (
-                        <label key={`styled-${gender}`} className="-mt-[68px] cursor-pointer">
-                          <input
-                            type="radio"
-                            value={gender}
-                            {...register("gender")}
-                            className="peer sr-only"
-                          />
-
-                          <div
-                            className="rounded-2xl border border-slate-200 bg-white py-4 text-center text-sm font-black capitalize text-slate-500 transition-all peer-checked:border-transparent peer-checked:text-white"
-                            style={
-                              document
-                                ? {
-                                    background:
-                                      errors.gender ? undefined : undefined,
-                                  }
-                                : undefined
-                            }
-                          >
-                            <span
-                              className="block rounded-none peer-checked:text-white"
-                              style={{}}
-                            >
-                              {gender}
-                            </span>
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-
                     {errors.gender && (
                       <p className="ml-1 text-xs font-bold text-red-500">
                         {errors.gender.message}
@@ -336,7 +262,7 @@ const EventRegistration = ({
                   </label>
 
                   <div
-                    className={`relative flex min-h-[280px] flex-col items-center justify-center overflow-hidden rounded-[1.7rem] border-2 border-dashed transition-all ${
+                    className={`relative flex min-h-[220px] flex-col items-center justify-center overflow-hidden rounded-[1.3rem] border-2 border-dashed transition-all ${
                       errors.photo
                         ? "border-red-300 bg-red-50"
                         : "border-slate-300 bg-slate-50 hover:bg-white"
@@ -403,7 +329,7 @@ const EventRegistration = ({
                     Areas of Interest
                   </label>
 
-                  <div className="flex min-h-[280px] flex-col justify-center rounded-[1.7rem] border border-slate-200 bg-slate-50 p-6">
+                  <div className="flex min-h-[220px] flex-col justify-center rounded-[1.3rem] border border-slate-200 bg-slate-50 p-6">
                     <div className="mb-5 flex items-center gap-3">
                       <div
                         className="flex h-10 w-10 items-center justify-center rounded-2xl text-white"
@@ -517,10 +443,9 @@ const EventRegistration = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-7 flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-4 text-base font-black text-white shadow-xl transition-all hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-extrabold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-70"
                   style={{
                     ...gradientStyle,
-                    boxShadow: `0 18px 44px ${hexToRgba(primaryColor, 0.24)}`,
                   }}
                 >
                   {isSubmitting ? (
