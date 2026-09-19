@@ -11,6 +11,7 @@ import {
 
 import Preloader from "./common/Preloader";
 import PrivateRoute from "./PrivateRoute";
+import FloatingTools from "./common/FloatingTools";
 
 // Layouts
 const Mainlayout = lazy(() => import("./Layout/Mainlayout"));
@@ -67,6 +68,8 @@ function App() {
           theme="colored"
           toastClassName="!rounded-2xl !font-bold"
         />
+
+        <FloatingTools />
 
         <Routes>
           {/* PUBLIC WEBSITE */}
