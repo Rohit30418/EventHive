@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   ArrowRight,
-  Award,
   Calendar,
   Clock,
   ExternalLink,
   MapPin,
-  ShieldCheck,
-  UsersRound,
 } from "lucide-react";
 import { ErrorState } from "../../common/StateViews";
 import { useAppSelector } from "../../store/hooks";
@@ -78,11 +75,20 @@ const LazyRegistration = ({
           secondaryColor={secondaryColor}
         />
       ) : (
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="rounded-[1.5rem] border border-slate-200 bg-white p-8 text-center sm:p-10">
-            <p className="text-sm font-semibold text-slate-500">
-              Registration form loads as you approach this section.
-            </p>
+        <div
+          className="mx-auto max-w-6xl px-4 sm:px-6"
+          aria-label="Loading registration form"
+        >
+          <div className="rounded-[1.5rem] border border-slate-200 bg-white p-6 sm:p-8">
+            <div className="h-5 w-40 animate-pulse rounded bg-slate-100" />
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-[52px] animate-pulse rounded-xl bg-slate-100"
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -126,34 +132,9 @@ const MicrositeHome = () => {
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const benefits = [
-    {
-      icon: Award,
-      title: "Focused experience",
-      text: "Key event information stays easy to scan and understand.",
-    },
-    {
-      icon: UsersRound,
-      title: "Speaker discovery",
-      text: "Attendees can quickly see who is taking the stage.",
-    },
-    {
-      icon: ShieldCheck,
-      title: "Simple registration",
-      text: "One clear path from event details to attendee registration.",
-    },
-  ];
-
-  const eventSummary =
-    event.ShortDesc ||
-    event.description ||
-    "Discover the event, understand what to expect and register from one focused experience.";
-
-  const aboutCopy =
-    event.AboutArea ||
-    event.description ||
-    event.ShortDesc ||
-    "Event details will be updated by the organizer.";
+  const eventSummary = event.ShortDesc || event.description || "";
+  const aboutCopy = event.AboutArea || event.description || "";
+  const hasAbout = Boolean(aboutCopy);
 
   const mapQuery = encodeURIComponent(event.location || "");
   const mapsUrl = event.location
@@ -197,9 +178,11 @@ const MicrositeHome = () => {
               </p>
             )}
 
-            <p className="mt-5 max-w-xl text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
-              {eventSummary}
-            </p>
+            {eventSummary && (
+              <p className="mt-5 max-w-xl text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
+                {eventSummary}
+              </p>
+            )}
 
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
               <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4">
@@ -302,7 +285,7 @@ const MicrositeHome = () => {
               <div className="flex flex-col gap-3 border-t border-white/10 bg-slate-950 px-5 py-4 text-white sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-white/45">
-                    Event microsite
+                    {event.eventType || event.category || "Event"}
                   </p>
                   <p className="mt-1 text-sm font-bold text-white/90">
                     {event.location || "Venue to be announced"}
@@ -317,57 +300,32 @@ const MicrositeHome = () => {
         </div>
       </section>
 
-      <section
-        id="experience"
-        className="scroll-mt-24 border-y border-slate-200 bg-white py-14 sm:py-16 lg:py-20"
-      >
-        <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-14">
-            <div>
-              <p
-                className="text-[11px] font-extrabold uppercase tracking-[0.16em]"
-                style={{ color: primaryColor }}
-              >
-                About the event
-              </p>
-              <h2 className="mt-4 max-w-md font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] sm:text-3xl lg:text-4xl">
-                Everything attendees need to know before they arrive.
-              </h2>
-            </div>
+      {hasAbout && (
+        <section
+          id="experience"
+          className="scroll-mt-24 border-y border-slate-200 bg-white py-14 sm:py-16 lg:py-20"
+        >
+          <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
+              <div>
+                <p
+                  className="text-[11px] font-extrabold uppercase tracking-[0.16em]"
+                  style={{ color: primaryColor }}
+                >
+                  About
+                </p>
+                <h2 className="mt-4 max-w-md font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] sm:text-3xl lg:text-4xl">
+                  About {event.EventName || "the event"}
+                </h2>
+              </div>
 
-            <div>
               <p className="whitespace-pre-line text-[15px] font-medium leading-8 text-slate-600 sm:text-base">
                 {aboutCopy}
               </p>
-
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                {benefits.map(({ icon: Icon, title, text }) => (
-                  <article
-                    key={title}
-                    className="rounded-[1.15rem] border border-slate-200 bg-[#fbfaf8] p-4"
-                  >
-                    <span
-                      className="grid h-10 w-10 place-items-center rounded-xl"
-                      style={{
-                        color: primaryColor,
-                        backgroundColor: hexToRgba(primaryColor, 0.08),
-                      }}
-                    >
-                      <Icon size={18} />
-                    </span>
-                    <h3 className="mt-4 font-['Manrope',sans-serif] text-base font-extrabold text-slate-900">
-                      {title}
-                    </h3>
-                    <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-                      {text}
-                    </p>
-                  </article>
-                ))}
-              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <SpeakersSection
         speakers={event.speakers || []}
