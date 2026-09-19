@@ -14,6 +14,7 @@ const Header = () => {
   const eventName = event?.EventName || "EventHive";
   const eventLogo = event?.logo || event?.logoUrl;
   const hasSpeakers = Boolean(event?.speakers?.length);
+  const hasMedia = Boolean(event?.banner || event?.videoPoster || event?.videoUrl);
   const hasLocation = Boolean(event?.location);
   const isEventPassed = event?.eventDate
     ? new Date(event.eventDate).getTime() < Date.now()
@@ -23,10 +24,11 @@ const Header = () => {
     () => [
       { name: "About", href: "experience", visible: true },
       { name: "Speakers", href: "speakers", visible: hasSpeakers },
+      { name: "Highlights", href: "highlights", visible: hasMedia },
       { name: "Location", href: "location", visible: hasLocation },
       { name: "Registration", href: "registration", visible: true },
     ],
-    [hasSpeakers, hasLocation]
+    [hasSpeakers, hasMedia, hasLocation]
   );
 
   useEffect(() => {
@@ -65,7 +67,7 @@ const Header = () => {
             : "border-transparent bg-[#fbfaf8]/95"
         }`}
       >
-        <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <button
             type="button"
             onClick={() => scrollToSection("top")}
