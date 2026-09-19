@@ -56,7 +56,7 @@ const EventCard: React.FC<EventCardTypes> = ({
       transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.2) }}
       className="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[var(--eh-border)] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[var(--eh-primary-300)] hover:shadow-[var(--eh-soft-shadow)]"
     >
-      <div className="relative h-56 overflow-hidden bg-[var(--eh-primary-50)]">
+      <div className="relative h-48 overflow-hidden bg-[var(--eh-primary-50)]">
         <img
           src={event.banner || fallbackImage}
           alt={event.EventName || "Event banner"}
@@ -76,7 +76,7 @@ const EventCard: React.FC<EventCardTypes> = ({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
+      <div className="flex flex-1 flex-col p-5">
         <h3 className="line-clamp-2 font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.1] tracking-[0.002em] text-[var(--eh-text)]">
           {event.EventName || "Untitled Event"}
         </h3>
@@ -87,7 +87,7 @@ const EventCard: React.FC<EventCardTypes> = ({
           </p>
         )}
 
-        <div className="mt-5 space-y-3 border-t border-[var(--eh-border)] pt-5">
+        <div className="mt-4 space-y-2.5 border-t border-[var(--eh-border)] pt-5">
           <p className="flex items-center gap-3 text-sm font-semibold tracking-[0.004em] text-[var(--eh-muted-strong)]">
             <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--eh-primary-100)] text-[var(--eh-primary)]">
               <CalendarDays size={16} />
@@ -105,7 +105,7 @@ const EventCard: React.FC<EventCardTypes> = ({
           </p>
         </div>
 
-        <div className="mt-auto pt-6">
+        <div className="mt-auto pt-5">
           <Link
             to={destination}
             state={{ event }}
