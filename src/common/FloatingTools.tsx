@@ -178,7 +178,8 @@ const FloatingTools = () => {
       >
         <a
           href={`mailto:${CONTACT_EMAIL}`}
-          className={`eh-floating-action ${isMicrosite ? "hidden" : ""}`}
+          className="eh-floating-action"
+          style={isMicrosite ? { display: "none" } : undefined}
           aria-label="Email EventHive support"
           title="Email"
         >
@@ -188,7 +189,8 @@ const FloatingTools = () => {
         {CONTACT_PHONE ? (
           <a
             href={`tel:${CONTACT_PHONE}`}
-            className={`eh-floating-action ${isMicrosite ? "hidden" : ""}`}
+            className="eh-floating-action"
+            style={isMicrosite ? { display: "none" } : undefined}
             aria-label="Call EventHive support"
             title="Call"
           >
@@ -197,7 +199,8 @@ const FloatingTools = () => {
         ) : (
           <button
             type="button"
-            className={`eh-floating-action opacity-55 ${isMicrosite ? "hidden" : ""}`}
+            className="eh-floating-action opacity-55"
+            style={isMicrosite ? { display: "none" } : undefined}
             aria-label="Phone support number pending"
             title="Phone number pending"
           >
@@ -210,7 +213,8 @@ const FloatingTools = () => {
             href={`https://wa.me/${CONTACT_WHATSAPP.replace(/\D/g, "")}`}
             target="_blank"
             rel="noreferrer"
-            className={`eh-floating-action ${isMicrosite ? "hidden" : ""}`}
+            className="eh-floating-action"
+            style={isMicrosite ? { display: "none" } : undefined}
             aria-label="Chat with EventHive on WhatsApp"
             title="WhatsApp"
           >
@@ -219,7 +223,8 @@ const FloatingTools = () => {
         ) : (
           <button
             type="button"
-            className={`eh-floating-action opacity-55 ${isMicrosite ? "hidden" : ""}`}
+            className="eh-floating-action opacity-55"
+            style={isMicrosite ? { display: "none" } : undefined}
             aria-label="WhatsApp number pending"
             title="WhatsApp number pending"
           >
