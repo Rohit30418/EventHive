@@ -1,7 +1,6 @@
 import type { CSSProperties, ElementType } from "react";
 import type { FieldError, UseFormRegister } from "react-hook-form";
 import type { RegistrationFormData } from "./registrationSchema";
-import { hexToRgba } from "./presentation";
 
 interface StyledInputProps {
   label: string;
@@ -25,7 +24,7 @@ const StyledInput = ({
   primaryColor,
 }: StyledInputProps) => (
   <div className="space-y-2">
-    <label className="ml-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">
+    <label className="text-[11px] font-extrabold uppercase tracking-[0.13em] text-slate-500">
       {label}
     </label>
 
@@ -39,18 +38,13 @@ const StyledInput = ({
         type={type}
         placeholder={placeholder}
         {...register(name)}
-        className={`h-14 w-full rounded-2xl border bg-white pl-12 pr-4 text-sm font-bold text-slate-900 outline-none transition-all placeholder:text-slate-400 ${
+        className={`h-[52px] w-full rounded-xl border bg-white pl-12 pr-4 text-sm font-semibold text-slate-900 outline-none transition-colors placeholder:text-slate-400 ${
           error
             ? "border-red-300 bg-red-50/60"
             : "border-slate-200 hover:border-slate-300 focus:border-[var(--focus-color)]"
         }`}
         style={{ "--focus-color": primaryColor } as CSSProperties}
-        onFocus={(event) => {
-          event.currentTarget.style.boxShadow = `0 0 0 4px ${hexToRgba(primaryColor, 0.12)}`;
-        }}
-        onBlur={(event) => {
-          event.currentTarget.style.boxShadow = "none";
-        }}
+
       />
     </div>
 
