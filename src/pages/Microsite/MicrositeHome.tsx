@@ -338,8 +338,6 @@ const MicrositeHome = () => {
         primaryColor={primaryColor}
         secondaryColor={secondaryColor}
         eventName={event.EventName || "Event"}
-        banner={event.banner}
-        videoPoster={event.videoPoster}
         videoUrl={event.videoUrl}
       />
 
