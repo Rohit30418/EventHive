@@ -43,8 +43,15 @@ const VideoSection = ({
   videoUrl,
 }: VideoSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const embedUrl = useMemo(() => getEmbedUrl(videoUrl), [videoUrl]);
-  const poster = videoPoster || banner;
+  const demoVideoId = "ScMzIvxBSi4";
+  const embedUrl = useMemo(
+    () => getEmbedUrl(videoUrl) || `https://www.youtube.com/embed/${demoVideoId}`,
+    [videoUrl]
+  );
+  const poster =
+    videoPoster ||
+    banner ||
+    `https://img.youtube.com/vi/${demoVideoId}/hqdefault.jpg`;
 
   if (!poster && !embedUrl) return null;
 
