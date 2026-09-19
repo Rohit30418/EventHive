@@ -45,11 +45,11 @@ const Footer = () => {
               </div>
             </Link>
 
-            <p className="mt-5 max-w-lg text-sm font-medium leading-7 text-white/50">
-              {event?.ShortDesc ||
-                event?.description ||
-                "Event information and registration in one focused experience."}
-            </p>
+            {(event?.ShortDesc || event?.description) && (
+              <p className="mt-5 max-w-lg text-sm font-medium leading-7 text-white/50">
+                {event?.ShortDesc || event?.description}
+              </p>
+            )}
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2">
@@ -131,13 +131,7 @@ const Footer = () => {
                     {event.location}
                   </p>
                 )}
-                {!event?.organizerEmail &&
-                  !event?.organizerPhone &&
-                  !event?.location && (
-                    <p className="text-sm font-medium text-white/45">
-                      Contact details will appear when provided by the organizer.
-                    </p>
-                  )}
+
               </div>
             </div>
           </div>
