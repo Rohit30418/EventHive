@@ -41,24 +41,24 @@ const overviewCards = [
 const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => (
   <>
     {/* ABOUT */}
-    <section className="bg-white px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+    <section className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6">
-          <div className="rounded-[1.4rem] border border-[var(--eh-border)] bg-white p-6 sm:p-8 lg:p-10">
+        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
+          <div className="rounded-[1.4rem] border border-[var(--eh-border)] bg-white p-6 sm:p-7 lg:p-8">
             <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-primary)]">
               About EventHive
             </p>
-            <h2 className="mt-4 max-w-xl font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] text-[var(--eh-text)] sm:text-4xl lg:text-[2.85rem]">
+            <h2 className="mt-4 max-w-xl font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.16] tracking-[-0.004em] text-[var(--eh-text)] sm:text-3xl lg:text-[2.45rem]">
               A multi-role platform built to make event creation and registration feel simple.
             </h2>
-            <p className="mt-5 max-w-xl text-[15px] font-medium leading-7 tracking-[0.006em] text-[var(--eh-muted)] sm:text-base sm:leading-8">
+            <p className="mt-4 max-w-xl text-[15px] font-medium leading-7 tracking-[0.006em] text-[var(--eh-muted)] sm:text-base sm:leading-8">
               EventHive connects organizers, attendees and Super Admins through one
               clear workflow. Organizers create events, attendees register through
               public microsites, and admins manage access and platform activity.
             </p>
             <Link
               to="/Events"
-              className="group mt-7 inline-flex items-center gap-2 rounded-full bg-[var(--eh-text)] px-6 py-3.5 text-sm font-extrabold tracking-[0.01em] text-white transition-all hover:bg-[var(--eh-primary)]"
+              className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--eh-text)] px-6 py-3.5 text-sm font-extrabold tracking-[0.01em] text-white transition-all hover:bg-[var(--eh-primary)]"
             >
               Explore EventHive
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -73,7 +73,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="grid gap-4 rounded-[1.35rem] bg-[var(--eh-text)] p-5 text-white sm:grid-cols-[auto_1fr_auto] sm:items-center sm:p-6"
+                className="grid gap-4 rounded-[1.35rem] bg-[var(--eh-text)] p-5 text-white sm:grid-cols-[auto_1fr_auto] sm:items-center"
               >
                 <div className="grid h-11 w-11 place-items-center rounded-full bg-[var(--eh-primary)] text-white">
                   <Icon size={19} />
@@ -97,14 +97,14 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     </section>
 
     {/* FEATURES */}
-    <section id="features" className="bg-[var(--eh-bg)] px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+    <section id="features" className="bg-[var(--eh-bg)] px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-primary)]">
               Everything needed
             </p>
-            <h2 className="mt-4 max-w-2xl font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] text-[var(--eh-text)] sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 max-w-2xl font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] text-[var(--eh-text)] sm:text-3xl lg:text-4xl">
               Everything needed to move an event from idea to registration.
             </h2>
           </div>
@@ -114,7 +114,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <motion.article
               key={feature.title}
@@ -122,12 +122,12 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.04 }}
-              className="min-h-[190px] rounded-[1.25rem] border border-[var(--eh-border)] bg-white p-5 shadow-[var(--eh-soft-shadow)] sm:p-6"
+              className="min-h-[175px] rounded-[1.25rem] border border-[var(--eh-border)] bg-white p-5 shadow-[var(--eh-soft-shadow)]"
             >
               <div className="grid h-10 w-10 place-items-center rounded-full bg-[var(--eh-primary-100)] text-[var(--eh-primary)]">
                 {feature.icon}
               </div>
-              <h3 className="mt-5 font-['Manrope',sans-serif] text-lg font-extrabold tracking-[0.003em] text-[var(--eh-text)] sm:text-xl">
+              <h3 className="mt-4 font-['Manrope',sans-serif] text-lg font-extrabold tracking-[0.003em] text-[var(--eh-text)] sm:text-xl">
                 {feature.title}
               </h3>
               <p className="mt-3 text-sm font-medium leading-6 tracking-[0.006em] text-[var(--eh-muted)]">
@@ -142,7 +142,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     {/* ROLE EXPERIENCES */}
     <section className="bg-[var(--eh-text)] px-4 py-16 text-white sm:px-6 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
+        <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-12">
           <div>
             <div className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-accent)]">
               <Globe2 size={14} /> Role experiences
@@ -163,12 +163,12 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="rounded-[1.25rem] border border-white/8 bg-white/[0.055] p-5 sm:p-6"
+                className="rounded-[1.25rem] border border-white/8 bg-white/[0.055] p-5"
               >
                 <div className="grid h-10 w-10 place-items-center rounded-full bg-[var(--eh-primary)] text-white">
                   {item.icon}
                 </div>
-                <h3 className="mt-5 font-['Manrope',sans-serif] text-lg font-extrabold tracking-[0.004em] sm:text-xl">
+                <h3 className="mt-4 font-['Manrope',sans-serif] text-lg font-extrabold tracking-[0.004em] sm:text-xl">
                   {item.title}
                 </h3>
                 <p className="mt-3 text-sm font-medium leading-6 tracking-[0.006em] text-white/50">
@@ -182,13 +182,13 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     </section>
 
     {/* WORKFLOW */}
-    <section id="how-it-works" className="bg-white px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
+    <section id="how-it-works" className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:gap-14">
         <div className="lg:sticky lg:top-28 lg:h-fit">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-primary)]">
             Workflow
           </p>
-          <h2 className="mt-4 max-w-xl font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] text-[var(--eh-text)] sm:text-4xl lg:text-5xl">
+          <h2 className="mt-4 max-w-xl font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] text-[var(--eh-text)] sm:text-3xl lg:text-4xl">
             A clear event workflow from setup to attendee management.
           </h2>
           <p className="mt-5 max-w-lg text-[15px] font-medium leading-7 tracking-[0.006em] text-[var(--eh-muted)] sm:text-base">
@@ -196,7 +196,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           </p>
           <Link
             to="/OrganizerRegistration"
-            className="group mt-7 inline-flex items-center gap-2 rounded-full bg-[var(--eh-text)] px-6 py-3.5 text-sm font-extrabold tracking-[0.01em] text-white hover:bg-[var(--eh-primary)]"
+            className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--eh-text)] px-6 py-3.5 text-sm font-extrabold tracking-[0.01em] text-white hover:bg-[var(--eh-primary)]"
           >
             Create your event
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -211,13 +211,13 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.04 }}
-              className="grid gap-4 py-7 sm:grid-cols-[72px_1fr] sm:py-8"
+              className="grid gap-4 py-6 sm:grid-cols-[64px_1fr] sm:py-7"
             >
-              <div className="font-['Manrope',sans-serif] text-3xl font-extrabold tracking-normal text-[var(--eh-primary)]">
+              <div className="font-['Manrope',sans-serif] text-2xl font-extrabold tracking-normal text-[var(--eh-primary)]">
                 {String(index + 1).padStart(2, "0")}
               </div>
               <div>
-                <h3 className="font-['Manrope',sans-serif] text-xl font-extrabold tracking-[0.003em] text-[var(--eh-text)] sm:text-2xl">
+                <h3 className="font-['Manrope',sans-serif] text-lg font-extrabold tracking-[0.003em] text-[var(--eh-text)] sm:text-xl">
                   {step.title}
                 </h3>
                 <p className="mt-2 max-w-2xl text-sm font-medium leading-7 tracking-[0.006em] text-[var(--eh-muted)] sm:text-base">
@@ -231,14 +231,14 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     </section>
 
     {/* EVENTS */}
-    <section id="events" className="bg-[var(--eh-bg)] px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+    <section id="events" className="bg-[var(--eh-bg)] px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-primary)]">
               Upcoming events
             </p>
-            <h2 className="mt-4 max-w-2xl font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] text-[var(--eh-text)] sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 max-w-2xl font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] text-[var(--eh-text)] sm:text-3xl lg:text-4xl">
               Discover what is happening next.
             </h2>
           </div>
@@ -251,7 +251,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           </Link>
         </div>
 
-        <div className="mt-9">
+        <div className="mt-8">
           {isLoading ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -282,11 +282,11 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     </section>
 
     {/* FAQ */}
-    <section id="faq" className="bg-white px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+    <section id="faq" className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
         <div>
           <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-primary)]">FAQ</p>
-          <h2 className="mt-4 max-w-lg font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] text-[var(--eh-text)] sm:text-4xl lg:text-5xl">
+          <h2 className="mt-4 max-w-lg font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] text-[var(--eh-text)] sm:text-3xl lg:text-4xl">
             Common questions about EventHive.
           </h2>
           <p className="mt-5 max-w-lg text-[15px] font-medium leading-7 tracking-[0.006em] text-[var(--eh-muted)] sm:text-base">
@@ -296,7 +296,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
         <div className="divide-y divide-[var(--eh-border)] border-y border-[var(--eh-border)]">
           {faqs.map((faq) => (
-            <details key={faq.q} className="group py-5 sm:py-6">
+            <details key={faq.q} className="group py-4.5 sm:py-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-['Manrope',sans-serif] text-base font-extrabold tracking-[0.003em] text-[var(--eh-text)] sm:text-lg">
                 {faq.q}
                 <ChevronDown
@@ -314,9 +314,9 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     </section>
 
     {/* CTA */}
-    <section className="bg-[var(--eh-bg)] px-4 pb-16 pt-4 sm:px-6 sm:pb-20 lg:pb-24">
+    <section className="bg-[var(--eh-bg)] px-4 pb-14 pt-3 sm:px-6 sm:pb-16 lg:pb-20">
       <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[1.5rem] bg-[var(--eh-primary)] lg:grid-cols-[1fr_auto] lg:items-center">
-        <div className="p-7 text-white sm:p-10 lg:p-12">
+        <div className="p-7 text-white sm:p-8 lg:p-10">
           <div className="flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-white/70">
             <Users size={14} /> Ready to launch
           </div>
@@ -324,7 +324,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             Ready to create and manage your next event?
           </h2>
         </div>
-        <div className="border-t border-white/20 p-7 sm:p-10 lg:border-l lg:border-t-0 lg:p-12">
+        <div className="border-t border-white/20 p-7 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
           <Link
             to="/OrganizerRegistration"
             className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--eh-text)] px-7 py-4 text-sm font-extrabold tracking-[0.01em] text-white transition-all hover:bg-white hover:text-[var(--eh-text)] sm:w-auto"
