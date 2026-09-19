@@ -183,13 +183,13 @@ const AllEvents = () => {
 
   return (
     <div className="min-h-screen bg-[#fffaf6] text-[#1e1c1b]">
-      <section className="border-b border-[#eadfd7] bg-white px-4 py-16 sm:px-6 lg:py-20">
+      <section className="border-b border-[#eadfd7] bg-white px-4 py-12 sm:px-6 lg:py-16">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.2em] text-[#ef6f30]">
             <span className="h-px w-10 bg-[#ef6f30]" /> Event discovery
           </div>
           <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
-            <h1 className="font-['Manrope',sans-serif] text-5xl font-extrabold leading-[0.98] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
+            <h1 className="font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.12] tracking-[-0.004em] sm:text-4xl lg:text-5xl">
               Explore events worth showing up for.
             </h1>
             <p className="max-w-xl text-base leading-8 text-[#77736f] lg:justify-self-end">
@@ -200,11 +200,11 @@ const AllEvents = () => {
         </div>
       </section>
 
-      <section className="px-4 py-10 sm:px-6 lg:py-14">
+      <section className="px-4 py-8 sm:px-6 lg:py-12">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-7 lg:grid-cols-[250px_minmax(0,1fr)] lg:items-start lg:gap-10">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[250px_minmax(0,1fr)] lg:items-start lg:gap-10">
             <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-[1.7rem] border border-[#eee3db] bg-white p-5">
+              <div className="rounded-[1.4rem] border border-[#eee3db] bg-white p-4 sm:p-5">
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#ef6f30]">
                   Browse by time
                 </p>
