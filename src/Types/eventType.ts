@@ -28,6 +28,8 @@ export interface EventType {
   organizerPhone?: string;
   logo?: string;
   logoUrl?: string;
+  videoUrl?: string;
+  videoPoster?: string;
   color?: string;
   createdAt?: string;
   speakers?: Speaker[];
