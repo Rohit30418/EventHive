@@ -46,7 +46,7 @@ const EventRegistration = ({
   };
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 lg:py-24">
+    <section className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 lg:py-16">
       <div
         className="absolute -left-32 top-10 h-[30rem] w-[30rem] rounded-full blur-[130px]"
         style={{
@@ -62,7 +62,7 @@ const EventRegistration = ({
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="mx-auto mb-9 max-w-3xl text-center">
           <span
             className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] shadow-sm"
             style={{ color: primaryColor }}
@@ -71,11 +71,11 @@ const EventRegistration = ({
             Secure Registration
           </span>
 
-          <h2 className="mt-5 text-4xl font-black  text-slate-950 sm:text-5xl">
+          <h2 className="mt-5 text-3xl font-black text-slate-950 sm:text-4xl">
             Reserve your seat in a few simple steps.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-8 text-slate-600 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
             Submit your attendee details. Your photo helps create a clean event
             identity and badge experience.
           </p>
@@ -83,7 +83,7 @@ const EventRegistration = ({
 
         <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
           {/* Left Info Panel */}
-          <aside className="relative overflow-hidden rounded-[2.2rem] bg-slate-950 p-7 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
+          <aside className="relative overflow-hidden rounded-[1.6rem] bg-slate-950 p-6 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
             <div
               className="absolute -right-20 -top-20 h-72 w-72 rounded-full blur-[100px]"
               style={{
@@ -103,7 +103,7 @@ const EventRegistration = ({
                 <TicketCheck size={26} />
               </div>
 
-              <h3 className="text-3xl font-black tracking-tight">
+              <h3 className="text-2xl font-black tracking-tight">
                 Your event pass starts here.
               </h3>
 
@@ -155,7 +155,7 @@ const EventRegistration = ({
 
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="space-y-8 p-5 sm:p-7 lg:p-9"
+              className="space-y-6 p-5 sm:p-6 lg:p-8"
             >
               {serverError && (
                 <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-700">
@@ -166,7 +166,7 @@ const EventRegistration = ({
                 </div>
               )}
 
-              <section className="rounded-[1.7rem] border border-slate-200 bg-slate-50/70 p-5 sm:p-6">
+              <section className="rounded-[1.4rem] border border-slate-200 bg-slate-50/70 p-5">
                 <div className="mb-5 flex items-center gap-3">
                   <div
                     className="flex h-11 w-11 items-center justify-center rounded-2xl text-white"
