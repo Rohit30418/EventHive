@@ -1,5 +1,14 @@
 import type { Speaker } from "../../../Types/eventType";
 
+const fallbackSpeakerImages = [
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=82",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=82",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=700&q=82",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=700&q=82",
+  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=700&q=82",
+  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=700&q=82",
+];
+
 interface SpeakersSectionProps {
   speakers: Speaker[];
   primaryColor: string;
@@ -28,18 +37,15 @@ const SpeakersSection = ({
             Meet the people taking the stage.
           </h2>
           <p className="mt-4 text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
-            Explore the speakers added by the event organizer.
+            Meet the voices, ideas and experience behind the event.
           </p>
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {speakers.map((speaker, index) => {
-            const initials = speaker.speakerName
-              .split(" ")
-              .map((part) => part.charAt(0))
-              .join("")
-              .slice(0, 2)
-              .toUpperCase();
+            const speakerImage =
+              speaker.speakerImage ||
+              fallbackSpeakerImages[index % fallbackSpeakerImages.length];
 
             return (
               <article
@@ -47,21 +53,13 @@ const SpeakersSection = ({
                 className="overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white"
               >
                 <div className="aspect-[4/4.4] overflow-hidden bg-slate-100">
-                  {speaker.speakerImage ? (
-                    <img
-                      src={speaker.speakerImage}
-                      alt={speaker.speakerName}
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="flex h-full items-center justify-center text-3xl font-extrabold text-white"
-                      style={{ backgroundColor: primaryColor }}
-                    >
-                      {initials || "SP"}
-                    </div>
-                  )}
+                  <img
+                    src={speakerImage}
+                    alt={speaker.speakerName}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
 
                 <div className="p-5">
