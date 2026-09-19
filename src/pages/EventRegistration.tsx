@@ -49,20 +49,19 @@ const EventRegistration = ({
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 max-w-3xl sm:mb-10">
           <span
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] shadow-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em]"
             style={{ color: primaryColor }}
           >
             <ShieldCheck size={14} />
-            Secure Registration
+            Attendee registration
           </span>
 
           <h2 className="mt-4 text-2xl font-extrabold leading-[1.15] text-slate-950 sm:text-3xl lg:text-4xl">
-            Reserve your seat in a few simple steps.
+            Complete your event registration.
           </h2>
 
           <p className="mt-3 max-w-2xl text-[15px] font-medium leading-7 text-slate-600 sm:text-base">
-            Submit your attendee details. Your photo helps create a clean event
-            identity and badge experience.
+            Add your attendee details below. Required fields are validated before your registration is submitted.
           </p>
         </div>
 
@@ -74,7 +73,7 @@ const EventRegistration = ({
                 <TicketCheck size={26} />
               </div>
 
-              <h3 className="text-2xl font-black tracking-tight">
+              <h3 className="text-xl font-extrabold leading-snug">
                 Your event pass starts here.
               </h3>
 
@@ -218,7 +217,7 @@ const EventRegistration = ({
                   />
 
                   <div className="space-y-2">
-                    <label className="ml-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">
+                    <label className="text-[11px] font-extrabold uppercase tracking-[0.13em] text-slate-500">
                       Gender
                     </label>
 
@@ -233,14 +232,14 @@ const EventRegistration = ({
                           />
 
                           <div
-                            className="rounded-2xl border border-slate-200 bg-white py-4 text-center text-sm font-black capitalize text-slate-500 transition-all peer-checked:text-white"
+                            className="flex h-[52px] items-center justify-center rounded-xl border border-slate-200 bg-white px-2 text-center text-sm font-bold capitalize text-slate-500 transition-colors peer-checked:text-white"
                             style={
                               {
                                 "--checked-bg": `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                               } as CSSProperties
                             }
                           >
-                            <span className="peer-checked:hidden">{gender}</span>
+                            <span className="block">{gender}</span>
                           </div>
                         </label>
                       ))}
@@ -257,7 +256,7 @@ const EventRegistration = ({
 
               <section className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                 <div className="space-y-2 lg:col-span-5">
-                  <label className="ml-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">
+                  <label className="text-[11px] font-extrabold uppercase tracking-[0.13em] text-slate-500">
                     Profile Photo
                   </label>
 
@@ -281,7 +280,7 @@ const EventRegistration = ({
                         <button
                           type="button"
                           onClick={clearPhoto}
-                          className="relative z-10 rounded-full border border-white/40 bg-white/20 p-3 text-white backdrop-blur-md transition-all hover:bg-red-500"
+                          className="relative z-10 rounded-full border border-white/40 bg-white p-3 text-red-600 transition-colors hover:bg-red-500"
                         >
                           <X size={20} />
                         </button>
@@ -325,7 +324,7 @@ const EventRegistration = ({
                 </div>
 
                 <div className="space-y-2 lg:col-span-7">
-                  <label className="ml-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">
+                  <label className="text-[11px] font-extrabold uppercase tracking-[0.13em] text-slate-500">
                     Areas of Interest
                   </label>
 
@@ -359,7 +358,7 @@ const EventRegistration = ({
                           />
 
                           <span
-                            className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-600 shadow-sm transition-all peer-checked:text-white"
+                            className="inline-flex rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-600 transition-colors peer-checked:text-white"
                             style={
                               {
                                 "--chip-bg": `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
@@ -455,7 +454,7 @@ const EventRegistration = ({
                     </>
                   ) : (
                     <>
-                      Complete Registration
+                      Complete registration
                       <BadgeCheck size={19} />
                     </>
                   )}
