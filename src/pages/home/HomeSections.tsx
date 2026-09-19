@@ -140,14 +140,14 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
     </section>
 
     {/* ROLE EXPERIENCES */}
-    <section className="bg-[var(--eh-text)] px-4 py-16 text-white sm:px-6 sm:py-20 lg:py-24">
+    <section className="bg-[var(--eh-text)] px-4 py-14 text-white sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-12">
           <div>
             <div className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[var(--eh-accent)]">
               <Globe2 size={14} /> Role experiences
             </div>
-            <h2 className="mt-4 max-w-lg font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 max-w-lg font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
               One product, three focused experiences.
             </h2>
             <p className="mt-5 max-w-lg text-[15px] font-medium leading-7 tracking-[0.006em] text-white/50 sm:text-base">
@@ -296,7 +296,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
         <div className="divide-y divide-[var(--eh-border)] border-y border-[var(--eh-border)]">
           {faqs.map((faq) => (
-            <details key={faq.q} className="group py-4.5 sm:py-5">
+            <details key={faq.q} className="group py-4 sm:py-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-['Manrope',sans-serif] text-base font-extrabold tracking-[0.003em] text-[var(--eh-text)] sm:text-lg">
                 {faq.q}
                 <ChevronDown
@@ -320,14 +320,14 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           <div className="flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-white/70">
             <Users size={14} /> Ready to launch
           </div>
-          <h2 className="mt-4 max-w-3xl font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.08] tracking-[-0.01em] sm:text-4xl lg:text-5xl">
+          <h2 className="mt-4 max-w-3xl font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
             Ready to create and manage your next event?
           </h2>
         </div>
         <div className="border-t border-white/20 p-7 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
           <Link
             to="/OrganizerRegistration"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--eh-text)] px-7 py-4 text-sm font-extrabold tracking-[0.01em] text-white transition-all hover:bg-white hover:text-[var(--eh-text)] sm:w-auto"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--eh-text)] px-6 py-3.5 text-sm font-extrabold tracking-[0.01em] text-white transition-all hover:bg-white hover:text-[var(--eh-text)] sm:w-auto"
           >
             Create an Event
             <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
