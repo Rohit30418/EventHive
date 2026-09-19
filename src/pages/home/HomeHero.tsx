@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const HomeHero = () => (
-  <section className="relative isolate overflow-hidden bg-[var(--eh-bg)] px-4 py-14 text-[var(--eh-text)] sm:px-6 sm:py-18 lg:py-24">
+  <section className="relative isolate overflow-hidden bg-[var(--eh-bg)] px-4 py-12 text-[var(--eh-text)] sm:px-6 sm:py-16 lg:py-20">
     <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px] bg-[radial-gradient(circle_at_50%_0%,rgba(239,111,48,0.16),transparent_62%)]" />
     <div className="pointer-events-none absolute left-1/2 top-20 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-[var(--eh-primary-100)] blur-3xl sm:h-96 sm:w-96" />
 
@@ -17,12 +17,12 @@ const HomeHero = () => (
         Event management, simplified
       </div>
 
-      <h1 className="mx-auto mt-6 max-w-4xl font-['Manrope',sans-serif] text-[2.45rem] font-extrabold leading-[1.08] tracking-[-0.004em] sm:text-[3.45rem] lg:text-[4.6rem]">
+      <h1 className="mx-auto mt-6 max-w-4xl font-['Manrope',sans-serif] text-[2.45rem] font-extrabold leading-[1.08] tracking-[-0.004em] sm:text-[3.2rem] lg:text-[4.1rem]">
         Build events people
         <span className="block text-[var(--eh-primary)]">want to be part of.</span>
       </h1>
 
-      <p className="mx-auto mt-5 max-w-2xl text-[15px] font-medium leading-7 tracking-[0.004em] text-[var(--eh-muted)] sm:text-[17px] sm:leading-8">
+      <p className="mx-auto mt-5 max-w-2xl text-[15px] font-medium leading-7 tracking-[0.004em] text-[var(--eh-muted)] sm:text-base sm:leading-7">
         Create event microsites, collect registrations and manage organizer workflows from one focused EventHive experience.
       </p>
 
