@@ -4,6 +4,7 @@ import {
   Award,
   Calendar,
   Clock,
+  ExternalLink,
   MapPin,
   ShieldCheck,
   UsersRound,
@@ -11,6 +12,7 @@ import {
 import { ErrorState } from "../../common/StateViews";
 import { useAppSelector } from "../../store/hooks";
 import EventRegistration from "../EventRegistration";
+import VideoSection from "./VideoSection";
 import SpeakersSection from "./components/SpeakersSection";
 
 const formatDate = (value?: string) => {
@@ -48,6 +50,7 @@ const LazyRegistration = ({
 
   useEffect(() => {
     const element = wrapperRef.current;
+
     if (!element || !("IntersectionObserver" in window)) {
       setShouldRender(true);
       return;
@@ -60,7 +63,7 @@ const LazyRegistration = ({
           observer.disconnect();
         }
       },
-      { rootMargin: "700px 0px" }
+      { rootMargin: "650px 0px" }
     );
 
     observer.observe(element);
@@ -75,10 +78,12 @@ const LazyRegistration = ({
           secondaryColor={secondaryColor}
         />
       ) : (
-        <div className="mx-auto max-w-5xl rounded-[1.5rem] border border-slate-200 bg-white p-8 text-center sm:p-12">
-          <p className="text-sm font-semibold text-slate-500">
-            Registration form loads when you reach this section.
-          </p>
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="rounded-[1.5rem] border border-slate-200 bg-white p-8 text-center sm:p-10">
+            <p className="text-sm font-semibold text-slate-500">
+              Registration form loads as you approach this section.
+            </p>
+          </div>
         </div>
       )}
     </div>
@@ -115,6 +120,7 @@ const MicrositeHome = () => {
 
   const scrollToRegistration = () => {
     if (isEventPassed) return;
+
     document
       .getElementById("registration")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -123,18 +129,18 @@ const MicrositeHome = () => {
   const benefits = [
     {
       icon: Award,
-      title: "Focused event experience",
-      text: "Everything attendees need is presented in one clear event page.",
+      title: "Focused experience",
+      text: "Key event information stays easy to scan and understand.",
     },
     {
       icon: UsersRound,
-      title: "Meet the speakers",
-      text: "Discover the people and expertise behind the event.",
+      title: "Speaker discovery",
+      text: "Attendees can quickly see who is taking the stage.",
     },
     {
       icon: ShieldCheck,
       title: "Simple registration",
-      text: "A straightforward attendee flow with clear event information.",
+      text: "One clear path from event details to attendee registration.",
     },
   ];
 
@@ -149,14 +155,19 @@ const MicrositeHome = () => {
     event.ShortDesc ||
     "Event details will be updated by the organizer.";
 
+  const mapQuery = encodeURIComponent(event.location || "");
+  const mapsUrl = event.location
+    ? `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
+    : "#";
+
   return (
     <main
       id="top"
       style={themeStyle}
       className="w-full overflow-x-hidden bg-[#fbfaf8] text-slate-950 antialiased"
     >
-      <section className="px-4 pb-12 pt-28 sm:px-6 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-32">
-        <div className="mx-auto grid max-w-7xl items-center gap-9 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
+      <section className="pb-12 pt-28 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-32">
+        <div className="mx-auto grid w-full max-w-[1320px] items-center gap-9 px-4 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12 lg:px-8">
           <div className="max-w-2xl">
             <div
               className="inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em]"
@@ -190,7 +201,7 @@ const MicrositeHome = () => {
               {eventSummary}
             </p>
 
-            <div className="mt-7 grid gap-3 sm:grid-cols-2 sm:gap-4">
+            <div className="mt-7 grid gap-3 sm:grid-cols-2">
               <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4">
                 <span
                   className="grid h-10 w-10 shrink-0 place-items-center rounded-xl"
@@ -308,9 +319,9 @@ const MicrositeHome = () => {
 
       <section
         id="experience"
-        className="scroll-mt-24 border-y border-slate-200 bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-20"
+        className="scroll-mt-24 border-y border-slate-200 bg-white py-14 sm:py-16 lg:py-20"
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-14">
             <div>
               <p
@@ -363,51 +374,83 @@ const MicrositeHome = () => {
         primaryColor={primaryColor}
       />
 
-      {event.location && (
-        <section id="location" className="scroll-mt-24 bg-[#fbfaf8] px-4 py-14 sm:px-6 sm:py-16">
-          <div className="mx-auto max-w-7xl rounded-[1.5rem] border border-slate-200 bg-white p-6 sm:p-8">
-            <div className="grid gap-5 md:grid-cols-[auto_1fr_auto] md:items-center">
-              <span
-                className="grid h-12 w-12 place-items-center rounded-2xl text-white"
-                style={{
-                  background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                }}
-              >
-                <MapPin size={21} />
-              </span>
+      <VideoSection
+        primaryColor={primaryColor}
+        secondaryColor={secondaryColor}
+        eventName={event.EventName || "Event"}
+        banner={event.banner}
+        videoPoster={event.videoPoster}
+        videoUrl={event.videoUrl}
+      />
 
+      {event.location && (
+        <section
+          id="location"
+          className="scroll-mt-24 bg-[#fbfaf8] py-14 sm:py-16 lg:py-20"
+        >
+          <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
+            <div className="mb-7 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
               <div>
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-slate-400">
-                  Event location
+                <p
+                  className="text-[11px] font-extrabold uppercase tracking-[0.16em]"
+                  style={{ color: primaryColor }}
+                >
+                  Location
                 </p>
-                <h2 className="mt-1 font-['Manrope',sans-serif] text-xl font-extrabold text-slate-950 sm:text-2xl">
-                  {event.location}
+                <h2 className="mt-3 font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] text-slate-950 sm:text-3xl lg:text-4xl">
+                  Find your way to the event.
                 </h2>
+                <p className="mt-3 text-[15px] font-medium leading-7 text-slate-600">
+                  {event.location}
+                </p>
               </div>
 
-              {!isEventPassed && (
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-extrabold text-slate-800 hover:border-slate-400"
+              >
+                Open in Maps
+                <ExternalLink size={16} />
+              </a>
+            </div>
+
+            <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
+              <iframe
+                src={`https://maps.google.com/maps?q=${mapQuery}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                title={`${event.EventName || "Event"} location`}
+                loading="lazy"
+                className="h-[340px] w-full sm:h-[420px]"
+                style={{ border: 0 }}
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            {!isEventPassed && (
+              <div className="mt-5 flex justify-end">
                 <button
                   type="button"
                   onClick={scrollToRegistration}
                   className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-extrabold text-white"
                   style={{ backgroundColor: primaryColor }}
                 >
-                  Register
+                  Register for this event
                   <ArrowRight size={16} />
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       )}
 
       <section
         id="registration"
-        className="scroll-mt-24 border-t border-slate-200 bg-white px-0 py-8 sm:py-10"
+        className="scroll-mt-24 border-t border-slate-200 bg-white py-8 sm:py-10"
       >
         {isEventPassed ? (
-          <div className="mx-auto max-w-3xl px-4 sm:px-6">
-            <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-6 py-14 text-center">
+          <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl rounded-[1.5rem] border border-slate-200 bg-slate-50 px-6 py-14 text-center">
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-slate-200 text-slate-500">
                 <Clock size={26} />
               </span>
