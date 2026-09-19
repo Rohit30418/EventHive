@@ -72,7 +72,7 @@ const Field = ({
         type={type}
         placeholder={placeholder}
         aria-invalid={Boolean(error)}
-        className={`w-full rounded-2xl border bg-[#fffaf6] py-4 pl-12 pr-4 font-semibold text-[#1e1c1b] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#ef6f30] focus:bg-white focus:ring-4 focus:ring-[#ef6f30]/10 ${
+        className={`w-full rounded-2xl border bg-[#fffaf6] py-3.5 pl-12 pr-4 font-semibold text-[#1e1c1b] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#ef6f30] focus:bg-white focus:ring-4 focus:ring-[#ef6f30]/10 ${
           error ? "border-red-300" : "border-[#eadfd7]"
         }`}
       />
@@ -182,23 +182,23 @@ const OrganizerRegistration = () => {
   };
 
   return (
-    <section className="bg-[#fffaf6] px-4 py-8 text-[#1e1c1b] sm:px-6 sm:py-12 lg:py-16">
+    <section className="bg-[#fffaf6] px-4 py-7 text-[#1e1c1b] sm:px-6 sm:py-9 lg:py-12">
       <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-[2rem] border border-[#eee3db] bg-white shadow-[0_24px_70px_rgba(30,28,27,0.08)] lg:grid-cols-[0.82fr_1.18fr]">
-        <aside className="bg-[#ef6f30] p-7 text-white sm:p-9 lg:p-12">
+        <aside className="bg-[#ef6f30] p-6 text-white sm:p-8 lg:p-10">
           <div className="flex h-full flex-col">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
                 <span className="h-px w-9 bg-white/60" /> Organizer onboarding
               </div>
-              <h1 className="mt-6 max-w-md font-['Manrope',sans-serif] text-3xl font-extrabold leading-[1.02] tracking-[-0.05em] sm:text-4xl lg:text-5xl">
+              <h1 className="mt-6 max-w-md font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
                 Build your event presence with EventHive.
               </h1>
-              <p className="mt-5 max-w-md text-sm leading-7 text-white/75 sm:text-base">
+              <p className="mt-4 max-w-md text-sm leading-7 text-white/75 sm:text-base">
                 Create your organizer account, publish event pages and manage registrations from one focused workspace.
               </p>
             </div>
 
-            <div className="mt-8 space-y-3 lg:mt-auto lg:pt-12">
+            <div className="mt-7 space-y-3 lg:mt-auto lg:pt-10">
               {organizerBenefits.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#ef6f30]">
@@ -211,9 +211,9 @@ const OrganizerRegistration = () => {
           </div>
         </aside>
 
-        <div className="p-6 sm:p-9 lg:p-12">
+        <div className="p-6 sm:p-8 lg:p-10">
           <div className="mx-auto max-w-2xl">
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="mb-5 flex max-w-[220px] items-center gap-2">
                 {[1, 2].map((item) => (
                   <div
@@ -228,7 +228,7 @@ const OrganizerRegistration = () => {
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#ef6f30]">
                 Step {step} of 2
               </p>
-              <h2 className="mt-3 font-['Manrope',sans-serif] text-3xl font-extrabold tracking-[-0.04em] text-[#1e1c1b] sm:text-4xl">
+              <h2 className="mt-3 font-['Manrope',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#1e1c1b] sm:text-3xl">
                 {step === 1 ? "Create organizer account" : "Complete demo payment"}
               </h2>
               <p className="mt-3 text-sm leading-6 text-[#77736f]">
