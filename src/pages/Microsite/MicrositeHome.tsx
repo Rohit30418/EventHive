@@ -155,7 +155,7 @@ const MicrositeHome = () => {
       style={themeStyle}
       className="w-full overflow-x-hidden bg-[#fbfaf8] text-slate-950 antialiased"
     >
-      <section className="px-4 pb-12 pt-26 sm:px-6 sm:pb-14 sm:pt-30 lg:pb-18 lg:pt-32">
+      <section className="px-4 pb-12 pt-28 sm:px-6 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-32">
         <div className="mx-auto grid max-w-7xl items-center gap-9 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
           <div className="max-w-2xl">
             <div
