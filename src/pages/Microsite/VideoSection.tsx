@@ -61,17 +61,12 @@ const VideoSection = ({
               style={{ color: secondaryColor }}
             >
               <Video size={14} />
-              Event preview
+              Highlights
             </div>
 
             <h2 className="mt-4 font-['Manrope',sans-serif] text-2xl font-extrabold leading-[1.15] sm:text-3xl lg:text-4xl">
-              Get a feel for {eventName}.
+              {eventName} highlights
             </h2>
-
-            <p className="mt-4 text-[15px] font-medium leading-7 text-white/55 sm:text-base">
-              A simple visual preview of the event experience before attendees
-              reach the registration section.
-            </p>
           </div>
 
           <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-900">
@@ -97,7 +92,7 @@ const VideoSection = ({
                   <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 sm:inset-x-6 sm:bottom-6">
                     <div>
                       <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-white/50">
-                        Event media
+                        Highlights
                       </p>
                       <p className="mt-1 max-w-lg font-['Manrope',sans-serif] text-lg font-extrabold text-white sm:text-xl">
                         {eventName}
