@@ -69,6 +69,8 @@ const FloatingTools = () => {
   const [speaking, setSpeaking] = useState(false);
   const [settings, setSettings] = useState<AccessibilityState>(defaultState);
 
+  const isMicrosite = pathname.toLowerCase().startsWith("/events/");
+
   const hideOnPrivateRoutes =
     pathname.toLowerCase() === "/login" ||
     pathname.toLowerCase() === "/logout" ||
@@ -176,7 +178,7 @@ const FloatingTools = () => {
       >
         <a
           href={`mailto:${CONTACT_EMAIL}`}
-          className="eh-floating-action"
+          className={`eh-floating-action ${isMicrosite ? "hidden" : ""}`}
           aria-label="Email EventHive support"
           title="Email"
         >
@@ -186,7 +188,7 @@ const FloatingTools = () => {
         {CONTACT_PHONE ? (
           <a
             href={`tel:${CONTACT_PHONE}`}
-            className="eh-floating-action"
+            className={`eh-floating-action ${isMicrosite ? "hidden" : ""}`}
             aria-label="Call EventHive support"
             title="Call"
           >
@@ -208,7 +210,7 @@ const FloatingTools = () => {
             href={`https://wa.me/${CONTACT_WHATSAPP.replace(/\D/g, "")}`}
             target="_blank"
             rel="noreferrer"
-            className="eh-floating-action"
+            className={`eh-floating-action ${isMicrosite ? "hidden" : ""}`}
             aria-label="Chat with EventHive on WhatsApp"
             title="WhatsApp"
           >
