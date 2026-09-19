@@ -364,7 +364,7 @@ const MicrositeHome = () => {
       />
 
       {event.location && (
-        <section className="bg-[#fbfaf8] px-4 py-14 sm:px-6 sm:py-16">
+        <section id="location" className="scroll-mt-24 bg-[#fbfaf8] px-4 py-14 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-7xl rounded-[1.5rem] border border-slate-200 bg-white p-6 sm:p-8">
             <div className="grid gap-5 md:grid-cols-[auto_1fr_auto] md:items-center">
               <span
