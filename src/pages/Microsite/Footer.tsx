@@ -18,8 +18,8 @@ const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-slate-200 bg-slate-950 px-4 py-12 text-white sm:px-6">
-      <div className="mx-auto max-w-7xl">
+    <footer className="border-t border-slate-200 bg-slate-950 py-12 text-white">
+      <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 border-b border-white/10 pb-10 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
             <Link to="/" className="inline-flex items-center gap-3">
@@ -74,6 +74,15 @@ const Footer = () => {
                     Speakers
                   </button>
                 ) : null}
+                {(event?.banner || event?.videoPoster || event?.videoUrl) && (
+                  <button
+                    type="button"
+                    onClick={() => scrollTo("highlights")}
+                    className="text-sm font-bold text-white/65 hover:text-white"
+                  >
+                    Highlights
+                  </button>
+                )}
                 {event?.location && (
                   <button
                     type="button"
