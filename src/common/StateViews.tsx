@@ -12,7 +12,7 @@ interface StateViewProps {
 }
 
 const toneStyles = {
-  default: "bg-indigo-50 text-indigo-600 ring-indigo-100 dark:bg-indigo-950/50 dark:text-indigo-300 dark:ring-indigo-900/60",
+  default: "bg-[#fff0e6] text-[#ef6f30] ring-[#f4d8c7] dark:bg-[#3a2419] dark:text-[#f6a06f] dark:ring-[#5b3421]",
   danger: "bg-red-50 text-red-600 ring-red-100 dark:bg-red-950/50 dark:text-red-300 dark:ring-red-900/60",
   success: "bg-emerald-50 text-emerald-600 ring-emerald-100 dark:bg-emerald-950/50 dark:text-emerald-300 dark:ring-emerald-900/60",
   warning: "bg-amber-50 text-amber-600 ring-amber-100 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-900/60",
@@ -58,12 +58,14 @@ export const SearchEmptyState = ({ title = "No matching results", description, c
 );
 
 export const PageLoader = ({ label = "Loading workspace..." }: { label?: string }) => (
-  <div className="flex min-h-[420px] flex-col items-center justify-center gap-4 rounded-[2rem] border border-slate-200/70 bg-white/80 p-8 text-center shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70">
-    <div className="relative flex h-16 w-16 items-center justify-center rounded-3xl bg-indigo-50 text-indigo-600 ring-1 ring-indigo-100 dark:bg-indigo-950/50 dark:text-indigo-300 dark:ring-indigo-900/60">
+  <div className="flex min-h-[360px] flex-col items-center justify-center gap-4 rounded-[1.75rem] border border-[#eee3db] bg-[#fffaf6] p-8 text-center shadow-[0_12px_30px_rgba(30,28,27,0.05)] dark:border-slate-800 dark:bg-slate-900">
+    <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#f0ded2] bg-white text-[#ef6f30] shadow-sm dark:border-slate-700 dark:bg-slate-950 dark:text-[#f6a06f]">
       <Loader2 className="animate-spin" size={30} />
-      <span className="absolute inset-0 rounded-3xl animate-ping bg-indigo-500/10" />
+      <span className="absolute -inset-2 -z-10 rounded-full bg-[#fad2be]/35 dark:bg-[#ef6f30]/10" />
     </div>
-    <p className="text-sm font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{label}</p>
+    <p className="font-['Manrope',sans-serif] text-sm font-extrabold tracking-[-0.01em] text-[#625d59] dark:text-slate-300">
+      {label}
+    </p>
   </div>
 );
 

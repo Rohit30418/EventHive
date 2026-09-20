@@ -1,0 +1,150 @@
+/* EventHive global floating actions + accessibility modes */
+
+.eh-floating-actions {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.eh-floating-action {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid var(--eh-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--eh-text);
+  box-shadow: 0 10px 28px rgba(30, 28, 27, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.eh-floating-action:hover {
+  transform: translateY(-2px);
+  border-color: var(--eh-primary);
+  color: var(--eh-primary);
+}
+
+.eh-floating-action-primary {
+  border-color: var(--eh-primary);
+  background: var(--eh-primary);
+  color: #fff;
+}
+
+.eh-floating-action-primary:hover {
+  background: var(--eh-primary-hover);
+  color: #fff;
+}
+
+.eh-accessibility-panel {
+  position: fixed;
+  right: 4.7rem;
+  bottom: 1rem;
+  z-index: 91;
+  width: min(370px, calc(100vw - 2rem));
+  overflow: hidden;
+  border: 1px solid var(--eh-border);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 80px rgba(30, 28, 27, 0.18);
+  backdrop-filter: blur(20px);
+}
+
+html.a11y-text-large {
+  font-size: 112.5%;
+}
+
+html.a11y-text-xlarge {
+  font-size: 125%;
+}
+
+html.a11y-line-height body,
+html.a11y-line-height p,
+html.a11y-line-height li,
+html.a11y-line-height label,
+html.a11y-line-height td,
+html.a11y-line-height th {
+  line-height: 1.9 !important;
+}
+
+html.a11y-readable-font *,
+html.a11y-readable-font *::before,
+html.a11y-readable-font *::after {
+  font-family: Verdana, Arial, sans-serif !important;
+  letter-spacing: 0.025em !important;
+}
+
+html.a11y-hide-images img,
+html.a11y-hide-images picture,
+html.a11y-hide-images video {
+  visibility: hidden !important;
+}
+
+html.a11y-grayscale #root {
+  filter: grayscale(1);
+}
+
+html.a11y-invert #root {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+html.a11y-invert.a11y-grayscale #root {
+  filter: invert(1) hue-rotate(180deg) grayscale(1);
+}
+
+html.a11y-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 2px !important;
+}
+
+html.a11y-big-cursor *,
+html.a11y-big-cursor *::before,
+html.a11y-big-cursor *::after {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M4 3v26l7-7 5 11 5-2-5-11h10z' fill='%231e1c1b' stroke='white' stroke-width='2'/%3E%3C/svg%3E")
+      4 3,
+    auto !important;
+}
+
+html.a11y-pause-animations *,
+html.a11y-pause-animations *::before,
+html.a11y-pause-animations *::after {
+  animation-play-state: paused !important;
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (max-width: 640px) {
+  .eh-floating-actions {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .eh-floating-action {
+    width: 43px;
+    height: 43px;
+  }
+
+  .eh-accessibility-panel {
+    right: 0.75rem;
+    bottom: 4.3rem;
+    width: calc(100vw - 1.5rem);
+    max-height: calc(100dvh - 6rem);
+  }
+}
+
+
+/* Always keep the floating controls viewport-fixed.
+   They are rendered through a portal directly under <body>, outside #root,
+   so page-level visual accessibility filters cannot change their containing block. */
+.eh-floating-actions,
+.eh-accessibility-panel {
+  position: fixed !important;
+}

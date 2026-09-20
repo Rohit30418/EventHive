@@ -1,0 +1,65 @@
+.public-theme {
+  background: var(--eh-bg);
+  color: var(--eh-text);
+  letter-spacing: 0.004em;
+}
+
+.public-theme h1,
+.public-theme h2,
+.public-theme h3 {
+  font-family: "Manrope", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.public-theme p,
+.public-theme li,
+.public-theme a,
+.public-theme button,
+.public-theme input,
+.public-theme select,
+.public-theme textarea {
+  letter-spacing: 0.004em;
+}
+
+.public-theme .eh-page-shell,
+.public-theme .eh-page {
+  background:
+    radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--eh-primary) 10%, transparent), transparent 28rem),
+    radial-gradient(circle at 92% 5%, color-mix(in srgb, var(--eh-accent) 20%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--eh-bg) 0%, var(--eh-bg-soft) 55%, var(--eh-surface-solid) 100%);
+}
+
+.public-theme .eh-gradient-text {
+  background-image: linear-gradient(135deg, var(--eh-primary), var(--eh-secondary) 55%, var(--eh-accent));
+}
+
+.public-theme .eh-btn-primary {
+  background: var(--eh-primary);
+  color: #ffffff;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--eh-primary) 22%, transparent);
+}
+
+.public-theme .eh-btn-primary:hover {
+  background: var(--eh-primary-hover);
+  box-shadow: 0 20px 42px color-mix(in srgb, var(--eh-primary) 28%, transparent);
+}
+
+.public-theme .eh-card,
+.public-theme .eh-glass-card {
+  border-color: var(--eh-border);
+  box-shadow: var(--eh-soft-shadow);
+}
+
+.public-theme .eh-input:focus {
+  border-color: color-mix(in srgb, var(--eh-primary) 65%, transparent);
+  box-shadow: 0 0 0 4px var(--eh-focus-ring);
+}
+
+.public-theme .eh-table tbody tr:hover {
+  background: color-mix(in srgb, var(--eh-primary) 5%, transparent);
+}
+
+.public-theme ::selection {
+  color: #ffffff;
+  background: var(--eh-primary);
+}

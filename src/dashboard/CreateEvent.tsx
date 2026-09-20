@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState, type ElementType, type ReactNode } from "react";
-import { useForm, type FieldError } from "react-hook-form";
+import React, { memo, useCallback, useEffect, useState, type ElementType, type ReactNode } from "react";
+import { Controller, useForm, useWatch, type Control, type FieldError } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -79,6 +79,190 @@ const Field = ({ label, error, icon: Icon, children }: FieldProps) => (
 
 const categories = ["Technology", "Webinar", "Music", "Art", "Sports"];
 
+const isHexColor = (value?: string) => /^#[0-9a-f]{6}$/i.test(value || "");
+
+const safeColor = (value: string | undefined, fallback: string) =>
+  isHexColor(value) ? value! : fallback;
+
+type PreviewProps = {
+  control: Control<EventFormData>;
+  bannerPreview: string;
+};
+
+const EventPreview = memo(({ control, bannerPreview }: PreviewProps) => {
+  const [eventName, eventDate, location, eventType, bannerTagLine, primaryValue, secondaryValue] =
+    useWatch({
+      control,
+      name: [
+        "EventName",
+        "eventDate",
+        "location",
+        "eventType",
+        "BannerTagLine",
+        "PrimaryColor",
+        "SecondaryColor",
+      ],
+    });
+
+  const primaryColor = safeColor(primaryValue, "#4F46E5");
+  const secondaryColor = safeColor(secondaryValue, "#06B6D4");
+
+  return (
+    <div className="overflow-hidden rounded-[1.6rem] border border-slate-200 bg-white shadow-[0_18px_48px_rgba(15,23,42,0.07)] dark:border-slate-800 dark:bg-slate-900">
+      <div
+        className="relative h-52 overflow-hidden"
+        style={{
+          background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
+        }}
+      >
+        {bannerPreview ? (
+          <>
+            <img
+              src={bannerPreview}
+              alt="Preview"
+              className="h-full w-full object-cover"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(180deg, transparent 28%, ${primaryColor}CC 100%)`,
+              }}
+            />
+          </>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-white/80">
+            <ImagePlus size={40} />
+          </div>
+        )}
+
+        <span
+          className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em]"
+          style={{ color: primaryColor }}
+        >
+          {eventType || "Category"}
+        </span>
+
+        <h3 className="absolute bottom-4 left-4 right-4 line-clamp-2 text-xl font-black text-white">
+          {eventName || "Event title preview"}
+        </h3>
+      </div>
+
+      <div className="space-y-4 p-5">
+        <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-slate-400">
+            Tagline
+          </p>
+          <p className="mt-2 font-bold text-slate-800 dark:text-slate-200">
+            {bannerTagLine || "Your hero tagline will appear here."}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 text-sm font-bold text-slate-600 dark:text-slate-300">
+          <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40">
+            <Calendar className="mb-2" style={{ color: primaryColor }} size={18} />
+            {eventDate || "Date"}
+          </div>
+          <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40">
+            <MapPin className="mb-2" style={{ color: secondaryColor }} size={18} />
+            {location || "Location"}
+          </div>
+        </div>
+
+        <div
+          className="h-2 rounded-full"
+          style={{
+            background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})`,
+          }}
+        />
+      </div>
+    </div>
+  );
+});
+
+EventPreview.displayName = "EventPreview";
+
+type ReadinessProps = {
+  control: Control<EventFormData>;
+  bannerReady: boolean;
+  speakersCount: number;
+};
+
+const EventReadiness = memo(({ control, bannerReady, speakersCount }: ReadinessProps) => {
+  const [eventName, eventDate, location, eventType, bannerTagLine, aboutArea] = useWatch({
+    control,
+    name: ["EventName", "eventDate", "location", "eventType", "BannerTagLine", "AboutArea"],
+  });
+
+  const completed =
+    [eventName, eventDate, location, eventType, bannerTagLine, aboutArea].filter(Boolean).length +
+    (bannerReady ? 1 : 0) +
+    (speakersCount > 0 ? 1 : 0);
+  const completion = Math.round((completed / 8) * 100);
+
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/10 p-4">
+      <div className="mb-2 flex items-center justify-between gap-6 text-xs font-black uppercase tracking-[0.14em] text-slate-300">
+        <span>Page readiness</span>
+        <span>{completion}%</span>
+      </div>
+      <div className="h-2.5 w-64 max-w-full rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full transition-[width] duration-300"
+          style={{
+            width: `${completion}%`,
+            background: "linear-gradient(90deg, var(--eh-primary), var(--eh-accent))",
+          }}
+        />
+      </div>
+    </div>
+  );
+});
+
+EventReadiness.displayName = "EventReadiness";
+
+const PublishingChecklist = memo(
+  ({ control, bannerReady, speakersCount }: ReadinessProps) => {
+    const [eventName, eventDate, location, aboutArea] = useWatch({
+      control,
+      name: ["EventName", "eventDate", "location", "AboutArea"],
+    });
+
+    const items = [
+      ["Core details", Boolean(eventName && eventDate && location)],
+      ["Banner uploaded", bannerReady],
+      ["About copy", Boolean(aboutArea)],
+      ["Speaker lineup", speakersCount > 0],
+    ] as const;
+
+    return (
+      <div className="eh-dashboard-card p-5">
+        <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+          Publishing checklist
+        </p>
+        {items.map(([label, done]) => (
+          <div
+            key={label}
+            className="flex items-center justify-between border-b border-slate-100 py-3 last:border-0 dark:border-slate-800"
+          >
+            <span className="font-bold text-slate-600 dark:text-slate-300">{label}</span>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-black ${
+                done
+                  ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
+                  : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
+              }`}
+            >
+              {done ? "Done" : "Pending"}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
+PublishingChecklist.displayName = "PublishingChecklist";
+
 const CreateEvent: React.FC = () => {
   const { addEvent, isLoading } = useAddEvent();
   const { EventID } = useParams();
@@ -95,7 +279,7 @@ const CreateEvent: React.FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     setValue,
     reset,
     formState: { errors },
@@ -104,9 +288,6 @@ const CreateEvent: React.FC = () => {
     defaultValues: { PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" },
   });
 
-  const watchedValues = watch();
-  const primaryColor = watchedValues.PrimaryColor || "#4F46E5";
-  const secondaryColor = watchedValues.SecondaryColor || "#06B6D4";
 
   const fetchEvent = useCallback(async () => {
     if (!EventID) return;
@@ -173,19 +354,13 @@ const token = await user.getIdToken();
     setIsModalOpen(false);
   };
 
-  const completion = useMemo(() => {
-    const keys: Array<keyof EventFormData> = ["EventName", "eventDate", "location", "eventType", "banner", "BannerTagLine", "AboutArea"];
-    const done = keys.filter((key) => Boolean(watchedValues[key])).length + (speakers.length > 0 ? 1 : 0);
-    return Math.round((done / (keys.length + 1)) * 100);
-  }, [watchedValues, speakers.length]);
-
   if (loadingEvent) return <PageLoader label="Loading event editor..." />;
 
   return (
     <div className="space-y-8">
       <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-[#020617] p-6 text-white shadow-2xl md:p-8">
         <div className="eh-premium-grid absolute inset-0 opacity-20" />
-        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[100px]" />
+        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-indigo-500/15 blur-3xl" />
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-cyan-100 hover:bg-white/15">
@@ -199,14 +374,11 @@ const token = await user.getIdToken();
               Build the public microsite, registration experience and speaker lineup from a single guided workspace.
             </p>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur-xl">
-            <div className="mb-2 flex items-center justify-between gap-6 text-xs font-black uppercase tracking-[0.16em] text-slate-300">
-              <span>Page readiness</span><span>{completion}%</span>
-            </div>
-            <div className="h-3 w-64 max-w-full rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 transition-all" style={{ width: `${completion}%` }} />
-            </div>
-          </div>
+          <EventReadiness
+            control={control}
+            bannerReady={Boolean(bannerPreview)}
+            speakersCount={speakers.length}
+          />
         </div>
       </div>
 
@@ -266,16 +438,60 @@ const token = await user.getIdToken();
 
               <div className="grid gap-6 md:grid-cols-2">
                 <Field label="Primary color" icon={Palette} error={errors.PrimaryColor}>
-                  <div className="flex gap-3">
-                    <input type="color" {...register("PrimaryColor")} className="h-[50px] w-16 rounded-2xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-900" />
-                    <input {...register("PrimaryColor")} className={fieldBase} />
-                  </div>
+                  <Controller
+                    name="PrimaryColor"
+                    control={control}
+                    render={({ field }) => {
+                      const colorValue = safeColor(field.value, "#4F46E5");
+                      return (
+                        <div className="flex gap-3">
+                          <input
+                            type="color"
+                            value={colorValue}
+                            onChange={(event) => field.onChange(event.target.value.toUpperCase())}
+                            className="h-[50px] w-16 shrink-0 cursor-pointer rounded-2xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-900"
+                            aria-label="Choose primary color"
+                          />
+                          <input
+                            value={field.value || ""}
+                            onChange={(event) => field.onChange(event.target.value)}
+                            onBlur={field.onBlur}
+                            className={fieldBase}
+                            placeholder="#4F46E5"
+                            aria-label="Primary color hex value"
+                          />
+                        </div>
+                      );
+                    }}
+                  />
                 </Field>
                 <Field label="Secondary color" icon={Palette} error={errors.SecondaryColor}>
-                  <div className="flex gap-3">
-                    <input type="color" {...register("SecondaryColor")} className="h-[50px] w-16 rounded-2xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-900" />
-                    <input {...register("SecondaryColor")} className={fieldBase} />
-                  </div>
+                  <Controller
+                    name="SecondaryColor"
+                    control={control}
+                    render={({ field }) => {
+                      const colorValue = safeColor(field.value, "#06B6D4");
+                      return (
+                        <div className="flex gap-3">
+                          <input
+                            type="color"
+                            value={colorValue}
+                            onChange={(event) => field.onChange(event.target.value.toUpperCase())}
+                            className="h-[50px] w-16 shrink-0 cursor-pointer rounded-2xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-900"
+                            aria-label="Choose secondary color"
+                          />
+                          <input
+                            value={field.value || ""}
+                            onChange={(event) => field.onChange(event.target.value)}
+                            onBlur={field.onBlur}
+                            className={fieldBase}
+                            placeholder="#06B6D4"
+                            aria-label="Secondary color hex value"
+                          />
+                        </div>
+                      );
+                    }}
+                  />
                 </Field>
               </div>
 
@@ -343,7 +559,7 @@ const token = await user.getIdToken();
             )}
           </section>
 
-          <div className="sticky bottom-4 z-20 rounded-[1.5rem] border border-slate-200 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/90">
+          <div className="sticky bottom-4 z-20 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_14px_38px_rgba(15,23,42,0.10)] dark:border-slate-800 dark:bg-slate-900">
             <button type="submit" disabled={isLoading} className="eh-btn-primary w-full px-6 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-70">
               {isLoading ? <><Loader2 className="animate-spin" size={18} /> Saving...</> : <>{EventID ? "Update Event" : "Create Event"} <CheckCircle2 size={18} /></>}
             </button>
@@ -351,44 +567,12 @@ const token = await user.getIdToken();
         </form>
 
         <aside className="space-y-6 xl:sticky xl:top-6 xl:self-start">
-          <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_22px_70px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-900">
-            <div className="relative h-56 overflow-hidden bg-slate-200">
-              {bannerPreview ? <img src={bannerPreview} alt="Preview" className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><ImagePlus size={44} /></div>}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent" />
-              <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-indigo-700">
-                {watchedValues.eventType || "Category"}
-              </span>
-              <h3 className="absolute bottom-4 left-4 right-4 line-clamp-2 text-2xl font-black text-white">
-                {watchedValues.EventName || "Event title preview"}
-              </h3>
-            </div>
-            <div className="space-y-4 p-5">
-              <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">Tagline</p>
-                <p className="mt-2 font-bold text-slate-800 dark:text-slate-200">{watchedValues.BannerTagLine || "Your hero tagline will appear here."}</p>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-sm font-bold text-slate-600 dark:text-slate-300">
-                <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40"><Calendar className="mb-2 text-indigo-600" size={18} />{watchedValues.eventDate || "Date"}</div>
-                <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40"><MapPin className="mb-2 text-cyan-600" size={18} />{watchedValues.location || "Location"}</div>
-              </div>
-              <div className="h-2 rounded-full" style={{ background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }} />
-            </div>
-          </div>
-
-          <div className="eh-dashboard-card p-5">
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-slate-400">Publishing checklist</p>
-            {[
-              ["Core details", Boolean(watchedValues.EventName && watchedValues.eventDate && watchedValues.location)],
-              ["Banner uploaded", Boolean(bannerPreview)],
-              ["About copy", Boolean(watchedValues.AboutArea)],
-              ["Speaker lineup", speakers.length > 0],
-            ].map(([label, done]) => (
-              <div key={String(label)} className="flex items-center justify-between border-b border-slate-100 py-3 last:border-0 dark:border-slate-800">
-                <span className="font-bold text-slate-600 dark:text-slate-300">{label}</span>
-                <span className={`rounded-full px-3 py-1 text-xs font-black ${done ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"}`}>{done ? "Done" : "Pending"}</span>
-              </div>
-            ))}
-          </div>
+          <EventPreview control={control} bannerPreview={bannerPreview} />
+          <PublishingChecklist
+            control={control}
+            bannerReady={Boolean(bannerPreview)}
+            speakersCount={speakers.length}
+          />
         </aside>
       </div>
 
