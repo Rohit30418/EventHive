@@ -1,7 +1,8 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { Magnetic } from "./HomeMotion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BarChart3, CalendarCheck, Star } from "lucide-react";
+import { ArrowRight, BarChart3, CalendarCheck, CheckCircle2, QrCode, Star, Ticket } from "lucide-react";
 import type { EventType } from "../../Types/eventType";
 
 const formatDate = (value?: string) => {
@@ -23,12 +24,17 @@ interface HomeHeroProps {
 const HomeHero = ({ heroEvent }: HomeHeroProps) => {
   const reducedMotion = useReducedMotion();
   const [phrase, setPhrase] = useState(0);
+  const parallaxX = useMotionValue(0);
+  const parallaxY = useMotionValue(0);
+  const smoothX = useSpring(parallaxX, { stiffness: 110, damping: 25 });
+  const smoothY = useSpring(parallaxY, { stiffness: 110, damping: 25 });
   useEffect(() => {
     if (reducedMotion) return;
     const timer = window.setInterval(() => setPhrase((i) => (i + 1) % 3), 3500);
     return () => window.clearInterval(timer);
   }, [reducedMotion]);
   return (
+<>
 <section className="eh-mesh relative overflow-hidden px-4 pb-16 pt-8 sm:px-6 lg:pb-24 text-[#1F1C1A]">
       {/* Background */}
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(145deg,#FFF8F3_0%,#FFEBDD_54%,#FFF8F3_100%)]" />
@@ -83,7 +89,7 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
             className="font-display mx-auto mt-6 max-w-5xl text-4xl font-black leading-[1.05] text-[#1F1C1A] sm:text-6xl lg:mx-0 lg:text-7xl xl:text-7xl lg:leading-[0.94]"
           >
             Build events people want to be{" "}
-            <span className="relative inline-block mt-2 sm:mt-0">
+            <span className="relative inline-block mt-2 min-h-[1em] sm:mt-0">
               <span className="bg-gradient-to-r from-[#F26B2A] via-[#E85D1E] to-[#B84614] bg-clip-text text-transparent">
                 <AnimatePresence mode="wait"><motion.span key={phrase} initial={reducedMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} transition={{ duration: reducedMotion ? 0 : 0.3 }} className="inline-block">{["part of.", "talking about.", "remembering."][phrase]}</motion.span></AnimatePresence>
               </span>
@@ -113,16 +119,16 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
             transition={{ duration: 0.65, delay: 0.38 }}
             className="mt-8 sm:mt-9 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start"
           >
-            <Link
+            <Magnetic><Link
               to="/Events"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-600 via-orange-600 to-amber-500 px-7 py-4 text-sm font-black text-white shadow-[0_20px_48px_rgba(79,70,229,0.28)] transition-all hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(79,70,229,0.36)] w-full sm:w-auto"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#F26B2A] px-7 py-4 text-sm font-black text-[#1F1C1A] shadow-[0_20px_48px_rgba(242,107,42,0.2)] transition-transform hover:-translate-y-1 w-full sm:w-auto"
             >
               Browse Events
               <ArrowRight
                 size={18}
                 className="transition-transform group-hover:translate-x-1"
               />
-            </Link>
+            </Link></Magnetic>
 
             <Link
               to="/OrganizerRegistration"
@@ -139,9 +145,9 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
             className="mt-8 sm:mt-9 grid grid-cols-2 gap-3 sm:grid-cols-3"
           >
             {[
-              { value: "4.9/5", label: "User rating" },
-              { value: "45k+", label: "Interactions" },
-              { value: "120+", label: "Events live" },
+              { value: "01", label: "Design an event" },
+              { value: "02", label: "Share your page" },
+              { value: "03", label: "Welcome guests" },
             ].map((item, idx) => (
               <div
                 key={item.label}
@@ -176,13 +182,9 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
               ))}
             </div>
 
-            <div className="flex items-center gap-1 text-amber-400">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={14} className="sm:w-[15px] sm:h-[15px]" fill="currentColor" />
-              ))}
-            </div>
+            <div className="flex items-center gap-1 text-[#D45018]"><Star size={17} fill="currentColor" /> Event experiences, thoughtfully designed.</div>
 
-            <span className="w-full text-center lg:w-auto lg:text-left">Trusted by modern event teams.</span>
+            <span className="w-full text-center lg:w-auto lg:text-left">Craft unforgettable gatherings.</span>
           </motion.div>
         </motion.div>
 
@@ -191,6 +193,9 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
           initial={{ opacity: 0, x: 40, scale: 0.96 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.18 }}
+          onMouseMove={(event) => { if (reducedMotion) return; const b = event.currentTarget.getBoundingClientRect(); parallaxX.set((event.clientX - b.left - b.width/2)*.025); parallaxY.set((event.clientY - b.top - b.height/2)*.025); }}
+          onMouseLeave={() => { parallaxX.set(0); parallaxY.set(0); }}
+          style={reducedMotion ? undefined : { x: smoothX, y: smoothY }}
           className="relative mx-auto mt-8 min-h-[580px] sm:min-h-[620px] w-full max-w-[600px] lg:mt-0 lg:mx-0"
         >
           {/* Floating registrations card */}
@@ -233,6 +238,8 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
             </div>
           </motion.div>
 
+          <motion.div animate={reducedMotion ? {} : {y:[0,-8,0]}} transition={{duration:5.3,repeat:Infinity}} className="absolute -left-1 bottom-4 z-30 flex w-[46%] -rotate-[8deg] items-center justify-between rounded-2xl border border-[#F26B2A]/20 bg-[#FFEBDD] p-3 shadow-xl sm:left-1 sm:bottom-10 sm:p-4"><div><Ticket className="text-[#C34B13]" size={20}/><p className="mt-2 text-xs font-black text-[#1F1C1A]">ADMIT ONE</p><p className="text-[9px] font-bold text-[#A53C11]">EVENT PASS</p></div><QrCode size={39} className="text-[#1F1C1A]"/></motion.div>
+          <motion.div animate={reducedMotion ? {} : {y:[0,6,0]}} transition={{duration:4.6,repeat:Infinity}} className="absolute -right-1 bottom-2 z-30 flex items-center gap-2 rounded-xl bg-white p-3 text-[10px] font-bold text-[#1F1C1A] shadow-xl sm:bottom-12"><CheckCircle2 size={17} className="text-[#177750]"/> Registration confirmed</motion.div>
           {/* Main event preview card */}
           <motion.div
             animate={{ y: [0, -10, 0] }}
@@ -281,7 +288,7 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
 
                 <div className="absolute bottom-3 sm:bottom-5 left-3 sm:left-5 right-3 sm:right-5">
                   <h3 className="line-clamp-2 text-xl sm:text-3xl font-black leading-tight text-white">
-                    {heroEvent?.EventName || "Product Design Summit 2026"}
+                    {heroEvent?.EventName || "Your next unforgettable event"}
                   </h3>
 
                   <p className="mt-1 sm:mt-2 text-xs sm:text-sm font-semibold text-white/80">
@@ -291,7 +298,7 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
                             ? formatDate(heroEvent.eventDate) 
                             : "Date TBA"
                         }`
-                      : "Delhi NCR • 12 July • 840 attendees"}
+                      : "Built for meaningful moments"}
                   </p>
                 </div>
               </div>
@@ -340,6 +347,8 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
         </motion.div>
       </div>
     </section>
+    <div className="overflow-hidden border-y border-[#1F1C1A]/10 bg-[#FFEBDD] py-5" aria-label="Create, register, manage, repeat"><div className="eh-home-marquee flex w-max gap-12 whitespace-nowrap font-display text-3xl font-bold tracking-tight text-transparent sm:text-5xl" style={{ WebkitTextStroke: "1px #A53C11" }}>{Array.from({ length: 4 }).map((_, i) => <span key={i}>CREATE ✦ REGISTER ✦ MANAGE ✦ REPEAT ✦</span>)}</div></div>
+</>
   );
 };
 
