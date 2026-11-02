@@ -83,3 +83,36 @@ export function CustomCursor() {
   );
 }
 
+
+export function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLElement>(null);
+  const [display, setDisplay] = useState(value);
+  useEffect(() => {
+    const match = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
+    if (!match || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(value);
+      return;
+    }
+    const target = Number(match[1]);
+    const suffix = match[2];
+    let frame = 0;
+    let started = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || started) return;
+      started = true;
+      observer.disconnect();
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / 1200);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const current = Math.round(target * eased * 10) / 10;
+        setDisplay((Number.isInteger(target) ? Math.round(current).toString() : current.toFixed(1)) + suffix);
+        if (t < 1) frame = requestAnimationFrame(step);
+      };
+      frame = requestAnimationFrame(step);
+    }, { threshold: .35 });
+    if (ref.current) observer.observe(ref.current);
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, [value]);
+  return <strong ref={ref} className="block font-display text-4xl font-bold tracking-tight text-[#1F1C1A]">{display}</strong>;
+}
