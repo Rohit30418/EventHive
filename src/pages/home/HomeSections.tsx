@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { FadeUp, Magnetic } from "./HomeMotion";
+import { FeatureMiniVisual, RoleMockup, WorkflowMockup } from "./HomeVisuals";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -29,6 +31,8 @@ interface HomeSectionsProps {
 const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => {
  const [activeRole, setActiveRole] = useState(0);
  const [openFaq, setOpenFaq] = useState<number | null>(0);
+ const [activeStep, setActiveStep] = useState(0);
+ const reducedMotion = useReducedMotion();
  return (
 <>
       <section className="px-4 pb-8 sm:px-6">
@@ -140,6 +144,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 transition-transform group-hover:scale-105">
                   {feature.icon}
                 </div>
+                <FeatureMiniVisual index={index} />
 
                 <h3 className="mt-6 text-xl font-black tracking-tight text-slate-950">
                   {feature.title}
@@ -189,9 +194,8 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
                 <h3 className="mt-6 text-xl font-black">{item.title}</h3>
 
-                <p className="mt-3 text-sm leading-7 text-slate-400">
-                  {item.desc}
-                </p>
+                <p className="mt-3 text-sm leading-7 text-slate-400">{item.desc}</p>
+                <AnimatePresence mode="wait"><motion.div key={activeRole} initial={reducedMotion ? false : {opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:reducedMotion?0:0.26}}><RoleMockup index={activeRole} /></motion.div></AnimatePresence>
               </motion.article>
             ))}
           </div>
@@ -224,19 +228,23 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             >
               Start as Organizer <ArrowRight size={17} />
             </Link>
+            <div className="hidden lg:block"><AnimatePresence mode="wait"><motion.div key={activeStep} initial={reducedMotion ? false : {opacity:0,y:12}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:reducedMotion?0:.25}}><WorkflowMockup index={activeStep} /></motion.div></AnimatePresence></div>
           </div>
 
-          <div className="grid gap-4">
+          <div className="relative grid gap-4 border-l-2 border-orange-100 pl-5 sm:pl-8">
+            <motion.div aria-hidden="true" className="absolute bottom-0 left-[-2px] top-0 w-[2px] origin-top bg-[#F26B2A]" initial={{scaleY:0}} whileInView={{scaleY:1}} viewport={{once:true, amount:.25}} transition={{duration:1.2}} />
             {workflow.map((step, index) => (
               <motion.article
                 key={step.title}
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                onViewportEnter={() => setActiveStep(index)}
+                animate={{opacity:activeStep===index?1:0.7}}
                 transition={{ delay: index * 0.04 }}
                 className="grid gap-5 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(99,102,241,0.12)] sm:grid-cols-[64px_1fr]"
               >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white shadow-lg shadow-orange-500/20">
+                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-[#F26B2A] font-display text-xl font-black text-[#1F1C1A]">
                   {String(index + 1).padStart(2, "0")}
                 </div>
 
@@ -286,7 +294,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             </div>
           ) : (
             <div className="mx-auto max-w-2xl rounded-[2rem] border border-dashed border-orange-200 bg-white p-10 text-center shadow-sm">
-              <Ticket className="mx-auto mb-4 text-orange-600" size={46} />
+              <motion.div aria-hidden="true" animate={reducedMotion ? {} : {y:[0,-8,0],rotate:[-7,7,-7]}} transition={{duration:4,repeat:Infinity}} className="mx-auto mb-5 grid h-24 w-24 place-items-center rounded-3xl bg-[#FFEBDD] text-[#C34B13]"><Ticket size={54}/></motion.div>
 
               <h3 className="text-2xl font-black text-slate-950">
                 Be the first to host an event
@@ -394,7 +402,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                   />
                 </summary>
 
-                <p className="mt-4 leading-7 text-slate-500">{faq.a}</p>
+                <motion.p initial={false} animate={{opacity:openFaq===index?1:0}} transition={{duration:reducedMotion?0:0.2}} className="mt-4 leading-7 text-slate-500">{faq.a}</motion.p>
               </details>
             ))}
           </div>
@@ -429,12 +437,12 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               </p>
             </div>
 
-            <Link
+            <Magnetic><Link
               to="/OrganizerRegistration"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-black text-orange-700 shadow-xl transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-black text-[#1F1C1A] shadow-xl transition-all hover:-translate-y-0.5"
             >
               Create Event <ArrowRight size={18} />
-            </Link>
+            </Link></Magnetic>
           </div>
         </div>
       </section>
