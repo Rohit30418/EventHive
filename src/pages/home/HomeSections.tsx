@@ -256,7 +256,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           <SectionHeader
             eyebrow="Upcoming events"
             title="Fresh events from the platform"
-            description="Real published events appear here automatically with professional cards, responsive grids and empty/loading states."
+            description="Discover published events, find your people, and make meaningful memories."
             action={
               <Link to="/Events" className="eh-btn-primary px-5 py-3 text-sm">
                 View all <ArrowRight size={16} />
@@ -267,7 +267,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           {isLoading ? (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="eh-skeleton-card" />
+                <div key={i} className="h-80 animate-pulse rounded-[2rem] border border-[#F26B2A]/15 bg-[#FFEBDD]" />
               ))}
             </div>
           ) : error ? (
@@ -278,7 +278,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           ) : featuredEvents.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {featuredEvents.map((event, index) => (
-                <EventCard key={event.id} event={event} index={index} />
+                <EventCard key={event.id} event={event} index={index} homeFeatured />
               ))}
             </div>
           ) : (
