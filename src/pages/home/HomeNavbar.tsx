@@ -51,7 +51,7 @@ export default function HomeNavbar() {
         </Link>
         <motion.div
           className="hidden items-center gap-1 rounded-full border border-[#1F1C1A]/10 bg-white/65 px-1.5 backdrop-blur-md md:flex"
-          animate={{ paddingTop: scrolled ? 4 : 7, paddingBottom: scrolled ? 4 : 7 }}
+          animate={{ scale: scrolled ? 0.96 : 1 }}
           transition={{ duration: reduceMotion ? 0 : 0.22 }}
         >
           {links.map((link) => (
