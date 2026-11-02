@@ -77,37 +77,27 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
         </div>
       </section>
 
-      {/* RATINGS */}
-      <section className="px-4 py-12 sm:px-6 lg:py-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-5 lg:grid-cols-3">
+      {/* ABOUT - keep the editorial copy on the left and preview the benefit cards on the right. */}
+      <section id="about" className="px-4 py-14 sm:px-6 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[.92fr_1.08fr]">
+          <FadeUp className="flex flex-col justify-between rounded-[2.2rem] bg-[#FFEBDD] p-8 sm:p-12">
+            <div>
+              <span className="text-xs font-black uppercase tracking-[.2em] text-[#A53C11]">WHY EVENTHIVE</span>
+              <h2 className="mt-6 font-display text-4xl font-bold leading-[1.05] text-[#1F1C1A] sm:text-6xl">Your idea deserves an <em className="font-accent font-normal text-[#C34B13]">audience.</em></h2>
+              <p className="mt-6 max-w-md text-base leading-8 text-[#51453D]">From the very first invite to the final registration, create events that feel considered, memorable and easy to join.</p>
+            </div>
+            <Link to="/OrganizerRegistration" className="mt-8 inline-flex w-fit items-center gap-2 border-b-2 border-[#C34B13] pb-1 text-sm font-black text-[#1F1C1A]">Explore the platform <ArrowRight size={16}/></Link>
+          </FadeUp>
+          <div className="grid gap-4 sm:grid-cols-2">
             {ratingCards.map((item, index) => (
-              <motion.article
-                key={item.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="rounded-[1.8rem] border border-orange-100 bg-gradient-to-br from-white to-orange-50/70 p-7 shadow-[0_18px_55px_rgba(99,102,241,0.08)]"
-              >
-                <div className="mb-5 flex items-center gap-1 text-amber-400">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={17} fill="currentColor" />
-                  ))}
-                </div>
-
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-500/25">
-                  {item.icon}
-                </div>
-
-                <h3 className="mt-5 text-xl font-black text-slate-950">
-                  {item.title}
-                </h3>
-
-                <p className="mt-3 text-sm leading-7 text-slate-500">
-                  {item.desc}
-                </p>
-              </motion.article>
+              <FadeUp key={item.title} delay={index * .09} className={index === 2 ? "sm:col-span-2" : ""}>
+                <motion.article data-hover-card whileHover={reducedMotion ? undefined : {y:-7}} className="group relative flex h-full flex-col overflow-hidden rounded-[1.8rem] bg-[#1F1C1A] p-7 text-white">
+                  <div className="mb-10 flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-[#FFC09B]">{item.icon}</span><ArrowRight size={24} className="text-[#F26B2A] transition-transform group-hover:-rotate-45" /></div>
+                  <h3 className="font-display text-2xl font-bold tracking-tight">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[#DDD1C8]">{item.desc}</p>
+                  <p className="mt-4 text-xs font-bold text-[#FFBD97] opacity-60 transition-opacity group-hover:opacity-100">Made for better event moments →</p>
+                </motion.article>
+              </FadeUp>
             ))}
           </div>
         </div>
