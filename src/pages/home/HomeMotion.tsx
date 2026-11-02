@@ -1,3 +1,4 @@
+import Lenis from "lenis";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
@@ -113,4 +114,13 @@ export function CountUp({ value }: { value: string }) {
     return () => { observer.disconnect(); cancelAnimationFrame(frame); };
   }, [value]);
   return <strong ref={ref} className="block font-display text-4xl font-bold tracking-tight text-[#1F1C1A]">{display}</strong>;
+}
+
+export function HomeSmoothScroll() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const lenis = new Lenis({ autoRaf: true, anchors: true, duration: 1.05, smoothWheel: true });
+    return () => lenis.destroy();
+  }, []);
+  return null;
 }
