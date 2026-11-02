@@ -1,6 +1,5 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
-import { FadeUp, Magnetic } from "./HomeMotion";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -30,8 +29,6 @@ interface HomeSectionsProps {
 const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => {
  const [activeRole, setActiveRole] = useState(0);
  const [openFaq, setOpenFaq] = useState<number | null>(0);
- const [activeStep, setActiveStep] = useState(0);
- const reducedMotion = useReducedMotion();
  return (
 <>
       <section className="px-4 pb-8 sm:px-6">
@@ -138,7 +135,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.04 }}
-                className={`group rounded-[1.75rem] border border-orange-100 bg-white p-7 ${index === 0 ? "lg:col-span-2 lg:row-span-2" : index === 3 ? "lg:col-span-2" : ""}` shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-2 hover:border-orange-200 hover:shadow-[0_28px_75px_rgba(99,102,241,0.14)]"
+                className={`group rounded-[1.75rem] border border-orange-100 bg-white p-7 shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-2 hover:border-orange-200 hover:shadow-[0_28px_75px_rgba(99,102,241,0.14)] ${index === 0 ? "lg:col-span-2 lg:row-span-2" : index === 3 ? "lg:col-span-2" : ""}`}
               >
                 <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 transition-transform group-hover:scale-105">
                   {feature.icon}
