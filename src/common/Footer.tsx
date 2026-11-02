@@ -145,7 +145,7 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        {isHome && <div aria-hidden="true" className="pointer-events-none mt-10 overflow-hidden text-center font-display text-[clamp(5rem,17vw,18rem)] font-black leading-[.75] tracking-[-.09em] text-[#FFF8F3]/15 transition-colors hover:text-[#F26B2A]/40">EventHive</div>}
+        {isHome && <div aria-hidden="true" className="eh-home-wordmark mt-10 overflow-hidden text-center font-display text-[clamp(5rem,17vw,18rem)] font-black leading-[.75] tracking-[-.09em] text-[#FFF8F3]/15 transition-colors hover:text-[#F26B2A]/40">EventHive</div>}
       </div>
     </footer>
   );
