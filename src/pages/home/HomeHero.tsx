@@ -1,6 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Magnetic } from "./HomeMotion";
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CalendarCheck, Star } from "lucide-react";
 import type { EventType } from "../../Types/eventType";
