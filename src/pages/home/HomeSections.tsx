@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { FadeUp, Magnetic } from "./HomeMotion";
+import { CountUp, FadeUp, Magnetic } from "./HomeMotion";
 import { FeatureMiniVisual, RoleMockup, WorkflowMockup } from "./HomeVisuals";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -38,7 +38,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
       <section className="px-4 pb-8 sm:px-6">
         <div className="mx-auto max-w-7xl rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.05)]">
           <p className="text-center text-xs font-black uppercase tracking-[0.22em] text-slate-400">
-            Trusted by modern event teams and communities
+            Designed for modern event teams and communities • sample categories
           </p>
 
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -56,6 +56,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
       {/* STATS */}
       <section className="px-4 py-10 sm:px-6">
+        <div className="mx-auto mb-5 max-w-7xl text-center text-[11px] font-bold uppercase tracking-widest text-[#9E593C]">Illustrative numbers • replace with verified platform metrics</div>
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <motion.article
@@ -66,9 +67,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               transition={{ delay: index * 0.05 }}
               className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_22px_60px_rgba(99,102,241,0.12)]"
             >
-              <strong className="block text-4xl font-black tracking-[-0.06em] text-[#1F1C1A]">
-                {stat.value}
-              </strong>
+              <CountUp value={stat.value} />
               <span className="mt-3 block text-sm font-bold leading-6 text-slate-500">
                 {stat.label}
               </span>
@@ -312,8 +311,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Social proof makes the landing page feel more authentic and like
-              a real SaaS product.
+              Example testimonials showing how teams could use EventHive. Replace with verified customer quotes before publishing.
             </p>
           </div>
 
@@ -333,9 +331,8 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                   ))}
                 </div>
 
-                <p className="text-base font-semibold leading-8 text-slate-700">
-                  “{item.text}”
-                </p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#A53C11]">Illustrative testimonial</p>
+                <p className="mt-3 text-base font-semibold leading-8 text-slate-700">“{item.text}”</p>
 
                 <div className="mt-7 flex items-center gap-3">
                   <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white">
