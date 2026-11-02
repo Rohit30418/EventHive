@@ -11,32 +11,28 @@ import {
   Zap,
 } from "lucide-react";
 
+// TODO: Replace these illustrative figures with verified platform metrics before publishing.
 export const stats = [
-  { value: "120+", label: "Events published through clean discovery pages." },
-  { value: "45k+", label: "Attendee interactions across event journeys." },
-  { value: "98%", label: "Responsive coverage across mobile and desktop." },
-  { value: "4.9/5", label: "Average product experience rating." },
+  { value: "120+", label: "Events created (example)" },
+  { value: "45k+", label: "Registrations handled (example)" },
+  { value: "80+", label: "Organizers onboarded (example)" },
+  { value: "24+", label: "Event communities (example)" },
 ];
 
 export const trustedBrands = [
-  "TechConf",
-  "DesignX",
-  "StartupHub",
-  "Meetly",
-  "CreatorFest",
-  "GrowthLab",
+  "CONFERENCES", "WORKSHOPS", "MEETUPS", "SUMMITS", "COMMUNITIES", "FESTIVALS",
 ];
 
 export const ratingCards = [
   {
     icon: <Star size={20} />,
-    title: "4.9/5 User Rating",
-    desc: "Loved by attendees for clean discovery and simple event access.",
+    title: "Designed to delight",
+    desc: "Thoughtful layouts help attendees discover events and explore the details easily.",
   },
   {
     icon: <TrendingUp size={20} />,
-    title: "38% Better Conversion",
-    desc: "Focused event pages help users understand and register faster.",
+    title: "Focused registration journey",
+    desc: "Clear event pages give guests a simple path from curiosity to registration.",
   },
   {
     icon: <Zap size={20} />,
@@ -117,19 +113,19 @@ export const audiences = [
 
 export const testimonials = [
   {
-    name: "Aarav Mehta",
+    name: "Sample Organizer",
     role: "Event Organizer",
     text: "EventHive made our event page look professional instantly. The discovery flow feels clean and premium.",
     rating: 5,
   },
   {
-    name: "Neha Kapoor",
+    name: "Sample Marketer",
     role: "Marketing Lead",
     text: "The UI feels like a real SaaS product. Search, event cards and registration flow are simple for users.",
     rating: 5,
   },
   {
-    name: "Rohan Sinha",
+    name: "Sample Community Lead",
     role: "Community Manager",
     text: "We wanted something modern but not overdesigned. EventHive gives that polished product feel.",
     rating: 5,
