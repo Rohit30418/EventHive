@@ -707,3 +707,13 @@ textarea:focus-visible {
 .eh-home .eh-home-button {transition:transform .25s ease,background-color .25s ease,opacity .25s ease;}
 .eh-home .eh-home-navbar {isolation:isolate;}
 @media(prefers-reduced-motion:reduce) {.eh-home *, .eh-home *::before,.eh-home *::after{animation:none!important;scroll-behavior:auto!important;}}
+
+/* Home page only: motion-safe marquee and footer links. */
+.eh-home-marquee {animation:eh-home-drift 32s linear infinite;}
+@keyframes eh-home-drift {from {transform:translateX(0)} to {transform:translateX(-50%)}}
+.eh-home-footer a:not([aria-label]):hover {text-decoration:underline;text-decoration-color:#F26B2A;text-underline-offset:6px;}
+.eh-home-footer .font-display {font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.075em;}
+.eh-home-footer a:focus-visible {outline:3px solid #F26B2A;outline-offset:3px;}
+.eh-home {scroll-margin-top:90px;}
+.eh-home section[id] {scroll-margin-top:100px;}
+@media (prefers-reduced-motion:reduce){.eh-home-marquee{animation:none!important;}}
