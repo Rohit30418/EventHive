@@ -73,13 +73,11 @@ export function CustomCursor() {
 
   if (!enabled || reduceMotion) return null;
   return (
-    <motion.span
-      aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[100] hidden rounded-full border-2 border-[#F26B2A] mix-blend-multiply md:block"
-      style={{ x: smoothX, y: smoothY, translateX: "-50%", translateY: "-50%" }}
-      animate={{ width: hovered ? 38 : 9, height: hovered ? 38 : 9, backgroundColor: hovered ? "rgba(242,107,42,0.08)" : "#F26B2A" }}
-      transition={{ duration: 0.16 }}
-    />
+    <motion.span aria-hidden="true" className="pointer-events-none fixed left-0 top-0 z-[100] hidden h-10 w-10 md:block"
+      style={{ x: smoothX, y: smoothY, translateX: "-50%", translateY: "-50%" }}>
+      <motion.span className="absolute inset-0 rounded-full border-2 border-[#C34B13]" animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : .25 }} transition={{ duration: .16 }}/>
+      <motion.span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C34B13]" animate={{ opacity: hovered ? 0 : 1, scale: hovered ? .1 : 1 }} transition={{ duration: .16 }}/>
+    </motion.span>
   );
 }
 
