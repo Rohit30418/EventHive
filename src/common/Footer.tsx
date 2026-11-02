@@ -49,7 +49,7 @@ const socialLinks: { label: string; href: string; icon: ReactNode }[] = [
 
 const Footer = () => {
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#020617] px-4 py-14 text-slate-300 sm:px-6 md:py-20">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[#1F1C1A] px-4 py-14 text-slate-300 sm:px-6 md:py-20">
       <div className="eh-premium-grid absolute inset-0 opacity-[0.12]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-indigo-600/10 blur-[120px]" />
     
@@ -125,14 +125,14 @@ const Footer = () => {
             <p className="text-sm font-semibold text-slate-500">© {new Date().getFullYear()} EventHive. All rights reserved.</p>
             <p className="mt-2 text-sm text-slate-500">
               Designed and developed by{" "}
-              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className="font-black text-indigo-300 hover:text-white">
+              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className="font-black text-orange-300 hover:text-white">
                 Rohit Pant
               </a>
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            {socialLinks.map((link) => (
+            {socialLinks.slice(0, 2).map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -144,6 +144,7 @@ const Footer = () => {
             ))}
           </div>
         </div>
+        <div aria-hidden="true" className="pointer-events-none mt-10 overflow-hidden text-center font-display text-[clamp(5rem,17vw,18rem)] font-black leading-[.75] tracking-[-.09em] text-[#FFF8F3]/15 transition-colors hover:text-[#F26B2A]/40">EventHive</div>
       </div>
     </footer>
   );
