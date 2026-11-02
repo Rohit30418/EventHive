@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { FadeUp, Magnetic } from "./HomeMotion";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -25,7 +27,12 @@ interface HomeSectionsProps {
   error?: string | null;
 }
 
-const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => (
+const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => {
+ const [activeRole, setActiveRole] = useState(0);
+ const [openFaq, setOpenFaq] = useState<number | null>(0);
+ const [activeStep, setActiveStep] = useState(0);
+ const reducedMotion = useReducedMotion();
+ return (
 <>
       <section className="px-4 pb-8 sm:px-6">
         <div className="mx-auto max-w-7xl rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.05)]">
@@ -58,7 +65,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               transition={{ delay: index * 0.05 }}
               className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_22px_60px_rgba(99,102,241,0.12)]"
             >
-              <strong className="block text-4xl font-black tracking-[-0.06em] text-slate-950">
+              <strong className="block text-4xl font-black tracking-[-0.06em] text-[#1F1C1A]">
                 {stat.value}
               </strong>
               <span className="mt-3 block text-sm font-bold leading-6 text-slate-500">
@@ -80,7 +87,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="rounded-[1.8rem] border border-indigo-100 bg-gradient-to-br from-white to-indigo-50/70 p-7 shadow-[0_18px_55px_rgba(99,102,241,0.08)]"
+                className="rounded-[1.8rem] border border-orange-100 bg-gradient-to-br from-white to-orange-50/70 p-7 shadow-[0_18px_55px_rgba(99,102,241,0.08)]"
               >
                 <div className="mb-5 flex items-center gap-1 text-amber-400">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -88,7 +95,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                   ))}
                 </div>
 
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-500/25">
+                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-500/25">
                   {item.icon}
                 </div>
 
@@ -109,7 +116,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
       <section id="features" className="px-4 py-20 sm:px-6 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-12 max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-indigo-700 shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-orange-700 shadow-sm">
               <Sparkles size={14} /> Platform advantages
             </span>
 
@@ -123,7 +130,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => (
               <motion.article
                 key={feature.title}
@@ -131,9 +138,9 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.04 }}
-                className="group rounded-[1.75rem] border border-slate-200 bg-white p-7 shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-2 hover:border-indigo-200 hover:shadow-[0_28px_75px_rgba(99,102,241,0.14)]"
+                className={`group rounded-[1.75rem] border border-orange-100 bg-white p-7 ${index === 0 ? "lg:col-span-2 lg:row-span-2" : index === 3 ? "lg:col-span-2" : ""}` shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-2 hover:border-orange-200 hover:shadow-[0_28px_75px_rgba(99,102,241,0.14)]"
               >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-indigo-50 to-cyan-50 text-indigo-700 transition-transform group-hover:scale-105">
+                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 transition-transform group-hover:scale-105">
                   {feature.icon}
                 </div>
 
@@ -151,10 +158,10 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
       </section>
 
       {/* AUDIENCE */}
-      <section className="bg-slate-950 px-4 py-20 text-white sm:px-6 lg:py-28">
+      <section className="bg-[#1F1C1A] px-4 py-20 text-white sm:px-6 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-cyan-100">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-amber-100">
               <Globe2 size={14} /> Built for every event journey
             </span>
 
@@ -168,8 +175,9 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             </p>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3">
-            {audiences.map((item, index) => (
+          <div role="tablist" aria-label="Audience roles" className="mb-7 flex flex-wrap gap-3">{audiences.map((role, index) => <button key={role.title} type="button" role="tab" aria-selected={activeRole === index} onClick={() => setActiveRole(index)} className={`relative rounded-full px-5 py-3 font-bold transition-colors ${activeRole === index ? "text-[#1F1C1A]" : "text-white/80 hover:text-white"}`}>{activeRole === index && <motion.span layoutId="role-active" className="absolute inset-0 rounded-full bg-[#F26B2A]" />}<span className="relative z-10">{role.title.replace("For ", "")}</span></button>)}</div>
+          <div className="grid gap-5 lg:grid-cols-1">
+            {audiences.map((item, index) => activeRole === index && (
               <motion.article
                 key={item.title}
                 initial={{ opacity: 0, y: 18 }}
@@ -178,7 +186,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 transition={{ delay: index * 0.05 }}
                 className="rounded-[1.8rem] border border-white/10 bg-white/[0.06] p-7 shadow-[0_22px_70px_rgba(0,0,0,0.22)] backdrop-blur-xl"
               >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/10 text-cyan-200">
+                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/10 text-amber-200">
                   {item.icon}
                 </div>
 
@@ -199,8 +207,8 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
         className="bg-[linear-gradient(180deg,#ffffff_0%,#f8f7ff_100%)] px-4 py-20 sm:px-6 lg:py-28"
       >
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr]">
-          <div className="h-fit rounded-[2rem] border border-indigo-100 bg-white/85 p-8 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:sticky lg:top-28">
-            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-indigo-700">
+          <div className="h-fit rounded-[2rem] border border-orange-100 bg-white/85 p-8 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:sticky lg:top-28">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-orange-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-orange-700">
               <BadgeCheck size={14} /> Simple flow
             </span>
 
@@ -231,7 +239,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 transition={{ delay: index * 0.04 }}
                 className="grid gap-5 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(99,102,241,0.12)] sm:grid-cols-[64px_1fr]"
               >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-indigo-600 to-cyan-500 text-sm font-black text-white shadow-lg shadow-indigo-500/20">
+                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white shadow-lg shadow-orange-500/20">
                   {String(index + 1).padStart(2, "0")}
                 </div>
 
@@ -280,17 +288,17 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               ))}
             </div>
           ) : (
-            <div className="mx-auto max-w-2xl rounded-[2rem] border border-dashed border-indigo-200 bg-white p-10 text-center shadow-sm">
-              <Ticket className="mx-auto mb-4 text-indigo-600" size={46} />
+            <div className="mx-auto max-w-2xl rounded-[2rem] border border-dashed border-orange-200 bg-white p-10 text-center shadow-sm">
+              <Ticket className="mx-auto mb-4 text-orange-600" size={46} />
 
               <h3 className="text-2xl font-black text-slate-950">
-                No upcoming events yet
+                Be the first to host an event
               </h3>
 
               <p className="mt-2 leading-7 text-slate-500">
-                Events will appear here automatically once they are created and
-                published.
+                Turn your next idea into an unforgettable experience. Your event could be the first one featured here.
               </p>
+              <Link to="/OrganizerRegistration" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#F26B2A] px-6 py-3 font-bold text-[#1F1C1A]">Create an Event <ArrowRight size={17} /></Link>
             </div>
           )}
         </div>
@@ -300,7 +308,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
       <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-20 sm:px-6 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-12 max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-indigo-700 shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-orange-700 shadow-sm">
               <Star size={14} /> Testimonials
             </span>
 
@@ -335,7 +343,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 </p>
 
                 <div className="mt-7 flex items-center gap-3">
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-indigo-600 to-cyan-500 text-sm font-black text-white">
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white">
                     {item.name
                       .split(" ")
                       .map((part) => part[0])
@@ -359,7 +367,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
       <section id="faq" className="px-4 py-20 sm:px-6 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr]">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-indigo-700">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-orange-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-orange-700">
               FAQ
             </span>
 
@@ -374,9 +382,11 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           </div>
 
           <div className="space-y-4">
-            {faqs.map((faq) => (
+            {faqs.map((faq, index) => (
               <details
                 key={faq.q}
+                open={openFaq === index}
+                onClick={(event) => { if ((event.target as HTMLElement).closest("summary")) { event.preventDefault(); setOpenFaq(openFaq === index ? null : index); } }}
                 className="group rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.05)]"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-slate-950">
@@ -396,7 +406,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
       {/* FINAL CTA */}
       <section className="px-4 pb-20 sm:px-6 lg:pb-28">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.2rem] bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-500 p-8 text-white shadow-[0_28px_90px_rgba(79,70,229,0.24)] sm:p-12">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.2rem] bg-gradient-to-br from-[#F26B2A] via-[#E55B20] to-[#C34B13] p-8 text-white shadow-[0_28px_90px_rgba(79,70,229,0.24)] sm:p-12">
           <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]">
             <div>
               <div className="mb-5 flex flex-wrap gap-3">
@@ -424,7 +434,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
             <Link
               to="/OrganizerRegistration"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-black text-indigo-700 shadow-xl transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-black text-orange-700 shadow-xl transition-all hover:-translate-y-0.5"
             >
               Create Event <ArrowRight size={18} />
             </Link>
@@ -432,6 +442,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
         </div>
       </section>
 </>
-);
+ );
+};
 
 export default HomeSections;
