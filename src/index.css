@@ -717,3 +717,5 @@ textarea:focus-visible {
 .eh-home {scroll-margin-top:90px;}
 .eh-home section[id] {scroll-margin-top:100px;}
 @media (prefers-reduced-motion:reduce){.eh-home-marquee{animation:none!important;}}
+
+.eh-home-footer .eh-home-wordmark:hover { color:transparent; background-image:linear-gradient(90deg,#FFEBDD,#F26B2A 54%,#FFEBDD); -webkit-background-clip:text; background-clip:text; }
