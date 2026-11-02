@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const footerGroups = [
@@ -48,8 +48,9 @@ const socialLinks: { label: string; href: string; icon: ReactNode }[] = [
 ];
 
 const Footer = () => {
+  const isHome = useLocation().pathname === "/";
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#1F1C1A] px-4 py-14 text-slate-300 sm:px-6 md:py-20">
+    <footer className={`relative overflow-hidden border-t border-white/10 px-4 py-14 text-slate-300 sm:px-6 md:py-20 ${isHome ? "eh-home-footer bg-[#1F1C1A]" : "bg-[#020617]"}`}>
       <div className="eh-premium-grid absolute inset-0 opacity-[0.12]" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-indigo-600/10 blur-[120px]" />
     
@@ -125,14 +126,14 @@ const Footer = () => {
             <p className="text-sm font-semibold text-slate-500">© {new Date().getFullYear()} EventHive. All rights reserved.</p>
             <p className="mt-2 text-sm text-slate-500">
               Designed and developed by{" "}
-              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className="font-black text-orange-300 hover:text-white">
+              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className={`font-black hover:text-white ${isHome ? "text-orange-300" : "text-indigo-300"}`}>
                 Rohit Pant
               </a>
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            {socialLinks.slice(0, 2).map((link) => (
+            {(isHome ? socialLinks.slice(0, 2) : socialLinks).map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -144,7 +145,7 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        <div aria-hidden="true" className="pointer-events-none mt-10 overflow-hidden text-center font-display text-[clamp(5rem,17vw,18rem)] font-black leading-[.75] tracking-[-.09em] text-[#FFF8F3]/15 transition-colors hover:text-[#F26B2A]/40">EventHive</div>
+        {isHome && <div aria-hidden="true" className="pointer-events-none mt-10 overflow-hidden text-center font-display text-[clamp(5rem,17vw,18rem)] font-black leading-[.75] tracking-[-.09em] text-[#FFF8F3]/15 transition-colors hover:text-[#F26B2A]/40">EventHive</div>}
       </div>
     </footer>
   );
