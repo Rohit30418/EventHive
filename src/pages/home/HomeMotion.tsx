@@ -83,8 +83,3 @@ export function CustomCursor() {
   );
 }
 
-export function HomeSmoothScroll() {
-  // Native anchor smooth scrolling avoids layout interception and honors reduced motion.
-  // A Lenis dependency can be introduced later if inertia is specifically desired.
-  return null;
-}
