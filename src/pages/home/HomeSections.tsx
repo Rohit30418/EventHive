@@ -368,29 +368,31 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              This section improves trust and makes the homepage feel complete
-              like a real SaaS landing page.
+              Find clear answers to the most common questions about EventHive.
             </p>
           </div>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <details
-                key={faq.q}
-                open={openFaq === index}
-                onClick={(event) => { if ((event.target as HTMLElement).closest("summary")) { event.preventDefault(); setOpenFaq(openFaq === index ? null : index); } }}
-                className="group rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.05)]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-slate-950">
-                  {faq.q}
-                  <ChevronDown
-                    className="shrink-0 text-slate-400 transition-transform group-open:rotate-180"
-                    size={20}
-                  />
-                </summary>
-
-                <motion.p initial={false} animate={{opacity:openFaq===index?1:0}} transition={{duration:reducedMotion?0:0.2}} className="mt-4 leading-7 text-slate-500">{faq.a}</motion.p>
-              </details>
+              <div key={faq.q} className="rounded-[1.5rem] border border-[#1F1C1A]/10 bg-white shadow-[0_10px_35px_rgba(31,28,26,.04)] transition-colors hover:border-[#F26B2A]/50">
+                <h3>
+                  <button type="button" id={"eh-faq-button-" + index} aria-expanded={openFaq === index} aria-controls={"eh-faq-panel-" + index}
+                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                    className="flex w-full items-center justify-between gap-4 rounded-[1.5rem] p-6 text-left text-base font-semibold text-[#1F1C1A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F26B2A]">
+                    {faq.q}
+                    <motion.span animate={{rotate:openFaq===index ? 180 : 0}} transition={{duration:reducedMotion?0:.24}} className="shrink-0 text-[#D45018]"><ChevronDown size={20}/></motion.span>
+                  </button>
+                </h3>
+                <AnimatePresence initial={false}>
+                  {openFaq === index && (
+                    <motion.div role="region" id={"eh-faq-panel-" + index} aria-labelledby={"eh-faq-button-" + index}
+                      initial={reducedMotion ? false : {height:0,opacity:0}} animate={{height:"auto",opacity:1}} exit={reducedMotion ? {} : {height:0,opacity:0}}
+                      transition={{duration:reducedMotion?0:.3}} className="overflow-hidden">
+                      <p className="px-6 pb-6 leading-7 text-[#62574F]">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </div>
         </div>
@@ -398,15 +400,17 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
       {/* FINAL CTA */}
       <section className="px-4 pb-20 sm:px-6 lg:pb-28">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.2rem] bg-gradient-to-br from-[#F26B2A] via-[#E55B20] to-[#C34B13] p-8 text-white shadow-[0_28px_90px_rgba(79,70,229,0.24)] sm:p-12">
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.6rem] bg-[#F26B2A] p-9 text-[#1F1C1A] shadow-[0_28px_90px_rgba(242,107,42,0.2)] sm:p-16">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[.12] [background-image:radial-gradient(#1F1C1A_1.2px,transparent_1.2px)] [background-size:20px_20px]"/>
+          <motion.div aria-hidden="true" animate={reducedMotion?{}:{rotate:[-14,-7,-14],y:[0,-8,0]}} transition={{duration:7,repeat:Infinity}} className="pointer-events-none absolute right-[-25px] top-6 hidden rounded-2xl border-2 border-dashed border-[#1F1C1A]/30 bg-[#FFEBDD] p-6 opacity-75 md:block"><Ticket size={48}/></motion.div>
+          <motion.div initial={reducedMotion?false:{opacity:0,scale:.96}} whileInView={{opacity:1,scale:1}} viewport={{once:true}} transition={{duration:.6}} className="relative grid items-center gap-8 lg:grid-cols-[1fr_auto]">
             <div>
               <div className="mb-5 flex flex-wrap gap-3">
                 {[CalendarCheck, Users, BarChart3, CheckCircle2].map(
                   (Icon, i) => (
                     <span
                       key={i}
-                      className="grid h-11 w-11 place-items-center rounded-2xl bg-white/15 text-white backdrop-blur-md"
+                      className="grid h-11 w-11 place-items-center rounded-2xl bg-white/25 text-[#1F1C1A] backdrop-blur-md"
                     >
                       <Icon size={20} />
                     </span>
@@ -414,11 +418,9 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 )}
               </div>
 
-              <h2 className="max-w-3xl text-4xl font-black leading-tight  sm:text-5xl">
-                Ready to make your event platform look premium?
-              </h2>
+              <h2 className="max-w-3xl font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl">Make your next event <em className="font-accent font-normal">unforgettable.</em></h2>
 
-              <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-white/80">
+              <p className="mt-5 max-w-2xl text-lg font-medium leading-8 text-[#4D2E20]">
                 Create modern event pages, showcase upcoming events and give
                 attendees a clean discovery experience.
               </p>
@@ -426,11 +428,11 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
 
             <Magnetic><Link
               to="/OrganizerRegistration"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-black text-[#1F1C1A] shadow-xl transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1F1C1A] px-7 py-4 text-sm font-black text-white shadow-xl transition-transform hover:-translate-y-0.5"
             >
               Create Event <ArrowRight size={18} />
             </Link></Magnetic>
-          </div>
+          </motion.div>
         </div>
       </section>
 </>
