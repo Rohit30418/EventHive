@@ -248,3 +248,28 @@ export function HomeFloatingTools() {
     document.body
   );
 }
+
+export function HomeAccessibilityEffects() {
+  const { settings } = useHomeAccessibility();
+  useEffect(() => {
+    const node = document.querySelector<HTMLElement>(".eh-home");
+    if (!node) return;
+    const classes = [
+      "eh-access-spaced", "eh-access-readable", "eh-access-hide-images",
+      "eh-access-grayscale", "eh-access-inverted", "eh-access-underline",
+      "eh-access-large-cursor", "eh-access-paused",
+    ];
+    const active = [
+      settings.lineSpacing, settings.readableFont, settings.hideImages,
+      settings.grayscale, settings.invertColors, settings.underlineLinks,
+      settings.largeCursor, settings.pauseMotion,
+    ];
+    classes.forEach((name, index) => node.classList.toggle(name, active[index]));
+    node.dataset.accessTextSize = String(settings.textSize);
+    return () => {
+      node.classList.remove(...classes);
+      delete node.dataset.accessTextSize;
+    };
+  }, [settings]);
+  return null;
+}
