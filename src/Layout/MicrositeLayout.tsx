@@ -59,7 +59,7 @@ const MicrositeLayout = () => {
   }
 
   return (
-    <div className="public-theme min-h-screen overflow-x-hidden bg-[#FFF8F3] text-[#1F1C1A]">
+    <div className="public-theme eh-event-microsite min-h-screen overflow-x-clip bg-[#FFF8F3] text-[#1F1C1A]">
       <Header />
       <EventSectionNav />
       <Outlet />
