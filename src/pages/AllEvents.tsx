@@ -248,41 +248,33 @@ const AllEvents = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
-      {/* =========================
-          DARK CENTERED BANNER
-      ========================== */}
-      <section className="flex min-h-[180px] items-center justify-center bg-[#0B1020] px-4 sm:min-h-[200px] sm:px-6 lg:min-h-[220px] lg:px-8">
-        <h1 className="text-center text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-          Explore Events
-        </h1>
+    <div className="min-h-screen bg-[#FFF8F3] text-[#1F1C1A]">
+      <section className="border-b border-[#eadfd7] bg-white px-4 py-12 sm:px-6 lg:py-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.2em] text-[#F26B2A]">
+            <span className="h-px w-10 bg-[#F26B2A]" /> Event discovery
+          </div>
+          <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+            <h1 className="font-['Space Grotesk',sans-serif] text-3xl font-extrabold leading-[1.12] tracking-[-0.004em] sm:text-4xl lg:text-5xl">
+              Explore events worth showing up for.
+            </h1>
+            <p className="max-w-xl text-base leading-8 text-[#77736f] lg:justify-self-end">
+              Browse upcoming and past events, filter by category and open each
+              event's dedicated microsite for details and registration.
+            </p>
+          </div>
+        </div>
       </section>
 
-      {/* =========================
-          EVENTS AREA
-      ========================== */}
-      <section className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+      <section className="px-4 py-8 sm:px-6 lg:py-12">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-8">
-            {/* =========================
-                EVENT CATEGORIES
-            ========================== */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[250px_minmax(0,1fr)] lg:items-start lg:gap-10">
             <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-2xl border border-[#EAECF2] bg-white p-4 shadow-[0_8px_30px_rgba(15,23,42,0.05)] sm:p-5">
-                <h2 className="mb-4 text-lg font-semibold text-[#151826] sm:text-xl">
-                  Event Categories
-                </h2>
-
-                <div
-                  className="
-                    flex gap-2 overflow-x-auto pb-2
-                    [scrollbar-width:none]
-                    [&::-webkit-scrollbar]:hidden
-                    lg:flex-col
-                    lg:overflow-visible
-                    lg:pb-0
-                  "
-                >
+              <div className="rounded-[1.4rem] border border-[#eee3db] bg-white p-4 sm:p-5">
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">
+                  Browse by time
+                </p>
+                <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-col lg:overflow-visible lg:pb-0">
                   {sidebarItems.map((item) => {
                     const Icon = item.icon;
                     const active = eventView === item.id;
@@ -292,39 +284,21 @@ const AllEvents = () => {
                         key={item.id}
                         type="button"
                         onClick={() => setEventView(item.id)}
-                        className={`
-                          flex shrink-0 items-center justify-between
-                          gap-3 rounded-xl px-4 py-3
-                          text-left transition
-                          lg:w-full
-                          ${
-                            active
-                              ? "bg-[#F3F0FF] text-[#6C4CF1]"
-                              : "bg-[#F8F9FC] text-[#4B5563] hover:bg-[#F3F0FF] hover:text-[#6C4CF1] lg:bg-transparent"
-                          }
-                        `}
+                        className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left transition lg:w-full ${
+                          active
+                            ? "bg-[#fff0e6] text-[#F26B2A]"
+                            : "text-[#625d59] hover:bg-[#fff6ef] hover:text-[#1F1C1A]"
+                        }`}
                       >
-                        <span className="flex items-center gap-2.5 whitespace-nowrap text-sm font-medium">
-                          <Icon
-                            size={18}
-                            className={
-                              active ? "text-[#6C4CF1]" : "text-slate-400"
-                            }
-                          />
-
-                          {item.label}
+                        <span className="flex items-center gap-2.5 whitespace-nowrap text-sm font-bold">
+                          <Icon size={17} /> {item.label}
                         </span>
-
                         <span
-                          className={`
-                            rounded-full px-2 py-0.5
-                            text-[11px]
-                            ${
-                              active
-                                ? "bg-white text-[#6C4CF1]"
-                                : "bg-slate-100 text-slate-500"
-                            }
-                          `}
+                          className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
+                            active
+                              ? "bg-white text-[#F26B2A]"
+                              : "bg-[#f4efeb] text-[#8f8882]"
+                          }`}
                         >
                           {item.count}
                         </span>
@@ -335,128 +309,73 @@ const AllEvents = () => {
               </div>
             </aside>
 
-            {/* =========================
-                RIGHT SIDE
-            ========================== */}
             <main className="min-w-0">
-              {/* CATEGORY FILTERS */}
-              <div
-                className="
-                  mb-5 flex gap-2 overflow-x-auto pb-2
-                  [scrollbar-width:none]
-                  [&::-webkit-scrollbar]:hidden
-                "
-              >
+              <div className="mb-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {categoryOptions.map((item) => (
                   <button
                     key={item}
                     type="button"
                     onClick={() => setCategory(item)}
-                    className={`
-                      shrink-0 rounded-lg border
-                      px-3.5 py-2
-                      text-xs font-medium
-                      transition
-                      sm:px-4 sm:text-sm
-                      ${
-                        category === item
-                          ? "border-[#6C4CF1] bg-[#6C4CF1] text-white"
-                          : "border-[#EAECF2] bg-white text-[#697386] hover:border-[#6C4CF1]/40 hover:text-[#6C4CF1]"
-                      }
-                    `}
+                    className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-bold transition ${
+                      category === item
+                        ? "border-[#F26B2A] bg-[#F26B2A] text-white"
+                        : "border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A]"
+                    }`}
                   >
                     {item}
                   </button>
                 ))}
               </div>
 
-              {/* TITLE + COUNT */}
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <h2 className="text-xl font-semibold text-[#151826] sm:text-2xl lg:text-3xl">
-                  {viewTitle}
-                </h2>
-
-                <span className="shrink-0 rounded-lg border border-[#EAECF2] bg-white px-3 py-1.5 text-xs text-[#697386] shadow-sm sm:text-sm">
+              <div className="mb-7 flex items-end justify-between gap-3 border-b border-[#e9ddd4] pb-5">
+                <div>
+                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#9a938d]">
+                    Results
+                  </p>
+                  <h2 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold tracking-[-0.04em]">
+                    {viewTitle}
+                  </h2>
+                </div>
+                <span className="text-sm font-semibold text-[#77736f]">
                   {displayedEvents.length} {displayedEvents.length === 1 ? "event" : "events"}
                 </span>
               </div>
 
-              {/* =========================
-                  LOADING SKELETON
-              ========================== */}
               {isLoading ? (
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   {Array.from({ length: EVENTS_PER_PAGE }).map((_, index) => (
                     <EventCardSkeleton key={index} />
                   ))}
                 </div>
               ) : error ? (
-                <ErrorState
-                  title="Could not load events"
-                  description={error}
-                />
+                <ErrorState title="Could not load events" description={error} />
               ) : displayedEvents.length === 0 ? (
-                /* EMPTY */
-                <div className="rounded-2xl border border-[#EAECF2] bg-white px-5 py-12 text-center sm:px-8 sm:py-16">
-                  <CalendarDays
-                    size={28}
-                    className="mx-auto text-[#6C4CF1]"
-                  />
-
-                  <h3 className="mt-4 text-lg font-semibold text-[#151826]">
+                <div className="rounded-[1.8rem] border border-dashed border-[#F26B2A]/30 bg-white px-5 py-16 text-center">
+                  <CalendarDays size={32} className="mx-auto text-[#F26B2A]" />
+                  <h3 className="mt-4 font-['Space Grotesk',sans-serif] text-xl font-extrabold">
                     No events found
                   </h3>
-
-                  <p className="mt-2 text-sm text-[#697386]">
+                  <p className="mt-2 text-sm text-[#77736f]">
                     No events are currently available in this category.
                   </p>
                 </div>
               ) : (
                 <>
-                  {/* =========================
-                      EVENT GRID
-                  ========================== */}
-                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {paginatedEvents.map((event, index) => (
-                      <div
-                        key={
-                          event.id ||
-                          `${event.EventName}-${
-                            (currentPage - 1) * EVENTS_PER_PAGE + index
-                          }`
-                        }
-                        className="min-w-0"
-                      >
-                        <EventCard
-                          event={event}
-                          index={(currentPage - 1) * EVENTS_PER_PAGE + index}
-                        />
-                      </div>
+                      <EventCard
+                        key={event.id || `${event.EventName}-${index}`}
+                        event={event}
+                        index={(currentPage - 1) * EVENTS_PER_PAGE + index}
+                      />
                     ))}
                   </div>
 
-                  {/* =========================
-                      PAGINATION
-                  ========================== */}
                   {totalPages > 1 && (
-                    <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-[#EAECF2] pt-6 sm:flex-row">
-                      <p className="text-sm text-[#697386]">
-                        Showing{" "}
-                        <span className="font-medium text-[#151826]">
-                          {(currentPage - 1) * EVENTS_PER_PAGE + 1}
-                        </span>{" "}
-                        -{" "}
-                        <span className="font-medium text-[#151826]">
-                          {Math.min(
-                            currentPage * EVENTS_PER_PAGE,
-                            displayedEvents.length
-                          )}
-                        </span>{" "}
-                        of{" "}
-                        <span className="font-medium text-[#151826]">
-                          {displayedEvents.length}
-                        </span>{" "}
-                        events
+                    <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-[#e9ddd4] pt-6 sm:flex-row">
+                      <p className="text-sm text-[#77736f]">
+                        Showing {(currentPage - 1) * EVENTS_PER_PAGE + 1}–
+                        {Math.min(currentPage * EVENTS_PER_PAGE, displayedEvents.length)} of {displayedEvents.length}
                       </p>
 
                       <div className="flex items-center gap-1.5">
@@ -465,7 +384,7 @@ const AllEvents = () => {
                           aria-label="Previous page"
                           disabled={currentPage === 1}
                           onClick={() => handlePageChange(currentPage - 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#EAECF2] bg-white text-[#697386] transition hover:border-[#6C4CF1]/40 hover:text-[#6C4CF1] disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A] disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           <ChevronLeft size={18} />
                         </button>
@@ -475,7 +394,7 @@ const AllEvents = () => {
                             return (
                               <span
                                 key={`${page}-${index}`}
-                                className="flex h-10 min-w-8 items-center justify-center px-1 text-sm text-[#98A2B3]"
+                                className="flex h-10 min-w-8 items-center justify-center text-sm text-[#aaa19a]"
                               >
                                 ...
                               </span>
@@ -483,7 +402,6 @@ const AllEvents = () => {
                           }
 
                           const active = currentPage === page;
-
                           return (
                             <button
                               key={page}
