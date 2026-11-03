@@ -193,9 +193,9 @@ const OrganizerRegistration = () => {
   };
 
   return (
-    <section className="bg-[#FFF8F3] px-4 py-7 text-[#1F1C1A] sm:px-6 sm:py-9 lg:py-12">
-      <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-[2rem] border border-[#eee3db] bg-white shadow-[0_24px_70px_rgba(30,28,27,0.08)] lg:grid-cols-[0.82fr_1.18fr]">
-        <aside className="bg-[#F26B2A] p-6 text-white sm:p-8 lg:p-10">
+    <section className="bg-[#FFF8F3] py-10 text-[#1F1C1A] sm:py-12 lg:py-16">
+      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="grid min-w-0 w-full overflow-hidden rounded-[20px] border border-[#E7D8CC] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+        <aside className="min-w-0 bg-[#F26B2A] p-6 text-white sm:p-8 lg:p-10">
           <div className="flex h-full flex-col">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
@@ -209,7 +209,7 @@ const OrganizerRegistration = () => {
               </p>
             </div>
 
-            <div className="mt-7 space-y-3 lg:mt-auto lg:pt-10">
+            <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
               {organizerBenefits.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#F26B2A]">
@@ -222,8 +222,8 @@ const OrganizerRegistration = () => {
           </div>
         </aside>
 
-        <div className="p-6 sm:p-8 lg:p-10">
-          <div className="mx-auto max-w-2xl">
+        <div className="min-w-0 p-6 sm:p-8 lg:p-10">
+          <div className="mx-auto w-full min-w-0 max-w-2xl">
             <div className="mb-6">
               <div className="mb-5 flex max-w-[220px] items-center gap-2">
                 {[1, 2].map((item) => (
@@ -468,6 +468,7 @@ const OrganizerRegistration = () => {
             )}
           </div>
         </div>
+      </div>
       </div>
     </section>
   );
