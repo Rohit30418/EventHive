@@ -317,111 +317,83 @@ const MicrositeHome = () => {
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION */}
-      <section id="experience" className="bg-white px-4 py-16 sm:px-6 lg:py-24 border-t border-slate-100">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+      {/* EXPERIENCE SECTION: image, matching cards and a vertical agenda. */}
+      <section id="experience" className="eh-ms-section bg-white">
+        <div className="eh-ms-container">
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
             variants={fadeInUp}
+            className="eh-ms-section-heading"
           >
-            <p
-              className="mb-4 text-xs font-bold uppercase tracking-wider"
-              style={{ color: primaryColor }}
-            >
+            <p className="eh-ms-eyebrow mb-4" style={{ color: primaryColor }}>
               The experience
             </p>
-            <h2 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl sm:leading-tight">
+            <h2 className="eh-ms-heading text-slate-950">
               Why you should not miss this{" "}
               <span
                 className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})`,
-                }}
+                style={{ backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }}
               >
                 event
               </span>
               .
             </h2>
-            <p className="mt-6 whitespace-pre-line text-lg font-normal leading-relaxed text-slate-600">
+            <p className="eh-ms-copy whitespace-pre-line">
               {event.AboutArea ||
                 "We bring together the right audience, useful content and a memorable experience designed for professionals."}
             </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {valueProps.map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5"
-                >
-                  <div
-                    className="mb-4 grid h-12 w-12 place-items-center rounded-2xl text-white"
-                    style={{
-                      background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                    }}
-                  >
-                    {item.icon}
-                  </div>
-                  <h3 className="text-base font-semibold text-slate-900">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm font-normal leading-relaxed text-slate-600">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="relative"
-          >
-            <div
-              className="absolute -inset-3 rounded-[2rem] opacity-20 blur-2xl"
-              style={{ background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }}
+          <div className="eh-ms-card overflow-hidden">
+            <img
+              src={event.banner || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"}
+              alt="Event experience"
+              className="eh-ms-experience-image"
+              loading="lazy"
             />
-            <div className="relative overflow-hidden rounded-[2.2rem] bg-slate-950 p-5 text-white shadow-2xl">
-              <div className="relative h-[320px] overflow-hidden rounded-[1.7rem] sm:h-[440px]">
-                <img
-                  src={event.banner || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"}
-                  alt="Event experience"
-                  className="h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div
-                    className="mb-4 flex h-14 w-14 items-center justify-center rounded-full backdrop-blur-md"
-                    style={{ backgroundColor: hexToRgba(primaryColor, 0.75) }}
-                  >
-                    <Play className="ml-1 fill-white" size={24} />
-                  </div>
-                  <h3 className="text-2xl font-bold tracking-tight">Event highlights</h3>
-                  <p className="mt-2 max-w-md text-sm leading-6 text-slate-300">
-                    A premium event experience designed for attendees, speakers and organizers.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {agendaItems.map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-xl"
-                  >
-                    <p className="text-xs font-bold uppercase tracking-wider text-cyan-200">
-                      {item.time}
-                    </p>
-                    <p className="mt-2 text-sm font-medium leading-snug text-white">
-                      {item.title}
-                    </p>
-                  </div>
-                ))}
+            <div className="eh-ms-experience-card">
+              <span
+                className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-white"
+                style={{ backgroundColor: hexToRgba(primaryColor, 0.75) }}
+              >
+                <Play className="ml-1 fill-white" size={24} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl font-bold tracking-tight text-slate-900">Event highlights</h3>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  A premium event experience designed for attendees, speakers and organizers.
+                </p>
               </div>
             </div>
-          </motion.div>
+          </div>
+
+          <div className="eh-ms-features">
+            {valueProps.map((item) => (
+              <article key={item.title} className="eh-ms-card">
+                <div
+                  className="mb-4 grid h-12 w-12 place-items-center rounded-2xl text-white"
+                  style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                >
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-base leading-relaxed text-slate-600">{item.desc}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="eh-ms-timeline eh-ms-card">
+            <ol className="eh-ms-timeline-list">
+              {agendaItems.map((item) => (
+                <li key={item.title} className="eh-ms-timeline-item">
+                  <p className="eh-ms-eyebrow" style={{ color: primaryColor }}>{item.time}</p>
+                  <p className="text-base font-medium leading-snug text-slate-900">{item.title}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
