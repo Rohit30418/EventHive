@@ -7,7 +7,7 @@ import "../public-theme.css";
 const Mainlayout: FC = () => {
 
   return (
-    <div className="public-theme min-h-screen overflow-x-hidden bg-[#FFF8F3] text-[#1F1C1A] antialiased">
+    <div className="public-theme min-h-screen overflow-x-clip bg-[#FFF8F3] text-[#1F1C1A] antialiased">
       <Header />
       <main className="relative">
         <Outlet />
