@@ -84,7 +84,7 @@ const CreateEvent: React.FC = () => {
   const { EventID } = useParams();
   const navigate = useNavigate();
   const {user}=useAuth();
-  const userId:UserId = user?.uid 
+  const userId:UserId = user?.uid
 
   const [bannerPreview, setBannerPreview] = useState<string>("");
   const [loadingEvent, setLoadingEvent] = useState(false);
@@ -183,28 +183,28 @@ const token = await user.getIdToken();
 
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-[#020617] p-6 text-white shadow-2xl md:p-8">
+      <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-[#020617] p-6 text-white shadow-sm md:p-6">
         <div className="eh-premium-grid absolute inset-0 opacity-20" />
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[100px]" />
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-cyan-100 hover:bg-white/15">
+            <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-wide text-cyan-100 hover:bg-white/15">
               <ArrowLeft size={15} /> Back to events
             </Link>
-            <p className="mb-2 text-xs font-black uppercase tracking-[0.24em] text-cyan-200">Event Builder</p>
-            <h1 className="text-3xl font-black tracking-tight md:text-5xl">
+            <p className="mb-2 text-xs font-black uppercase tracking-wide text-cyan-200">Event Builder</p>
+            <h1 className="text-2xl font-black tracking-tight md:text-3xl">
               {EventID ? "Refine your event" : "Create a premium event"}
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300">
               Build the public microsite, registration experience and speaker lineup from a single guided workspace.
             </p>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur-xl">
-            <div className="mb-2 flex items-center justify-between gap-6 text-xs font-black uppercase tracking-[0.16em] text-slate-300">
+          <div className="rounded-2xl border border-white/10 bg-white/10 p-4 ">
+            <div className="mb-2 flex items-center justify-between gap-6 text-xs font-black uppercase tracking-wide text-slate-300">
               <span>Page readiness</span><span>{completion}%</span>
             </div>
             <div className="h-3 w-64 max-w-full rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 transition-all" style={{ width: `${completion}%` }} />
+              <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 transition-colors" style={{ width: `${completion}%` }} />
             </div>
           </div>
         </div>
@@ -214,7 +214,7 @@ const token = await user.getIdToken();
         <form onSubmit={handleSubmit(onSubmit)} className="min-w-0 space-y-6">
           <input type="hidden" {...register("banner")} />
 
-          <section className="eh-dashboard-card p-6 md:p-8">
+          <section className="eh-dashboard-card p-6 md:p-6">
             <div className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <p className="eh-kicker mb-3">01 · Core details</p>
@@ -246,7 +246,7 @@ const token = await user.getIdToken();
             </div>
           </section>
 
-          <section className="eh-dashboard-card p-6 md:p-8">
+          <section className="eh-dashboard-card p-6 md:p-6">
             <div className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <p className="eh-kicker mb-3">02 · Public microsite</p>
@@ -280,18 +280,18 @@ const token = await user.getIdToken();
               </div>
 
               <Field label="Banner image" icon={ImagePlus} error={errors.banner}>
-                <div className={`relative min-h-[260px] overflow-hidden rounded-[1.75rem] border-2 border-dashed transition-all ${errors.banner ? "border-red-300 bg-red-50" : "border-slate-300 bg-slate-50 hover:border-indigo-300 hover:bg-indigo-50/40 dark:border-slate-700 dark:bg-slate-950/40"}`}>
+                <div className={`relative min-h-[260px] overflow-hidden rounded-2xl border-2 border-dashed transition-colors ${errors.banner ? "border-red-300 bg-red-50" : "border-slate-300 bg-slate-50 hover:border-indigo-300 hover:bg-indigo-50/40 dark:border-slate-700 dark:bg-slate-950/40"}`}>
                   {bannerPreview ? (
                     <>
                       <img src={bannerPreview} alt="Event banner preview" className="absolute inset-0 h-full w-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
-                      <button type="button" onClick={() => { setBannerPreview(""); setValue("banner", "", { shouldValidate: true }); }} className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-red-600 shadow-lg hover:bg-red-600 hover:text-white">
+                      <button type="button" onClick={() => { setBannerPreview(""); setValue("banner", "", { shouldValidate: true }); }} className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-red-600 shadow-sm hover:bg-red-600 hover:text-white">
                         <X size={18} />
                       </button>
                     </>
                   ) : (
                     <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-indigo-600 shadow-sm dark:bg-slate-900">
+                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm dark:bg-slate-900">
                         <UploadCloud size={30} />
                       </div>
                       <p className="font-black text-slate-900 dark:text-white">Upload event banner</p>
@@ -304,7 +304,7 @@ const token = await user.getIdToken();
             </div>
           </section>
 
-          <section className="eh-dashboard-card p-6 md:p-8">
+          <section className="eh-dashboard-card p-6 md:p-6">
             <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="eh-kicker mb-3">03 · Speaker lineup</p>
@@ -318,7 +318,7 @@ const token = await user.getIdToken();
             {speakers.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2">
                 {speakers.map((speaker, i) => (
-                  <div key={`${speaker.speakerName}-${i}`} className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                  <div key={`${speaker.speakerName}-${i}`} className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <button type="button" onClick={() => { setEditIndex(i); setIsModalOpen(true); }} className="flex min-w-0 items-center gap-3 text-left">
                       <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
                         {speaker.speakerImage ? <img src={speaker.speakerImage} alt={speaker.speakerName} className="h-full w-full object-cover" /> : <Users size={20} />}
@@ -335,7 +335,7 @@ const token = await user.getIdToken();
                 ))}
               </div>
             ) : (
-              <div className="rounded-[1.75rem] border border-dashed border-slate-300 bg-slate-50 p-8 text-center dark:border-slate-700 dark:bg-slate-950/40">
+              <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center dark:border-slate-700 dark:bg-slate-950/40">
                 <Users className="mx-auto mb-4 text-slate-300" size={44} />
                 <p className="font-black text-slate-900 dark:text-white">No speakers added yet</p>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Add speakers to make the microsite feel more credible.</p>
@@ -343,7 +343,7 @@ const token = await user.getIdToken();
             )}
           </section>
 
-          <div className="sticky bottom-4 z-20 rounded-[1.5rem] border border-slate-200 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/90">
+          <div className="sticky bottom-4 z-20 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm  dark:border-slate-800 dark:bg-slate-900/90">
             <button type="submit" disabled={isLoading} className="eh-btn-primary w-full px-6 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-70">
               {isLoading ? <><Loader2 className="animate-spin" size={18} /> Saving...</> : <>{EventID ? "Update Event" : "Create Event"} <CheckCircle2 size={18} /></>}
             </button>
@@ -351,11 +351,11 @@ const token = await user.getIdToken();
         </form>
 
         <aside className="space-y-6 xl:sticky xl:top-6 xl:self-start">
-          <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_22px_70px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-900">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="relative h-56 overflow-hidden bg-slate-200">
               {bannerPreview ? <img src={bannerPreview} alt="Preview" className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><ImagePlus size={44} /></div>}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent" />
-              <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-indigo-700">
+              <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-indigo-700">
                 {watchedValues.eventType || "Category"}
               </span>
               <h3 className="absolute bottom-4 left-4 right-4 line-clamp-2 text-2xl font-black text-white">
@@ -364,7 +364,7 @@ const token = await user.getIdToken();
             </div>
             <div className="space-y-4 p-5">
               <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">Tagline</p>
+                <p className="text-xs font-black uppercase tracking-wide text-slate-400">Tagline</p>
                 <p className="mt-2 font-bold text-slate-800 dark:text-slate-200">{watchedValues.BannerTagLine || "Your hero tagline will appear here."}</p>
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm font-bold text-slate-600 dark:text-slate-300">
@@ -376,7 +376,7 @@ const token = await user.getIdToken();
           </div>
 
           <div className="eh-dashboard-card p-5">
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-slate-400">Publishing checklist</p>
+            <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">Publishing checklist</p>
             {[
               ["Core details", Boolean(watchedValues.EventName && watchedValues.eventDate && watchedValues.location)],
               ["Banner uploaded", Boolean(bannerPreview)],
