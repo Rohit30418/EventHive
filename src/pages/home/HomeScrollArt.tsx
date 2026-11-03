@@ -5,14 +5,18 @@ type ScrollRevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  id?: string;
+  role?: string;
+  "aria-labelledby"?: string;
 };
 
 // Content stays 94% opaque even before entering the viewport: never a blank section.
-export function ScrollReveal({ children, className = "", delay = 0 }: ScrollRevealProps) {
+export function ScrollReveal({ children, className = "", delay = 0, ...accessibilityProps }: ScrollRevealProps) {
   const reducedMotion = useReducedMotion();
 
   return (
     <motion.div
+      {...accessibilityProps}
       className={["eh-scroll-reveal", className].filter(Boolean).join(" ")}
       initial={reducedMotion ? false : { opacity: 0.94, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
