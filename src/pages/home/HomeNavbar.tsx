@@ -3,7 +3,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, LayoutDashboard, LogIn, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../dashboard/AuthContext";
-import { Magnetic } from "./HomeMotion";
 
 const links = [
   { label: "Features", href: "/#features", id: "features" },
@@ -72,11 +71,9 @@ export default function HomeNavbar() {
           ) : (
             <Link to="/Login" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-[#1F1C1A] hover:text-[#C34B13]"><LogIn size={16} /> Log in</Link>
           )}
-          <Magnetic>
-            <Link to="/OrganizerRegistration" className="eh-home-button inline-flex items-center gap-2 rounded-full bg-[#1F1C1A] px-5 py-3 text-sm font-bold text-white hover:bg-[#C34B13]">
+          <Link to="/OrganizerRegistration" className="eh-home-button inline-flex items-center gap-2 rounded-full bg-[#1F1C1A] px-5 py-3 text-sm font-bold text-white hover:bg-[#C34B13]">
               Start creating <ArrowUpRight size={16} />
-            </Link>
-          </Magnetic>
+          </Link>
         </div>
         <button
           ref={menuClose}
