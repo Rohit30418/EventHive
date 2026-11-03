@@ -114,7 +114,18 @@ jobs:
             if(bad.length){failures+=bad.length;console.error("FAIL width="+width+" checks="+bad.join(",")+" "+JSON.stringify(m));}
             else console.log("PASS width="+width+" "+JSON.stringify(checks));
             if(width===375){
-              await page.evaluate(()=>window.scrollTo(0,0));
+              await page.evaluate(()=>{
+                document.documentElement.style.scrollBehavior = "auto";
+                document.scrollingElement?.scrollTo({top:0,behavior:"instant"});
+                window.scrollTo(0,0);
+              });
+              await page.waitForTimeout(250);
+              console.log("NAV_BEFORE_CLICK",JSON.stringify(await page.evaluate(()=>({
+                scrollY:window.scrollY,
+                nav:document.querySelector(".eh-ms-navbar-shell")?.getBoundingClientRect().toJSON(),
+                button:document.querySelector("button[aria-label='Open menu']")?.getBoundingClientRect().toJSON(),
+                viewport:window.innerHeight
+              }))));
               const menu=page.getByRole("button",{name:"Open menu"});
               await menu.click();
               const shown=await page.getByLabel("Event mobile navigation").isVisible();
@@ -124,7 +135,18 @@ jobs:
               await page.getByRole("button",{name:"Close menu"}).click();
             }
             if(width===1440){
-              await page.evaluate(()=>window.scrollTo(0,0));
+              await page.evaluate(()=>{
+                document.documentElement.style.scrollBehavior = "auto";
+                document.scrollingElement?.scrollTo({top:0,behavior:"instant"});
+                window.scrollTo(0,0);
+              });
+              await page.waitForTimeout(250);
+              console.log("NAV_BEFORE_CLICK",JSON.stringify(await page.evaluate(()=>({
+                scrollY:window.scrollY,
+                nav:document.querySelector(".eh-ms-navbar-shell")?.getBoundingClientRect().toJSON(),
+                button:document.querySelector("button[aria-label='Open menu']")?.getBoundingClientRect().toJSON(),
+                viewport:window.innerHeight
+              }))));
               await page.getByRole("button",{name:"More",exact:false}).click();
               const shown=await page.getByRole("button",{name:"FAQ",exact:true}).isVisible();
               console.log("DESKTOP_MORE_MENU="+shown);
