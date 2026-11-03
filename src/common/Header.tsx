@@ -85,9 +85,9 @@ export default function Header() {
           transition={{ duration: reducedMotion ? 0 : 0.22 }}
         >
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.id}
-              href={item.href}
+              to={item.href}
               onClick={() => setActive(item.id)}
               aria-current={active === item.id ? "page" : undefined}
               className="relative rounded-full px-4 py-2.5 text-[13px] font-semibold text-[#39312B] transition-colors hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A]"
@@ -100,7 +100,7 @@ export default function Header() {
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-            </a>
+            </Link>
           ))}
         </motion.div>
 
@@ -150,14 +150,14 @@ export default function Header() {
           >
             <div className="flex flex-col gap-2">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.id}
-                  href={item.href}
+                  to={item.href}
                   onClick={() => setMenuOpen(false)}
                   className="border-b border-white/15 py-4 font-['Space_Grotesk',Inter,sans-serif] text-3xl font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-[#F26B2A]"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
             <div className="flex flex-col gap-3 pt-8">
