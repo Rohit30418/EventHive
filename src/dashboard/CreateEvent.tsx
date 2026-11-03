@@ -210,7 +210,7 @@ const token = await user.getIdToken();
         </div>
       </div>
 
-      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_420px]">
+      <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <input type="hidden" {...register("banner")} />
 
