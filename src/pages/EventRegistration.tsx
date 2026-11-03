@@ -46,7 +46,7 @@ const EventRegistration = ({
   };
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 lg:py-24">
+    <section className="relative overflow-hidden bg-white px-6 py-10 sm:py-14 lg:px-12 lg:py-20">
       <div
         className="absolute -left-32 top-10 h-[30rem] w-[30rem] rounded-full blur-[130px]"
         style={{
@@ -61,7 +61,7 @@ const EventRegistration = ({
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto w-full max-w-[1296px]">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span
             className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] shadow-sm"
@@ -81,9 +81,9 @@ const EventRegistration = ({
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="mx-auto grid max-w-[760px] min-w-0 gap-6 lg:max-w-none lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
           {/* Left Info Panel */}
-          <aside className="relative overflow-hidden rounded-[2.2rem] bg-slate-950 p-7 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
+          <aside className="relative hidden min-w-0 overflow-hidden rounded-[2.2rem] bg-slate-950 lg:block p-7 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
             <div
               className="absolute -right-20 -top-20 h-72 w-72 rounded-full blur-[100px]"
               style={{
@@ -150,7 +150,7 @@ const EventRegistration = ({
           </aside>
 
           {/* Form */}
-          <div className="overflow-hidden rounded-[2.2rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+          <div className="min-w-0 overflow-hidden rounded-[2.2rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
             <div className="h-2 w-full" style={gradientStyle} />
 
             <form
