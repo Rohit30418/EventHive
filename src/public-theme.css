@@ -68,3 +68,20 @@
 .public-theme { background: #FFF8F3; color: #1F1C1A; }
 .public-theme main { min-width: 0; }
 .public-theme .eh-page-shell, .public-theme .eh-page { color: var(--eh-text); }
+
+/* The public site uses the same header/footer on every page. Event anchors account
+   for the shared 84px header plus the contextual 62px event navigation strip. */
+.eh-event-microsite :is(#experience, #speakers, #pricing, #registration) {
+  scroll-margin-top: 158px;
+}
+
+/* Consistent public site frame; retain organizer-selected colors inside event content. */
+.public-theme .eh-home-footer {
+  background-color: #1F1C1A;
+}
+
+@media (max-width: 639px) {
+  .eh-event-microsite :is(#experience, #speakers, #pricing, #registration) {
+    scroll-margin-top: 150px;
+  }
+}
