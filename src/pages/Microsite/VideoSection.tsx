@@ -44,7 +44,7 @@ Experience the event before you’re even there.
           
           {/* REMOVED: backdrop-blur-2xl. REPLACED WITH: Solid slate-900 background and standard shadow */}
           <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-800 bg-slate-900 p-3 shadow-2xl">
-            <div className="relative aspect-video overflow-hidden rounded-[2rem] bg-black">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-black sm:aspect-video sm:rounded-[2rem]">
               {!isPlaying ? (
                 <button
                   type="button"
@@ -65,24 +65,24 @@ Experience the event before you’re even there.
                     <div className="relative">
                       {/* Simplified Play Button: Solid colors, no glassmorphism */}
                       <span
-                        className="relative grid h-24 w-24 place-items-center rounded-full border border-white/20 text-white shadow-xl transition-transform group-hover:scale-110"
+                        className="relative grid h-16 w-16 place-items-center rounded-full border border-white/20 text-white shadow-xl transition-transform group-hover:scale-110 sm:h-24 sm:w-24"
                         style={{
                           background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                         }}
                       >
-                        <Play size={38} className="ml-1 fill-white" />
+                        <Play size={30} className="ml-1 fill-white sm:h-9 sm:w-9" />
                       </span>
                     </div>
                   </div>
 
-                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 pointer-events-none">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-10 pointer-events-none">
                     {/* REMOVED: backdrop-blur. REPLACED WITH: solid black/50 background */}
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/50 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
                       <Sparkles size={13} />
                       Highlights
                     </div>
 
-                    <h3 className="max-w-2xl text-3xl font-black leading-tight sm:text-4xl text-white">
+                    <h3 className="max-w-2xl text-xl font-black leading-tight text-white sm:text-4xl">
                       Watch what makes this event special.
                     </h3>
 
