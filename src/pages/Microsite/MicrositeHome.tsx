@@ -320,13 +320,7 @@ const MicrositeHome = () => {
       {/* EXPERIENCE SECTION: image, matching cards and a vertical agenda. */}
       <section id="experience" className="eh-ms-section bg-white">
         <div className="eh-ms-container">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="eh-ms-section-heading"
-          >
+          <div className="eh-ms-section-heading">
             <p className="eh-ms-eyebrow mb-4" style={{ color: primaryColor }}>
               The experience
             </p>
@@ -344,7 +338,7 @@ const MicrositeHome = () => {
               {event.AboutArea ||
                 "We bring together the right audience, useful content and a memorable experience designed for professionals."}
             </p>
-          </motion.div>
+          </div>
 
           <div className="eh-ms-card overflow-hidden">
             <img
