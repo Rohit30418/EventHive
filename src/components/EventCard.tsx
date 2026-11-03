@@ -47,7 +47,7 @@ const destination =
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 22 }}
+      initial={homeFeatured ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.3) }}
@@ -69,7 +69,6 @@ const destination =
             {status.label}
           </span>
         </div>
-        {homeFeatured && <span className="absolute right-4 top-16 rounded-full bg-[#FFEBDD] px-3 py-1.5 text-[10px] font-bold text-[#83350F]">Pricing on event page</span>}
         <div className="absolute bottom-4 left-4 right-4">
           <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em] text-cyan-100 backdrop-blur-md">
             <Sparkles size={12} /> EventHive picks
