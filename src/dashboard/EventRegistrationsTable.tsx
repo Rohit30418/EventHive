@@ -148,18 +148,18 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
   }
 
   return (
-    <div className="eh-card overflow-hidden rounded-[2rem]">
-      <div className="border-b border-slate-200/80 bg-gradient-to-br from-white via-slate-50 to-indigo-50/50 p-6 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-8">
+    <div className="eh-card overflow-hidden rounded-2xl">
+      <div className="border-b border-slate-200/80 bg-gradient-to-br from-white via-slate-50 to-indigo-50/50 p-6 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-6">
         <div className="flex flex-col justify-between gap-6 xl:flex-row xl:items-center">
           <div>
-            <p className="mb-2 text-xs font-black uppercase tracking-[0.24em] text-indigo-600 dark:text-indigo-400">
+            <p className="mb-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
               Registration Center
             </p>
-            <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-3xl">
+            <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-2xl">
               {propEventId ? `Attendees: ${eventName}` : "All Attendees"}
             </h2>
             <p className="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.14)]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm" />
               {role === "SuperAdmin" ? "Total system records:" : "My event records:"}
               <span className="font-black text-slate-800 dark:text-slate-100">{filteredData.length}</span>
             </p>
@@ -180,7 +180,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
             <button
               onClick={handleExportExcel}
               disabled={filteredData.length === 0}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-sm shadow-emerald-500/20 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <FileSpreadsheet size={18} /> Export CSV
             </button>
