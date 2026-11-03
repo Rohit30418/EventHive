@@ -103,12 +103,12 @@ const ManageRequest = () => {
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div>
             <p className="mb-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Approval Queue</p>
-            <h1 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">Organizer Requests</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Organizer Requests</h1>
             <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Review, approve, revoke and search organizer signups.</p>
           </div>
           <button
             onClick={fetchData}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
           >
             <RefreshCw size={16} className={loading ? "animate-spin" : ""} /> Refresh
           </button>
@@ -120,19 +120,19 @@ const ManageRequest = () => {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-950/40">
               <p className="text-xs font-bold text-slate-400">Total</p>
-              <p className="text-2xl font-black text-slate-950 dark:text-white">{data.length}</p>
+              <p className="text-2xl font-bold text-slate-950 dark:text-white">{data.length}</p>
             </div>
             <div className="rounded-2xl bg-amber-50 px-4 py-3 dark:bg-amber-950/30">
               <p className="text-xs font-bold text-amber-600">Pending</p>
-              <p className="text-2xl font-black text-amber-700 dark:text-amber-300">{data.filter((x) => !x.isApproved).length}</p>
+              <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{data.filter((x) => !x.isApproved).length}</p>
             </div>
             <div className="rounded-2xl bg-emerald-50 px-4 py-3 dark:bg-emerald-950/30">
               <p className="text-xs font-bold text-emerald-600">Approved</p>
-              <p className="text-2xl font-black text-emerald-700 dark:text-emerald-300">{data.filter((x) => x.isApproved).length}</p>
+              <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{data.filter((x) => x.isApproved).length}</p>
             </div>
             <div className="rounded-2xl bg-indigo-50 px-4 py-3 dark:bg-indigo-950/30">
               <p className="text-xs font-bold text-indigo-600">Showing</p>
-              <p className="text-2xl font-black text-indigo-700 dark:text-indigo-300">{filteredData.length}</p>
+              <p className="text-2xl font-bold text-indigo-700 dark:text-indigo-300">{filteredData.length}</p>
             </div>
           </div>
 
@@ -159,7 +159,7 @@ const ManageRequest = () => {
       ) : filteredData.length === 0 ? (
         <div className="eh-card flex min-h-[320px] flex-col items-center justify-center rounded-2xl p-6 text-center">
           <UserRoundX className="mb-4 text-slate-300" size={58} />
-          <p className="text-xl font-black text-slate-900 dark:text-white">No requests found</p>
+          <p className="text-xl font-bold text-slate-900 dark:text-white">No requests found</p>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Try a different search term or refresh the queue.</p>
         </div>
       ) : (
@@ -191,16 +191,16 @@ const ManageRequest = () => {
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-black text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
                           {org.fullName?.charAt(0) || "O"}
                         </div>
-                        <span className="font-black text-slate-950 dark:text-white">{org.fullName}</span>
+                        <span className="font-bold text-slate-950 dark:text-white">{org.fullName}</span>
                       </div>
                     </td>
                     <td className="px-5 py-4 font-semibold text-slate-600 dark:text-slate-300">{org.companyName}</td>
                     <td className="px-5 py-4 text-sm font-medium text-slate-500 dark:text-slate-400">{org.email}</td>
                     <td className="px-5 py-4">
-                      <span className={`rounded-full border px-3 py-1 text-xs font-black ${org.isApproved ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300" : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300"}`}>
+                      <span className={`rounded-full border px-3 py-1 text-xs font-bold ${org.isApproved ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300" : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300"}`}>
                         {org.isApproved ? "Approved" : "Pending"}
                       </span>
                     </td>
@@ -254,14 +254,14 @@ const ManageRequest = () => {
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
               >
                 <ChevronLeft size={15} /> Prev
               </button>
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-indigo-600 hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
               >
                 Next <ChevronRight size={15} />
               </button>
