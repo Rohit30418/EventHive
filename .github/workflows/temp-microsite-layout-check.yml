@@ -1,0 +1,142 @@
+name: Temporary microsite layout verification
+on:
+  push:
+    branches: [ui/homepage-orange-motion-refine-20261102]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VITE_FIREBASE_API_KEY: AIzaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      VITE_FIREBASE_AUTH_DOMAIN: example.firebaseapp.com
+      VITE_FIREBASE_PROJECT_ID: eventhive-microsite-test
+      VITE_FIREBASE_STORAGE_BUCKET: eventhive-microsite-test.appspot.com
+      VITE_FIREBASE_MESSAGING_SENDER_ID: '123456789'
+      VITE_FIREBASE_APP_ID: 1:123456789:web:abcdef1234
+      VITE_FIREBASE_DATABASE_URL: https://eventhive-test-default-rtdb.firebaseio.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Production build
+        run: npm run build
+      - name: Unit tests
+        if: always()
+        run: npm test
+      - name: Install temporary browser checker
+        if: always()
+        run: npm install --no-save --package-lock=false playwright
+      - name: Microsite responsive browser checks
+        if: always()
+        run: |
+          set -e
+          mkdir -p /tmp/eventhive-microsite-check
+          npm run dev -- --host 127.0.0.1 > /tmp/eh-vite-microsite.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:5173/events/test/demo-event >/dev/null; then break; fi
+            sleep 1
+          done
+          node --input-type=module <<'NODE'
+          import { chromium } from "playwright";
+          import { mkdirSync } from "node:fs";
+          const browser = await chromium.launch({channel: "chrome", headless:true, args:["--no-sandbox"]});
+          let failures=0;
+          const event = {
+            id:"demo-event", EventName:"Startup Founders Bootcamp",
+            eventDate:"2026-01-01", eventType:"Webinar",
+            location:"Delhi, India", ShortDesc:"A short description of the event.",
+            BannerTagLine:"Scale Up.", AboutArea:"The experience for attendees.",
+            banner:"https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80",
+            PrimaryColor:"#F26B2A",SecondaryColor:"#E88A54",
+            speakers:[
+              {speakerName:"Alex Johnson",speakerDesignation:"Founder & CEO",speakerImage:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=512&q=80"},
+              {speakerName:"Sarah Chen",speakerDesignation:"Chief Product Officer",speakerImage:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=512&q=80"},
+              {speakerName:"Michael Brown",speakerDesignation:"Head of Growth",speakerImage:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=512&q=80"},
+              {speakerName:"Elena Rodriguez",speakerDesignation:"VP of Engineering",speakerImage:"https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=512&q=80"}
+            ]
+          };
+          const widths=[375,768,1440];
+          mkdirSync("/tmp/eventhive-microsite-check",{recursive:true});
+          for(const width of widths){
+            const ctx=await browser.newContext({viewport:{width,height:900}, reducedMotion:"reduce"});
+            const page=await ctx.newPage();
+            await page.route("**/Events/*.json", route => route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(event)}));
+            await page.goto("http://127.0.0.1:5173/events/test/demo-event",{waitUntil:"domcontentloaded",timeout:30000});
+            await page.waitForSelector("#pricing",{timeout:15000});
+            await page.waitForTimeout(300);
+            const m=await page.evaluate(()=>{
+              const rect=sel=>document.querySelector(sel)?.getBoundingClientRect();
+              const hero=rect(".eh-ms-hero-image");
+              const speakers=Array.from(document.querySelectorAll(".eh-ms-speaker-card")).map(x=>x.getBoundingClientRect());
+              const pricing=Array.from(document.querySelectorAll(".eh-ms-pricing-card")).map(x=>x.getBoundingClientRect());
+              const nav=rect(".eh-ms-navbar-shell");
+              const main=rect(".eh-ms-page");
+              const sections=Array.from(document.querySelectorAll(".eh-ms-section")).map(x=>({width:x.getBoundingClientRect().width,top:x.getBoundingClientRect().top}));
+              const heroGrid=document.querySelector(".eh-ms-hero-grid");
+              return {
+                viewport:window.innerWidth, scrollWidth:document.documentElement.scrollWidth,
+                heroRatio:hero?hero.width/hero.height:0,
+                speakerColumns:getComputedStyle(document.querySelector(".eh-ms-speakers")).gridTemplateColumns.split(" ").length,
+                pricingColumns:getComputedStyle(document.querySelector(".eh-ms-pricing")).gridTemplateColumns.split(" ").length,
+                speakers:speakers.length, pricing:pricing.length,
+                pricingHeights:pricing.map(x=>Math.round(x.height)),
+                closedDisabled:document.querySelector(".eh-ms-closed")?.hasAttribute("disabled")||false,
+                imgTop:rect(".eh-ms-experience-image")?.top,
+                hasTimeline:!!document.querySelector(".eh-ms-timeline-item"),
+                videoWidth:rect(".eh-ms-video-wrap")?.width,
+                footerColumns:getComputedStyle(document.querySelector(".eh-ms-footer-grid")).gridTemplateColumns.split(" ").length,
+                ctaOutsideFooter:!!document.querySelector("footer") && !document.querySelector("footer").textContent.includes("Register now and keep your event pass ready."),
+                headerBottom:nav?.bottom, mainTop:main?.top,
+                sections
+              };
+            });
+            const expectSpeakers=width===1440?4:2;
+            const expectPricing=width===1440?3:1;
+            const checks={
+              noOverflow:m.scrollWidth<=width+2,
+              ratio16x9:Math.abs(m.heroRatio-(16/9))<.08,
+              speakerGrid:m.speakerColumns===expectSpeakers && m.speakers===4,
+              pricingGrid:m.pricingColumns===expectPricing && m.pricing===3,
+              equalPricing:width!==1440 || Math.max(...m.pricingHeights)-Math.min(...m.pricingHeights)<3,
+              disabledClosed:m.closedDisabled,
+              timeline:m.hasTimeline,
+              centeredVideo:m.videoWidth<=902,
+              footerColumns:m.footerColumns===(width===1440?3:1),
+              separateCTA:m.ctaOutsideFooter,
+              noHeaderOverlap:m.headerBottom<=m.mainTop+1
+            };
+            const bad=Object.entries(checks).filter(([_,v])=>!v).map(([k])=>k);
+            if(bad.length){failures+=bad.length;console.error("FAIL width="+width+" checks="+bad.join(",")+" "+JSON.stringify(m));}
+            else console.log("PASS width="+width+" "+JSON.stringify(checks));
+            await page.screenshot({path:"/tmp/eventhive-microsite-check/microsite-"+width+".png",fullPage:true});
+            if(width===375){
+              const menu=page.getByRole("button",{name:"Open menu"});
+              await menu.click();
+              const shown=await page.getByLabel("Event mobile navigation").isVisible();
+              console.log("MOBILE_MENU="+shown);
+              if(!shown)failures++;
+              await page.screenshot({path:"/tmp/eventhive-microsite-check/microsite-mobile-menu.png",fullPage:false});
+            }
+            if(width===1440){
+              await page.getByRole("button",{name:"More",exact:false}).click();
+              const shown=await page.getByRole("button",{name:"FAQ",exact:true}).isVisible();
+              console.log("DESKTOP_MORE_MENU="+shown);
+              if(!shown)failures++;
+            }
+            await ctx.close();
+          }
+          await browser.close();
+          console.log("MICROSITE_FAILURES="+failures);
+          if(failures)process.exitCode=1;
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: microsite-responsive-screenshots
+          path: /tmp/eventhive-microsite-check/
+          if-no-files-found: ignore
