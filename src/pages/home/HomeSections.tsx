@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, CalendarDays, CheckCircle2, ChevronDown, ClipboardCheck, LayoutDashboard, MapPin, Search, ShieldCheck, Ticket, Users } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronDown, ClipboardCheck, LayoutDashboard, Search, ShieldCheck, Ticket, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import EventCard from "../../components/EventCard";
 import { ErrorState } from "../../common/StateViews";
