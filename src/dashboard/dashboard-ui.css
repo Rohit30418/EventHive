@@ -15,8 +15,6 @@
   line-height: 1.2;
 }
 .eh-dashboard main h1 { font-size: clamp(1.75rem, 2.3vw, 2.2rem); }
-.eh-dashboard main h2 { font-size: clamp(1.25rem, 1.65vw, 1.55rem); }
-.eh-dashboard main h3 { font-size: clamp(1.05rem, 1.4vw, 1.3rem); }
 .eh-dashboard main { overscroll-behavior-y: contain; scrollbar-gutter: stable; }
 .eh-dashboard main > div { min-width: 0; }
 .eh-dashboard main :is(section, article, form) { min-width: 0; }
@@ -29,8 +27,6 @@
   -webkit-backdrop-filter: none;
 }
 .eh-dashboard :is(.eh-card, .eh-panel)::before { display: none; }
-.eh-dashboard :is(.eh-card, .eh-panel) > * { z-index: auto; }
-.eh-dashboard :is(.eh-card, .eh-panel) > :is(button, a, input, select, textarea) { position: relative; }
 .eh-dashboard .eh-dashboard-card {
   padding: 20px;
 }
