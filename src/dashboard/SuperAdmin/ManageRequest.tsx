@@ -99,10 +99,10 @@ const ManageRequest = () => {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-indigo-50 p-6 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-6">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div>
-            <p className="mb-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Approval Queue</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Approval Queue</p>
             <h1 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">Organizer Requests</h1>
             <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Review, approve, revoke and search organizer signups.</p>
           </div>
