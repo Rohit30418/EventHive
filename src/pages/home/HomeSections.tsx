@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ScrollReveal, WorkflowRail } from "./HomeScrollArt";
 import { ArrowRight, CheckCircle2, ChevronDown, ClipboardCheck, LayoutDashboard, Search, ShieldCheck, Ticket, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import EventCard from "../../components/EventCard";
@@ -17,12 +18,13 @@ const featureIcons = [LayoutDashboard, Search, Users, Ticket, ShieldCheck, Check
 const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => {
   const [activeRole, setActiveRole] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const workflowRef = useRef<HTMLElement>(null);
 
   return (
     <>
       <section className="eh-home-section eh-about-section" id="about" aria-labelledby="eh-about-title">
         <div className="eh-home-container">
-          <div className="eh-about-grid">
+          <ScrollReveal className="eh-about-grid">
             <div className="eh-about-intro eh-home-card">
               <p className="eh-home-eyebrow">WHY EVENTHIVE</p>
               <h2 id="eh-about-title" className="eh-home-heading">Good events start with a <em>great experience.</em></h2>
@@ -48,7 +50,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 <div><h3>Every detail in place</h3><p>Keep your event information easy to read, update and share.</p></div>
               </article>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -59,7 +61,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             <h2 id="eh-features-title" className="eh-home-heading">Everything you need, <em>nothing you don't.</em></h2>
             <p className="eh-home-copy">A simple, connected experience for creating, finding and managing events.</p>
           </div>
-          <div className="eh-features-grid">
+          <ScrollReveal className="eh-features-grid">
             {features.map((feature, index) => {
               const Icon = featureIcons[index] || CheckCircle2;
               return (
@@ -75,7 +77,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 </article>
               );
             })}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -102,7 +104,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
               </button>
             ))}
           </div>
-          <div className="eh-role-content eh-home-card" id="eh-role-panel" role="tabpanel" aria-labelledby={`eh-role-tab-${activeRole}`}>
+          <ScrollReveal className="eh-role-content eh-home-card" id="eh-role-panel" role="tabpanel" aria-labelledby={`eh-role-tab-${activeRole}`}>
             <div className="eh-role-description">
               <span className="eh-home-icon">
                 {activeRole === 0 ? <LayoutDashboard size={28} /> : activeRole === 1 ? <Users size={28} /> : <ShieldCheck size={28} />}
@@ -119,18 +121,19 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 <span className="eh-role-preview-action"><CheckCircle2 size={17} /> {["Event details ready","Browse with confidence","Workspace at a glance"][activeRole]}</span>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      <section className="eh-home-section" id="how-it-works" aria-labelledby="eh-workflow-title">
+      <section ref={workflowRef} className="eh-home-section" id="how-it-works" aria-labelledby="eh-workflow-title">
         <div className="eh-home-container">
           <div className="eh-home-section-intro">
             <p className="eh-home-eyebrow">HOW IT WORKS</p>
             <h2 id="eh-workflow-title" className="eh-home-heading">Four simple steps. <em>One great event.</em></h2>
             <p className="eh-home-copy">A clear path from your first idea to welcoming your guests.</p>
           </div>
-          <div className="eh-workflow-grid">
+          <WorkflowRail sectionRef={workflowRef} />
+          <ScrollReveal className="eh-workflow-grid">
             {workflow.map((step, index) => (
               <article key={step.title} className="eh-home-card eh-workflow-card">
                 <span className="eh-workflow-number">{String(index + 1).padStart(2, "0")}</span>
@@ -138,7 +141,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 <p>{step.desc}</p>
               </article>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -190,7 +193,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             <h2 id="eh-faq-title" className="eh-home-heading">Good questions. <em>Clear answers.</em></h2>
             <p className="eh-home-copy">Everything you need to know before getting started.</p>
           </div>
-          <div className="eh-faq-list">
+          <ScrollReveal className="eh-faq-list">
             {faqs.map((faq, index) => (
               <div key={faq.q} className="eh-home-card eh-faq-item">
                 <h3>
@@ -211,13 +214,13 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
                 )}
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       <section className="eh-home-section eh-final-cta-section" aria-labelledby="eh-cta-title">
         <div className="eh-home-container">
-          <div className="eh-final-cta">
+          <ScrollReveal className="eh-final-cta">
             <div>
               <p className="eh-home-eyebrow">READY WHEN YOU ARE</p>
               <h2 id="eh-cta-title" className="eh-home-heading">Make your next event <em>unforgettable.</em></h2>
@@ -226,7 +229,7 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
             <Link to="/OrganizerRegistration" className="eh-home-btn eh-home-btn-dark">
               Create Event <ArrowRight size={19} aria-hidden="true" />
             </Link>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
