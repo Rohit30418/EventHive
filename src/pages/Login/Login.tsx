@@ -76,8 +76,8 @@ const Login = () => {
 
   return (
     <section className="bg-[#FFF8F3] py-10 text-[#1F1C1A] sm:py-12 lg:py-16">
-      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="grid min-w-0 w-full overflow-hidden rounded-[20px] border border-[#E7D8CC] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="relative min-w-0 overflow-hidden bg-[#1F1C1A] p-6 text-white sm:p-8 lg:p-10">
+      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E7D8CC] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+        <aside className="relative hidden min-w-0 overflow-hidden bg-[#1F1C1A] p-6 text-white lg:block lg:p-10">
           <div className="relative z-10 flex h-full flex-col">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#f6a06f]">
