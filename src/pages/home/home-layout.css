@@ -22,7 +22,7 @@
   margin-inline: auto;
   padding-inline: 24px;
 }
-.eh-home-section { padding-block: 64px; }
+.eh-home-section { padding-block: 32px; }
 .eh-home-section[id] { scroll-margin-top: 100px; }
 .eh-home h1,
 .eh-home h2,
@@ -260,7 +260,7 @@
 .eh-faq-chevron.is-open { transform: rotate(180deg); }
 .eh-faq-answer { border-top: 1px solid var(--home-border); padding: 18px 24px 24px; }
 .eh-faq-answer p { margin: 0; color: var(--home-muted); font-size: 16px; line-height: 1.7; }
-.eh-final-cta-section { padding-top: 0; }
+.eh-final-cta-section { padding-top: 32px; }
 .eh-final-cta {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 24px; padding: 40px; border: 1px solid rgba(31,28,26,.14);
@@ -274,8 +274,8 @@
 
 @media (min-width: 1024px) {
   .eh-home-container { padding-inline: 48px; }
-  .eh-home-section { padding-block: 96px; }
-  .eh-final-cta-section { padding-top: 0; }
+  .eh-home-section { padding-block: 48px; }
+  .eh-final-cta-section { padding-top: 48px; }
 }
 @media (max-width: 1023px) {
   .eh-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -287,7 +287,7 @@
   .eh-about-benefit { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 700px) {
-  .eh-home-section { padding-block: 64px; }
+  .eh-home-section { padding-block: 32px; }
   .eh-home-container { padding-inline: 24px; }
   .eh-hero-grid, .eh-role-content, .eh-faq-layout { grid-template-columns: 1fr; }
   .eh-hero-title { font-size: clamp(2.75rem, 10vw, 4rem) !important; }
