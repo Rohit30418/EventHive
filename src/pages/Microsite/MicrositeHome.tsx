@@ -135,14 +135,14 @@ const MicrositeHome = () => {
       {/* HERO SECTION */}
       <section className="relative px-4 pb-16 pt-14 sm:px-8 lg:pb-24">
         <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+          <div className="grid min-w-0 items-center gap-9 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-8">
             
             {/* Left Content */}
             <motion.div
               initial="hidden"
               animate="show"
               variants={staggerWrap}
-              className="flex flex-col text-left"
+              className="flex min-w-0 flex-col text-left"
             >
               {/* Tags */}
               <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3">
@@ -165,7 +165,7 @@ const MicrositeHome = () => {
               {/* Headings */}
               <motion.h1
                 variants={fadeInUp}
-                className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tight text-[#0f172a] sm:text-6xl lg:text-7xl"
+                className="mt-6 max-w-3xl break-words text-[clamp(2.5rem,7vw,4.5rem)] font-extrabold leading-[1.06] tracking-tight text-[#0f172a] [overflow-wrap:anywhere]"
               >
                 {event.EventName
                   ? event.EventName.split(" ").slice(0, 2).join(" ")
@@ -177,7 +177,7 @@ const MicrositeHome = () => {
               </motion.h1>
               <motion.h2
                 variants={fadeInUp}
-                className="mt-2 text-4xl font-extrabold sm:text-5xl lg:text-5xl"
+                className="mt-2 break-words text-[clamp(2rem,5vw,3rem)] font-extrabold [overflow-wrap:anywhere]"
                 style={{ color: primaryColor }}
               >
                 {event.BannerTagLine || "Scale Up."}
@@ -272,7 +272,7 @@ const MicrositeHome = () => {
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.75, delay: 0.2, ease: "easeOut" }}
-              className="relative mx-auto w-full max-w-[600px] lg:mx-0 lg:w-full lg:max-w-none group"
+              className="group relative mx-auto min-w-0 w-full max-w-[600px] lg:mx-0 lg:max-w-none"
             >
               {/* Aspect Ratio Container */}
               <div className="relative aspect-[4/3] lg:aspect-[12/10] overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-2xl ring-1 ring-slate-900/5">
