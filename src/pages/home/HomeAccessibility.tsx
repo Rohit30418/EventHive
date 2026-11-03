@@ -141,9 +141,8 @@ export function HomeFloatingTools() {
   }, [openPanel]);
 
   useEffect(() => {
-    if (reading && !("speechSynthesis" in window)) setReading(false);
     return () => { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); };
-  }, [reading]);
+  }, []);
 
   const readPage = () => {
     if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) return;
