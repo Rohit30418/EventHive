@@ -198,7 +198,7 @@ const MicrositeHome = () => {
                     <Calendar size={18} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       Date
                     </p>
                     <p className="mt-0.5 font-bold text-slate-900">
@@ -214,7 +214,7 @@ const MicrositeHome = () => {
                     <MapPin size={18} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       Location
                     </p>
                     <p className="mt-0.5 font-bold text-slate-900">
@@ -280,7 +280,7 @@ const MicrositeHome = () => {
                   </div>
                 ))}
               </div>
-              <div className="mt-3 eh-ms-card p-4 sm:p-5">
+              <div className="eh-ms-card mt-3 p-6">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <h3 className="break-words text-xl font-bold text-slate-900 sm:text-2xl">
@@ -443,7 +443,7 @@ const MicrositeHome = () => {
               className="eh-ms-location-map"
               style={{ border: 0 }}
             />
-            <div className="flex flex-wrap items-center justify-between gap-4 p-5 sm:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 p-6">
               <div className="flex min-w-0 items-center gap-3">
                 <span
                   className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-white"
