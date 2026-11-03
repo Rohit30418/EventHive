@@ -58,7 +58,7 @@ const MicrositeLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-950 overflow-x-hidden">
+    <div className="public-theme min-h-screen overflow-x-hidden bg-[#FFF8F3] text-[#1F1C1A]">
       <Header />
       <Outlet />
       <Footer />
