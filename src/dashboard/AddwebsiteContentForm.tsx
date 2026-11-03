@@ -84,12 +84,12 @@ const AddWebsiteContentForm = () => {
 
         <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
               <Sparkles size={14} />
               Microsite Content
             </div>
 
-            <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white md:text-3xl">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white md:text-3xl">
               Content and Branding
             </h2>
 
@@ -104,7 +104,7 @@ const AddWebsiteContentForm = () => {
               <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Speakers
               </p>
-              <p className="mt-2 text-2xl font-black text-slate-950 dark:text-white">
+              <p className="mt-2 text-2xl font-bold text-slate-950 dark:text-white">
                 {speakers.length}
               </p>
             </div>
@@ -113,7 +113,7 @@ const AddWebsiteContentForm = () => {
               <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Status
               </p>
-              <p className="mt-2 text-sm font-black text-indigo-600 dark:text-indigo-300">
+              <p className="mt-2 text-sm font-bold text-indigo-600 dark:text-indigo-300">
                 Draft Mode
               </p>
             </div>
@@ -134,7 +134,7 @@ const AddWebsiteContentForm = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-black text-slate-950 dark:text-white">
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">
                   Hero Tagline
                 </h3>
                 <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -159,7 +159,7 @@ const AddWebsiteContentForm = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-black text-slate-950 dark:text-white">
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">
                   About Event
                 </h3>
                 <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -187,7 +187,7 @@ const AddWebsiteContentForm = () => {
                   <UsersRound size={22} />
                 </div>
 
-                <h3 className="text-xl font-black text-slate-950 dark:text-white">
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white">
                   Speakers
                 </h3>
 
@@ -196,7 +196,7 @@ const AddWebsiteContentForm = () => {
                 </p>
               </div>
 
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-300">
                 {speakers.length}
               </span>
             </div>
@@ -204,7 +204,7 @@ const AddWebsiteContentForm = () => {
             <button
               type="button"
               onClick={openAddSpeaker}
-              className="mb-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-4 py-3 text-sm font-black text-[#1F1C1A] shadow-sm transition-colors"
+              className="mb-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-4 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
             >
               <Plus size={17} />
               Add Speaker
@@ -231,7 +231,7 @@ const AddWebsiteContentForm = () => {
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-black text-slate-900 dark:text-white">
+                        <p className="truncate font-bold text-slate-900 dark:text-white">
                           {speaker.speakerName || "Speaker"}
                         </p>
                         <p className="truncate text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -244,7 +244,7 @@ const AddWebsiteContentForm = () => {
                       <button
                         type="button"
                         onClick={() => handleEditSpeaker(index)}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-50 px-3 py-2 text-xs font-black text-indigo-600 transition-colors hover:bg-indigo-600 hover:text-white dark:bg-indigo-950/50 dark:text-indigo-300"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-50 px-3 py-2 text-xs font-bold text-indigo-600 transition-colors hover:bg-indigo-600 hover:text-white dark:bg-indigo-950/50 dark:text-indigo-300"
                       >
                         <Edit3 size={14} />
                         Edit
@@ -253,7 +253,7 @@ const AddWebsiteContentForm = () => {
                       <button
                         type="button"
                         onClick={() => handleDeleteSpeaker(index)}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-50 px-3 py-2 text-xs font-black text-red-600 transition-colors hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-50 px-3 py-2 text-xs font-bold text-red-600 transition-colors hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300"
                       >
                         <Trash2 size={14} />
                         Delete
@@ -265,7 +265,7 @@ const AddWebsiteContentForm = () => {
             ) : (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center dark:border-slate-700 dark:bg-slate-950/50">
                 <UserRound className="mx-auto mb-3 text-slate-400" size={34} />
-                <p className="text-sm font-black text-slate-600 dark:text-slate-300">
+                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">
                   No speakers added yet
                 </p>
                 <p className="mt-1 text-xs font-semibold text-slate-400">
@@ -276,7 +276,7 @@ const AddWebsiteContentForm = () => {
 
             <button
               type="submit"
-              className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white transition-colors  hover:bg-indigo-600 dark:bg-white dark:text-slate-950 dark:hover:bg-indigo-400"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-slate-950 px-6 py-3 text-sm font-bold text-white transition-colors  hover:bg-indigo-600 dark:bg-white dark:text-slate-950 dark:hover:bg-indigo-400"
             >
               Submit Content
             </button>
