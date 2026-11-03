@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   CalendarDays,
   CalendarPlus,
+  CircleHelp,
   ClipboardCheck,
   LayoutDashboard,
   LogOut,
@@ -227,6 +228,14 @@ const DashboardShell = () => {
         </nav>
 
         <div className="border-t border-slate-100 p-4 dark:border-slate-800">
+          <Link
+            to="/#faq"
+            onClick={() => setMobileSidebarOpen(false)}
+            className="mb-3 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700 hover:border-[#F26B2A] hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+          >
+            <CircleHelp size={18} aria-hidden="true" />
+            {(sidebarOpen || mobileSidebarOpen) && <span>Help & FAQ</span>}
+          </Link>
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/60">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-sm font-black text-white dark:bg-white dark:text-slate-950">
