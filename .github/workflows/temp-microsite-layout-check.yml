@@ -113,21 +113,25 @@ jobs:
             const bad=Object.entries(checks).filter(([_,v])=>!v).map(([k])=>k);
             if(bad.length){failures+=bad.length;console.error("FAIL width="+width+" checks="+bad.join(",")+" "+JSON.stringify(m));}
             else console.log("PASS width="+width+" "+JSON.stringify(checks));
-            await page.screenshot({path:"/tmp/eventhive-microsite-check/microsite-"+width+".png",fullPage:true});
             if(width===375){
+              await page.evaluate(()=>window.scrollTo(0,0));
               const menu=page.getByRole("button",{name:"Open menu"});
               await menu.click();
               const shown=await page.getByLabel("Event mobile navigation").isVisible();
               console.log("MOBILE_MENU="+shown);
               if(!shown)failures++;
               await page.screenshot({path:"/tmp/eventhive-microsite-check/microsite-mobile-menu.png",fullPage:false});
+              await page.getByRole("button",{name:"Close menu"}).click();
             }
             if(width===1440){
+              await page.evaluate(()=>window.scrollTo(0,0));
               await page.getByRole("button",{name:"More",exact:false}).click();
               const shown=await page.getByRole("button",{name:"FAQ",exact:true}).isVisible();
               console.log("DESKTOP_MORE_MENU="+shown);
               if(!shown)failures++;
+              await page.getByRole("button",{name:"More",exact:false}).click();
             }
+            await page.screenshot({path:"/tmp/eventhive-microsite-check/microsite-"+width+".png",fullPage:true});
             await ctx.close();
           }
           await browser.close();
