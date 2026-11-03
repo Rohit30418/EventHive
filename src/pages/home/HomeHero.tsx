@@ -1,5 +1,8 @@
 import { ArrowUpRight, CalendarDays, CheckCircle2, MapPin, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { EventPosterSvg, ScrollReveal } from "./HomeScrollArt";
 import type { EventType } from "../../Types/eventType";
 
 const formatDate = (value?: string) => {
@@ -14,10 +17,15 @@ interface HomeHeroProps {
   heroEvent?: EventType;
 }
 
-const HomeHero = ({ heroEvent }: HomeHeroProps) => (
-  <section className="eh-home-section eh-home-hero" aria-labelledby="eh-hero-title">
+const HomeHero = ({ heroEvent }: HomeHeroProps) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const previewY = useTransform(scrollYProgress, [0, 1], [0, -14]);
+  return (
+  <section ref={sectionRef} className="eh-home-section eh-home-hero" aria-labelledby="eh-hero-title">
     <div className="eh-home-container eh-hero-grid">
-      <div className="eh-hero-copy">
+      <ScrollReveal className="eh-hero-copy">
         <p className="eh-home-eyebrow">EVENTHIVE / EVENTS MADE SIMPLE</p>
         <h1 id="eh-hero-title" className="eh-hero-title">
           Build events people want to be <em>part of.</em>
@@ -39,9 +47,9 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => (
           <span><CheckCircle2 size={18} aria-hidden="true" /> Easy registrations</span>
           <span><CheckCircle2 size={18} aria-hidden="true" /> Organizer dashboard</span>
         </div>
-      </div>
+      </ScrollReveal>
 
-      <div className="eh-hero-preview eh-home-card" aria-label="Event page interface preview">
+      <motion.div style={reducedMotion ? undefined : { y: previewY }} className="eh-hero-preview eh-home-card" aria-label="Event page interface preview">
         <div className="eh-preview-topbar">
           <span className="eh-preview-brand">EventHive</span>
           <span className="eh-preview-label">EVENT PAGE PREVIEW</span>
@@ -55,10 +63,7 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => (
               loading="eager"
             />
           ) : (
-            <div className="eh-preview-graphic" aria-hidden="true">
-              <span>MAKE IT</span>
-              <strong>MEMORABLE.</strong>
-            </div>
+            <EventPosterSvg />
           )}
         </div>
         <div className="eh-preview-content">
@@ -78,9 +83,10 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => (
             <span className="eh-preview-button">Event details <ArrowUpRight size={15} aria-hidden="true" /></span>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   </section>
-);
+  );
+};
 
 export default HomeHero;
