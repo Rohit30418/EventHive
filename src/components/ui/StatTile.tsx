@@ -17,14 +17,14 @@ const toneMap = {
 };
 
 const StatTile = ({ label, value, hint, icon, tone = "indigo" }: StatTileProps) => (
-  <div className="group eh-card eh-surface-hover overflow-hidden rounded-[1.75rem] p-5">
+  <div className="group eh-card eh-surface-hover overflow-hidden rounded-2xl p-5">
     <div className="flex items-start justify-between gap-4">
       <div>
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">{label}</p>
-        <p className="mt-2 text-3xl font-black text-slate-950 dark:text-white">{value}</p>
+        <p className="text-xs font-black uppercase tracking-wide text-slate-400">{label}</p>
+        <p className="mt-2 text-2xl font-bold text-slate-950 dark:text-white">{value}</p>
         {hint && <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">{hint}</p>}
       </div>
-      {icon && <div className={`rounded-2xl p-3 shadow-sm ${toneMap[tone]}`}>{icon}</div>}
+      {icon && <div className={`rounded-2xl p-3 ${toneMap[tone]}`}>{icon}</div>}
     </div>
   </div>
 );
