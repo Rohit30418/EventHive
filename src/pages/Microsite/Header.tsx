@@ -1,5 +1,6 @@
 import { useAppSelector } from "../../store/hooks";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   CalendarCheck,
@@ -32,6 +33,7 @@ const hexToRgba = (hex: string, opacity: number) => {
 };
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -52,6 +54,7 @@ const Header = () => {
       { name: "Sponsors", href: "sponsors" },
       { name: "Speakers", href: "speakers" },
       { name: "Pricing", href: "pricing" },
+      { name: "FAQ", href: "/#faq" },
     ],
     []
   );
@@ -78,6 +81,12 @@ const Header = () => {
 
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
+
+    // FAQ belongs to the main EventHive site, not this event microsite.
+    if (id.startsWith("/")) {
+      navigate(id);
+      return;
+    }
 
     if (id === "top") {
       window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
