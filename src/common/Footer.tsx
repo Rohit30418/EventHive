@@ -26,6 +26,7 @@ const footerGroups = [
     links: [
       { label: "Event Discovery", to: "/Events" },
       { label: "Dashboard", to: "/Dashboard" },
+      { label: "FAQ", to: "/#faq" },
       { label: "Help Center", to: "mailto:help@eventhive.com", external: true },
       { label: "Status", to: "/" },
     ],
