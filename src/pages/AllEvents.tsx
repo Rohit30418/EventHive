@@ -249,28 +249,27 @@ const AllEvents = () => {
 
   return (
     <div className="min-h-screen bg-[#FFF8F3] text-[#1F1C1A]">
-      <section className="border-b border-[#eadfd7] bg-white px-4 py-12 sm:px-6 lg:py-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.2em] text-[#F26B2A]">
-            <span className="h-px w-10 bg-[#F26B2A]" /> Event discovery
+      <section className="border-b border-[#E7D8CC] bg-[#FFF8F3] py-12 sm:py-14 lg:py-16">
+        <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
+          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#B64412]">
+            <span aria-hidden="true" className="h-0.5 w-10 bg-[#F26B2A]" /> Event discovery
           </div>
-          <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
-            <h1 className="font-['Space Grotesk',sans-serif] text-3xl font-extrabold leading-[1.12] tracking-[-0.004em] sm:text-4xl lg:text-5xl">
+          <div className="mt-6 grid items-start gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-12">
+            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#1F1C1A]">
               Explore events worth showing up for.
             </h1>
-            <p className="max-w-xl text-base leading-8 text-[#77736f] lg:justify-self-end">
-              Browse upcoming and past events, filter by category and open each
-              event's dedicated microsite for details and registration.
+            <p className="max-w-xl text-base leading-8 text-[#554941] sm:text-lg lg:mb-2">
+              Browse upcoming and past events, filter by category, and open each event's dedicated microsite for details and registration.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="px-4 py-8 sm:px-6 lg:py-12">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[250px_minmax(0,1fr)] lg:items-start lg:gap-10">
-            <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-[1.4rem] border border-[#eee3db] bg-white p-4 sm:p-5">
+      <section className="py-10 lg:py-14">
+        <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
+            <aside className="min-w-0 lg:sticky lg:top-[104px] lg:self-start">
+              <div className="rounded-[1.4rem] border border-[#E7D8CC] bg-white p-6">
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">
                   Browse by time
                 </p>
@@ -342,7 +341,7 @@ const AllEvents = () => {
               </div>
 
               {isLoading ? (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   {Array.from({ length: EVENTS_PER_PAGE }).map((_, index) => (
                     <EventCardSkeleton key={index} />
                   ))}
