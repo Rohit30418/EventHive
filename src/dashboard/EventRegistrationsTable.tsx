@@ -165,8 +165,8 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="relative min-w-[260px]">
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="relative w-full min-w-0 sm:w-[260px]">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input
                 type="text"
