@@ -54,6 +54,8 @@ const Header = () => {
       { name: "Sponsors", href: "sponsors" },
       { name: "Speakers", href: "speakers" },
       { name: "Pricing", href: "pricing" },
+      { name: "Features", href: "/#features" },
+      { name: "How it works", href: "/#how-it-works" },
       { name: "FAQ", href: "/#faq" },
     ],
     []
@@ -82,7 +84,7 @@ const Header = () => {
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
 
-    // FAQ belongs to the main EventHive site, not this event microsite.
+    // Global Features, How it works, and FAQ belong to the main EventHive website.
     if (id.startsWith("/")) {
       navigate(id);
       return;
@@ -150,7 +152,7 @@ const Header = () => {
             </button>
 
             {/* Desktop Nav */}
-            <nav className="hidden items-center rounded-full border border-slate-200 bg-white/80 p-1 backdrop-blur-xl lg:flex">
+            <nav className="hidden items-center rounded-full border border-slate-200 bg-white/80 p-1 backdrop-blur-xl xl:flex">
               {navItems.map((item) => (
                 <button
                   key={item.name}
@@ -194,7 +196,7 @@ const Header = () => {
             {/* Mobile Toggle */}
             <button
               type="button"
-              className="relative z-[120] rounded-2xl border border-[#E7D8CC] bg-white p-2.5 text-[#1F1C1A] transition-colors hover:bg-[#FFEBDD] lg:hidden"
+              className="relative z-[120] rounded-2xl border border-[#E7D8CC] bg-white p-2.5 text-[#1F1C1A] transition-colors hover:bg-[#FFEBDD] xl:hidden"
               onClick={() => setIsMobileMenuOpen((value) => !value)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
@@ -207,7 +209,7 @@ const Header = () => {
 
       {/* Mobile Overlay */}
       <div
-        className={`fixed inset-0 z-[90] bg-slate-950/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-[90] bg-slate-950/50 backdrop-blur-sm transition-opacity duration-300 xl:hidden ${
           isMobileMenuOpen
             ? "opacity-100"
             : "pointer-events-none opacity-0"
@@ -217,7 +219,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <aside
-        className={`fixed left-3 right-3 top-24 z-[110] max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.5rem] border border-[#E7D8CC] bg-white shadow-[0_16px_50px_rgba(31,28,26,0.14)] transition-all duration-300 lg:hidden ${
+        className={`fixed left-3 right-3 top-24 z-[110] max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.5rem] border border-[#E7D8CC] bg-white shadow-[0_16px_50px_rgba(31,28,26,0.14)] transition-all duration-300 xl:hidden ${
           isMobileMenuOpen
             ? "translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-4 opacity-0"
