@@ -576,7 +576,9 @@
 .eh-home.eh-access-grayscale { filter: grayscale(1); }
 .eh-home.eh-access-inverted { filter: invert(1) hue-rotate(180deg); }
 .eh-home.eh-access-underline a { text-decoration: underline !important; text-underline-offset: 3px; }
-.eh-home.eh-access-large-cursor, .eh-home.eh-access-large-cursor * { cursor: crosshair !important; }
+.eh-home.eh-access-large-cursor, .eh-home.eh-access-large-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M5 3L5 32L12 25L19 38L25 35L18 23L29 22Z' fill='%23F26B2A' stroke='%231F1C1A' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 5 3, auto !important;
+}
 .eh-home.eh-access-paused *,
 .eh-home.eh-access-paused *::before,
 .eh-home.eh-access-paused *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
