@@ -149,10 +149,10 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
 
   return (
     <div className="eh-card overflow-hidden rounded-2xl">
-      <div className="border-b border-slate-200/80 bg-gradient-to-br from-white via-slate-50 to-indigo-50/50 p-6 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-6">
+      <div className="border-b border-slate-200/80 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 md:p-6">
         <div className="flex flex-col justify-between gap-6 xl:flex-row xl:items-center">
           <div>
-            <p className="mb-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
               Registration Center
             </p>
             <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-2xl">
