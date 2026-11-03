@@ -211,7 +211,7 @@ const token = await user.getIdToken();
       </div>
 
       <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="min-w-0 space-y-6">
           <input type="hidden" {...register("banner")} />
 
           <section className="eh-dashboard-card p-6 md:p-8">
