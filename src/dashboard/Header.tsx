@@ -131,20 +131,20 @@ const DashboardShell = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200">
+    <div className="flex h-dvh min-h-0 overflow-hidden bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200">
       {mobileSidebarOpen && (
         <button
           type="button"
           aria-label="Close sidebar overlay"
-          className="fixed inset-0 z-[60] bg-slate-950/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-[60] bg-slate-950/60 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileSidebarOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-[70] flex h-full flex-col border-r border-slate-200 bg-white/95 shadow-2xl shadow-slate-950/10 backdrop-blur-xl transition-all duration-300 ease-out dark:border-slate-800 dark:bg-slate-900/95 md:relative md:translate-x-0 md:shadow-none ${
-          mobileSidebarOpen ? "w-80 translate-x-0" : "w-80 -translate-x-full"
-        } ${sidebarOpen ? "md:w-72" : "md:w-24"}`}
+        className={`fixed inset-y-0 left-0 z-[70] flex h-full flex-col border-r border-slate-200 bg-white/95 shadow-2xl shadow-slate-950/10 backdrop-blur-xl transition-all duration-300 ease-out dark:border-slate-800 dark:bg-slate-900/95 lg:relative lg:translate-x-0 lg:shadow-none ${
+          mobileSidebarOpen ? "w-[min(20rem,calc(100vw-1.5rem))] translate-x-0" : "w-[min(20rem,calc(100vw-1.5rem))] -translate-x-full"
+        } ${sidebarOpen ? "lg:w-72" : "lg:w-24"}`}
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
@@ -168,7 +168,7 @@ const DashboardShell = () => {
             type="button"
             aria-label="Close sidebar"
             onClick={() => setMobileSidebarOpen(false)}
-            className="rounded-xl p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white md:hidden"
+            className="rounded-xl p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white lg:hidden"
           >
             <X size={20} />
           </button>
@@ -248,13 +248,13 @@ const DashboardShell = () => {
         </div>
       </aside>
 
-      <div className="relative flex min-w-0 flex-1 flex-col overflow-hidden">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white/85 px-4 shadow-sm shadow-slate-950/[0.03] backdrop-blur-2xl transition-all dark:border-slate-800 dark:bg-slate-950/85 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
               onClick={() => setSidebarOpen((value) => !value)}
-              className="hidden rounded-2xl border border-slate-200 bg-white p-3 text-slate-500 shadow-sm hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-900 md:inline-flex"
+              className="hidden rounded-2xl border border-slate-200 bg-white p-3 text-slate-500 shadow-sm hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-900 lg:inline-flex"
               aria-label="Toggle sidebar"
             >
               {sidebarOpen ? (
@@ -267,7 +267,7 @@ const DashboardShell = () => {
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(true)}
-              className="rounded-2xl border border-slate-200 bg-white p-3 text-slate-500 shadow-sm hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-900 md:hidden"
+              className="rounded-2xl border border-slate-200 bg-white p-3 text-slate-500 shadow-sm hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-900 lg:hidden"
               aria-label="Open sidebar"
             >
               <Menu size={20} />
