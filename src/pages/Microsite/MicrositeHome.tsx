@@ -53,9 +53,9 @@ const MicrositeHome = () => {
   const { eventData: data } = useAppSelector((state) => state.microsite);
   const event = data ?? { EventName: "", eventDate: "" };
 
-  const primaryColor = event.PrimaryColor || event.primaryColor || "#00A676";
+  const primaryColor = event.PrimaryColor || event.primaryColor || "#F26B2A";
   const secondaryColor =
-    event.SecondaryColor || event.secondaryColor || "#FACC15";
+    event.SecondaryColor || event.secondaryColor || "#E88A54";
 
   const eventDateStr = event.eventDate;
   const isEventPassed = eventDateStr
@@ -121,7 +121,7 @@ const MicrositeHome = () => {
   return (
     <div
       id="top"
-      className="w-full overflow-x-hidden bg-[#FAFAFA] font-sans text-slate-900 antialiased"
+      className="w-full overflow-x-hidden bg-[#FFF8F3] font-sans text-slate-900 antialiased"
     >
       <style>
         {`
