@@ -183,15 +183,15 @@ const token = await user.getIdToken();
 
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-[#020617] p-6 text-white shadow-sm md:p-6">
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#020617] p-6 text-white shadow-sm md:p-6">
         <div className="eh-premium-grid absolute inset-0 opacity-20" />
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[100px]" />
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-wide text-cyan-100 hover:bg-white/15">
+            <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-cyan-100 hover:bg-white/15">
               <ArrowLeft size={15} /> Back to events
             </Link>
-            <p className="mb-2 text-xs font-black uppercase tracking-wide text-cyan-200">Event Builder</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-cyan-200">Event Builder</p>
             <h1 className="text-2xl font-black tracking-tight md:text-3xl">
               {EventID ? "Refine your event" : "Create a premium event"}
             </h1>
@@ -200,7 +200,7 @@ const token = await user.getIdToken();
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/10 p-4 ">
-            <div className="mb-2 flex items-center justify-between gap-6 text-xs font-black uppercase tracking-wide text-slate-300">
+            <div className="mb-2 flex items-center justify-between gap-6 text-xs font-bold uppercase tracking-wide text-slate-300">
               <span>Page readiness</span><span>{completion}%</span>
             </div>
             <div className="h-3 w-64 max-w-full rounded-full bg-white/10">
@@ -364,7 +364,7 @@ const token = await user.getIdToken();
             </div>
             <div className="space-y-4 p-5">
               <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-950/40">
-                <p className="text-xs font-black uppercase tracking-wide text-slate-400">Tagline</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Tagline</p>
                 <p className="mt-2 font-bold text-slate-800 dark:text-slate-200">{watchedValues.BannerTagLine || "Your hero tagline will appear here."}</p>
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm font-bold text-slate-600 dark:text-slate-300">
@@ -376,7 +376,7 @@ const token = await user.getIdToken();
           </div>
 
           <div className="eh-dashboard-card p-5">
-            <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">Publishing checklist</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">Publishing checklist</p>
             {[
               ["Core details", Boolean(watchedValues.EventName && watchedValues.eventDate && watchedValues.location)],
               ["Banner uploaded", Boolean(bannerPreview)],
