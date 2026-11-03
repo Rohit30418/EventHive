@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import useGetEvent from "../AdminCustomHooks/useGetEvents";
 import HomeHero from "./home/HomeHero";
 import { HomeSmoothScroll } from "./home/HomeMotion";
@@ -7,6 +8,24 @@ import HomeSections from "./home/HomeSections";
 
 const Home = () => {
   const { isLoading, data, error } = useGetEvent();
+  const location = useLocation();
+
+  // The homepage is lazy-loaded. Scroll only after its anchored sections
+  // have rendered, including when navigating here from another route.
+  useEffect(() => {
+    const sectionId = decodeURIComponent(location.hash.slice(1));
+    if (!sectionId) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(sectionId);
+      if (!target) return;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        document.documentElement.classList.contains("a11y-pause-animations");
+      target.scrollIntoView({ behavior: reducedMotion ? "instant" : "smooth", block: "start" });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.hash, location.key]);
 
   const featuredEvents = useMemo(() => {
     const today = new Date();
