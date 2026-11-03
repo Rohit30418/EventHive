@@ -317,3 +317,22 @@
 @media (prefers-reduced-motion: reduce) {
   .eh-home *, .eh-home *::before, .eh-home *::after { animation: none !important; transition: none !important; }
 }
+
+/* Keep footer and homepage navbar aligned with the same 1200px content grid. */
+.eh-home-navbar .eh-home-nav-container,
+.eh-home-footer .eh-home-footer-container { width:100%; max-width:1296px; margin-inline:auto; padding-inline:24px; }
+.eh-home-navbar { box-shadow:none; }
+.eh-home-footer { padding-block:48px; }
+.eh-home-footer .eh-home-footer-container a { font-size:14px; line-height:1.6; }
+.eh-home-footer .eh-home-footer-container > div:first-child { margin-top:0; }
+.eh-home-footer .eh-home-footer-container h3 { font-size:15px; }
+.eh-home::before { display:none !important; }
+.eh-home .eh-events-grid article { border-radius:20px; border-color:rgba(31,28,26,.13); box-shadow:0 4px 20px rgba(31,28,26,.025); }
+.eh-home .eh-events-grid article:hover { box-shadow:0 6px 20px rgba(31,28,26,.055); }
+.eh-home .eh-events-grid article > div:first-child { min-height:200px; }
+.eh-home .eh-events-grid a { font-size:14px; }
+@media(min-width:1024px) {
+  .eh-home-navbar .eh-home-nav-container,
+  .eh-home-footer .eh-home-footer-container {padding-inline:48px;}
+}
+@media(max-width:767px){.eh-home-footer .eh-home-footer-container {padding-inline:24px;}}
