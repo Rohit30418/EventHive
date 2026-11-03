@@ -99,6 +99,7 @@ const FloatingTools = () => {
     });
 
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); } catch { /* Storage disabled. */ }
+    window.dispatchEvent(new CustomEvent("eventhive:a11y-change"));
   }, [settings]);
 
   useEffect(() => {
