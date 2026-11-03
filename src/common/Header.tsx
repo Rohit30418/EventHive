@@ -50,7 +50,7 @@ const Header = () => {
       
 
       <header
-        className="sticky top-0 z-50 w-full border-b border-[#E7D8CC] bg-[#FFF8F3]/95 px-5 py-3 backdrop-blur-xl transition-all duration-300 lg:px-0"
+        className={`sticky top-0 z-50 w-full border-b border-[#E7D8CC] bg-[#FFF8F3]/95 px-5 backdrop-blur-xl transition-all duration-300 lg:px-0 ${scrolled ? "py-2" : "py-3"}`}
       >
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-5">
           <Link
