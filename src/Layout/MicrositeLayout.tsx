@@ -1,5 +1,6 @@
-import Header from '../pages/Microsite/Header';
-import Footer from '../pages/Microsite/Footer';
+import Header from '../common/Header';
+import EventSectionNav from '../pages/Microsite/EventSectionNav';
+import Footer from '../common/Footer';
 import { Outlet, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -60,6 +61,7 @@ const MicrositeLayout = () => {
   return (
     <div className="public-theme min-h-screen overflow-x-hidden bg-[#FFF8F3] text-[#1F1C1A]">
       <Header />
+      <EventSectionNav />
       <Outlet />
       <Footer />
     </div>
