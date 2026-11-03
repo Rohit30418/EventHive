@@ -234,7 +234,7 @@
 .eh-workflow-card p { margin: 12px 0 0; color: var(--home-muted); font-size: 15px; line-height: 1.65; }
 .eh-events-section { background: #FFF1E7; }
 .eh-events-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 32px; }
-.eh-events-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+.eh-events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); gap: 24px; align-items: stretch; }
 .eh-events-grid > * { min-width: 0; height: 100%; }
 .eh-event-empty { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; padding: 24px; }
 .eh-event-empty-icon { width: 72px; height: 72px; }
@@ -281,7 +281,7 @@
   .eh-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .eh-hero-title { font-size: clamp(2.6rem, 4.8vw, 3.7rem) !important; }
   .eh-features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .eh-workflow-grid, .eh-events-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .eh-workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .eh-about-grid { grid-template-columns: 1fr; }
   .eh-about-list { grid-template-columns: repeat(3,minmax(0,1fr)); grid-template-rows: auto; }
   .eh-about-benefit { align-items: flex-start; flex-direction: column; }
@@ -304,7 +304,7 @@
   .eh-final-cta { padding: 28px 24px; }
 }
 @media (max-width: 575px) {
-  .eh-features-grid, .eh-workflow-grid, .eh-events-grid { grid-template-columns: 1fr; }
+  .eh-features-grid, .eh-workflow-grid { grid-template-columns: 1fr; }
   .eh-home-actions { flex-direction: column; }
   .eh-home-actions .eh-home-btn { width: 100%; }
   .eh-preview-cover { height: 185px; }
