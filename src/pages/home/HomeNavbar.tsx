@@ -44,7 +44,7 @@ export default function HomeNavbar() {
 
   return (
     <header className="eh-home-navbar sticky top-0 z-50 h-[76px] w-full border-b border-[#1F1C1A]/10 bg-[#FFF8F3]/85 backdrop-blur-xl sm:h-[84px]">
-      <nav aria-label="Primary navigation" className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+      <nav aria-label="Primary navigation" className="eh-home-nav-container mx-auto flex h-full items-center justify-between gap-4">
         <Link to="/" aria-label="EventHive home" className="relative z-[60] inline-flex shrink-0 items-center gap-2.5 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F26B2A]">
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#F26B2A] font-black text-white shadow-[0_4px_15px_rgba(242,107,42,.22)]">E</span>
           <span className="font-display text-[24px] font-bold tracking-[-.055em] text-[#1F1C1A]">Event<span className="text-[#D64F13]">Hive</span></span>
