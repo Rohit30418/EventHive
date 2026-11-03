@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const footerGroups = [
@@ -48,57 +48,11 @@ const socialLinks: { label: string; href: string; icon: ReactNode }[] = [
 ];
 
 const Footer = () => {
-  const isHome = useLocation().pathname === "/";
   return (
-    <footer className={`relative overflow-hidden border-t border-white/10 px-4 py-14 text-slate-300 sm:px-6 md:py-20 ${isHome ? "eh-home-footer bg-[#1F1C1A]" : "bg-[#1F1C1A]"}`}>
-      {!isHome && <div className="eh-premium-grid absolute inset-0 opacity-[0.12]" />}
-      {!isHome && <div className="pointer-events-none absolute bottom-0 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-indigo-600/10 blur-[120px]" />}
+    <footer className="eh-home-footer relative overflow-hidden border-t border-white/10 bg-[#1F1C1A] px-0 py-14 text-slate-300 md:py-16">
     
-      {!isHome && <div className="pointer-events-none absolute right-[-10rem] top-10 h-[26rem] w-[26rem] rounded-full bg-cyan-500/10 blur-[110px]" />}
-      <div className={`relative z-10 mx-auto max-w-7xl ${isHome ? "eh-home-footer-container" : ""}`}>
-        {/* <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <div>
-            <Link to="/" className="inline-flex items-center gap-3">
-              <div>
-                <p className="text-2xl font-black tracking-tight text-white">
-                  Event<span className="eh-gradient-text">Hive</span>
-                </p>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">Premium Event OS</p>
-              </div>
-            </Link>
-            <p className="mt-5 max-w-xl text-base leading-8 text-slate-400">
-              Create polished event microsites, manage registrations, and operate organizer workflows from one clean platform.
-            </p>
-          </div>
-
-          <form
-            className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-4 sm:p-5"
-            onSubmit={(event) => event.preventDefault()}
-          >
-            <div className="mb-4 flex items-center gap-2 text-sm font-black text-white">
-              <Sparkles size={17} className="text-cyan-300" /> Stay in the loop
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <label className="sr-only" htmlFor="footer-email">Email address</label>
-              <div className="relative flex-1">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-                <input
-                  id="footer-email"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full rounded-2xl border border-white/10 bg-white/[0.06] py-4 pl-12 pr-4 text-sm font-semibold text-white outline-none placeholder:text-slate-500 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/15"
-                />
-              </div>
-              <button className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-4 text-sm font-black text-slate-950 hover:-translate-y-0.5 hover:bg-indigo-50" type="submit">
-                Subscribe <Send size={16} />
-              </button>
-            </div>
-          </form>
-        </div> */}
-
-        {!isHome && <div className="my-12 h-px bg-white/10" />}
-
-        <div className={isHome ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid grid-cols-2 gap-8 md:grid-cols-4"}>
+      <div className="eh-home-footer-container relative z-10 mx-auto w-full max-w-[1296px] px-6 lg:px-12">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {footerGroups.map((group) => (
             <div key={group.title}>
               <h3 className="mb-5 text-sm font-black uppercase tracking-[0.18em] text-white">{group.title}</h3>
@@ -126,14 +80,14 @@ const Footer = () => {
             <p className="text-sm font-semibold text-slate-500">© {new Date().getFullYear()} EventHive. All rights reserved.</p>
             <p className="mt-2 text-sm text-slate-500">
               Designed and developed by{" "}
-              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className={`font-black hover:text-white ${isHome ? "text-orange-300" : "text-indigo-300"}`}>
+              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className="font-black text-orange-300 hover:text-white">
                 Rohit Pant
               </a>
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            {(isHome ? socialLinks.slice(0, 2) : socialLinks).map((link) => (
+            {socialLinks.slice(0, 2).map((link) => (
               <a
                 key={link.label}
                 href={link.href}
