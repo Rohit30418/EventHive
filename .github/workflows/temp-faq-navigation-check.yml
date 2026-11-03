@@ -69,7 +69,7 @@ jobs:
                   await openButton.click();
                 }
                 const label = section === "how-it-works" ? "How it works" : section === "faq" ? "FAQ" : "Features";
-                const link = microsite ? page.getByRole("button", { name: label, exact: true }) : page.getByRole("link", { name: label, exact: true });
+                const link = microsite ? page.getByRole("button", { name: label, exact: true }) : page.locator("header").getByRole("link", { name: label, exact: true });
                 await link.click();
                 await page.waitForURL("**/#" + section, { timeout: 10000 });
                 await page.waitForSelector("#" + section, { timeout: 10000 });
