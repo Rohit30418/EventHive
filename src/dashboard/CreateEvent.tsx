@@ -192,7 +192,7 @@ const token = await user.getIdToken();
               <ArrowLeft size={15} /> Back to events
             </Link>
             <p className="mb-2 text-xs font-bold uppercase tracking-wide text-cyan-200">Event Builder</p>
-            <h1 className="text-2xl font-black tracking-tight md:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
               {EventID ? "Refine your event" : "Create a premium event"}
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300">
@@ -218,7 +218,7 @@ const token = await user.getIdToken();
             <div className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <p className="eh-kicker mb-3">01 · Core details</p>
-                <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">Event information</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Event information</h2>
               </div>
               <Calendar className="text-indigo-500" size={28} />
             </div>
@@ -250,7 +250,7 @@ const token = await user.getIdToken();
             <div className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <p className="eh-kicker mb-3">02 · Public microsite</p>
-                <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">Content and branding</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Content and branding</h2>
               </div>
               <Wand2 className="text-cyan-500" size={28} />
             </div>
@@ -294,7 +294,7 @@ const token = await user.getIdToken();
                       <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm dark:bg-slate-900">
                         <UploadCloud size={30} />
                       </div>
-                      <p className="font-black text-slate-900 dark:text-white">Upload event banner</p>
+                      <p className="font-bold text-slate-900 dark:text-white">Upload event banner</p>
                       <p className="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">Use a wide image under 2MB. This becomes the main hero of your microsite.</p>
                     </div>
                   )}
@@ -308,7 +308,7 @@ const token = await user.getIdToken();
             <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="eh-kicker mb-3">03 · Speaker lineup</p>
-                <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">Featured people</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Featured people</h2>
               </div>
               <button type="button" onClick={() => setIsModalOpen(true)} className="eh-btn-secondary px-5 py-3 text-sm">
                 <Plus size={17} /> Add Speaker
@@ -324,7 +324,7 @@ const token = await user.getIdToken();
                         {speaker.speakerImage ? <img src={speaker.speakerImage} alt={speaker.speakerName} className="h-full w-full object-cover" /> : <Users size={20} />}
                       </div>
                       <div className="min-w-0">
-                        <p className="truncate font-black text-slate-950 dark:text-white">{speaker.speakerName}</p>
+                        <p className="truncate font-bold text-slate-950 dark:text-white">{speaker.speakerName}</p>
                         <p className="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{speaker.speakerDesignation}</p>
                       </div>
                     </button>
@@ -337,7 +337,7 @@ const token = await user.getIdToken();
             ) : (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center dark:border-slate-700 dark:bg-slate-950/40">
                 <Users className="mx-auto mb-4 text-slate-300" size={44} />
-                <p className="font-black text-slate-900 dark:text-white">No speakers added yet</p>
+                <p className="font-bold text-slate-900 dark:text-white">No speakers added yet</p>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Add speakers to make the microsite feel more credible.</p>
               </div>
             )}
@@ -355,10 +355,10 @@ const token = await user.getIdToken();
             <div className="relative h-56 overflow-hidden bg-slate-200">
               {bannerPreview ? <img src={bannerPreview} alt="Preview" className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><ImagePlus size={44} /></div>}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent" />
-              <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-indigo-700">
+              <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
                 {watchedValues.eventType || "Category"}
               </span>
-              <h3 className="absolute bottom-4 left-4 right-4 line-clamp-2 text-2xl font-black text-white">
+              <h3 className="absolute bottom-4 left-4 right-4 line-clamp-2 text-2xl font-bold text-white">
                 {watchedValues.EventName || "Event title preview"}
               </h3>
             </div>
@@ -385,7 +385,7 @@ const token = await user.getIdToken();
             ].map(([label, done]) => (
               <div key={String(label)} className="flex items-center justify-between border-b border-slate-100 py-3 last:border-0 dark:border-slate-800">
                 <span className="font-bold text-slate-600 dark:text-slate-300">{label}</span>
-                <span className={`rounded-full px-3 py-1 text-xs font-black ${done ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"}`}>{done ? "Done" : "Pending"}</span>
+                <span className={`rounded-full px-3 py-1 text-xs font-bold ${done ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"}`}>{done ? "Done" : "Pending"}</span>
               </div>
             ))}
           </div>
