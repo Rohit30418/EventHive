@@ -228,14 +228,23 @@ const DashboardShell = () => {
         </nav>
 
         <div className="border-t border-slate-100 p-4 dark:border-slate-800">
-          <Link
-            to="/#faq"
-            onClick={() => setMobileSidebarOpen(false)}
-            className="mb-3 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700 hover:border-[#F26B2A] hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-          >
-            <CircleHelp size={18} aria-hidden="true" />
-            {(sidebarOpen || mobileSidebarOpen) && <span>Help & FAQ</span>}
-          </Link>
+          {[
+            { name: "Features", path: "/#features", icon: Sparkles },
+            { name: "How it works", path: "/#how-it-works", icon: CalendarDays },
+            { name: "Help & FAQ", path: "/#faq", icon: CircleHelp },
+          ].map(({ name, path, icon: Icon }) => (
+            <Link
+              key={path}
+              to={path}
+              aria-label={name}
+              title={name}
+              onClick={() => setMobileSidebarOpen(false)}
+              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#F26B2A] hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+            >
+              <Icon size={18} aria-hidden="true" />
+              {(sidebarOpen || mobileSidebarOpen) && <span>{name}</span>}
+            </Link>
+          ))}
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/60">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-sm font-black text-white dark:bg-white dark:text-slate-950">
