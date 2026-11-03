@@ -221,7 +221,7 @@ const SuperAdminDashboard = () => {
 
           <div className="grid w-full gap-3 sm:grid-cols-2 lg:w-auto">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 dark:border-slate-800 dark:bg-slate-950/60">
-              <p className="text-xs font-black uppercase tracking-wide text-slate-400">
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Platform Health
               </p>
               <div className="mt-2 flex items-center gap-2 text-lg font-black text-emerald-600 dark:text-emerald-300">
@@ -231,7 +231,7 @@ const SuperAdminDashboard = () => {
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 dark:border-slate-800 dark:bg-slate-950/60">
-              <p className="text-xs font-black uppercase tracking-wide text-slate-400">
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Approval Rate
               </p>
               <div className="mt-2 text-lg font-black text-slate-950 dark:text-white">
@@ -291,7 +291,7 @@ const SuperAdminDashboard = () => {
               </p>
             </div>
 
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               Live
             </span>
@@ -314,7 +314,7 @@ const SuperAdminDashboard = () => {
                   <p className="text-2xl font-black text-slate-950 dark:text-white">
                     {totalOrganizers}
                   </p>
-                  <p className="text-xs font-black uppercase tracking-wide text-slate-400">
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                     Total
                   </p>
                 </div>
