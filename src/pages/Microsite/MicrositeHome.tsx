@@ -133,7 +133,7 @@ const MicrositeHome = () => {
       </style>
 
       {/* HERO SECTION */}
-      <section className="relative px-4 pb-16 pt-32 sm:px-8 lg:pb-24">
+      <section className="relative px-4 pb-16 pt-14 sm:px-8 lg:pb-24">
         <div className="mx-auto max-w-7xl">
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
             
