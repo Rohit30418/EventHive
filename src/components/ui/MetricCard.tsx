@@ -18,16 +18,16 @@ const toneClasses = {
 
 const MetricCard = ({ label, value, icon: Icon, hint, tone = "indigo" }: MetricCardProps) => {
   return (
-    <article className="eh-card eh-surface-hover relative overflow-hidden rounded-[2rem] p-6">
-      <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-500/5" />
+    <article className="eh-card eh-surface-hover relative overflow-hidden rounded-2xl p-5">
+      
       <div className="relative z-10 flex items-start justify-between gap-4">
         <div>
-          <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-slate-400">{label}</p>
-          <h3 className="text-4xl font-black text-slate-950 dark:text-white">{value}</h3>
+          <p className="mb-2 text-xs font-black uppercase tracking-wide text-slate-400">{label}</p>
+          <h3 className="text-3xl font-bold text-slate-950 dark:text-white">{value}</h3>
           {hint && <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">{hint}</p>}
         </div>
         {Icon && (
-          <div className={`rounded-2xl p-4 ${toneClasses[tone]}`}>
+          <div className={`rounded-xl p-3 ${toneClasses[tone]}`}>
             <Icon size={24} />
           </div>
         )}
