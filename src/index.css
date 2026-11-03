@@ -550,7 +550,7 @@ svg {
 }
 
 @media (max-width: 768px) {
-  html { font-size: 15px; }
+  html { font-size: 16px; }
   .eh-page-title { line-height: 1.06; }
   .eh-panel { border-radius: 1.4rem; }
   .eh-table th,
