@@ -204,12 +204,12 @@ const SuperAdminDashboard = () => {
 
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
               <ShieldCheck size={14} />
               Platform Command Center
             </div>
 
-            <h1 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white md:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white md:text-3xl">
               Super Admin Overview
             </h1>
 
@@ -224,7 +224,7 @@ const SuperAdminDashboard = () => {
               <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Platform Health
               </p>
-              <div className="mt-2 flex items-center gap-2 text-lg font-black text-emerald-600 dark:text-emerald-300">
+              <div className="mt-2 flex items-center gap-2 text-lg font-bold text-emerald-600 dark:text-emerald-300">
                 <Activity size={19} />
                 Stable
               </div>
@@ -234,7 +234,7 @@ const SuperAdminDashboard = () => {
               <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Approval Rate
               </p>
-              <div className="mt-2 text-lg font-black text-slate-950 dark:text-white">
+              <div className="mt-2 text-lg font-bold text-slate-950 dark:text-white">
                 {approvalRate}%
               </div>
             </div>
@@ -255,11 +255,11 @@ const SuperAdminDashboard = () => {
 
               <div className="relative flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
+                  <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
                     {card.label}
                   </h2>
 
-                  <p className="mt-3 text-3xl font-black tracking-tight text-slate-950 dark:text-white">
+                  <p className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
                     {card.value}
                   </p>
 
@@ -283,7 +283,7 @@ const SuperAdminDashboard = () => {
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-xl font-black text-slate-950 dark:text-white">
+              <h2 className="text-xl font-bold text-slate-950 dark:text-white">
                 Organizer Status
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -311,7 +311,7 @@ const SuperAdminDashboard = () => {
               <>
                 <Pie data={pieData} options={pieOptions} />
                 <div className="pointer-events-none absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="text-2xl font-black text-slate-950 dark:text-white">
+                  <p className="text-2xl font-bold text-slate-950 dark:text-white">
                     {totalOrganizers}
                   </p>
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
@@ -327,7 +327,7 @@ const SuperAdminDashboard = () => {
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-xl font-black text-slate-950 dark:text-white">
+              <h2 className="text-xl font-bold text-slate-950 dark:text-white">
                 Newest Organizers
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -347,12 +347,12 @@ const SuperAdminDashboard = () => {
                 className="group flex items-center justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 transition-colors hover:border-indigo-100 hover:bg-white  hover: dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-indigo-900/60 dark:hover:bg-slate-950 "
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-sm font-black text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-sm font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
                     {org.fullName?.charAt(0)?.toUpperCase() || "O"}
                   </div>
 
                   <div className="min-w-0">
-                    <p className="truncate font-black text-slate-900 dark:text-white">
+                    <p className="truncate font-bold text-slate-900 dark:text-white">
                       {org.fullName || "Organizer"}
                     </p>
 
@@ -363,7 +363,7 @@ const SuperAdminDashboard = () => {
                 </div>
 
                 <span
-                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-black ${
+                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold ${
                     org.isApproved
                       ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
                       : "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
@@ -391,7 +391,7 @@ const SuperAdminDashboard = () => {
               <CheckCircle2 size={22} />
             </div>
             <div>
-              <h3 className="font-black text-slate-950 dark:text-white">
+              <h3 className="font-bold text-slate-950 dark:text-white">
                 Approved Organizers
               </h3>
               <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -418,7 +418,7 @@ const SuperAdminDashboard = () => {
               <Clock3 size={22} />
             </div>
             <div>
-              <h3 className="font-black text-slate-950 dark:text-white">
+              <h3 className="font-bold text-slate-950 dark:text-white">
                 Pending Queue
               </h3>
               <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -445,7 +445,7 @@ const SuperAdminDashboard = () => {
               <CalendarDays size={22} />
             </div>
             <div>
-              <h3 className="font-black text-slate-950 dark:text-white">
+              <h3 className="font-bold text-slate-950 dark:text-white">
                 Event Activity
               </h3>
               <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -454,7 +454,7 @@ const SuperAdminDashboard = () => {
             </div>
           </div>
 
-          <p className="text-3xl font-black text-slate-950 dark:text-white">
+          <p className="text-3xl font-bold text-slate-950 dark:text-white">
             {totalEvents}
           </p>
 
