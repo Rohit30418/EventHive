@@ -71,7 +71,7 @@ const AddSpeakersModal = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-slate-950/70 px-4 py-6 backdrop-blur-md">
+    <div className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto bg-slate-950/70 px-3 py-4 backdrop-blur-md sm:items-center sm:px-4 sm:py-6">
       <button
         type="button"
         aria-label="Close speaker modal overlay"
@@ -79,9 +79,9 @@ const AddSpeakersModal = ({
         className="absolute inset-0 cursor-default"
       />
 
-      <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-[2.2rem] border border-white/20 bg-white shadow-[0_30px_120px_rgba(15,23,42,0.35)] dark:border-slate-800 dark:bg-slate-900">
+      <div className="relative z-10 w-full max-w-xl min-w-0 max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain rounded-[1.5rem] border border-white/20 bg-white shadow-[0_30px_120px_rgba(15,23,42,0.35)] dark:border-slate-800 dark:bg-slate-900 sm:max-h-[calc(100dvh-3rem)] sm:rounded-[2.2rem]">
         {/* Header */}
-        <div className="relative overflow-hidden bg-slate-950 px-7 pb-24 pt-7 text-white dark:bg-slate-950">
+        <div className="relative overflow-hidden bg-slate-950 px-5 pb-24 pt-6 text-white dark:bg-slate-950 sm:px-7 sm:pt-7">
           <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-indigo-500/35 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-20 left-10 h-52 w-52 rounded-full bg-cyan-500/25 blur-3xl" />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:28px_28px]" />
@@ -115,7 +115,7 @@ const AddSpeakersModal = ({
         </div>
 
         {/* Avatar Upload */}
-        <div className="relative px-7">
+        <div className="relative px-5 sm:px-7">
           <label className="absolute left-1/2 top-0 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[2rem] border-4 border-white bg-slate-100 text-slate-400 shadow-2xl transition-all hover:scale-105 dark:border-slate-900 dark:bg-slate-800">
             {speakerImage ? (
               <img
@@ -142,7 +142,7 @@ const AddSpeakersModal = ({
         </div>
 
         {/* Body */}
-        <div className="space-y-5 px-7 pb-7 pt-20">
+        <div className="space-y-5 px-5 pb-6 pt-20 sm:px-7 sm:pb-7">
           <div>
             <label className="mb-2 block text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
               Speaker Name
