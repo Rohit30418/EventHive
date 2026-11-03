@@ -283,7 +283,7 @@ const DashboardShell = () => {
             </div>
           </div>
 
-          <div className="hidden min-w-[320px] items-center rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-400 dark:border-slate-800 dark:bg-slate-900/80 lg:flex">
+          <div className="hidden min-w-[320px] items-center rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-400 dark:border-slate-800 dark:bg-slate-900/80 xl:flex">
             <Search size={17} className="mr-3" />
             <span className="flex-1 font-semibold">
               Search pages, events, registrations...
