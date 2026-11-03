@@ -97,17 +97,17 @@ const Events: React.FC = () => {
     return (
       <article
         key={eventId || item.EventName || `${item.eventDate}-${item.location}`}
-        className={`group overflow-hidden rounded-[1.7rem] border bg-white shadow-[0_18px_55px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_26px_75px_rgba(99,102,241,0.16)] dark:bg-slate-900 ${isPast ? "border-slate-200 opacity-80 grayscale-[20%] hover:opacity-100 hover:grayscale-0 dark:border-slate-800" : "border-indigo-100 dark:border-slate-800"}`}
+        className={`group overflow-hidden rounded-2xl border bg-white shadow-sm transition-colors duration-300   dark:bg-slate-900 ${isPast ? "border-slate-200 opacity-80 grayscale-[20%] hover:opacity-100 hover:grayscale-0 dark:border-slate-800" : "border-indigo-100 dark:border-slate-800"}`}
       >
         <div className="relative h-48 overflow-hidden bg-slate-200">
           <img
             src={item.banner || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80"}
             alt={item.EventName || "Event banner"}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-700 "
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
           <div className="absolute left-4 top-4">
-            <span className={`rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] shadow-sm backdrop-blur-xl ${isPast ? "bg-slate-900/70 text-white" : "bg-white/90 text-indigo-700"}`}>
+            <span className={`rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-wide shadow-sm  ${isPast ? "bg-slate-900/70 text-white" : "bg-white/90 text-indigo-700"}`}>
               {isPast ? "Ended" : item.eventType || item.category || "Event"}
             </span>
           </div>
@@ -156,11 +156,11 @@ const Events: React.FC = () => {
 
   return (
     <div className="space-y-8">
-      <div className="eh-panel overflow-hidden p-6 md:p-8">
+      <div className="eh-panel overflow-hidden p-6 md:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="mb-2 text-xs font-black uppercase tracking-[0.24em] text-indigo-600 dark:text-indigo-400">Event Control Center</p>
-            <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-4xl">Events Dashboard</h1>
+            <p className="mb-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Event Control Center</p>
+            <h1 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white md:text-3xl">Events Dashboard</h1>
             <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">
               {role === "SuperAdmin" ? "Managing all platform events from one place." : "Manage your events, details and public pages."}
             </p>
@@ -185,7 +185,7 @@ const Events: React.FC = () => {
       </div>
 
       {!hasResults ? (
-        <div className="eh-card flex min-h-[360px] flex-col items-center justify-center rounded-[2rem] border-dashed p-8 text-center">
+        <div className="eh-card flex min-h-[360px] flex-col items-center justify-center rounded-2xl border-dashed p-6 text-center">
           <Inbox className="mb-4 text-slate-300" size={56} />
           <h3 className="text-2xl font-black text-slate-950 dark:text-white">No events found</h3>
           <p className="mt-2 max-w-md text-slate-500 dark:text-slate-400">
