@@ -21,7 +21,7 @@ const Home = () => {
       if (!target) return;
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
         document.documentElement.classList.contains("a11y-pause-animations");
-      target.scrollIntoView({ behavior: reducedMotion ? "instant" : "smooth", block: "start" });
+      target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
     });
 
     return () => window.cancelAnimationFrame(frame);
