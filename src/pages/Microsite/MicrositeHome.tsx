@@ -408,71 +408,67 @@ const MicrositeHome = () => {
       <PricingSection primaryColor={primaryColor} secondaryColor={secondaryColor} />
 
       {/* REGISTRATION */}
-      <div id="registration" className="scroll-mt-24 bg-white px-4 py-14 sm:px-6">
-        {isEventPassed ? (
-          <div className="mx-auto max-w-3xl rounded-[2rem] border border-slate-200 bg-slate-50 px-6 py-20 text-center shadow-sm">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-slate-200 text-slate-500">
-              <Clock size={32} />
-            </div>
-            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Registration Closed
-            </h2>
-            <p className="text-lg font-normal leading-relaxed text-slate-600">
-              The registration for this event has ended because the event date has passed.
-            </p>
-          </div>
-        ) : (
-          <EventRegistration primaryColor={primaryColor} />
-        )}
-      </div>
-
-      {/* MAP */}
-      <section className="relative h-[340px] w-full bg-slate-100 sm:h-[430px]">
-        <iframe
-          src={`https://maps.google.com/maps?q=${encodeURIComponent(
-            event.location || "New Delhi"
-          )}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-          width="100%"
-          height="100%"
-          loading="lazy"
-          title="Event Location"
-          className="absolute inset-0 grayscale transition-all duration-500 hover:grayscale-0"
-          style={{ border: 0 }}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-10 mix-blend-overlay"
-          style={{ backgroundColor: primaryColor }}
-        />
-        <div className="absolute bottom-6 left-1/2 w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 rounded-[1.7rem] border border-white/70 bg-white/90 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.14)] backdrop-blur-xl">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <div
-                className="grid h-12 w-12 place-items-center rounded-2xl text-white"
-                style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-              >
-                <Navigation size={22} />
-              </div>
+      <section id="registration" className="eh-ms-section bg-white">
+        <div className="eh-ms-container">
+          {isEventPassed ? (
+            <div className="eh-ms-registration-closed eh-ms-card">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-200 text-slate-600">
+                <Clock size={25} />
+              </span>
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Event Location
-                </p>
-                <p className="text-base font-bold text-slate-900">
-                  {event.location || "Venue TBA"}
+                <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Registration Closed</h2>
+                <p className="mt-1 text-base leading-relaxed text-slate-600">
+                  The registration for this event has ended because the event date has passed.
                 </p>
               </div>
             </div>
-            <button
-              onClick={() =>
-                document
-                  .getElementById("registration")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
-              style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-            >
-              Register Now
-              <ArrowRight size={17} />
-            </button>
+          ) : (
+            <EventRegistration primaryColor={primaryColor} />
+          )}
+        </div>
+      </section>
+
+      {/* MAP — existing location and action, arranged below the map. */}
+      <section className="eh-ms-section bg-[#FFF8F3]">
+        <div className="eh-ms-container">
+          <div className="eh-ms-card overflow-hidden">
+            <iframe
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                event.location || "New Delhi"
+              )}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              width="100%"
+              height="340"
+              loading="lazy"
+              title="Event Location"
+              className="eh-ms-location-map"
+              style={{ border: 0 }}
+            />
+            <div className="flex flex-wrap items-center justify-between gap-4 p-5 sm:p-6">
+              <div className="flex min-w-0 items-center gap-3">
+                <span
+                  className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-white"
+                  style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                >
+                  <Navigation size={22} />
+                </span>
+                <div className="min-w-0">
+                  <p className="eh-ms-eyebrow text-slate-500">Event Location</p>
+                  <p className="mt-1 break-words text-base font-bold text-slate-900">
+                    {event.location || "Venue TBA"}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => document.getElementById("registration")?.scrollIntoView({ behavior: "smooth" })}
+                disabled={isEventPassed}
+                className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white ${isEventPassed ? "eh-ms-closed" : ""}`}
+                style={isEventPassed ? undefined : { background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+              >
+                Register Now
+                <ArrowRight size={17} />
+              </button>
+            </div>
           </div>
         </div>
       </section>
