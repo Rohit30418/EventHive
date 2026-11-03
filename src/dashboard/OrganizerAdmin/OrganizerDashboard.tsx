@@ -235,7 +235,7 @@ const OrganizerDashboard = () => {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               to="/Dashboard/CreateEvent"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 px-6 py-3 text-sm font-black text-white shadow-sm  transition-colors "
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-6 py-3 text-sm font-black text-[#1F1C1A] shadow-sm transition-colors"
             >
               <Plus size={18} />
               Create Event
@@ -301,7 +301,7 @@ const OrganizerDashboard = () => {
               </p>
             </div>
 
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               Real-time
             </span>
@@ -337,7 +337,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Registrations"
-              className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-wide text-indigo-600 transition-colors hover:bg-indigo-600 hover:text-white dark:bg-indigo-950/50 dark:text-indigo-300"
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-indigo-600 transition-colors hover:bg-indigo-600 hover:text-white dark:bg-indigo-950/50 dark:text-indigo-300"
             >
               View All
               <ArrowRight size={14} />
@@ -412,7 +412,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Events"
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-wide text-slate-500 transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               Manage
               <ArrowRight size={14} />
@@ -473,7 +473,7 @@ const OrganizerDashboard = () => {
         {/* Quick Actions */}
         <div className="rounded-2xl border border-slate-200 bg-slate-950 p-6 text-white shadow-sm dark:border-slate-800 md:p-6">
           <div className="mb-6">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-wide text-cyan-100">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-cyan-100">
               <Clock3 size={14} />
               Quick Actions
             </div>
