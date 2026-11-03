@@ -125,7 +125,7 @@ const AddWebsiteContentForm = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid gap-7 lg:grid-cols-[1fr_380px]"
+        className="grid min-w-0 gap-7 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]"
       >
         {/* Left Content */}
         <div className="space-y-7">
@@ -182,7 +182,7 @@ const AddWebsiteContentForm = () => {
 
         {/* Right Speakers Panel */}
         <div className="space-y-5">
-          <div className="sticky top-24 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-900/90">
+          <div className="xl:sticky xl:top-6 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_14px_45px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-900/90">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
