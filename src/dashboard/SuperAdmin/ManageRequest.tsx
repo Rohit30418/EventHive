@@ -15,7 +15,7 @@ const ManageRequest = () => {
   const [error, setError] = useState<string | null>(null);
   const [itemPerPage, setItemPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  
+
   const fetchData = async () => {
     setLoading(true);
     setError(null);
@@ -98,12 +98,12 @@ const ManageRequest = () => {
   };
 
   return (
-    <div className="space-y-7">
-      <div className="rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-indigo-50 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.06)] dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-8">
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-indigo-50 p-6 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 md:p-6">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
           <div>
-            <p className="mb-2 text-xs font-black uppercase tracking-[0.24em] text-indigo-600 dark:text-indigo-400">Approval Queue</p>
-            <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white">Organizer Requests</h1>
+            <p className="mb-2 text-xs font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Approval Queue</p>
+            <h1 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white">Organizer Requests</h1>
             <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">Review, approve, revoke and search organizer signups.</p>
           </div>
           <button
@@ -115,7 +115,7 @@ const ManageRequest = () => {
         </div>
       </div>
 
-      <div className="eh-card rounded-[2rem] p-4 md:p-5">
+      <div className="eh-card rounded-2xl p-4 md:p-5">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-950/40">
@@ -157,13 +157,13 @@ const ManageRequest = () => {
       ) : error ? (
         <ErrorState title="Could not load approval requests" description={error} onAction={fetchData} />
       ) : filteredData.length === 0 ? (
-        <div className="eh-card flex min-h-[320px] flex-col items-center justify-center rounded-[2rem] p-8 text-center">
+        <div className="eh-card flex min-h-[320px] flex-col items-center justify-center rounded-2xl p-6 text-center">
           <UserRoundX className="mb-4 text-slate-300" size={58} />
           <p className="text-xl font-black text-slate-900 dark:text-white">No requests found</p>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Try a different search term or refresh the queue.</p>
         </div>
       ) : (
-        <div className="eh-card overflow-hidden rounded-[2rem]">
+        <div className="eh-card overflow-hidden rounded-2xl">
           <div className="overflow-x-auto">
             <table className="eh-table text-left">
               <thead>
