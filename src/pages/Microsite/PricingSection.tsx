@@ -71,8 +71,8 @@ const hexToRgba = (hex: string, opacity: number): string => {
 };
 
 const PricingSection: React.FC<PricingSectionProps> = ({
-  primaryColor = "#4F46E5",
-  secondaryColor = "#06B6D4",
+  primaryColor = "#F26B2A",
+  secondaryColor = "#E88A54",
 }) => {
   return (
     <section id="pricing" className="relative overflow-hidden bg-white px-4 py-20 sm:px-6 lg:py-28">
