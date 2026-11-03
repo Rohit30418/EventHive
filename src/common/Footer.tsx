@@ -98,7 +98,7 @@ const Footer = () => {
 
         {!isHome && <div className="my-12 h-px bg-white/10" />}
 
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+        <div className={isHome ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid grid-cols-2 gap-8 md:grid-cols-4"}>
           {footerGroups.map((group) => (
             <div key={group.title}>
               <h3 className="mb-5 text-sm font-black uppercase tracking-[0.18em] text-white">{group.title}</h3>
