@@ -101,7 +101,7 @@ const AddWebsiteContentForm = () => {
 
           <div className="grid gap-3 sm:grid-cols-2 lg:w-[360px]">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950/50">
-              <p className="text-xs font-black uppercase tracking-wide text-slate-400">
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Speakers
               </p>
               <p className="mt-2 text-2xl font-black text-slate-950 dark:text-white">
@@ -110,7 +110,7 @@ const AddWebsiteContentForm = () => {
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950/50">
-              <p className="text-xs font-black uppercase tracking-wide text-slate-400">
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                 Status
               </p>
               <p className="mt-2 text-sm font-black text-indigo-600 dark:text-indigo-300">
@@ -204,7 +204,7 @@ const AddWebsiteContentForm = () => {
             <button
               type="button"
               onClick={openAddSpeaker}
-              className="mb-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 px-4 py-3 text-sm font-black text-white shadow-sm  transition-colors "
+              className="mb-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-4 py-3 text-sm font-black text-[#1F1C1A] shadow-sm transition-colors"
             >
               <Plus size={17} />
               Add Speaker
