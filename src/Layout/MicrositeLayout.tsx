@@ -1,10 +1,11 @@
 import Header from '../pages/Microsite/Header';
+import '../pages/Microsite/microsite-layout.css';
 import Footer from '../pages/Microsite/Footer';
 import { Outlet, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import axios from 'axios';
 import { apiPath } from '../../Utils/Utils';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addEventData } from '../slice/micrositeSlice';
 import Preloader from '../common/Preloader';
 import { ErrorState } from '../common/StateViews';
@@ -14,6 +15,8 @@ const MicrositeLayout = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const event = useAppSelector((state) => state.microsite.eventData);
+  const primaryColor = event?.PrimaryColor || event?.primaryColor || '#F26B2A';
 
   useEffect(() => {
     let active = true;
@@ -58,7 +61,8 @@ const MicrositeLayout = () => {
   }
 
   return (
-    <div className="public-theme eh-event-microsite min-h-screen overflow-x-clip bg-[#FFF8F3] text-[#1F1C1A]">
+    <div className="public-theme eh-event-microsite eh-microsite min-h-screen overflow-x-clip bg-[#FFF8F3] text-[#1F1C1A]"
+      style={{ "--ms-primary": primaryColor } as CSSProperties}>
       <Header />
       <Outlet />
       <Footer />
