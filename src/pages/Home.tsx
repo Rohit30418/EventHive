@@ -10,22 +10,33 @@ const Home = () => {
   const { isLoading, data, error } = useGetEvent();
   const location = useLocation();
 
-  // The homepage is lazy-loaded. Scroll only after its anchored sections
-  // have rendered, including when navigating here from another route.
+  // The homepage loads event data asynchronously. Wait for the event cards to
+  // settle before aligning an anchor; otherwise their height change moves the
+  // requested section out of view (especially on mobile).
   useEffect(() => {
     const sectionId = decodeURIComponent(location.hash.slice(1));
-    if (!sectionId) return;
+    if (!sectionId || isLoading) return;
 
-    const frame = window.requestAnimationFrame(() => {
-      const target = document.getElementById(sectionId);
-      if (!target) return;
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-        document.documentElement.classList.contains("a11y-pause-animations");
-      target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    let secondFrame = 0;
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => {
+        const target = document.getElementById(sectionId);
+        if (!target) return;
+        const reducedMotion =
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+          document.documentElement.classList.contains("a11y-pause-animations");
+        target.scrollIntoView({
+          behavior: reducedMotion ? "auto" : "smooth",
+          block: "start",
+        });
+      });
     });
 
-    return () => window.cancelAnimationFrame(frame);
-  }, [location.hash, location.key]);
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+    };
+  }, [location.hash, location.key, isLoading]);
 
   const featuredEvents = useMemo(() => {
     const today = new Date();
