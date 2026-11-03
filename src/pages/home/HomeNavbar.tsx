@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { ArrowUpRight, LayoutDashboard, LogIn, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../dashboard/AuthContext";
@@ -17,6 +17,8 @@ export default function HomeNavbar() {
   const [open, setOpen] = useState(false);
   const menuClose = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 110, damping: 30 });
   const { user } = useAuth();
 
   useEffect(() => {
@@ -87,6 +89,7 @@ export default function HomeNavbar() {
           {open ? <X size={23} /> : <Menu size={23} />}
         </button>
       </nav>
+      <motion.div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left bg-[#F26B2A]" style={{ scaleX: reduceMotion ? scrollYProgress : smoothProgress }} />
 
       <AnimatePresence>
         {open && (
