@@ -117,3 +117,19 @@
   .eh-ms-final-cta button { width:100%; }
 }
 @media(prefers-reduced-motion:reduce){.eh-microsite *, .eh-microsite *::before,.eh-microsite *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }}
+
+
+/* The reusable public registration form is nested inside our shared microsite
+   container. Remove its original outer padding and decorative blurred orbs
+   here only; preserve the form fields, validation, and submission behavior. */
+.eh-microsite #registration > .eh-ms-container > section {
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+}
+.eh-microsite #registration > .eh-ms-container > section > div.absolute { display: none; }
+.eh-microsite #registration > .eh-ms-container > section > div.relative { max-width: none; }
+.eh-microsite #registration > .eh-ms-container > section h2 {
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  line-height: 1.15;
+}
