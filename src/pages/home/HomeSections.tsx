@@ -1,26 +1,10 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { CountUp, FadeUp, Magnetic } from "./HomeMotion";
-import { FeatureMiniVisual, RoleMockup, WorkflowMockup } from "./HomeVisuals";
 import { useState } from "react";
+import { ArrowRight, CalendarDays, CheckCircle2, ChevronDown, ClipboardCheck, LayoutDashboard, MapPin, Search, ShieldCheck, Ticket, Users } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  BadgeCheck,
-  BarChart3,
-  CalendarCheck,
-  CheckCircle2,
-  ChevronDown,
-  Globe2,
-  Sparkles,
-  Star,
-  Ticket,
-  Users,
-} from "lucide-react";
 import EventCard from "../../components/EventCard";
-import SectionHeader from "../../components/ui/SectionHeader";
 import { ErrorState } from "../../common/StateViews";
 import type { EventType } from "../../Types/eventType";
-import { audiences, faqs, features, ratingCards, stats, testimonials, trustedBrands, workflow } from "./homeData";
+import { audiences, faqs, features, workflow } from "./homeData";
 
 interface HomeSectionsProps {
   featuredEvents: EventType[];
@@ -28,415 +12,225 @@ interface HomeSectionsProps {
   error?: string | null;
 }
 
+const featureIcons = [LayoutDashboard, Search, Users, Ticket, ShieldCheck, CheckCircle2];
+
 const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) => {
- const [activeRole, setActiveRole] = useState(0);
- const [openFaq, setOpenFaq] = useState<number | null>(0);
- const [activeStep, setActiveStep] = useState(0);
- const reducedMotion = useReducedMotion();
- return (
-<>
-      <section className="px-4 pb-8 sm:px-6">
-        <div className="mx-auto max-w-7xl rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.05)]">
-          <p className="text-center text-xs font-black uppercase tracking-[0.22em] text-slate-400">
-            Designed for modern event teams and communities • sample categories
-          </p>
+  const [activeRole, setActiveRole] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {trustedBrands.map((brand) => (
-              <div
-                key={brand}
-                className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4 text-center text-sm font-black text-slate-500"
-              >
-                {brand}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="px-4 py-10 sm:px-6">
-        <div className="mx-auto mb-5 max-w-7xl text-center text-[11px] font-bold uppercase tracking-widest text-[#9E593C]">Illustrative numbers • replace with verified platform metrics</div>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat, index) => (
-            <motion.article
-              key={stat.label}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_22px_60px_rgba(99,102,241,0.12)]"
-            >
-              <CountUp value={stat.value} />
-              <span className="mt-3 block text-sm font-bold leading-6 text-slate-500">
-                {stat.label}
-              </span>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      {/* ABOUT - keep the editorial copy on the left and preview the benefit cards on the right. */}
-      <section id="about" className="px-4 py-14 sm:px-6 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[.92fr_1.08fr]">
-          <FadeUp className="flex flex-col justify-between rounded-[2.2rem] bg-[#FFEBDD] p-8 sm:p-12">
-            <div>
-              <span className="text-xs font-black uppercase tracking-[.2em] text-[#A53C11]">WHY EVENTHIVE</span>
-              <h2 className="mt-6 font-display text-4xl font-bold leading-[1.05] text-[#1F1C1A] sm:text-6xl">Your idea deserves an <em className="font-accent font-normal text-[#C34B13]">audience.</em></h2>
-              <p className="mt-6 max-w-md text-base leading-8 text-[#51453D]">From the very first invite to the final registration, create events that feel considered, memorable and easy to join.</p>
-            </div>
-            <Link to="/OrganizerRegistration" className="mt-8 inline-flex w-fit items-center gap-2 border-b-2 border-[#C34B13] pb-1 text-sm font-black text-[#1F1C1A]">Explore the platform <ArrowRight size={16}/></Link>
-          </FadeUp>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {ratingCards.map((item, index) => (
-              <FadeUp key={item.title} delay={index * .09} className={index === 2 ? "sm:col-span-2" : ""}>
-                <motion.article data-hover-card whileHover={reducedMotion ? undefined : {y:-7}} className="group relative flex h-full flex-col overflow-hidden rounded-[1.8rem] bg-[#1F1C1A] p-7 text-white">
-                  <div className="mb-10 flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-[#FFC09B]">{item.icon}</span><ArrowRight size={24} className="text-[#F26B2A] transition-transform group-hover:-rotate-45" /></div>
-                  <h3 className="font-display text-2xl font-bold tracking-tight">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-[#DDD1C8]">{item.desc}</p>
-                  <p className="mt-4 text-xs font-bold text-[#FFBD97] opacity-60 transition-opacity group-hover:opacity-100">Made for better event moments →</p>
-                </motion.article>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section id="features" className="px-4 py-20 sm:px-6 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-orange-700 shadow-sm">
-              <Sparkles size={14} /> Platform advantages
-            </span>
-
-            <h2 className="mt-5 text-4xl font-black leading-tight  text-slate-950 sm:text-5xl lg:text-6xl">
-              Everything feels clean, fast and premium.
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Soft hierarchy, elegant whitespace and reusable cards make the
-              product feel polished without becoming noisy.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {features.map((feature, index) => (
-              <motion.article
-                key={feature.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.04 }}
-                className={`group rounded-[1.75rem] border border-orange-100 bg-white p-7 shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-2 hover:border-orange-200 hover:shadow-[0_28px_75px_rgba(99,102,241,0.14)] ${index === 0 ? "lg:col-span-2 lg:row-span-2" : index === 3 ? "lg:col-span-2" : ""}`}
-              >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 transition-transform group-hover:scale-105">
-                  {feature.icon}
-                </div>
-                <FeatureMiniVisual index={index} />
-
-                <h3 className="mt-6 text-xl font-black tracking-tight text-slate-950">
-                  {feature.title}
-                </h3>
-
-                <p className="mt-3 text-sm leading-7 text-slate-500">
-                  {feature.desc}
-                </p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* AUDIENCE */}
-      <section className="bg-[#1F1C1A] px-4 py-20 text-white sm:px-6 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-amber-100">
-              <Globe2 size={14} /> Built for every event journey
-            </span>
-
-            <h2 className="mt-5 text-4xl font-black leading-tight  sm:text-5xl">
-              One platform experience for organizers, attendees and admins.
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-slate-400">
-              The landing page now feels like a real SaaS website with clear
-              value for every user type.
-            </p>
-          </div>
-
-          <div role="tablist" aria-label="Audience roles" className="mb-7 flex flex-wrap gap-3">{audiences.map((role, index) => <button key={role.title} type="button" role="tab" aria-selected={activeRole === index} onClick={() => setActiveRole(index)} className={`relative rounded-full px-5 py-3 font-bold transition-colors ${activeRole === index ? "text-[#1F1C1A]" : "text-white/80 hover:text-white"}`}>{activeRole === index && <motion.span layoutId="role-active" className="absolute inset-0 rounded-full bg-[#F26B2A]" />}<span className="relative z-10">{role.title.replace("For ", "")}</span></button>)}</div>
-          <div className="grid gap-5 lg:grid-cols-1">
-            {audiences.map((item, index) => activeRole === index && (
-              <motion.article
-                key={item.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="rounded-[1.8rem] border border-white/10 bg-white/[0.06] p-7 shadow-[0_22px_70px_rgba(0,0,0,0.22)] backdrop-blur-xl"
-              >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/10 text-amber-200">
-                  {item.icon}
-                </div>
-
-                <h3 className="mt-6 text-xl font-black">{item.title}</h3>
-
-                <p className="mt-3 text-sm leading-7 text-slate-400">{item.desc}</p>
-                <AnimatePresence mode="wait"><motion.div key={activeRole} initial={reducedMotion ? false : {opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:reducedMotion?0:0.26}}><RoleMockup index={activeRole} /></motion.div></AnimatePresence>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section
-        id="how-it-works"
-        className="bg-[linear-gradient(180deg,#ffffff_0%,#f8f7ff_100%)] px-4 py-20 sm:px-6 lg:py-28"
-      >
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr]">
-          <div className="h-fit rounded-[2rem] border border-orange-100 bg-white/85 p-8 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:sticky lg:top-28">
-            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-orange-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-orange-700">
-              <BadgeCheck size={14} /> Simple flow
-            </span>
-
-            <h2 className="mt-5 text-3xl font-black leading-tight  text-slate-950 sm:text-4xl">
-              From event idea to attendee registration in a few clean steps.
-            </h2>
-
-            <p className="mt-4 leading-8 text-slate-600">
-              The structure keeps your homepage readable while still giving
-              enough content depth for a professional product feel.
-            </p>
-
-            <Link
-              to="/OrganizerRegistration"
-              className="eh-btn-primary mt-7 px-6 py-3 text-sm"
-            >
-              Start as Organizer <ArrowRight size={17} />
-            </Link>
-            <div className="hidden lg:block"><AnimatePresence mode="wait"><motion.div key={activeStep} initial={reducedMotion ? false : {opacity:0,y:12}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:reducedMotion?0:.25}}><WorkflowMockup index={activeStep} /></motion.div></AnimatePresence></div>
-          </div>
-
-          <div className="relative grid gap-4 border-l-2 border-orange-100 pl-5 sm:pl-8">
-            <motion.div aria-hidden="true" className="absolute bottom-0 left-[-2px] top-0 w-[2px] origin-top bg-[#F26B2A]" initial={{scaleY:0}} whileInView={{scaleY:1}} viewport={{once:true, amount:.25}} transition={{duration:1.2}} />
-            {workflow.map((step, index) => (
-              <motion.article
-                key={step.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                onViewportEnter={() => setActiveStep(index)}
-                animate={{opacity:activeStep===index?1:0.7}}
-                transition={{ delay: index * 0.04 }}
-                className="grid gap-5 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_16px_45px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(99,102,241,0.12)] sm:grid-cols-[64px_1fr]"
-              >
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-[#F26B2A] font-display text-xl font-black text-[#1F1C1A]">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-black tracking-tight text-slate-950">
-                    {step.title}
-                  </h3>
-
-                  <p className="mt-2 leading-7 text-slate-500">{step.desc}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EVENTS */}
-      <section id="events" className="px-4 py-20 sm:px-6 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader
-            eyebrow="Upcoming events"
-            title="Fresh events from the platform"
-            description="Discover published events, find your people, and make meaningful memories."
-            action={
-              <Link to="/Events" className="eh-btn-primary px-5 py-3 text-sm">
-                View all <ArrowRight size={16} />
+  return (
+    <>
+      <section className="eh-home-section eh-about-section" id="about" aria-labelledby="eh-about-title">
+        <div className="eh-home-container">
+          <div className="eh-about-grid">
+            <div className="eh-about-intro eh-home-card">
+              <p className="eh-home-eyebrow">WHY EVENTHIVE</p>
+              <h2 id="eh-about-title" className="eh-home-heading">Good events start with a <em>great experience.</em></h2>
+              <p className="eh-home-copy">
+                From the first announcement to the final attendee registration,
+                give your community a clear, welcoming place to connect.
+              </p>
+              <Link to="/OrganizerRegistration" className="eh-home-text-link">
+                Get started <ArrowRight size={18} aria-hidden="true" />
               </Link>
-            }
-          />
+            </div>
+            <div className="eh-about-list">
+              <article className="eh-home-card eh-about-benefit">
+                <span className="eh-home-icon"><LayoutDashboard size={24} aria-hidden="true" /></span>
+                <div><h3>Made for organizers</h3><p>Bring event details, registration and management into one focused workflow.</p></div>
+              </article>
+              <article className="eh-home-card eh-about-benefit">
+                <span className="eh-home-icon"><Users size={24} aria-hidden="true" /></span>
+                <div><h3>Built for attendees</h3><p>Help people find the right event and know what to expect before they join.</p></div>
+              </article>
+              <article className="eh-home-card eh-about-benefit">
+                <span className="eh-home-icon"><ClipboardCheck size={24} aria-hidden="true" /></span>
+                <div><h3>Every detail in place</h3><p>Keep your event information easy to read, update and share.</p></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <section className="eh-home-section" id="features" aria-labelledby="eh-features-title">
+        <div className="eh-home-container">
+          <div className="eh-home-section-intro">
+            <p className="eh-home-eyebrow">PLATFORM FEATURES</p>
+            <h2 id="eh-features-title" className="eh-home-heading">Everything you need, <em>nothing you don't.</em></h2>
+            <p className="eh-home-copy">A simple, connected experience for creating, finding and managing events.</p>
+          </div>
+          <div className="eh-features-grid">
+            {features.map((feature, index) => {
+              const Icon = featureIcons[index] || CheckCircle2;
+              return (
+                <article key={feature.title} className="eh-home-card eh-feature-card">
+                  <span className="eh-home-icon"><Icon size={26} aria-hidden="true" /></span>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.desc}</p>
+                  <div className="eh-feature-illustration" aria-hidden="true">
+                    <span className="eh-feature-illustration-icon"><Icon size={29} /></span>
+                    <span className="eh-feature-illustration-text">{["Event page","Discover","Your workspace","Registration","User access","Designed to feel good"][index]}</span>
+                    <CheckCircle2 size={18} />
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="eh-home-section eh-home-dark" id="roles" aria-labelledby="eh-roles-title">
+        <div className="eh-home-container">
+          <div className="eh-home-section-intro">
+            <p className="eh-home-eyebrow">MADE FOR EVERYONE</p>
+            <h2 id="eh-roles-title" className="eh-home-heading">A better way to bring people <em>together.</em></h2>
+            <p className="eh-home-copy">See how EventHive fits the way you work.</p>
+          </div>
+          <div className="eh-role-tabs" role="tablist" aria-label="Explore event roles">
+            {audiences.map((audience, index) => (
+              <button
+                key={audience.title}
+                type="button"
+                role="tab"
+                id={`eh-role-tab-${index}`}
+                aria-controls="eh-role-panel"
+                aria-selected={activeRole === index}
+                className={activeRole === index ? "eh-role-tab is-active" : "eh-role-tab"}
+                onClick={() => setActiveRole(index)}
+              >
+                {audience.title.replace("For ", "")}
+              </button>
+            ))}
+          </div>
+          <div className="eh-role-content eh-home-card" id="eh-role-panel" role="tabpanel" aria-labelledby={`eh-role-tab-${activeRole}`}>
+            <div className="eh-role-description">
+              <span className="eh-home-icon">
+                {activeRole === 0 ? <LayoutDashboard size={28} /> : activeRole === 1 ? <Users size={28} /> : <ShieldCheck size={28} />}
+              </span>
+              <h3>{audiences[activeRole].title}</h3>
+              <p>{audiences[activeRole].desc}</p>
+            </div>
+            <div className="eh-role-preview" aria-hidden="true">
+              <div className="eh-role-preview-top"><span>EventHive</span><span>{["Organizer view","Attendee view","Admin view"][activeRole]}</span></div>
+              <div className="eh-role-preview-body">
+                <span className="eh-role-preview-chip">{["EVENTS","DISCOVER","OVERVIEW"][activeRole]}</span>
+                <h4>{["Your next event, organized.","Find your next experience.","Keep everything on track."][activeRole]}</h4>
+                <div className="eh-role-preview-lines"><i /><i /><i /></div>
+                <span className="eh-role-preview-action"><CheckCircle2 size={17} /> {["Event details ready","Browse with confidence","Workspace at a glance"][activeRole]}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="eh-home-section" id="how-it-works" aria-labelledby="eh-workflow-title">
+        <div className="eh-home-container">
+          <div className="eh-home-section-intro">
+            <p className="eh-home-eyebrow">HOW IT WORKS</p>
+            <h2 id="eh-workflow-title" className="eh-home-heading">Four simple steps. <em>One great event.</em></h2>
+            <p className="eh-home-copy">A clear path from your first idea to welcoming your guests.</p>
+          </div>
+          <div className="eh-workflow-grid">
+            {workflow.map((step, index) => (
+              <article key={step.title} className="eh-home-card eh-workflow-card">
+                <span className="eh-workflow-number">{String(index + 1).padStart(2, "0")}</span>
+                <h3>{step.title}</h3>
+                <p>{step.desc}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="eh-home-section eh-events-section" id="events" aria-labelledby="eh-events-title">
+        <div className="eh-home-container">
+          <div className="eh-events-heading">
+            <div>
+              <p className="eh-home-eyebrow">UPCOMING EVENTS</p>
+              <h2 id="eh-events-title" className="eh-home-heading">Find your next <em>experience.</em></h2>
+              <p className="eh-home-copy">Discover upcoming events from the EventHive community.</p>
+            </div>
+            <Link to="/Events" className="eh-home-btn eh-home-btn-outline">View all events <ArrowRight size={18} aria-hidden="true" /></Link>
+          </div>
           {isLoading ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="h-80 animate-pulse rounded-[2rem] border border-[#F26B2A]/15 bg-[#FFEBDD]" />
+            <div className="eh-events-grid" aria-label="Loading upcoming events" aria-busy="true">
+              {Array.from({ length: 4 }, (_, i) => (
+                <div key={i} className="eh-home-card eh-event-skeleton">
+                  <div className="eh-skeleton-cover" /><div className="eh-skeleton-line" /><div className="eh-skeleton-line short" />
+                </div>
               ))}
             </div>
           ) : error ? (
-            <ErrorState
-              title="Could not load featured events"
-              description={error}
-            />
-          ) : featuredEvents.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <ErrorState title="Could not load featured events" description={error} />
+          ) : featuredEvents.length ? (
+            <div className="eh-events-grid">
               {featuredEvents.map((event, index) => (
                 <EventCard key={event.id} event={event} index={index} homeFeatured />
               ))}
             </div>
           ) : (
-            <div className="mx-auto max-w-2xl rounded-[2rem] border border-dashed border-orange-200 bg-white p-10 text-center shadow-sm">
-              <motion.div aria-hidden="true" animate={reducedMotion ? {} : {y:[0,-8,0],rotate:[-7,7,-7]}} transition={{duration:4,repeat:Infinity}} className="mx-auto mb-5 grid h-24 w-24 place-items-center rounded-3xl bg-[#FFEBDD] text-[#C34B13]"><Ticket size={54}/></motion.div>
-
-              <h3 className="text-2xl font-black text-slate-950">
-                Be the first to host an event
-              </h3>
-
-              <p className="mt-2 leading-7 text-slate-500">
-                Turn your next idea into an unforgettable experience. Your event could be the first one featured here.
-              </p>
-              <Link to="/OrganizerRegistration" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#F26B2A] px-6 py-3 font-bold text-[#1F1C1A]">Create an Event <ArrowRight size={17} /></Link>
+            <div className="eh-home-card eh-event-empty">
+              <span className="eh-event-empty-icon"><Ticket size={42} aria-hidden="true" /></span>
+              <div>
+                <h3>Be the first to host an event</h3>
+                <p>Have something worth bringing people together for? Start with your own event page.</p>
+              </div>
+              <Link to="/OrganizerRegistration" className="eh-home-btn eh-home-btn-primary">
+                Create an Event <ArrowRight size={18} aria-hidden="true" />
+              </Link>
             </div>
           )}
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-20 sm:px-6 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-orange-700 shadow-sm">
-              <Star size={14} /> Testimonials
-            </span>
-
-            <h2 className="mt-5 text-4xl font-black leading-tight  text-slate-950 sm:text-5xl">
-              Loved by teams who want events to feel premium.
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Example testimonials showing how teams could use EventHive. Replace with verified customer quotes before publishing.
-            </p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-3">
-            {testimonials.map((item, index) => (
-              <motion.article
-                key={item.name}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="rounded-[1.9rem] border border-slate-200 bg-white p-7 shadow-[0_18px_55px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_28px_75px_rgba(99,102,241,0.12)]"
-              >
-                <div className="mb-5 flex items-center gap-1 text-amber-400">
-                  {Array.from({ length: item.rating }).map((_, i) => (
-                    <Star key={i} size={17} fill="currentColor" />
-                  ))}
-                </div>
-
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#A53C11]">Illustrative testimonial</p>
-                <p className="mt-3 text-base font-semibold leading-8 text-slate-700">“{item.text}”</p>
-
-                <div className="mt-7 flex items-center gap-3">
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-sm font-black text-white">
-                    {item.name
-                      .split(" ")
-                      .map((part) => part[0])
-                      .join("")}
-                  </div>
-
-                  <div>
-                    <h3 className="font-black text-slate-950">{item.name}</h3>
-                    <p className="text-sm font-semibold text-slate-500">
-                      {item.role}
-                    </p>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="px-4 py-20 sm:px-6 lg:py-28">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+      <section className="eh-home-section" id="faq" aria-labelledby="eh-faq-title">
+        <div className="eh-home-container eh-faq-layout">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-orange-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-orange-700">
-              FAQ
-            </span>
-
-            <h2 className="mt-5 text-4xl font-black leading-tight  text-slate-950 sm:text-5xl">
-              Questions users may have before starting.
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Find clear answers to the most common questions about EventHive.
-            </p>
+            <p className="eh-home-eyebrow">FAQ</p>
+            <h2 id="eh-faq-title" className="eh-home-heading">Good questions. <em>Clear answers.</em></h2>
+            <p className="eh-home-copy">Everything you need to know before getting started.</p>
           </div>
-
-          <div className="space-y-4">
+          <div className="eh-faq-list">
             {faqs.map((faq, index) => (
-              <div key={faq.q} className="rounded-[1.5rem] border border-[#1F1C1A]/10 bg-white shadow-[0_10px_35px_rgba(31,28,26,.04)] transition-colors hover:border-[#F26B2A]/50">
+              <div key={faq.q} className="eh-home-card eh-faq-item">
                 <h3>
-                  <button type="button" id={"eh-faq-button-" + index} aria-expanded={openFaq === index} aria-controls={"eh-faq-panel-" + index}
+                  <button
+                    type="button"
+                    id={`eh-faq-trigger-${index}`}
+                    aria-controls={`eh-faq-answer-${index}`}
+                    aria-expanded={openFaq === index}
                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                    className="flex w-full items-center justify-between gap-4 rounded-[1.5rem] p-6 text-left text-base font-semibold text-[#1F1C1A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F26B2A]">
-                    {faq.q}
-                    <motion.span animate={{rotate:openFaq===index ? 180 : 0}} transition={{duration:reducedMotion?0:.24}} className="shrink-0 text-[#D45018]"><ChevronDown size={20}/></motion.span>
+                  >
+                    <span>{faq.q}</span><ChevronDown size={21} className={openFaq === index ? "eh-faq-chevron is-open" : "eh-faq-chevron"} aria-hidden="true" />
                   </button>
                 </h3>
-                <AnimatePresence initial={false}>
-                  {openFaq === index && (
-                    <motion.div role="region" id={"eh-faq-panel-" + index} aria-labelledby={"eh-faq-button-" + index}
-                      initial={reducedMotion ? false : {height:0,opacity:0}} animate={{height:"auto",opacity:1}} exit={reducedMotion ? {} : {height:0,opacity:0}}
-                      transition={{duration:reducedMotion?0:.3}} className="overflow-hidden">
-                      <p className="px-6 pb-6 leading-7 text-[#62574F]">{faq.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {openFaq === index && (
+                  <div role="region" id={`eh-faq-answer-${index}`} aria-labelledby={`eh-faq-trigger-${index}`} className="eh-faq-answer">
+                    <p>{faq.a}</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="px-4 pb-20 sm:px-6 lg:pb-28">
-        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.6rem] bg-[#F26B2A] p-9 text-[#1F1C1A] shadow-[0_28px_90px_rgba(242,107,42,0.2)] sm:p-16">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[.12] [background-image:radial-gradient(#1F1C1A_1.2px,transparent_1.2px)] [background-size:20px_20px]"/>
-          <motion.div aria-hidden="true" animate={reducedMotion?{}:{rotate:[-14,-7,-14],y:[0,-8,0]}} transition={{duration:7,repeat:Infinity}} className="pointer-events-none absolute right-[-25px] top-6 hidden rounded-2xl border-2 border-dashed border-[#1F1C1A]/30 bg-[#FFEBDD] p-6 opacity-75 md:block"><Ticket size={48}/></motion.div>
-          <motion.div initial={reducedMotion?false:{opacity:0,scale:.96}} whileInView={{opacity:1,scale:1}} viewport={{once:true}} transition={{duration:.6}} className="relative grid items-center gap-8 lg:grid-cols-[1fr_auto]">
+      <section className="eh-home-section eh-final-cta-section" aria-labelledby="eh-cta-title">
+        <div className="eh-home-container">
+          <div className="eh-final-cta">
             <div>
-              <div className="mb-5 flex flex-wrap gap-3">
-                {[CalendarCheck, Users, BarChart3, CheckCircle2].map(
-                  (Icon, i) => (
-                    <span
-                      key={i}
-                      className="grid h-11 w-11 place-items-center rounded-2xl bg-white/25 text-[#1F1C1A] backdrop-blur-md"
-                    >
-                      <Icon size={20} />
-                    </span>
-                  )
-                )}
-              </div>
-
-              <h2 className="max-w-3xl font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl">Make your next event <em className="font-accent font-normal">unforgettable.</em></h2>
-
-              <p className="mt-5 max-w-2xl text-lg font-medium leading-8 text-[#4D2E20]">
-                Create modern event pages, showcase upcoming events and give
-                attendees a clean discovery experience.
-              </p>
+              <p className="eh-home-eyebrow">READY WHEN YOU ARE</p>
+              <h2 id="eh-cta-title" className="eh-home-heading">Make your next event <em>unforgettable.</em></h2>
+              <p>Bring your ideas, people and plans together in one simple place.</p>
             </div>
-
-            <Magnetic><Link
-              to="/OrganizerRegistration"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1F1C1A] px-7 py-4 text-sm font-black text-white shadow-xl transition-transform hover:-translate-y-0.5"
-            >
-              Create Event <ArrowRight size={18} />
-            </Link></Magnetic>
-          </motion.div>
+            <Link to="/OrganizerRegistration" className="eh-home-btn eh-home-btn-dark">
+              Create Event <ArrowRight size={19} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
-</>
- );
+    </>
+  );
 };
 
 export default HomeSections;
