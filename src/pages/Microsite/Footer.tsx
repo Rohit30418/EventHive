@@ -32,8 +32,8 @@ const Footer: React.FC = () => {
     (state) => state.microsite.eventData
   ) as EventData | null;
 
-  const primaryColor = data?.PrimaryColor || data?.color || "#4F46E5";
-  const secondaryColor = data?.SecondaryColor || "#06B6D4";
+  const primaryColor = data?.PrimaryColor || data?.color || "#F26B2A";
+  const secondaryColor = data?.SecondaryColor || "#E88A54";
   const eventName = data?.EventName || "EventHive";
 
   const quickLinks = [
