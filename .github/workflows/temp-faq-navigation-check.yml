@@ -1,4 +1,4 @@
-name: Temporary cross-page FAQ navigation verification
+name: Temporary cross-page section navigation verification
 on:
   push:
     branches: [ui/homepage-orange-motion-refine-20261102]
@@ -31,7 +31,7 @@ jobs:
       - name: Install browser checker
         if: always()
         run: npm install --no-save --package-lock=false playwright
-      - name: Click FAQ from all public pages
+      - name: Click Features How-it-works FAQ from all public pages
         if: always()
         run: |
           set -e
@@ -58,6 +58,7 @@ jobs:
             await page.route("**/Events/*.json", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(fake) }));
             await page.route("**/Events.json", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ "demo-event": fake }) }));
             await page.route("**/Organizer/*.json", route => route.fulfill({ status: 200, contentType: "application/json", body: "null" }));
+            for (const section of ["features", "how-it-works", "faq"]) {
             for (const route of routes) {
               try {
                 await page.goto("http://127.0.0.1:5173" + route, { waitUntil: "domcontentloaded" });
@@ -67,34 +68,36 @@ jobs:
                   const openButton = microsite ? page.getByRole("button", { name: "Open menu" }) : page.getByRole("button", { name: "Open navigation menu" });
                   await openButton.click();
                 }
-                const faq = microsite ? page.getByRole("button", { name: "FAQ", exact: true }) : page.getByRole("link", { name: "FAQ", exact: true });
-                await faq.click();
-                await page.waitForURL("**/#faq", { timeout: 10000 });
-                await page.waitForSelector("#faq", { timeout: 10000 });
+                const label = section === "how-it-works" ? "How it works" : section === "faq" ? "FAQ" : "Features";
+                const link = microsite ? page.getByRole("button", { name: label, exact: true }) : page.getByRole("link", { name: label, exact: true });
+                await link.click();
+                await page.waitForURL("**/#" + section, { timeout: 10000 });
+                await page.waitForSelector("#" + section, { timeout: 10000 });
                 await page.waitForTimeout(800);
-                const metrics = await page.evaluate(() => ({
+                const metrics = await page.evaluate((sectionId) => ({
                   hash: location.hash,
                   path: location.pathname,
-                  faqTop: document.getElementById("faq")?.getBoundingClientRect().top,
+                  targetTop: document.getElementById(sectionId)?.getBoundingClientRect().top,
                   viewportHeight: innerHeight,
                   docWidth: document.documentElement.scrollWidth,
                   viewportWidth: innerWidth
-                }));
-                const aligned = metrics.faqTop !== undefined && metrics.faqTop >= -4 && metrics.faqTop < 360;
-                if (!aligned || metrics.path !== "/" || metrics.hash !== "#faq" || metrics.docWidth > metrics.viewportWidth + 2) {
+                }), section);
+                const aligned = metrics.targetTop !== undefined && metrics.targetTop >= -4 && metrics.targetTop < 360;
+                if (!aligned || metrics.path !== "/" || metrics.hash !== "#" + section || metrics.docWidth > metrics.viewportWidth + 2) {
                   fails++;
-                  console.error("FAIL FAQ width=" + width + " from=" + route + " " + JSON.stringify(metrics));
+                  console.error("FAIL anchor=" + section + " width=" + width + " from=" + route + " " + JSON.stringify(metrics));
                 } else {
-                  console.log("PASS FAQ width=" + width + " from=" + route + " top=" + metrics.faqTop.toFixed(1));
+                  console.log("PASS anchor=" + section + " width=" + width + " from=" + route + " top=" + metrics.targetTop.toFixed(1));
                 }
               } catch (err) {
                 fails++;
-                console.error("FAIL FAQ width=" + width + " from=" + route + " " + String(err));
+                console.error("FAIL anchor=" + section + " width=" + width + " from=" + route + " " + String(err));
               }
+            }
             }
             await context.close();
           }
           await browser.close();
-          console.log("FAQ_CHECK_FAILURES=" + fails);
+          console.log("ANCHOR_CHECK_FAILURES=" + fails);
           if (fails) process.exitCode = 1;
           NODE
