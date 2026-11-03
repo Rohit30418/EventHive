@@ -1,0 +1,21 @@
+name: Temporary homepage scroll motion verification
+on:
+  push:
+    branches: [ui/homepage-orange-motion-refine-20261102]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Build
+        run: npm run build
+      - name: Tests
+        if: always()
+        run: npm test
