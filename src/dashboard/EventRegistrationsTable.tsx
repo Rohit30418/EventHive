@@ -155,13 +155,13 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
             <p className="mb-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
               Registration Center
             </p>
-            <h2 className="text-2xl font-black tracking-tight text-slate-950 dark:text-white sm:text-2xl">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-2xl">
               {propEventId ? `Attendees: ${eventName}` : "All Attendees"}
             </h2>
             <p className="mt-2 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm" />
               {role === "SuperAdmin" ? "Total system records:" : "My event records:"}
-              <span className="font-black text-slate-800 dark:text-slate-100">{filteredData.length}</span>
+              <span className="font-bold text-slate-800 dark:text-slate-100">{filteredData.length}</span>
             </p>
           </div>
 
@@ -180,7 +180,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
             <button
               onClick={handleExportExcel}
               disabled={filteredData.length === 0}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-sm shadow-emerald-500/20 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-sm shadow-emerald-500/20 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <FileSpreadsheet size={18} /> Export CSV
             </button>
@@ -211,11 +211,11 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                   <tr key={registration.id || registration.regId || index} className="group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-black text-indigo-700 ring-1 ring-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 dark:ring-indigo-900">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-xs font-bold text-indigo-700 ring-1 ring-indigo-100 dark:bg-indigo-950 dark:text-indigo-300 dark:ring-indigo-900">
                           {getInitials(registration.fullName)}
                         </div>
                         <div>
-                          <p className="font-black text-slate-950 dark:text-white">{registration.fullName || "N/A"}</p>
+                          <p className="font-bold text-slate-950 dark:text-white">{registration.fullName || "N/A"}</p>
                           <p className="text-xs font-semibold text-slate-400">{registration.designation || "Participant"}</p>
                         </div>
                       </div>
@@ -228,7 +228,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1.5">
-                        <span className={`w-fit rounded-full border px-3 py-1 text-[11px] font-black ${badgeStyle}`}>
+                        <span className={`w-fit rounded-full border px-3 py-1 text-[11px] font-bold ${badgeStyle}`}>
                           {displayEventName}
                         </span>
                         {!eventInfo && (
@@ -267,7 +267,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                 <td colSpan={4} className="px-6 py-20 text-center">
                   <div className="mx-auto flex max-w-sm flex-col items-center text-slate-400">
                     <User size={52} className="mb-3" />
-                    <p className="font-black text-slate-600 dark:text-slate-300">No registrations match your filters.</p>
+                    <p className="font-bold text-slate-600 dark:text-slate-300">No registrations match your filters.</p>
                     {role !== "SuperAdmin" && <p className="mt-1 text-sm">Only registrations for events created by you are shown.</p>}
                   </div>
                 </td>
@@ -314,7 +314,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
                   <button
                     key={p}
                     onClick={() => handlePageChange(p)}
-                    className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-black ${currentPage === p ? "bg-indigo-600 text-white shadow-sm" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"}`}
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold ${currentPage === p ? "bg-indigo-600 text-white shadow-sm" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"}`}
                   >
                     {p}
                   </button>
