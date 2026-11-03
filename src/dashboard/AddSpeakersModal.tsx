@@ -86,12 +86,12 @@ const AddSpeakersModal = ({
 
           <div className="relative z-10 flex items-start justify-between gap-5">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-100">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-100">
                 <Sparkles size={13} />
                 Speaker Profile
               </span>
 
-              <h2 className="mt-4 text-2xl font-black tracking-tight">
+              <h2 className="mt-4 text-2xl font-bold tracking-tight">
                 {defaultData ? "Edit Speaker" : "Add Speaker"}
               </h2>
 
@@ -124,7 +124,7 @@ const AddSpeakersModal = ({
             ) : (
               <>
                 <CloudUpload size={30} />
-                <span className="mt-1 text-[10px] font-black uppercase tracking-wide">
+                <span className="mt-1 text-[10px] font-bold uppercase tracking-wide">
                   Upload
                 </span>
               </>
@@ -142,7 +142,7 @@ const AddSpeakersModal = ({
         {/* Body */}
         <div className="space-y-5 px-5 pb-6 pt-20 sm:px-7 sm:pb-7">
           <div>
-            <label className="mb-2 block text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+            <label className="mb-2 block text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
               Speaker Name
             </label>
 
@@ -160,7 +160,7 @@ const AddSpeakersModal = ({
           </div>
 
           <div>
-            <label className="mb-2 block text-xs font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+            <label className="mb-2 block text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
               Designation
             </label>
 
@@ -176,7 +176,7 @@ const AddSpeakersModal = ({
             </div>
           </div>
 
-          <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm font-black text-slate-500 transition-colors hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-950/50 dark:hover:border-indigo-700 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-300">
+          <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm font-bold text-slate-500 transition-colors hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-950/50 dark:hover:border-indigo-700 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-300">
             <ImagePlus size={18} />
             {speakerImage ? "Change Speaker Photo" : "Upload Speaker Photo"}
             <input
@@ -191,7 +191,7 @@ const AddSpeakersModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm font-black text-slate-900 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-white dark:hover:bg-slate-800"
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm font-bold text-slate-900 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-white dark:hover:bg-slate-800"
             >
               Cancel
             </button>
@@ -200,7 +200,7 @@ const AddSpeakersModal = ({
               type="button"
               onClick={handleSave}
               disabled={!speakerName.trim() || !speakerDesignation.trim()}
-              className="rounded-2xl bg-[#F26B2A] px-5 py-4 text-sm font-black text-[#1F1C1A] shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+              className="rounded-2xl bg-[#F26B2A] px-5 py-4 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
             >
               {defaultData ? "Update Speaker" : "Add Speaker"}
             </button>
