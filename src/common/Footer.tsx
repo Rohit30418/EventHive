@@ -51,11 +51,11 @@ const Footer = () => {
   const isHome = useLocation().pathname === "/";
   return (
     <footer className={`relative overflow-hidden border-t border-white/10 px-4 py-14 text-slate-300 sm:px-6 md:py-20 ${isHome ? "eh-home-footer bg-[#1F1C1A]" : "bg-[#020617]"}`}>
-      <div className="eh-premium-grid absolute inset-0 opacity-[0.12]" />
-      <div className="pointer-events-none absolute bottom-0 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-indigo-600/10 blur-[120px]" />
+      {!isHome && <div className="eh-premium-grid absolute inset-0 opacity-[0.12]" />}
+      {!isHome && <div className="pointer-events-none absolute bottom-0 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-indigo-600/10 blur-[120px]" />}
     
-      <div className="pointer-events-none absolute right-[-10rem] top-10 h-[26rem] w-[26rem] rounded-full bg-cyan-500/10 blur-[110px]" />
-      <div className="relative z-10 mx-auto max-w-7xl">
+      {!isHome && <div className="pointer-events-none absolute right-[-10rem] top-10 h-[26rem] w-[26rem] rounded-full bg-cyan-500/10 blur-[110px]" />}
+      <div className={`relative z-10 mx-auto max-w-7xl ${isHome ? "eh-home-footer-container" : ""}`}>
         {/* <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div>
             <Link to="/" className="inline-flex items-center gap-3">
@@ -96,9 +96,9 @@ const Footer = () => {
           </form>
         </div> */}
 
-        <div className="my-12 h-px bg-white/10" />
+        {!isHome && <div className="my-12 h-px bg-white/10" />}
 
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {footerGroups.map((group) => (
             <div key={group.title}>
               <h3 className="mb-5 text-sm font-black uppercase tracking-[0.18em] text-white">{group.title}</h3>
@@ -145,7 +145,6 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        {isHome && <div aria-hidden="true" className="eh-home-wordmark mt-10 overflow-hidden text-center font-display text-[clamp(5rem,17vw,18rem)] font-black leading-[.75] tracking-[-.09em] text-[#FFF8F3]/15 transition-colors hover:text-[#F26B2A]/40">EventHive</div>}
       </div>
     </footer>
   );
