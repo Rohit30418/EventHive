@@ -132,7 +132,7 @@ jobs:
               console.log("MOBILE_MENU="+shown);
               if(!shown)failures++;
               await page.screenshot({path:"/tmp/eventhive-microsite-check/microsite-mobile-menu.png",fullPage:false});
-              await page.getByRole("button",{name:"Close menu"}).click();
+              await page.getByRole("button",{name:"Close menu",exact:true}).click();
             }
             if(width===1440){
               await page.evaluate(()=>{
