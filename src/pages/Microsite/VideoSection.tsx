@@ -13,97 +13,70 @@ const VideoSection: React.FC<VideoSectionProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <section className="relative bg-slate-950 px-4 py-20 text-white sm:px-6 lg:py-28">
-      {/* 
-        REMOVED: Heavy background orbs.
-        KEPT: A very lightweight, simple CSS grid pattern for texture. 
-      */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:48px_48px] opacity-25" />
-
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-          {/* REMOVED: backdrop-blur. REPLACED WITH: Solid slate-800 background */}
-          <span className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-cyan-400">
+    <section id="preview-video" className="eh-ms-section bg-slate-950 text-white">
+      <div className="eh-ms-container">
+        <div className="eh-ms-section-heading">
+          <span className="eh-ms-eyebrow inline-flex items-center gap-2 rounded-full border border-slate-700 px-4 py-2 text-cyan-400">
             <Video size={14} />
             Event Preview
           </span>
-
-         <h2 className="mt-5 text-4xl font-black leading-tight sm:text-5xl">
-Experience the event before you’re even there.
-</h2>
-
-<p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-400">
-  Get a glimpse of the atmosphere, the crowd, the excitement, and the unforgettable
-  moments waiting for you. Experience the people, energy, and connections that make
-  this event more than just another gathering.
-</p>
+          <h2 className="eh-ms-heading mt-5 text-white">
+            Experience the event before you’re even there.
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-300">
+            Get a glimpse of the atmosphere, the crowd, the excitement, and the unforgettable
+            moments waiting for you. Experience the people, energy, and connections that make
+            this event more than just another gathering.
+          </p>
         </div>
 
-        <div className="relative mx-auto max-w-6xl">
-          {/* REMOVED: The blurred gradient glow that sat behind the video container */}
-          
-          {/* REMOVED: backdrop-blur-2xl. REPLACED WITH: Solid slate-900 background and standard shadow */}
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-800 bg-slate-900 p-3 shadow-2xl">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-black sm:aspect-video sm:rounded-[2rem]">
-              {!isPlaying ? (
-                <button
-                  type="button"
-                  onClick={() => setIsPlaying(true)}
-                  className="group absolute inset-0 text-left w-full h-full cursor-pointer"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"
-                    alt="Event highlights"
-                    className="h-full w-full object-cover opacity-75 transition-transform duration-500 group-hover:scale-105 group-hover:opacity-60"
-                    loading="lazy"
-                  />
-
-                  {/* Standard CSS gradient for text readability (very performant) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
-
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="relative">
-                      {/* Simplified Play Button: Solid colors, no glassmorphism */}
-                      <span
-                        className="relative grid h-16 w-16 place-items-center rounded-full border border-white/20 text-white shadow-xl transition-transform group-hover:scale-110 sm:h-24 sm:w-24"
-                        style={{
-                          background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                        }}
-                      >
-                        <Play size={30} className="ml-1 fill-white sm:h-9 sm:w-9" />
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-10 pointer-events-none">
-                    {/* REMOVED: backdrop-blur. REPLACED WITH: solid black/50 background */}
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/50 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
-                      <Sparkles size={13} />
-                      Highlights
-                    </div>
-
-                    <h3 className="max-w-2xl text-xl font-black leading-tight text-white sm:text-4xl">
-                      Watch what makes this event special.
-                    </h3>
-
-                    <p className="mt-3 max-w-xl text-sm font-medium leading-6 text-slate-200 sm:text-base">
-                      A quick look at the venue, community, sessions and the overall experience.
-                    </p>
-                  </div>
-                </button>
-              ) : (
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1"
-                  title="Event Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="h-full w-full"
+        <div className="eh-ms-video-wrap">
+          <div className="eh-ms-video-frame">
+            {!isPlaying ? (
+              <button
+                type="button"
+                onClick={() => setIsPlaying(true)}
+                className="group relative block h-full w-full cursor-pointer"
+                aria-label="Play event highlights video"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"
+                  alt="Event highlights"
+                  className="h-full w-full object-cover opacity-75"
+                  loading="lazy"
+                  decoding="async"
                 />
-              )}
-            </div>
+                <span
+                  className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/20 text-white sm:h-20 sm:w-20"
+                  style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                >
+                  <Play size={30} className="ml-1 fill-white" />
+                </span>
+              </button>
+            ) : (
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1"
+                title="Event Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="h-full w-full"
+              />
+            )}
+          </div>
+          <div className="eh-ms-video-caption">
+            <span className="eh-ms-eyebrow inline-flex items-center gap-2 text-white">
+              <Sparkles size={13} />
+              Highlights
+            </span>
+            <h3 className="mt-2 text-xl font-bold leading-tight text-white sm:text-2xl">
+              Watch what makes this event special.
+            </h3>
+            <p className="mt-2 text-base leading-7 text-slate-300">
+              A quick look at the venue, community, sessions and the overall experience.
+            </p>
           </div>
         </div>
       </div>
