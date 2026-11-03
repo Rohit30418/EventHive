@@ -80,7 +80,7 @@ export default function Header() {
         </Link>
 
         <motion.div
-          className="hidden items-center gap-1 rounded-full border border-[#1F1C1A]/10 bg-white/75 px-1.5 py-1.5 md:flex"
+          className="hidden items-center gap-1 rounded-full border border-[#1F1C1A]/10 bg-white/75 px-1.5 py-1.5 lg:flex"
           animate={{ scale: scrolled ? 0.96 : 1 }}
           transition={{ duration: reducedMotion ? 0 : 0.22 }}
         >
@@ -104,7 +104,7 @@ export default function Header() {
           ))}
         </motion.div>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <Link
             to={user ? "/Dashboard" : "/Login"}
             className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold text-[#1F1C1A] hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A]"
@@ -127,7 +127,7 @@ export default function Header() {
           aria-expanded={menuOpen}
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
           onClick={() => setMenuOpen((value) => !value)}
-          className="relative z-[60] inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#1F1C1A]/15 bg-white text-[#1F1C1A] focus-visible:outline-2 focus-visible:outline-[#F26B2A] md:hidden"
+          className="relative z-[60] inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#1F1C1A]/15 bg-white text-[#1F1C1A] focus-visible:outline-2 focus-visible:outline-[#F26B2A] lg:hidden"
         >
           {menuOpen ? <X size={23} /> : <Menu size={23} />}
         </button>
@@ -146,7 +146,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={reducedMotion ? undefined : { opacity: 0, y: -12 }}
             transition={{ duration: reducedMotion ? 0 : 0.22 }}
-            className="absolute inset-x-0 top-full z-50 flex h-[calc(100dvh-76px)] flex-col justify-between overflow-y-auto bg-[#1F1C1A] px-6 pb-10 pt-8 text-[#FFF8F3] sm:h-[calc(100dvh-84px)] md:hidden"
+            className="absolute inset-x-0 top-full z-50 flex h-[calc(100dvh-76px)] flex-col justify-between overflow-y-auto bg-[#1F1C1A] px-6 pb-10 pt-8 text-[#FFF8F3] sm:h-[calc(100dvh-84px)] lg:hidden"
           >
             <div className="flex flex-col gap-2">
               {navigation.map((item) => (
