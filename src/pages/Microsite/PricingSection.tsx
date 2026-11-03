@@ -1,5 +1,5 @@
 import React from "react";
-import { Check, Sparkles, Star, Ticket } from "lucide-react";
+import { Check, Sparkles, Ticket } from "lucide-react";
 
 interface PricingPlan {
   name: string;
@@ -58,132 +58,80 @@ const pricingPlans: PricingPlan[] = [
   },
 ];
 
-const hexToRgba = (hex: string, opacity: number): string => {
-  const clean = hex?.replace("#", "");
-  if (!clean || clean.length !== 6) return `rgba(79, 70, 229, ${opacity})`;
-
-  const bigint = parseInt(clean, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-};
-
 const PricingSection: React.FC<PricingSectionProps> = ({
   primaryColor = "#F26B2A",
   secondaryColor = "#E88A54",
 }) => {
   return (
-    <section id="pricing" className="relative overflow-hidden bg-white px-4 py-20 sm:px-6 lg:py-28">
-      <div
-        className="absolute -right-32 top-0 h-[34rem] w-[34rem] rounded-full blur-[130px]"
-        style={{ backgroundColor: hexToRgba(secondaryColor, 0.14) }}
-      />
-      <div
-        className="absolute -left-32 bottom-0 h-[34rem] w-[34rem] rounded-full blur-[130px]"
-        style={{ backgroundColor: hexToRgba(primaryColor, 0.14) }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mx-auto mb-14 max-w-3xl text-center">
+    <section id="pricing" className="eh-ms-section bg-white">
+      <div className="eh-ms-container">
+        <div className="eh-ms-section-heading">
           <span
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] shadow-sm"
+            className="eh-ms-eyebrow inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2"
             style={{ color: primaryColor }}
           >
             <Ticket size={14} />
             Ticket Options
           </span>
-
-          <h2 className="mt-5 text-4xl font-black leading-tight  text-slate-950 sm:text-5xl">
+          <h2 className="eh-ms-heading mt-5 text-slate-950">
             Choose the pass that fits your event experience.
           </h2>
-
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+          <p className="eh-ms-copy">
             Simple ticket plans for online attendees, in-person guests and VIP networking.
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="eh-ms-pricing">
           {pricingPlans.map((plan) => (
             <article
               key={plan.name}
-              className={`relative overflow-hidden rounded-[2rem] border p-6 transition-all duration-300 hover:-translate-y-2 ${
-                plan.highlighted
-                  ? "border-transparent bg-slate-950 text-white shadow-[0_30px_90px_rgba(15,23,42,0.25)]"
-                  : "border-slate-200 bg-white text-slate-950 shadow-[0_18px_55px_rgba(15,23,42,0.06)]"
-              }`}
+              className={`eh-ms-pricing-card eh-ms-card ${plan.highlighted ? "is-highlighted" : ""}`}
+              style={plan.highlighted ? { borderColor: primaryColor } : undefined}
             >
-              {plan.highlighted && (
-                <>
-                  <div
-                    className="absolute inset-0 opacity-25"
-                    style={{
-                      background: `radial-gradient(circle at top right, ${secondaryColor}, transparent 20rem), radial-gradient(circle at bottom left, ${primaryColor}, transparent 18rem)`,
-                    }}
-                  />
-                  <div className="relative mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-cyan-100">
-                    <Sparkles size={14} />
-                    Most Popular
-                  </div>
-                </>
-              )}
-
-              <div className="relative z-10">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-2xl font-black">{plan.name}</h3>
-                    <p className={`mt-2 text-sm leading-6 ${plan.highlighted ? "text-slate-300" : "text-slate-500"}`}>
-                      {plan.description}
-                    </p>
-                  </div>
-
-                  <div
-                    className={`grid h-12 w-12 place-items-center rounded-2xl ${
-                      plan.highlighted ? "bg-white/10 text-white" : "bg-slate-50"
-                    }`}
-                    style={!plan.highlighted ? { color: primaryColor } : undefined}
+              <div className="flex min-w-0 items-start justify-between gap-3">
+                <h3 className="text-2xl font-bold text-slate-950">{plan.name}</h3>
+                {plan.highlighted ? (
+                  <span
+                    className="eh-ms-eyebrow inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1"
+                    style={{ borderColor: primaryColor, color: primaryColor }}
                   >
-                    {plan.highlighted ? <Star size={21} fill="currentColor" /> : <Ticket size={21} />}
-                  </div>
-                </div>
-
-                <div className="my-8">
-                  <span className={`text-lg font-black ${plan.highlighted ? "text-slate-400" : "text-slate-400"}`}>₹</span>
-                  <span className="text-6xl font-black ">{plan.price}</span>
-                </div>
-
-                <ul className="space-y-4">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3">
-                      <span
-                        className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full ${
-                          plan.highlighted ? "bg-white/10 text-cyan-200" : "bg-slate-100"
-                        }`}
-                        style={!plan.highlighted ? { color: primaryColor } : undefined}
-                      >
-                        <Check size={14} strokeWidth={3} />
-                      </span>
-                      <span className={`text-sm font-semibold leading-6 ${plan.highlighted ? "text-slate-200" : "text-slate-600"}`}>
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  className={`mt-8 w-full rounded-2xl px-5 py-4 text-sm font-black transition-all hover:-translate-y-0.5 ${
-                    plan.highlighted ? "bg-white text-slate-950" : "text-white"
-                  }`}
-                  style={
-                    plan.highlighted
-                      ? undefined
-                      : { background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }
-                  }
-                >
-                  Choose {plan.name}
-                </button>
+                    <Sparkles size={13} />
+                    Most Popular
+                  </span>
+                ) : (
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-slate-50" style={{ color: primaryColor }}>
+                    <Ticket size={21} />
+                  </span>
+                )}
               </div>
+
+              <div className="mt-5 flex items-baseline gap-1 text-slate-950">
+                <span className="text-xl font-bold">₹</span>
+                <span className="break-words text-[clamp(2.25rem,4vw,3.5rem)] font-bold leading-tight">{plan.price}</span>
+              </div>
+
+              <p className="mt-3 text-base leading-relaxed text-slate-600">
+                {plan.description}
+              </p>
+
+              <ul className="eh-ms-pricing-features space-y-3">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex min-w-0 items-start gap-3">
+                    <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-slate-100" style={{ color: primaryColor }}>
+                      <Check size={14} strokeWidth={3} />
+                    </span>
+                    <span className="min-w-0 text-base leading-relaxed text-slate-600">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                type="button"
+                className="eh-ms-price-action rounded-xl px-5 py-3 font-bold text-white"
+                style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+              >
+                Choose {plan.name}
+              </button>
             </article>
           ))}
         </div>
