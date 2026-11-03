@@ -88,7 +88,7 @@
 .eh-ms-final-cta button { flex-shrink:0; }
 .eh-ms-navbar-shell { position:sticky; top:0; z-index:80; background:#FFF8F3; border-bottom:1px solid var(--ms-border); }
 .eh-ms-nav { display:flex; min-width:0; align-items:center; justify-content:space-between; gap:16px; min-height:74px; }
-.eh-ms-nav-links { display:flex; align-items:center; gap:4px; }
+.eh-ms-nav-links { align-items:center; gap:4px; }
 .eh-ms-nav-links > button,.eh-ms-nav-links > div > button { white-space:nowrap; font-size:14px; }
 .eh-microsite a:focus-visible,.eh-microsite button:focus-visible { outline:3px solid var(--ms-primary,#F26B2A); outline-offset:3px; }
 @media(min-width:1024px){
