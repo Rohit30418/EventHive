@@ -264,58 +264,21 @@ const EventRegistration = ({
                       Gender
                     </label>
 
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3" role="radiogroup" aria-label="Gender">
                       {["male", "female", "others"].map((gender) => (
-                        <label key={gender} className="cursor-pointer">
+                        <label key={gender} className="min-w-0 cursor-pointer">
                           <input
                             type="radio"
                             value={gender}
                             {...register("gender")}
                             className="peer sr-only"
                           />
-
-                          <div
-                            className="rounded-2xl border border-slate-200 bg-white py-4 text-center text-sm font-black capitalize text-slate-500 transition-all peer-checked:text-white"
-                            style={
-                              {
-                                "--checked-bg": `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                              } as CSSProperties
-                            }
+                          <span
+                            className="flex min-h-12 min-w-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-1 py-2 text-center text-sm font-bold capitalize text-slate-700 transition-colors peer-checked:border-transparent peer-checked:bg-[var(--gender-accent)] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-slate-900"
+                            style={{ "--gender-accent": primaryColor } as CSSProperties}
                           >
-                            <span className="peer-checked:hidden">{gender}</span>
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3">
-                      {["male", "female", "others"].map((gender) => (
-                        <label key={`styled-${gender}`} className="-mt-[68px] cursor-pointer">
-                          <input
-                            type="radio"
-                            value={gender}
-                            {...register("gender")}
-                            className="peer sr-only"
-                          />
-
-                          <div
-                            className="rounded-2xl border border-slate-200 bg-white py-4 text-center text-sm font-black capitalize text-slate-500 transition-all peer-checked:border-transparent peer-checked:text-white"
-                            style={
-                              document
-                                ? {
-                                    background:
-                                      errors.gender ? undefined : undefined,
-                                  }
-                                : undefined
-                            }
-                          >
-                            <span
-                              className="block rounded-none peer-checked:text-white"
-                              style={{}}
-                            >
-                              {gender}
-                            </span>
-                          </div>
+                            {gender}
+                          </span>
                         </label>
                       ))}
                     </div>
