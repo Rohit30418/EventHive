@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import useGetEvent from "../AdminCustomHooks/useGetEvents";
 import HomeHero from "./home/HomeHero";
 import HomeNavbar from "./home/HomeNavbar";
@@ -8,7 +8,7 @@ import HomeSections from "./home/HomeSections";
 import { HomeAccessibilityProvider, HomeAccessibilityEffects, HomeFloatingTools, useHomeAccessibility } from "./home/HomeAccessibility";
 import { MotionConfig } from "framer-motion";
 
-function HomeAccessibilityLayout({ children }: { children: React.ReactNode }) {
+function HomeAccessibilityLayout({ children }: { children: ReactNode }) {
   const { settings } = useHomeAccessibility();
   return (
     <MotionConfig reducedMotion={settings.pauseMotion ? "always" : "user"}>
