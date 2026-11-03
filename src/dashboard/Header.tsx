@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
+import "./dashboard-ui.css";
 
 type MenuItem = {
   label: string;
@@ -132,24 +133,24 @@ const DashboardShell = () => {
   };
 
   return (
-    <div className="flex h-dvh min-h-0 overflow-hidden bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200">
+    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F8F7F5] text-[#1F1C1A] dark:bg-slate-950 dark:text-slate-200">
       {mobileSidebarOpen && (
         <button
           type="button"
           aria-label="Close sidebar overlay"
-          className="fixed inset-0 z-[60] bg-slate-950/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-[60] bg-slate-950/55 lg:hidden"
           onClick={() => setMobileSidebarOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-[70] flex h-full flex-col border-r border-slate-200 bg-white/95 shadow-2xl shadow-slate-950/10 backdrop-blur-xl transition-all duration-300 ease-out dark:border-slate-800 dark:bg-slate-900/95 lg:relative lg:translate-x-0 lg:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-[70] flex h-full flex-col border-r border-slate-200 bg-white shadow-sm transition-[width,transform] duration-200 ease-out dark:border-slate-800 dark:bg-slate-900 lg:relative lg:translate-x-0 lg:shadow-none ${
           mobileSidebarOpen ? "w-[min(20rem,calc(100vw-1.5rem))] translate-x-0" : "w-[min(20rem,calc(100vw-1.5rem))] -translate-x-full"
         } ${sidebarOpen ? "lg:w-72" : "lg:w-24"}`}
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-500 text-white shadow-lg shadow-indigo-500/25">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F26B2A] text-[#1F1C1A]">
               <Sparkles size={22} />
             </div>
 
@@ -175,7 +176,7 @@ const DashboardShell = () => {
           </button>
         </div>
 
-        <nav className="custom-scrollbar flex-1 space-y-7 overflow-y-auto px-3 py-6">
+        <nav className="custom-scrollbar flex-1 space-y-5 overflow-y-auto px-3 py-4">
           {menuConfig.map((group) => (
             <div key={group.group}>
               {(sidebarOpen || mobileSidebarOpen) && (
@@ -196,14 +197,14 @@ const DashboardShell = () => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`group relative flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-200 ${
+                      className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 ${
                         active
-                          ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20"
+                          ? "bg-[#FFEBDD] text-[#8C360E] dark:bg-[#5B2B1B] dark:text-[#FFD1B8]"
                           : "text-slate-500 hover:bg-slate-50 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-white"
                       } ${!sidebarOpen && !mobileSidebarOpen ? "justify-center" : ""}`}
                       title={!sidebarOpen && !mobileSidebarOpen ? item.label : undefined}
                     >
-                      <Icon size={20} className="shrink-0" />
+                      <Icon size={19} className="shrink-0" />
 
                       {(sidebarOpen || mobileSidebarOpen) && (
                         <span className="min-w-0">
@@ -227,7 +228,7 @@ const DashboardShell = () => {
           ))}
         </nav>
 
-        <div className="border-t border-slate-100 p-4 dark:border-slate-800">
+        <div className="border-t border-slate-100 p-3 dark:border-slate-800">
           {[
             { name: "Features", path: "/#features", icon: Sparkles },
             { name: "How it works", path: "/#how-it-works", icon: CalendarDays },
@@ -267,7 +268,7 @@ const DashboardShell = () => {
       </aside>
 
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white/85 px-4 shadow-sm shadow-slate-950/[0.03] backdrop-blur-2xl transition-all dark:border-slate-800 dark:bg-slate-950/85 sm:px-6">
+        <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 shadow-sm dark:border-slate-800 dark:bg-slate-950 sm:px-5">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
@@ -301,7 +302,7 @@ const DashboardShell = () => {
             </div>
           </div>
 
-          <div className="hidden min-w-[320px] items-center rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-400 dark:border-slate-800 dark:bg-slate-900/80 xl:flex">
+          <div className="hidden min-w-[280px] items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-400 dark:border-slate-800 dark:bg-slate-900/80 xl:flex">
             <Search size={17} className="mr-3" />
             <span className="flex-1 font-semibold">
               Search pages, events, registrations...
@@ -314,15 +315,15 @@ const DashboardShell = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="inline-flex items-center gap-2 rounded-2xl bg-red-50 px-4 py-3 text-sm font-black text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-950/50"
+            className="inline-flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2.5 text-sm font-black text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-950/50"
           >
             <LogOut size={18} />
             <span className="hidden sm:inline">Sign Out</span>
           </button>
         </header>
 
-        <main className="custom-scrollbar flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.08),transparent_28rem),radial-gradient(circle_at_top_right,rgba(6,182,212,0.06),transparent_26rem)] p-4 scroll-smooth sm:p-6 lg:p-8">
-          <div className="mx-auto max-w-[1600px] animate-[eh-fade-up_0.45s_ease_both]">
+        <main className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F8F7F5] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
+          <div className="mx-auto w-full min-w-0 max-w-[1440px]">
             <Outlet />
           </div>
         </main>
