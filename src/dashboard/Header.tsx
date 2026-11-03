@@ -156,10 +156,10 @@ const DashboardShell = () => {
 
             {(sidebarOpen || mobileSidebarOpen) && (
               <div className="min-w-0">
-                <p className="truncate text-lg font-black tracking-tight text-slate-950 dark:text-white">
+                <p className="truncate text-lg font-bold tracking-tight text-slate-950 dark:text-white">
                   EventHive
                 </p>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
                   Control Center
                 </p>
               </div>
@@ -180,7 +180,7 @@ const DashboardShell = () => {
           {menuConfig.map((group) => (
             <div key={group.group}>
               {(sidebarOpen || mobileSidebarOpen) && (
-                <p className="mb-3 px-3 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">
+                <p className="mb-3 px-3 text-[10px] font-bold uppercase tracking-wide text-slate-400">
                   {group.group}
                 </p>
               )}
@@ -208,7 +208,7 @@ const DashboardShell = () => {
 
                       {(sidebarOpen || mobileSidebarOpen) && (
                         <span className="min-w-0">
-                          <span className="block truncate text-sm font-black">
+                          <span className="block truncate text-sm font-bold">
                             {item.label}
                           </span>
                           <span
@@ -248,16 +248,16 @@ const DashboardShell = () => {
           ))}
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/60">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-sm font-black text-white dark:bg-white dark:text-slate-950">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-sm font-bold text-white dark:bg-white dark:text-slate-950">
                 {initials || "U"}
               </div>
 
               {(sidebarOpen || mobileSidebarOpen) && (
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-black text-slate-950 dark:text-white">
+                  <p className="truncate text-sm font-bold text-slate-950 dark:text-white">
                     {displayName}
                   </p>
-                  <p className="truncate text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                  <p className="truncate text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
                     {role || "Role loading"}
                   </p>
                 </div>
@@ -293,10 +293,10 @@ const DashboardShell = () => {
             </button>
 
             <div className="min-w-0">
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">
                 Dashboard
               </p>
-              <h1 className="truncate text-lg font-black tracking-tight text-slate-950 dark:text-white sm:text-2xl">
+              <h1 className="truncate text-lg font-bold tracking-tight text-slate-950 dark:text-white sm:text-2xl">
                 {activeItem?.label || "Workspace"}
               </h1>
             </div>
@@ -307,7 +307,7 @@ const DashboardShell = () => {
             <span className="flex-1 font-semibold">
               Search pages, events, registrations...
             </span>
-            <kbd className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[10px] font-black text-slate-400 dark:border-slate-700 dark:bg-slate-950">
+            <kbd className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-400 dark:border-slate-700 dark:bg-slate-950">
               Ctrl K
             </kbd>
           </div>
@@ -315,7 +315,7 @@ const DashboardShell = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="inline-flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2.5 text-sm font-black text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-950/50"
+            className="inline-flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2.5 text-sm font-bold text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-300 dark:hover:bg-red-950/50"
           >
             <LogOut size={18} />
             <span className="hidden sm:inline">Sign Out</span>
