@@ -104,7 +104,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           {pricingPlans.map((plan) => (
             <article
               key={plan.name}
