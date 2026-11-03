@@ -50,7 +50,7 @@ const socialLinks: { label: string; href: string; icon: ReactNode }[] = [
 const Footer = () => {
   const isHome = useLocation().pathname === "/";
   return (
-    <footer className={`relative overflow-hidden border-t border-white/10 px-4 py-14 text-slate-300 sm:px-6 md:py-20 ${isHome ? "eh-home-footer bg-[#1F1C1A]" : "bg-[#020617]"}`}>
+    <footer className={`relative overflow-hidden border-t border-white/10 px-4 py-14 text-slate-300 sm:px-6 md:py-20 ${isHome ? "eh-home-footer bg-[#1F1C1A]" : "bg-[#1F1C1A]"}`}>
       {!isHome && <div className="eh-premium-grid absolute inset-0 opacity-[0.12]" />}
       {!isHome && <div className="pointer-events-none absolute bottom-0 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-indigo-600/10 blur-[120px]" />}
     
