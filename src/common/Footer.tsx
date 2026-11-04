@@ -18,6 +18,7 @@ const footerGroups = [
       { label: "About", to: "/#how-it-works" },
       { label: "Workflows", to: "/#how-it-works" },
       { label: "Create Account", to: "/OrganizerRegistration" },
+      { label: "Contact", to: "/#contact" },
       { label: "Support", to: "mailto:support@eventhive.com", external: true },
     ],
   },
