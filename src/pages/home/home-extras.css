@@ -316,26 +316,27 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   color: #A83D13;
 }
 
-/* Mixed testimonial cards with temporary portrait photography and text.
-   Real approved customer quotes and photographs can replace this content. */
+/* Every community card now uses the same predictable visual layout.
+   Portraits remain sample images until real stories are approved. */
 .eh-home .eh-extras-story-card {
   display: flex;
   flex-direction: row;
   gap: 0;
-  flex: 0 0 470px;
-  width: 470px;
+  flex: 0 0 440px;
+  width: 440px;
   height: 334px;
   min-height: 334px;
   padding: 0;
   overflow: hidden;
-  border-radius: 17px;
   border: 1px solid rgba(31, 28, 26, .12);
+  border-radius: 17px;
   background: #FFFFFF;
+  box-shadow: 0 4px 20px rgba(31,28,26,.025);
 }
 .eh-extras-story-photo {
   position: relative;
-  width: 42%;
-  flex: 0 0 42%;
+  width: 40%;
+  flex: 0 0 40%;
   overflow: hidden;
   background: #FFEBDD;
 }
@@ -344,7 +345,7 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 28%;
 }
 .eh-extras-photo-tag {
   position: absolute;
@@ -388,53 +389,6 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   margin-top: auto;
   padding-top: 12px;
 }
-.eh-home .eh-extras-story-card--portrait {
-  flex-basis: 344px;
-  width: 344px;
-  flex-direction: column;
-}
-.eh-home .eh-extras-story-card--portrait .eh-extras-story-photo {
-  width: 100%;
-  height: 118px;
-  flex: 0 0 118px;
-}
-.eh-home .eh-extras-story-card--portrait .eh-extras-story-photo img {
-  object-position: center 15%;
-}
-.eh-home .eh-extras-story-card--portrait .eh-extras-story-content {
-  gap: 10px;
-  padding: 17px 22px 19px;
-}
-.eh-home .eh-extras-story-card--portrait .eh-extras-story-content > p {
-  font-size: 16px;
-  line-height: 1.42;
-}
-.eh-home .eh-extras-story-card--portrait .eh-extras-story-quote {
-  width: 32px;
-  height: 32px;
-}
-.eh-home .eh-extras-story-card--editorial {
-  flex-basis: 430px;
-  width: 430px;
-  background: #FFF4EA;
-}
-.eh-home .eh-extras-story-card--editorial .eh-extras-story-photo {
-  width: 36%;
-  flex-basis: 36%;
-  border-right: 1px solid #EBD8CA;
-}
-.eh-home .eh-extras-story-card--editorial .eh-extras-story-content {
-  padding: 25px;
-}
-.eh-extras-photo-doodle {
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  width: 74px;
-  height: 74px;
-  filter: drop-shadow(0 0 1px #FFF);
-  pointer-events: none;
-}
 @media (max-width: 1023px) {
   .eh-home .eh-extras-price-card.is-popular,
   .eh-home .eh-extras-price-card.is-popular:hover {
@@ -443,9 +397,7 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   .eh-extras-pricing-grid { row-gap: 30px; }
 }
 @media (max-width: 640px) {
-  .eh-home .eh-extras-story-card,
-  .eh-home .eh-extras-story-card--portrait,
-  .eh-home .eh-extras-story-card--editorial {
+  .eh-home .eh-extras-story-card {
     width: min(340px, calc(100vw - 64px));
     flex-basis: min(340px, calc(100vw - 64px));
     height: 365px;
