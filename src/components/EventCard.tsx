@@ -51,7 +51,8 @@ const destination =
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.3) }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white shadow-[0_20px_70px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-2 dark:border-slate-800 dark:bg-slate-900 ${homeFeatured ? "border-[#F26B2A]/20 hover:border-[#F26B2A]/70" : "border-slate-200/80 hover:border-indigo-200"}`}
+      data-home-featured={homeFeatured || undefined}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white transition-transform duration-300 dark:border-slate-800 dark:bg-slate-900 ${homeFeatured ? "border-[#E7D6CC] shadow-[0_3px_16px_rgba(31,28,26,0.05)] hover:-translate-y-1 hover:border-[#F26B2A]/70" : "border-slate-200/80 shadow-[0_20px_70px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:border-indigo-200"}`}
     >
       <div className="relative h-60 overflow-hidden bg-slate-200">
         <img
@@ -62,7 +63,7 @@ const destination =
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent" />
         <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3">
-          <span className="rounded-full border border-white/20 bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-indigo-700 shadow-sm backdrop-blur-xl">
+          <span className="rounded-full border border-white/20 bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#A43A11] shadow-sm backdrop-blur-xl">
             {category}
           </span>
           <span className={`rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] shadow-lg ${status.tone}`}>
@@ -71,7 +72,7 @@ const destination =
         </div>
         <div className="absolute bottom-4 left-4 right-4">
           <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em] text-cyan-100 backdrop-blur-md">
-            <Sparkles size={12} /> EventHive picks
+            <Sparkles size={12} /> {homeFeatured ? "Upcoming event" : "EventHive picks"}
           </div>
           <h3 className="line-clamp-2 text-2xl font-black leading-tight tracking-tight text-white">
             {event.EventName || "Untitled Event"}
@@ -82,13 +83,13 @@ const destination =
       <div className="flex flex-1 flex-col p-5">
         <div className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
           <p className="flex items-center gap-2 font-bold">
-            <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
+            <span className={homeFeatured ? "flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF0E7] text-[#AC4016]" : "flex h-9 w-9 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300"}>
               <CalendarDays size={16} />
             </span>
             {formatDate(event.eventDate)}
           </p>
           <p className="flex items-center gap-2 font-bold">
-            <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-300">
+            <span className={homeFeatured ? "flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF0E7] text-[#AC4016]" : "flex h-9 w-9 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-600 dark:bg-cyan-950/50 dark:text-cyan-300"}>
               <MapPin size={16} />
             </span>
             <span className="truncate">{event.location || "Location to be announced"}</span>
