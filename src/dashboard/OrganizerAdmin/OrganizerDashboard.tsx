@@ -134,6 +134,7 @@ const OrganizerDashboard = () => {
   const pieOptions = useMemo(
     () => ({
       maintainAspectRatio: false,
+      animation: false,
       plugins: {
         legend: {
           position: "bottom" as const,
@@ -212,18 +213,16 @@ const OrganizerDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_55px_rgba(15,23,42,0.06)] dark:border-slate-800 dark:bg-slate-900/90 md:p-8">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 left-16 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl" />
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
 
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
               <Sparkles size={14} />
               Organizer Analytics
             </div>
 
-            <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-5xl">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white md:text-3xl">
               Analytics Overview
             </h1>
 
@@ -236,7 +235,7 @@ const OrganizerDashboard = () => {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               to="/Dashboard/CreateEvent"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 px-6 py-3 text-sm font-black text-white shadow-lg shadow-indigo-500/20 transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-6 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
             >
               <Plus size={18} />
               Create Event
@@ -244,7 +243,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Events"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-black text-slate-700 shadow-sm transition-all hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               Manage Events
               <ArrowRight size={17} />
@@ -261,17 +260,16 @@ const OrganizerDashboard = () => {
           return (
             <div
               key={card.label}
-              className="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_14px_45px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(15,23,42,0.09)] dark:border-slate-800 dark:bg-slate-900/90 dark:hover:shadow-black/20"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-colors   dark:border-slate-800 dark:bg-slate-900/90 "
             >
-              <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-indigo-500/5 transition-transform duration-700 group-hover:scale-150 dark:bg-indigo-400/10" />
 
               <div className="relative z-10 flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
                     {card.label}
                   </p>
 
-                  <h3 className="mt-3 text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+                  <h3 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
                     {card.value}
                   </h3>
 
@@ -292,10 +290,10 @@ const OrganizerDashboard = () => {
       {/* Main Analytics */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[0.85fr_1.15fr]">
         {/* Lifecycle Chart */}
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_14px_45px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-900/90 md:p-7">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-xl font-black text-slate-950 dark:text-white">
+              <h2 className="text-xl font-bold text-slate-950 dark:text-white">
                 Event Lifecycle
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -303,13 +301,13 @@ const OrganizerDashboard = () => {
               </p>
             </div>
 
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               Real-time
             </span>
           </div>
 
-          <div className="relative flex h-80 items-center justify-center rounded-[1.5rem] border border-slate-100 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
+          <div className="relative flex h-80 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
             {stats.myEvents.length === 0 ? (
               <div className="text-center">
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400 dark:bg-slate-800">
@@ -326,10 +324,10 @@ const OrganizerDashboard = () => {
         </div>
 
         {/* Registration Stream */}
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_14px_45px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-900/90 md:p-7">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-xl font-black text-slate-950 dark:text-white">
+              <h2 className="text-xl font-bold text-slate-950 dark:text-white">
                 Registration Stream
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -339,7 +337,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Registrations"
-              className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-indigo-600 transition-all hover:bg-indigo-600 hover:text-white dark:bg-indigo-950/50 dark:text-indigo-300"
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-indigo-600 transition-colors hover:bg-indigo-600 hover:text-white dark:bg-indigo-950/50 dark:text-indigo-300"
             >
               View All
               <ArrowRight size={14} />
@@ -354,16 +352,16 @@ const OrganizerDashboard = () => {
                 return (
                   <div
                     key={registration.id || `${registration.eventId}-${i}`}
-                    className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-slate-100 bg-slate-50 p-4 transition-all hover:border-indigo-100 hover:bg-white hover:shadow-lg hover:shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-indigo-900/60 dark:hover:bg-slate-950 dark:hover:shadow-black/20"
+                    className="group flex items-center justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4 transition-colors hover:border-indigo-100 hover:bg-white  hover: dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-indigo-900/60 dark:hover:bg-slate-950 "
                   >
                     <div className="flex min-w-0 items-center gap-3">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-sm font-black text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-sm font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
                         {registration.fullName?.charAt(0)?.toUpperCase() ||
                           "G"}
                       </div>
 
                       <div className="min-w-0">
-                        <p className="truncate font-black text-slate-900 dark:text-white">
+                        <p className="truncate font-bold text-slate-900 dark:text-white">
                           {registration.fullName || "Guest"}
                         </p>
 
@@ -373,7 +371,7 @@ const OrganizerDashboard = () => {
                       </div>
                     </div>
 
-                    <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-[10px] font-black uppercase text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300 sm:inline-flex">
+                    <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-[10px] font-bold uppercase text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300 sm:inline-flex">
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
                       Success
                     </span>
@@ -382,12 +380,12 @@ const OrganizerDashboard = () => {
               })}
             </div>
           ) : (
-            <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 py-12 text-center dark:border-slate-800 dark:bg-slate-950/40">
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 py-12 text-center dark:border-slate-800 dark:bg-slate-950/40">
               <Inbox
                 className="mx-auto mb-4 text-slate-300 dark:text-slate-700"
                 size={46}
               />
-              <p className="text-sm font-black text-slate-500 dark:text-slate-400">
+              <p className="text-sm font-bold text-slate-500 dark:text-slate-400">
                 No recent registrations yet.
               </p>
               <p className="mt-1 text-xs font-semibold text-slate-400">
@@ -401,10 +399,10 @@ const OrganizerDashboard = () => {
       {/* Bottom Area */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         {/* Latest Events */}
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_14px_45px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-900/90 md:p-7">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-xl font-black text-slate-950 dark:text-white">
+              <h2 className="text-xl font-bold text-slate-950 dark:text-white">
                 Latest Events
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500 dark:text-slate-400">
@@ -414,7 +412,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Events"
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-slate-500 transition-all hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               Manage
               <ArrowRight size={14} />
@@ -430,7 +428,7 @@ const OrganizerDashboard = () => {
                 return (
                   <div
                     key={event.id}
-                    className="rounded-[1.35rem] border border-slate-100 bg-slate-50 p-4 transition-all hover:border-indigo-100 hover:bg-white hover:shadow-lg hover:shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-indigo-900/60 dark:hover:bg-slate-950"
+                    className="rounded-2xl border border-slate-100 bg-slate-50 p-4 transition-colors hover:border-indigo-100 hover:bg-white  hover: dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-indigo-900/60 dark:hover:bg-slate-950"
                   >
                     <div className="mb-4 flex items-center justify-between gap-3">
                       <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300">
@@ -438,7 +436,7 @@ const OrganizerDashboard = () => {
                       </div>
 
                       <span
-                        className={`rounded-full px-3 py-1 text-[10px] font-black uppercase ${
+                        className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase ${
                           isUpcoming
                             ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300"
                             : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300"
@@ -448,7 +446,7 @@ const OrganizerDashboard = () => {
                       </span>
                     </div>
 
-                    <h3 className="line-clamp-1 font-black text-slate-950 dark:text-white">
+                    <h3 className="line-clamp-1 font-bold text-slate-950 dark:text-white">
                       {event.EventName || "Untitled Event"}
                     </h3>
 
@@ -460,12 +458,12 @@ const OrganizerDashboard = () => {
               })}
             </div>
           ) : (
-            <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 py-12 text-center dark:border-slate-800 dark:bg-slate-950/40">
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 py-12 text-center dark:border-slate-800 dark:bg-slate-950/40">
               <CalendarCheck
                 className="mx-auto mb-4 text-slate-300 dark:text-slate-700"
                 size={44}
               />
-              <p className="text-sm font-black text-slate-500 dark:text-slate-400">
+              <p className="text-sm font-bold text-slate-500 dark:text-slate-400">
                 No events created yet.
               </p>
             </div>
@@ -473,14 +471,14 @@ const OrganizerDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-white shadow-[0_18px_55px_rgba(15,23,42,0.12)] dark:border-slate-800 md:p-7">
+        <div className="rounded-2xl border border-slate-200 bg-slate-950 p-6 text-white shadow-sm dark:border-slate-800 md:p-6">
           <div className="mb-6">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-cyan-100">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-cyan-100">
               <Clock3 size={14} />
               Quick Actions
             </div>
 
-            <h2 className="text-2xl font-black tracking-tight">
+            <h2 className="text-2xl font-bold tracking-tight">
               Keep your event pipeline moving.
             </h2>
 
@@ -493,7 +491,7 @@ const OrganizerDashboard = () => {
           <div className="space-y-3">
             <Link
               to="/Dashboard/CreateEvent"
-              className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 text-sm font-black text-slate-950 transition-all hover:-translate-y-0.5"
+              className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 text-sm font-bold text-slate-950 transition-colors "
             >
               Create new event
               <Plus size={17} />
@@ -501,7 +499,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Registrations"
-              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-black text-white transition-all hover:-translate-y-0.5 hover:bg-white/15"
+              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors  hover:bg-white/15"
             >
               View registrations
               <ArrowRight size={17} />
@@ -509,7 +507,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Events"
-              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-black text-white transition-all hover:-translate-y-0.5 hover:bg-white/15"
+              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors  hover:bg-white/15"
             >
               Manage events
               <ArrowRight size={17} />

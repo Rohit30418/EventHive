@@ -26,8 +26,8 @@ interface EventRegistrationProps {
 }
 
 const EventRegistration = ({
-  primaryColor = "#4F46E5",
-  secondaryColor = "#06B6D4",
+  primaryColor = "#F26B2A",
+  secondaryColor = "#E88A54",
 }: EventRegistrationProps) => {
   const {
     register,
@@ -46,7 +46,7 @@ const EventRegistration = ({
   };
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 lg:py-24">
+    <section className="relative overflow-hidden bg-white px-6 py-10 sm:py-14 lg:px-12 lg:py-20">
       <div
         className="absolute -left-32 top-10 h-[30rem] w-[30rem] rounded-full blur-[130px]"
         style={{
@@ -61,7 +61,7 @@ const EventRegistration = ({
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto w-full max-w-[1296px]">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span
             className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.2em] shadow-sm"
@@ -81,9 +81,9 @@ const EventRegistration = ({
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="mx-auto grid max-w-[760px] min-w-0 gap-6 lg:max-w-none lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
           {/* Left Info Panel */}
-          <aside className="relative overflow-hidden rounded-[2.2rem] bg-slate-950 p-7 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
+          <aside className="relative hidden min-w-0 overflow-hidden rounded-[2.2rem] bg-slate-950 lg:block p-7 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] lg:sticky lg:top-24 lg:h-fit">
             <div
               className="absolute -right-20 -top-20 h-72 w-72 rounded-full blur-[100px]"
               style={{
@@ -150,7 +150,7 @@ const EventRegistration = ({
           </aside>
 
           {/* Form */}
-          <div className="overflow-hidden rounded-[2.2rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+          <div className="min-w-0 overflow-hidden rounded-[2.2rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
             <div className="h-2 w-full" style={gradientStyle} />
 
             <form
@@ -264,58 +264,21 @@ const EventRegistration = ({
                       Gender
                     </label>
 
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3" role="radiogroup" aria-label="Gender">
                       {["male", "female", "others"].map((gender) => (
-                        <label key={gender} className="cursor-pointer">
+                        <label key={gender} className="min-w-0 cursor-pointer">
                           <input
                             type="radio"
                             value={gender}
                             {...register("gender")}
                             className="peer sr-only"
                           />
-
-                          <div
-                            className="rounded-2xl border border-slate-200 bg-white py-4 text-center text-sm font-black capitalize text-slate-500 transition-all peer-checked:text-white"
-                            style={
-                              {
-                                "--checked-bg": `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                              } as CSSProperties
-                            }
+                          <span
+                            className="flex min-h-12 min-w-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-1 py-2 text-center text-sm font-bold capitalize text-slate-700 transition-colors peer-checked:border-transparent peer-checked:bg-[var(--gender-accent)] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-slate-900"
+                            style={{ "--gender-accent": primaryColor } as CSSProperties}
                           >
-                            <span className="peer-checked:hidden">{gender}</span>
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3">
-                      {["male", "female", "others"].map((gender) => (
-                        <label key={`styled-${gender}`} className="-mt-[68px] cursor-pointer">
-                          <input
-                            type="radio"
-                            value={gender}
-                            {...register("gender")}
-                            className="peer sr-only"
-                          />
-
-                          <div
-                            className="rounded-2xl border border-slate-200 bg-white py-4 text-center text-sm font-black capitalize text-slate-500 transition-all peer-checked:border-transparent peer-checked:text-white"
-                            style={
-                              document
-                                ? {
-                                    background:
-                                      errors.gender ? undefined : undefined,
-                                  }
-                                : undefined
-                            }
-                          >
-                            <span
-                              className="block rounded-none peer-checked:text-white"
-                              style={{}}
-                            >
-                              {gender}
-                            </span>
-                          </div>
+                            {gender}
+                          </span>
                         </label>
                       ))}
                     </div>
