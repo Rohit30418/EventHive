@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const footerGroups = [
   {
     title: "Product",
     links: [
       { label: "Features", to: "/#features" },
-      { label: "How it works", to: "/#how-it-works" },
+      { label: "Pricing", to: "/#pricing" },
       { label: "Events", to: "/Events" },
       { label: "Organizer Login", to: "/Login" },
     ],
@@ -53,13 +53,6 @@ const Footer = () => {
     <footer className="eh-home-footer relative overflow-hidden border-t border-white/10 bg-[#1F1C1A] px-0 py-14 text-slate-300 md:py-16">
     
       <div className="eh-home-footer-container relative z-10 mx-auto w-full max-w-[1296px] px-6 lg:px-12">
-        <div className="eh-site-footer-lead">
-          <div>
-            <div className="eh-site-footer-brand"><span className="eh-site-footer-mark">E</span><h2>Event<span>Hive</span></h2></div>
-            <p>Create beautiful event pages, welcome attendees and keep every detail in one thoughtful space.</p>
-          </div>
-          <Link to="/Events" className="eh-site-footer-explore">Explore events <ArrowUpRight size={18} aria-hidden="true" /></Link>
-        </div>
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {footerGroups.map((group) => (
             <div key={group.title}>
