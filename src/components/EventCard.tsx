@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays, MapPin, Sparkles } from "lucide-react";
 import { type EventType } from "../Types/eventType";
 import {createSlug} from "../../Utils/createSlug";
+import { EventPosterSvg } from "../pages/home/HomeScrollArt";
 
 interface EventCardTypes {
   index: number;
@@ -55,12 +56,16 @@ const destination =
       className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white transition-transform duration-300 dark:border-slate-800 dark:bg-slate-900 ${homeFeatured ? "border-[#E7D6CC] shadow-[0_3px_16px_rgba(31,28,26,0.05)] hover:-translate-y-1 hover:border-[#F26B2A]/70" : "border-slate-200/80 shadow-[0_20px_70px_rgba(15,23,42,0.08)] hover:-translate-y-2 hover:border-indigo-200"}`}
     >
       <div className="relative h-60 overflow-hidden bg-slate-200">
-        <img
-          src={event.banner || fallbackImage}
-          alt={event.EventName || "Event banner"}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-          loading="lazy"
-        />
+        {homeFeatured && !event.banner ? (
+          <EventPosterSvg />
+        ) : (
+          <img
+            src={event.banner || fallbackImage}
+            alt={event.EventName || "Event banner"}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent" />
         <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3">
           <span className="rounded-full border border-white/20 bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#A43A11] shadow-sm backdrop-blur-xl">
