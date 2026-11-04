@@ -130,7 +130,7 @@ export function HomeTestimonials() {
           {[0, 1].map((copy) => (
             <div className="eh-extras-story-group" key={copy} aria-hidden={copy === 1}>
               {stories.map((story, index) => (
-                <article className={"eh-home-card eh-extras-story-card eh-extras-story-card--" + ["split", "portrait", "editorial"][index % 3]} key={story.audience}>
+                <article className="eh-home-card eh-extras-story-card" key={story.audience}>
                   <div className="eh-extras-story-photo">
                     <img
                       src={story.portrait || samplePortraits[index % samplePortraits.length]}
@@ -139,13 +139,7 @@ export function HomeTestimonials() {
                       decoding="async"
                     />
                     <span className="eh-extras-photo-tag">{hasQuotes ? "Community story" : "Sample image"}</span>
-                    {index % 3 === 2 && (
-                      <svg className="eh-extras-photo-doodle" viewBox="0 0 90 90" fill="none" aria-hidden="true">
-                        <path d="M16 66C31 40 48 64 73 20" stroke="#F26B2A" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 7" />
-                        <path d="m59 21 14-1-2 15" stroke="#F26B2A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                        <circle cx="21" cy="22" r="7" fill="#FFEBDD" />
-                      </svg>
-                    )}
+
                   </div>
                   <div className="eh-extras-story-content">
                     <span className="eh-extras-story-quote" aria-hidden="true"><MessageCircle size={21} /></span>
