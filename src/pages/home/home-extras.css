@@ -111,6 +111,7 @@
 }
 .eh-extras-motion-toggle:hover { border-color: #F26B2A; }
 .eh-extras-story-viewport {
+  --eh-story-half-gap: 12px;
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -135,7 +136,7 @@
 }
 @keyframes eh-extras-marquee {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-50% - 12px)); }
+  100% { transform: translateX(calc(-50% - var(--eh-story-half-gap, 12px))); }
 }
 .eh-home .eh-extras-story-card {
   display: flex;
@@ -256,6 +257,7 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   .eh-extras-testimonial-heading { flex-direction: column; align-items:flex-start; }
   .eh-extras-motion-toggle { align-self:flex-start; }
   .eh-extras-story-group, .eh-extras-story-track { gap: 16px; }
+  .eh-extras-story-viewport { --eh-story-half-gap: 8px; }
   .eh-extras-story-track { animation-duration: 48s; }
   .eh-extras-query-fields { grid-template-columns: 1fr; }
   .eh-extras-query-email { margin-top: 22px; }
@@ -397,7 +399,7 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   flex: 0 0 118px;
 }
 .eh-home .eh-extras-story-card--portrait .eh-extras-story-photo img {
-  object-position: center 32%;
+  object-position: center 15%;
 }
 .eh-home .eh-extras-story-card--portrait .eh-extras-story-content {
   gap: 10px;
