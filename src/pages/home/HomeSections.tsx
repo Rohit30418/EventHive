@@ -6,6 +6,7 @@ import EventCard from "../../components/EventCard";
 import { ErrorState } from "../../common/StateViews";
 import type { EventType } from "../../Types/eventType";
 import { audiences, faqs, features, workflow } from "./homeData";
+import { HomePricing, HomeQuery, HomeTestimonials } from "./HomeExtras";
 
 interface HomeSectionsProps {
   featuredEvents: EventType[];
@@ -145,6 +146,8 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
         </div>
       </section>
 
+      <HomePricing />
+
       <section className="eh-home-section eh-events-section" id="events" aria-labelledby="eh-events-title">
         <div className="eh-home-container">
           <div className="eh-events-heading">
@@ -186,6 +189,8 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
         </div>
       </section>
 
+      <HomeTestimonials />
+
       <section className="eh-home-section" id="faq" aria-labelledby="eh-faq-title">
         <div className="eh-home-container eh-faq-layout">
           <div>
@@ -217,6 +222,8 @@ const HomeSections = ({ featuredEvents, isLoading, error }: HomeSectionsProps) =
           </ScrollReveal>
         </div>
       </section>
+
+      <HomeQuery />
 
       <section className="eh-home-section eh-final-cta-section" aria-labelledby="eh-cta-title">
         <div className="eh-home-container">
