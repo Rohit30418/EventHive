@@ -1,0 +1,124 @@
+name: Temporary Premium Homepage UI Verification
+on:
+  push:
+    branches: [ui/homepage-orange-motion-refine-20261102]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VITE_FIREBASE_API_KEY: AIzaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      VITE_FIREBASE_AUTH_DOMAIN: example.firebaseapp.com
+      VITE_FIREBASE_PROJECT_ID: eventhive-premium-home-test
+      VITE_FIREBASE_STORAGE_BUCKET: eventhive-premium-home-test.appspot.com
+      VITE_FIREBASE_MESSAGING_SENDER_ID: '123456789'
+      VITE_FIREBASE_APP_ID: 1:123456789:web:abcdef1234
+      VITE_FIREBASE_DATABASE_URL: https://eventhive-test-default-rtdb.firebaseio.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci --ignore-scripts
+      - name: Production build
+        run: npm run build
+      - name: Unit tests
+        if: always()
+        run: npm test
+      - name: Install temporary Playwright
+        if: always()
+        run: npm install --no-save --package-lock=false playwright
+      - name: Homepage screenshots and interaction checks
+        if: always()
+        run: |
+          set -e
+          mkdir -p /tmp/eh-premium-shots
+          npm run dev -- --host 127.0.0.1 > /tmp/eh-home-dev.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:5173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node --input-type=module <<'NODE'
+          import { chromium } from "playwright";
+          const browser = await chromium.launch({channel:"chrome",headless:true,args:["--no-sandbox"]});
+          const fake = {
+            id:"event-1",EventName:"EventHive Community Night",
+            eventDate:"2027-05-01",eventType:"Community",
+            location:"Delhi, India",ShortDesc:"A community gathering for event creators.",
+            BannerTagLine:"Build, share and connect.",banner:""
+          };
+          let fails = 0;
+          for (const width of [375,768,1024,1440]) {
+            const ctx=await browser.newContext({viewport:{width,height:900},reducedMotion:"reduce"});
+            const page=await ctx.newPage();
+            await page.route("**/Events/*.json",r=>r.fulfill({status:200,contentType:"application/json",body:JSON.stringify(fake)}));
+            await page.route("**/Events.json",r=>r.fulfill({status:200,contentType:"application/json",body:JSON.stringify({"event-1":fake})}));
+            await page.goto("http://127.0.0.1:5173/",{waitUntil:"domcontentloaded",timeout:30000});
+            await page.locator(".eh-features-grid .eh-feature-card").first().waitFor({timeout:20000});
+            await page.waitForTimeout(650);
+            const m=await page.evaluate(()=>{
+              const rect=s=>document.querySelector(s)?.getBoundingClientRect();
+              const features=[...document.querySelectorAll(".eh-feature-reveal")].map(x=>x.getBoundingClientRect());
+              const step=[...document.querySelectorAll(".eh-journey-step")];
+              return {
+                width:innerWidth,docWidth:document.documentElement.scrollWidth,
+                rootWidth:document.querySelector("#root")?.scrollWidth,
+                heroTitle:!!document.getElementById("eh-hero-title"),
+                heroPreview:!!document.querySelector(".eh-hero-preview"),
+                featureCards:features.length,featureArt:document.querySelectorAll(".eh-art-surface").length,
+                roles:document.querySelectorAll(".eh-role-tab").length,steps:step.length,
+                journeyPreview:!!document.querySelector(".eh-journey-preview"),
+                stepRows:step.map(x=>Math.round(x.getBoundingClientRect().height)),
+                featureColumns:getComputedStyle(document.querySelector(".eh-features-grid")).gridTemplateColumns,
+                heroGrid:getComputedStyle(document.querySelector(".eh-hero-grid")).gridTemplateColumns,
+                faq:document.querySelectorAll(".eh-faq-item").length,
+                intro:rect("#eh-hero-title")?.toJSON(),
+                stage:rect(".eh-hero-stage")?.toJSON()
+              };
+            });
+            const bad = [];
+            if(m.docWidth>width+2 || (m.rootWidth??0)>width+2)bad.push("horizontal overflow");
+            if(m.featureCards!==6||m.featureArt!==6)bad.push("feature cards/illustrations missing");
+            if(m.roles!==3||m.steps!==4||!m.journeyPreview)bad.push("role/step product scenes missing");
+            if(!m.heroTitle||!m.heroPreview||m.faq!==4)bad.push("major section missing");
+            if(width===1440 && m.featureColumns.split(" ").length!==12)bad.push("not 12-column bento");
+            if(width===375 && m.featureColumns.split(" ").length!==1)bad.push("mobile features not stacked");
+            console.log((bad.length?"FAIL":"PASS")+" HOMEPAGE width="+width+" issues="+bad.join(",")+" "+JSON.stringify(m));
+            fails+=bad.length;
+            await page.screenshot({path:"/tmp/eh-premium-shots/home-"+width+".png",fullPage:true,animations:"disabled"});
+            if(width===1440) {
+              for(const [selector,name] of [[".eh-hero-grid","hero"],[".eh-features-section","features"],[".eh-role-section","roles"],[".eh-journey-section","journey"],[".eh-final-cta-section","cta"]]){
+                await page.locator(selector).screenshot({path:"/tmp/eh-premium-shots/"+name+"-1440.png",animations:"disabled"});
+              }
+            }
+            const attendee=page.getByRole("tab",{name:"Attendees"});
+            await attendee.click();
+            const attendeeTitle=await page.locator(".eh-workspace-heading h4").textContent();
+            if(!attendeeTitle?.includes("Find your next experience")){fails++;console.error("FAIL ROLE attendees "+attendeeTitle);}
+            else console.log("PASS ROLE attendees width="+width);
+            const admin=page.getByRole("tab",{name:"Admin Teams"});
+            await admin.click();
+            const adminTitle=await page.locator(".eh-workspace-heading h4").textContent();
+            if(!adminTitle?.includes("Keep everything on track")){fails++;console.error("FAIL ROLE admins "+adminTitle);}
+            else console.log("PASS ROLE admins width="+width);
+            const faq=page.locator("#eh-faq-trigger-1");
+            await faq.click();
+            const expanded=await faq.getAttribute("aria-expanded");
+            if(expanded!=="true"){fails++;console.error("FAIL FAQ width="+width);}
+            else console.log("PASS FAQ width="+width);
+            await ctx.close();
+          }
+          await browser.close();
+          console.log("PREMIUM_HOME_FAILURES="+fails);
+          if(fails)process.exitCode=1;
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: premium-homepage-screenshots
+          path: /tmp/eh-premium-shots/
+          if-no-files-found: ignore
