@@ -148,3 +148,35 @@ html.a11y-pause-animations *::after {
 .eh-accessibility-panel {
   position: fixed !important;
 }
+
+/* Compact mobile dock: no tall stack obscuring the hero or event cards. */
+@media (max-width: 640px) {
+  .eh-floating-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    padding: 5px;
+    border: 1px solid rgba(31,28,26,.12);
+    border-radius: 999px;
+    background: rgba(255,248,243,.98);
+    box-shadow: 0 5px 18px rgba(31,28,26,.1);
+  }
+  .eh-floating-action {
+    width: 39px;
+    height: 39px;
+    flex: 0 0 39px;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .eh-accessibility-panel {
+    right: 12px;
+    bottom: 74px;
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+    border-radius: 19px;
+    backdrop-filter: none;
+  }
+}
