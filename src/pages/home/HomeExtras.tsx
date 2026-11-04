@@ -138,7 +138,6 @@ export function HomeTestimonials() {
                       loading="eager"
                       decoding="async"
                     />
-                    <span className="eh-extras-photo-tag">{hasQuotes ? "Community story" : "Sample image"}</span>
 
                   </div>
                   <div className="eh-extras-story-content">
