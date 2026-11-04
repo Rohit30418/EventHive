@@ -35,7 +35,7 @@ export function ScrollReveal({ children, className = "", delay = 0, ...accessibi
 // Scales with its parent preview: no positioned elements escaping the grid.
 export function EventPosterSvg() {
   return (
-    <svg className="eh-preview-art" viewBox="0 0 640 320" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+    <svg className="eh-preview-art" viewBox="0 0 640 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="eh-poster-bg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#28211D" />
