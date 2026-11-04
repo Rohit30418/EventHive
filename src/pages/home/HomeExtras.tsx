@@ -38,9 +38,9 @@ const accessOptions = [
 // Swap these temporary portraits for approved customer images later.
 // Their subjects are NOT EventHive customers and the invitations below are NOT reviews.
 const samplePortraits = [
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=720&h=900&q=80",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=720&h=900&q=80",
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=720&h=900&q=80",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=520&h=640&q=72",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=520&h=640&q=72",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=520&h=640&q=72",
 ] as const;
 
 type CommunityStory = {
@@ -135,7 +135,7 @@ export function HomeTestimonials() {
                     <img
                       src={story.portrait || samplePortraits[index % samplePortraits.length]}
                       alt={hasQuotes ? "Customer portrait" : "Temporary portrait for layout preview, not an EventHive customer"}
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
                     />
                     <span className="eh-extras-photo-tag">{hasQuotes ? "Community story" : "Sample image"}</span>
