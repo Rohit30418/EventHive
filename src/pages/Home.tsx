@@ -4,7 +4,6 @@ import useGetEvent from "../AdminCustomHooks/useGetEvents";
 import HomeHero from "./home/HomeHero";
 import { HomeSmoothScroll } from "./home/HomeMotion";
 import "./home/home-layout.css";
-import "./home/home-premium.css";
 import HomeSections from "./home/HomeSections";
 
 const Home = () => {
