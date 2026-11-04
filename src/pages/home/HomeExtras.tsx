@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { ArrowRight, CheckCircle2, Mail, MessageCircle, Pause, Play, Send, ShieldCheck, Sparkles, Ticket, Users } from "lucide-react";
+import { ArrowRight, CheckCircle2, Mail, MessageCircle, Pause, Play, Send, ShieldCheck, Sparkles, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const supportEmail = "support@eventhive.com";
