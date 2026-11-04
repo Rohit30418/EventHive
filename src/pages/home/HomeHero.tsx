@@ -61,8 +61,8 @@ const HomeHero = ({ heroEvent }: HomeHeroProps) => {
             <circle cx="315" cy="268" r="187" stroke="#E3BAA3" strokeWidth="1.5" fill="none"/>
           </svg>
           <motion.div
-            initial={reducedMotion ? false : { opacity: .95, y: 25, rotate: 1 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            initial={reducedMotion ? false : { opacity: .95, rotate: 1 }}
+            animate={{ opacity: 1, rotate: 0 }}
             transition={{ duration: reducedMotion ? 0 : .8, ease: [0.22, 1, 0.36, 1] }}
             style={reducedMotion ? undefined : { y: previewY }}
             className="eh-hero-preview eh-home-card"
