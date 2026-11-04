@@ -16,6 +16,7 @@ const accessOptions = [
   },
   {
     name: "For Organizers",
+    popular: true,
     detail: "Pricing on request",
     description: "Create branded pages and manage event details in one place.",
     features: ["Branded event pages", "Manage registrations", "Organizer dashboard"],
@@ -34,14 +35,25 @@ const accessOptions = [
   },
 ];
 
-// Use only genuine, approved customer feedback here. Until real reviews are
-// supplied, the moving cards invite participation rather than inventing quotes.
-type CommunityStory = { audience: string; message: string; label: string };
+// Swap these temporary portraits for approved customer images later.
+// Their subjects are NOT EventHive customers and the invitations below are NOT reviews.
+const samplePortraits = [
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=720&h=900&q=80",
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=720&h=900&q=80",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=720&h=900&q=80",
+] as const;
+
+type CommunityStory = {
+  audience: string;
+  message: string;
+  label: string;
+  portrait?: string;
+};
 const approvedTestimonials: CommunityStory[] = [];
 const storyInvitations: CommunityStory[] = [
-  { audience: "Event organizers", message: "Have you created an event with EventHive? Share what worked well for your team.", label: "Share your experience" },
-  { audience: "Event attendees", message: "Joined an event through EventHive? Tell us what made the experience memorable.", label: "Your voice matters" },
-  { audience: "Admin teams", message: "Helped manage an event? We would love to hear which parts made your work easier.", label: "Tell us your story" },
+  { audience: "Event organizers", message: "Have you created an event with EventHive? Share what worked well for your team.", label: "Share your experience", portrait: samplePortraits[0] },
+  { audience: "Event attendees", message: "Joined an event through EventHive? Tell us what made the experience memorable.", label: "Your voice matters", portrait: samplePortraits[1] },
+  { audience: "Admin teams", message: "Helped manage an event? We would love to hear which parts made your work easier.", label: "Tell us your story", portrait: samplePortraits[2] },
 ];
 const stories = approvedTestimonials.length > 0 ? approvedTestimonials : storyInvitations;
 
@@ -60,7 +72,10 @@ export function HomePricing() {
           {accessOptions.map((option, index) => {
             const Icon = option.icon;
             return (
-              <article className="eh-home-card eh-extras-price-card" key={option.name}>
+              <article className={"eh-home-card eh-extras-price-card" + ("popular" in option && option.popular ? " is-popular" : "")} key={option.name}>
+                {"popular" in option && option.popular && (
+                  <span className="eh-extras-popular-badge"><Sparkles size={14} aria-hidden="true" /> Most Popular</span>
+                )}
                 <div className="eh-extras-price-top">
                   <span className="eh-home-icon"><Icon size={24} aria-hidden="true" /></span>
                   <span className="eh-extras-price-index">0{index + 1} / 03</span>
@@ -114,13 +129,31 @@ export function HomeTestimonials() {
         <div className="eh-extras-story-track">
           {[0, 1].map((copy) => (
             <div className="eh-extras-story-group" key={copy} aria-hidden={copy === 1}>
-              {stories.map((story) => (
-                <article className="eh-home-card eh-extras-story-card" key={story.audience}>
-                  <span className="eh-extras-story-quote" aria-hidden="true"><MessageCircle size={22} /></span>
-                  <p>{story.message}</p>
-                  <div className="eh-extras-story-meta">
-                    <span>{story.audience}</span>
-                    <small>{hasQuotes ? story.label : "Invitation to share"}</small>
+              {stories.map((story, index) => (
+                <article className={"eh-home-card eh-extras-story-card eh-extras-story-card--" + ["split", "portrait", "editorial"][index % 3]} key={story.audience}>
+                  <div className="eh-extras-story-photo">
+                    <img
+                      src={story.portrait || samplePortraits[index % samplePortraits.length]}
+                      alt={hasQuotes ? "Customer portrait" : "Temporary portrait for layout preview, not an EventHive customer"}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span className="eh-extras-photo-tag">{hasQuotes ? "Community story" : "Sample image"}</span>
+                    {index % 3 === 2 && (
+                      <svg className="eh-extras-photo-doodle" viewBox="0 0 90 90" fill="none" aria-hidden="true">
+                        <path d="M16 66C31 40 48 64 73 20" stroke="#F26B2A" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 7" />
+                        <path d="m59 21 14-1-2 15" stroke="#F26B2A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="21" cy="22" r="7" fill="#FFEBDD" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="eh-extras-story-content">
+                    <span className="eh-extras-story-quote" aria-hidden="true"><MessageCircle size={21} /></span>
+                    <p>{story.message}</p>
+                    <div className="eh-extras-story-meta">
+                      <span>{story.audience}</span>
+                      <small>{hasQuotes ? story.label : "Invitation to share"}</small>
+                    </div>
                   </div>
                 </article>
               ))}
