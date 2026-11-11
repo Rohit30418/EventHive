@@ -2,7 +2,7 @@ name: Frontend quality checks
 
 on:
   push:
-    branches: [improve/eventhive-interview-ready]
+    branches: [main, improve/eventhive-interview-ready]
   pull_request:
 
 permissions:
