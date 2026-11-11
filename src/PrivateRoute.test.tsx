@@ -79,6 +79,20 @@ describe("PrivateRoute", () => {
     expect(screen.getByText("Unauthorized page")).toBeInTheDocument();
   });
 
+  it("denies dashboard access while the authenticated role is unresolved", () => {
+    mockedUseAuth.mockReturnValue({
+      user,
+      role: null,
+      isApproved: null,
+      loading: false,
+      logout,
+    });
+
+    renderProtectedRoute(["SuperAdmin"]);
+
+    expect(screen.getByText("Unauthorized page")).toBeInTheDocument();
+  });
+
   it("renders protected content for an approved organizer", () => {
     mockedUseAuth.mockReturnValue({
       user,

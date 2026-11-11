@@ -22,7 +22,7 @@ const PrivateRoute: FC<Props> = ({ allowedRoles, children }) => {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  if (allowedRoles && role && !allowedRoles.includes(role)) {
+  if (allowedRoles && (!role || !allowedRoles.includes(role))) {
     return <Navigate to="/unauthorized" replace />;
   }
 

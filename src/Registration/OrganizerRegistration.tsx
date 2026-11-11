@@ -125,7 +125,7 @@ const OrganizerRegistration = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 700));
 
-      toast.info("Payment verified. Creating organizer account...");
+      toast.info("Demo checkout complete. No payment was charged. Creating organizer account...");
 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -148,9 +148,9 @@ const OrganizerRegistration = () => {
         companyName: formData.companyName,
         role: "Organizer",
         isApproved: false,
-        subscriptionStatus: "active",
+        subscriptionStatus: "demo",
         paymentMethod,
-        paymentAmount: 50,
+        paymentAmount: 0,
         createdAt: new Date().toISOString(),
       };
 
@@ -212,7 +212,7 @@ const OrganizerRegistration = () => {
               <p className="mb-2 text-xs font-black uppercase tracking-[0.18em] text-indigo-600">Step {step} of 2</p>
 
               <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
-                {step === 1 ? "Create organizer account" : "Complete secure payment"}
+                {step === 1 ? "Create organizer account" : "Demo checkout — no real payment"}
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-slate-500">
@@ -224,7 +224,7 @@ const OrganizerRegistration = () => {
                     </Link>
                   </>
                 ) : (
-                  "Your subscription is mocked for demo flow and account creation continues after payment confirmation."
+                  "This is a simulated checkout for demonstration. No money will be charged or payment verified."
                 )}
               </p>
             </div>
@@ -340,7 +340,7 @@ const OrganizerRegistration = () => {
                   type="submit"
                   className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-6 py-4 text-sm font-bold text-white transition-all hover:bg-indigo-600"
                 >
-                  Proceed to Payment <ArrowRight size={18} />
+                  Proceed to Demo Checkout <ArrowRight size={18} />
                 </button>
               </form>
             )}
@@ -351,10 +351,10 @@ const OrganizerRegistration = () => {
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <p className="text-sm font-bold text-slate-500">Organizer Pro Subscription</p>
-                      <h3 className="mt-1 text-3xl font-black text-slate-950">$50.00</h3>
+                      <h3 className="mt-1 text-3xl font-black text-slate-950">$50.00 <span className="text-sm font-semibold text-slate-500">(demo price)</span></h3>
                     </div>
                     <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
-                      <span className="h-2 w-2 rounded-full bg-emerald-500" /> Secure
+                      <span className="h-2 w-2 rounded-full bg-emerald-500" /> Simulation
                     </div>
                   </div>
                 </div>
@@ -398,7 +398,7 @@ const OrganizerRegistration = () => {
                     <div className="space-y-3">
                       <label className="ml-1 text-xs font-black uppercase tracking-[0.18em] text-slate-500">UPI ID</label>
                       <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-slate-800 outline-none focus:border-indigo-300 focus:bg-white focus:ring-4 focus:ring-indigo-100" />
-                      <p className="text-xs font-semibold text-slate-400">Open your UPI app to approve the request.</p>
+                      <p className="text-xs font-semibold text-slate-400">Demo only. No UPI request is sent.</p>
                     </div>
                   )}
 
@@ -437,7 +437,7 @@ const OrganizerRegistration = () => {
                       </>
                     ) : (
                       <>
-                        Pay $50.00 <ArrowRight size={18} />
+                        Complete Demo Checkout <ArrowRight size={18} />
                       </>
                     )}
                   </button>

@@ -14,7 +14,7 @@ const event: EventType = {
 };
 
 describe("EventCard", () => {
-  it("renders event details and links to the public event page", () => {
+  it("renders event details and links to the public microsite route", () => {
     render(
       <MemoryRouter>
         <EventCard event={event} index={0} />
@@ -26,7 +26,20 @@ describe("EventCard", () => {
     expect(screen.getByText("Technology")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /View Event/i })).toHaveAttribute(
       "href",
-      "/Event/event-123"
+      "/events/frontend-summit-2026/event-123"
+    );
+  });
+
+  it("links compact cards to the event management route", () => {
+    render(
+      <MemoryRouter>
+        <EventCard event={event} index={0} variant="compact" />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole("link", { name: /Manage Event/i })).toHaveAttribute(
+      "href",
+      "/Dashboard/EditEvent/event-123"
     );
   });
 });

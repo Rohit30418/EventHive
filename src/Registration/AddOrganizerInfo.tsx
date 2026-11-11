@@ -22,7 +22,9 @@ const AddOrganizerInfo = () => {
   const [success, setSuccess] = useState(false);
 
   const handleAddOrganizer = async (formData: OrganizerFormData) => {
-    const { confirmPassword: _confirmPassword, ...payload } = formData;
+    // Only persist profile fields. Never send passwords to Realtime Database.
+    const { fullName, email, phone, companyName, consent } = formData;
+    const payload = { fullName, email, phone, companyName, consent };
     setIsLoading(true);
     setError(null);
     setSuccess(false);
