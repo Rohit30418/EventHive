@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- Keep the existing context/provider/hook import API; split modules in a dedicated refactor. */
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { useQueryClient } from "@tanstack/react-query";

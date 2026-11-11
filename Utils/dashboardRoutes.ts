@@ -34,7 +34,7 @@ const EventRegistrationsTable = lazy(
 
 export interface RouteConfig {
   path: string;
-  component: React.ComponentType<any>;
+  component: React.ComponentType;
   roles: string[];
 }
 
