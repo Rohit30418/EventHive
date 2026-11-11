@@ -52,7 +52,7 @@ const ManageRequest = () => {
       const token = await user.getIdToken();
       await axios.patch(`${apiPath}/Organizer/${id}.json?auth=${token}`, { isApproved: status });
       toast.success(status ? "User Approved ✅" : "User Access Revoked ❌");
-    } catch (error) {
+    } catch {
       toast.error("Update failed, reverting changes.");
       fetchData();
     }
