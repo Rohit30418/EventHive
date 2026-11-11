@@ -36,7 +36,7 @@ describe("OrganizerRegistration", () => {
   it("shows validation errors when the first step is submitted empty", async () => {
     renderPage();
 
-    fireEvent.click(screen.getByRole("button", { name: /Proceed to Payment/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Proceed to Demo Checkout/i }));
 
     expect(
       await screen.findByText(/Full name must be at least 3 characters/i)
@@ -53,7 +53,7 @@ describe("OrganizerRegistration", () => {
     fireEvent.change(screen.getByLabelText("Confirm Password"), {
       target: { value: "Password2!" },
     });
-    fireEvent.click(screen.getByRole("button", { name: /Proceed to Payment/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Proceed to Demo Checkout/i }));
 
     expect(await screen.findByText(/Passwords don't match/i)).toBeInTheDocument();
   });
