@@ -26,7 +26,17 @@ describe("EventCard", () => {
     expect(screen.getByText("Technology")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /View Event/i })).toHaveAttribute(
       "href",
-      "/Event/event-123"
+      "/events/frontend-summit-2026/event-123"
+    );
+  });
+  it("links compact event cards to edit screen", () => {
+    render(
+      <MemoryRouter>
+        <EventCard event={event} index={0} variant="compact" />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole("link", { name: /Manage Event/i })).toHaveAttribute(
+      "href", "/Dashboard/EditEvent/event-123"
     );
   });
 });

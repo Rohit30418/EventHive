@@ -134,7 +134,7 @@ const OrganizerRegistration = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 700));
 
-      toast.info("Payment verified. Creating organizer account...");
+      toast.info("Demo checkout complete. No payment was charged. Creating organizer account...");
 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -157,9 +157,9 @@ const OrganizerRegistration = () => {
         companyName: formData.companyName,
         role: "Organizer",
         isApproved: false,
-        subscriptionStatus: "active",
+        subscriptionStatus: "demo",
         paymentMethod,
-        paymentAmount: 50,
+        paymentAmount: 0,
         createdAt: new Date().toISOString(),
       };
 
@@ -240,7 +240,7 @@ const OrganizerRegistration = () => {
                 Step {step} of 2
               </p>
               <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#1F1C1A] sm:text-3xl">
-                {step === 1 ? "Create organizer account" : "Complete demo payment"}
+                {step === 1 ? "Create organizer account" : "Demo checkout — no real payment"}
               </h2>
               <p className="mt-3 text-sm leading-6 text-[#77736f]">
                 {step === 1 ? (
@@ -251,7 +251,7 @@ const OrganizerRegistration = () => {
                     </Link>
                   </>
                 ) : (
-                  "This payment step is mocked for the EventHive demo flow."
+                  "This is a simulated checkout. No money will be charged or verified."
                 )}
               </p>
             </div>
@@ -362,7 +362,7 @@ const OrganizerRegistration = () => {
                   type="submit"
                   className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#1F1C1A] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#F26B2A]"
                 >
-                  Proceed to Payment <ArrowRight size={18} />
+                  Proceed to Demo Checkout <ArrowRight size={18} />
                 </button>
               </form>
             )}
@@ -373,7 +373,7 @@ const OrganizerRegistration = () => {
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="text-sm font-bold text-[#77736f]">Organizer Pro Subscription</p>
-                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#1F1C1A]">$50.00</h3>
+                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#1F1C1A]">$50.00 <span className="text-sm font-semibold text-[#77736f]">(demo price)</span></h3>
                     </div>
                     <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#F26B2A]">
                       <span className="h-2 w-2 rounded-full bg-[#F26B2A]" /> Demo checkout
@@ -459,7 +459,7 @@ const OrganizerRegistration = () => {
                       </>
                     ) : (
                       <>
-                        Pay $50.00 <ArrowRight size={18} />
+                        Complete Demo Checkout <ArrowRight size={18} />
                       </>
                     )}
                   </button>
