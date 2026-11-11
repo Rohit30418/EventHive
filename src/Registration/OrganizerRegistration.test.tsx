@@ -3,6 +3,9 @@ import { BrowserRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import OrganizerRegistration from "./OrganizerRegistration";
 
+// Validation/UI tests should not initialize a real Firebase client.
+vi.mock("../Firebase", () => ({ auth: { currentUser: null } }));
+
 describe("OrganizerRegistration", () => {
   const renderPage = () => {
     render(
