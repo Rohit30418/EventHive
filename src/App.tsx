@@ -10,6 +10,7 @@ import {
 } from "../Utils/dashboardRoutes";
 
 import Preloader from "./common/Preloader";
+import FloatingTools from "./common/FloatingTools";
 import PrivateRoute from "./PrivateRoute";
 
 // Layouts
@@ -67,6 +68,8 @@ function App() {
           theme="colored"
           toastClassName="!rounded-2xl !font-bold"
         />
+
+        <FloatingTools />
 
         <Routes>
           {/* PUBLIC WEBSITE */}

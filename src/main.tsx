@@ -1,5 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import './theme.css';
+import './accessibility.css';
 import App from './App';
 import { store } from './store/store';
 import { Provider } from 'react-redux';

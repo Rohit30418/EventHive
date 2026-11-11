@@ -550,7 +550,7 @@ svg {
 }
 
 @media (max-width: 768px) {
-  html { font-size: 15px; }
+  html { font-size: 16px; }
   .eh-page-title { line-height: 1.06; }
   .eh-panel { border-radius: 1.4rem; }
   .eh-table th,
@@ -696,3 +696,26 @@ textarea:focus-visible {
     right: 0.5rem !important;
   }
 }
+
+/* Homepage-only art direction. All dashboard and event routes retain their existing theme. */
+.eh-home { --eh-orange:#F26B2A; --eh-black:#1F1C1A; --eh-cream:#FFF8F3; --eh-peach:#FFEBDD; font-family:Inter,sans-serif; }
+.eh-home .font-display, .eh-home h1, .eh-home h2 { font-family:"Space Grotesk",Inter,sans-serif; letter-spacing:-.055em; }
+.eh-home .font-accent {font-family:"Instrument Serif",Georgia,serif; font-weight:400;}
+.eh-home::before {content:"";pointer-events:none;position:fixed;inset:0;z-index:40;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.eh-home .eh-mesh {background:radial-gradient(ellipse at 75% 24%,rgba(242,107,42,.18),transparent 45%),radial-gradient(ellipse at 10% 80%,rgba(255,183,132,.26),transparent 45%),#FFF8F3;}
+.eh-home .eh-home-button:focus-visible,.eh-home :is(a,button,summary):focus-visible {outline:3px solid #F26B2A;outline-offset:4px;}
+.eh-home .eh-home-button {transition:transform .25s ease,background-color .25s ease,opacity .25s ease;}
+.eh-home .eh-home-navbar {isolation:isolate;}
+@media(prefers-reduced-motion:reduce) {.eh-home *, .eh-home *::before,.eh-home *::after{animation:none!important;scroll-behavior:auto!important;}}
+
+/* Home page only: motion-safe marquee and footer links. */
+.eh-home-marquee {animation:eh-home-drift 32s linear infinite;}
+@keyframes eh-home-drift {from {transform:translateX(0)} to {transform:translateX(-50%)}}
+.eh-home-footer a:not([aria-label]):hover {text-decoration:underline;text-decoration-color:#F26B2A;text-underline-offset:6px;}
+.eh-home-footer .font-display {font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.075em;}
+.eh-home-footer a:focus-visible {outline:3px solid #F26B2A;outline-offset:3px;}
+.eh-home {scroll-margin-top:90px;}
+.eh-home section[id] {scroll-margin-top:100px;}
+@media (prefers-reduced-motion:reduce){.eh-home-marquee{animation:none!important;}}
+
+.eh-home-footer .eh-home-wordmark:hover { color:transparent; background-image:linear-gradient(90deg,#FFEBDD,#F26B2A 54%,#FFEBDD); -webkit-background-clip:text; background-clip:text; }

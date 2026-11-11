@@ -9,6 +9,7 @@ interface EventCardTypes {
   index: number;
   event: EventType;
   variant?: "public" | "compact";
+  homeFeatured?: boolean;
 }
 
 const fallbackImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80";
@@ -31,7 +32,7 @@ const getStatus = (value?: string) => {
     : { label: "Completed", tone: "bg-slate-950/70 text-white" };
 };
 
-const EventCard: React.FC<EventCardTypes> = ({ event, index, variant = "public" }) => {
+const EventCard: React.FC<EventCardTypes> = ({ event, index, variant = "public", homeFeatured = false }) => {
   const status = getStatus(event.eventDate);
   const category = event.eventType || event.category || "Event";
  const eventSlug = createSlug(
@@ -46,11 +47,11 @@ const destination =
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 22 }}
+      initial={homeFeatured ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.3) }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_20px_70px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-2 hover:border-indigo-200 hover:shadow-[0_30px_90px_rgba(79,70,229,0.16)] dark:border-slate-800 dark:bg-slate-900"
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white shadow-[0_20px_70px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-2 dark:border-slate-800 dark:bg-slate-900 ${homeFeatured ? "border-[#F26B2A]/20 hover:border-[#F26B2A]/70" : "border-slate-200/80 hover:border-indigo-200"}`}
     >
       <div className="relative h-60 overflow-hidden bg-slate-200">
         <img

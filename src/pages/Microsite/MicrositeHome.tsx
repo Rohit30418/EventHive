@@ -53,9 +53,9 @@ const MicrositeHome = () => {
   const { eventData: data } = useAppSelector((state) => state.microsite);
   const event = data ?? { EventName: "", eventDate: "" };
 
-  const primaryColor = event.PrimaryColor || event.primaryColor || "#00A676";
+  const primaryColor = event.PrimaryColor || event.primaryColor || "#F26B2A";
   const secondaryColor =
-    event.SecondaryColor || event.secondaryColor || "#FACC15";
+    event.SecondaryColor || event.secondaryColor || "#E88A54";
 
   const eventDateStr = event.eventDate;
   const isEventPassed = eventDateStr
@@ -121,7 +121,7 @@ const MicrositeHome = () => {
   return (
     <div
       id="top"
-      className="w-full overflow-x-hidden bg-[#FAFAFA] font-sans text-slate-900 antialiased"
+      className="eh-ms-page w-full min-w-0 bg-[#FFF8F3] font-sans text-slate-900 antialiased"
     >
       <style>
         {`
@@ -133,16 +133,16 @@ const MicrositeHome = () => {
       </style>
 
       {/* HERO SECTION */}
-      <section className="relative px-4 pb-16 pt-32 sm:px-8 lg:pb-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+      <section className="eh-ms-section bg-[#FFF8F3]">
+        <div className="eh-ms-container">
+          <div className="eh-ms-hero-grid">
             
             {/* Left Content */}
             <motion.div
               initial="hidden"
               animate="show"
               variants={staggerWrap}
-              className="flex flex-col text-left"
+              className="flex min-w-0 flex-col text-left"
             >
               {/* Tags */}
               <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3">
@@ -165,7 +165,7 @@ const MicrositeHome = () => {
               {/* Headings */}
               <motion.h1
                 variants={fadeInUp}
-                className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tight text-[#0f172a] sm:text-6xl lg:text-7xl"
+                className="eh-ms-hero-title mt-6 max-w-3xl font-bold tracking-tight text-[#0f172a]"
               >
                 {event.EventName
                   ? event.EventName.split(" ").slice(0, 2).join(" ")
@@ -177,7 +177,7 @@ const MicrositeHome = () => {
               </motion.h1>
               <motion.h2
                 variants={fadeInUp}
-                className="mt-2 text-4xl font-extrabold sm:text-5xl lg:text-5xl"
+                className="mt-2 break-words text-[clamp(1.6rem,3.7vw,2.7rem)] font-bold leading-tight [overflow-wrap:anywhere]"
                 style={{ color: primaryColor }}
               >
                 {event.BannerTagLine || "Scale Up."}
@@ -192,13 +192,13 @@ const MicrositeHome = () => {
               </motion.p>
 
               {/* Event Info Row */}
-              <motion.div variants={fadeInUp} className="mt-8 flex items-center gap-8">
+              <motion.div variants={fadeInUp} className="eh-ms-date-location mt-8">
                 <div className="flex items-start gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
                     <Calendar size={18} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       Date
                     </p>
                     <p className="mt-0.5 font-bold text-slate-900">
@@ -207,14 +207,14 @@ const MicrositeHome = () => {
                   </div>
                 </div>
                 
-                <div className="h-10 w-px bg-slate-200" />
+                <div aria-hidden="true" className="hidden h-10 w-px bg-slate-200 md:block" />
 
                 <div className="flex items-start gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
                     <MapPin size={18} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       Location
                     </p>
                     <p className="mt-0.5 font-bold text-slate-900">
@@ -227,7 +227,7 @@ const MicrositeHome = () => {
               {/* Action Buttons */}
               <motion.div
                 variants={fadeInUp}
-                className="mt-10 flex flex-wrap items-center gap-4"
+                className="eh-ms-actions mt-8"
               >
                 <button
                   onClick={() =>
@@ -237,8 +237,8 @@ const MicrositeHome = () => {
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
                   disabled={isEventPassed}
-                  className="group flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-600 disabled:opacity-70"
-                  style={{ backgroundColor: primaryColor }}
+                  className={`group inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-colors ${isEventPassed ? "eh-ms-closed" : ""}`}
+                  style={isEventPassed ? undefined : { backgroundColor: primaryColor }}
                 >
                   {isEventPassed ? "Closed" : "Register Now"}
                   {!isEventPassed && (
@@ -258,7 +258,7 @@ const MicrositeHome = () => {
                   <ArrowDown size={16} className="text-slate-400" />
                 </button>
 
-                <button className="ml-2 flex items-center gap-3 text-sm font-bold text-slate-700 transition-opacity hover:opacity-80">
+                <button type="button" onClick={() => document.getElementById("preview-video")?.scrollIntoView({ behavior: "smooth" })} className="inline-flex items-center gap-3 text-sm font-bold text-slate-700 hover:opacity-80">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                     <Play size={16} className="ml-1" fill="currentColor" />
                   </div>
@@ -267,201 +267,127 @@ const MicrositeHome = () => {
               </motion.div>
             </motion.div>
 
-            {/* Right Content - Cinematic Image Showcase */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.75, delay: 0.2, ease: "easeOut" }}
-              className="relative mx-auto w-full max-w-[600px] lg:mx-0 lg:w-full lg:max-w-none group"
-            >
-              {/* Aspect Ratio Container */}
-              <div className="relative aspect-[4/3] lg:aspect-[12/10] overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-2xl ring-1 ring-slate-900/5">
-                
-                {/* Images Layer */}
+            {/* Same event images and metadata, now inside a contained 16:9 preview. */}
+            <div className="eh-ms-hero-visual">
+              <div className="eh-ms-hero-image eh-ms-card">
                 {heroImages.map((src, idx) => (
                   <div
                     key={src}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                      idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-                    }`}
+                    className={`absolute inset-0 transition-opacity duration-500 ${idx === currentImageIndex ? "z-10 opacity-100" : "z-0 opacity-0"}`}
+                    aria-hidden={idx !== currentImageIndex}
                   >
-                    <img
-                      src={src}
-                      alt="Event showcase"
-                      className="h-full w-full object-cover"
-                      style={{
-                        transform: idx === currentImageIndex ? "scale(1.04)" : "scale(1)",
-                        transitionProperty: "transform",
-                        transitionTimingFunction: "linear",
-                        transitionDuration: idx === currentImageIndex ? "5000ms" : "0ms", 
-                      }}
-                    />
+                    <img src={src} alt="Event showcase" className="h-full w-full object-cover" loading={idx === 0 ? "eager" : "lazy"} />
                   </div>
                 ))}
-
-                {/* Subtle Gradient Overlay */}
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent pointer-events-none" />
-
-                {/* Top Right Info Chips */}
-                <div className="absolute right-6 top-6 z-30 flex flex-col items-end gap-2 text-right">
-                  <div className="rounded-full bg-slate-950/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md ring-1 ring-white/20">
-                    {formatDate(event.eventDate)}
+              </div>
+              <div className="eh-ms-card mt-3 p-6">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="break-words text-xl font-bold text-slate-900 sm:text-2xl">
+                      {event.EventName || "STARTUP FOUNDERS BOOTCAMP"}
+                    </h3>
+                    <p className="mt-1 text-sm text-slate-600">
+                      {event.BannerTagLine || "Launch Your Vision. Scale Your Impact."}
+                    </p>
                   </div>
-                  <div className="rounded-full bg-slate-950/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md ring-1 ring-white/20">
-                    {event.location || "Delhi, India"}
+                  <div className="eh-ms-hero-controls">
+                    <button type="button" aria-label="Previous image" onClick={() => setCurrentImageIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)} className="eh-ms-circle-button"><ChevronLeft size={19} /></button>
+                    <button type="button" aria-label="Next image" onClick={() => setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)} className="eh-ms-circle-button"><ChevronRight size={19} /></button>
                   </div>
                 </div>
-
-                {/* Bottom Left Minimal Text */}
-                <div className="absolute bottom-10 left-8 right-8 z-30">
-                  <h3 className="text-xl font-black uppercase tracking-tight text-white drop-shadow-md sm:text-2xl">
-                    {event.EventName || "STARTUP FOUNDERS BOOTCAMP"}
-                  </h3>
-                  <p className="mt-1.5 max-w-sm text-xs font-semibold text-white/80 drop-shadow-md sm:text-sm">
-                    {event.BannerTagLine || "Launch Your Vision. Scale Your Impact."}
-                  </p>
-                </div>
-
-                {/* Hover Arrows (Desktop only usually) */}
-                <button
-                  onClick={() => setCurrentImageIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
-                  className="absolute left-4 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/30 text-white opacity-0 backdrop-blur-md transition-all hover:bg-slate-950/50 group-hover:opacity-100"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={() => setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)}
-                  className="absolute right-4 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/30 text-white opacity-0 backdrop-blur-md transition-all hover:bg-slate-950/50 group-hover:opacity-100"
-                >
-                  <ChevronRight size={20} />
-                </button>
-
-                {/* Slideshow Indicators */}
-                <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
-                  {heroImages.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentImageIndex(idx)}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        idx === currentImageIndex
-                          ? "w-6 bg-white"
-                          : "w-1.5 bg-white/40 hover:bg-white/60"
-                      }`}
-                    />
-                  ))}
+                <div className="eh-ms-hero-meta">
+                  <span className="rounded-full border border-slate-200 px-3 py-1.5 text-slate-700">{formatDate(event.eventDate)}</span>
+                  <span className="rounded-full border border-slate-200 px-3 py-1.5 text-slate-700">{event.location || "Delhi, India"}</span>
+                  <div className="eh-ms-dots" aria-label="Select event image">
+                    {heroImages.map((_, idx) => (
+                      <button
+                        type="button"
+                        key={idx}
+                        aria-label={`Image ${idx + 1}`}
+                        aria-current={idx === currentImageIndex ? "true" : "false"}
+                        onClick={() => setCurrentImageIndex(idx)}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
-            </motion.div>
-            
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION */}
-      <section id="experience" className="bg-white px-4 py-16 sm:px-6 lg:py-24 border-t border-slate-100">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <p
-              className="mb-4 text-xs font-bold uppercase tracking-wider"
-              style={{ color: primaryColor }}
-            >
+      {/* EXPERIENCE SECTION: image, matching cards and a vertical agenda. */}
+      <section id="experience" className="eh-ms-section bg-white">
+        <div className="eh-ms-container">
+          <div className="eh-ms-section-heading">
+            <p className="eh-ms-eyebrow mb-4" style={{ color: primaryColor }}>
               The experience
             </p>
-            <h2 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl sm:leading-tight">
+            <h2 className="eh-ms-heading text-slate-950">
               Why you should not miss this{" "}
               <span
                 className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})`,
-                }}
+                style={{ backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }}
               >
                 event
               </span>
               .
             </h2>
-            <p className="mt-6 whitespace-pre-line text-lg font-normal leading-relaxed text-slate-600">
+            <p className="eh-ms-copy whitespace-pre-line">
               {event.AboutArea ||
                 "We bring together the right audience, useful content and a memorable experience designed for professionals."}
             </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {valueProps.map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5"
-                >
-                  <div
-                    className="mb-4 grid h-12 w-12 place-items-center rounded-2xl text-white"
-                    style={{
-                      background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                    }}
-                  >
-                    {item.icon}
-                  </div>
-                  <h3 className="text-base font-semibold text-slate-900">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm font-normal leading-relaxed text-slate-600">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="relative"
-          >
-            <div
-              className="absolute -inset-3 rounded-[2rem] opacity-20 blur-2xl"
-              style={{ background: `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` }}
+          <div className="eh-ms-card overflow-hidden">
+            <img
+              src={event.banner || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"}
+              alt="Event experience"
+              className="eh-ms-experience-image"
+              loading="lazy"
             />
-            <div className="relative overflow-hidden rounded-[2.2rem] bg-slate-950 p-5 text-white shadow-2xl">
-              <div className="relative h-[320px] overflow-hidden rounded-[1.7rem] sm:h-[440px]">
-                <img
-                  src={event.banner || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2200&q=80"}
-                  alt="Event experience"
-                  className="h-full w-full object-cover opacity-80 transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div
-                    className="mb-4 flex h-14 w-14 items-center justify-center rounded-full backdrop-blur-md"
-                    style={{ backgroundColor: hexToRgba(primaryColor, 0.75) }}
-                  >
-                    <Play className="ml-1 fill-white" size={24} />
-                  </div>
-                  <h3 className="text-2xl font-bold tracking-tight">Event highlights</h3>
-                  <p className="mt-2 max-w-md text-sm leading-6 text-slate-300">
-                    A premium event experience designed for attendees, speakers and organizers.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {agendaItems.map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-xl"
-                  >
-                    <p className="text-xs font-bold uppercase tracking-wider text-cyan-200">
-                      {item.time}
-                    </p>
-                    <p className="mt-2 text-sm font-medium leading-snug text-white">
-                      {item.title}
-                    </p>
-                  </div>
-                ))}
+            <div className="eh-ms-experience-card">
+              <span
+                className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-white"
+                style={{ backgroundColor: hexToRgba(primaryColor, 0.75) }}
+              >
+                <Play className="ml-1 fill-white" size={24} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl font-bold tracking-tight text-slate-900">Event highlights</h3>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  A premium event experience designed for attendees, speakers and organizers.
+                </p>
               </div>
             </div>
-          </motion.div>
+          </div>
+
+          <div className="eh-ms-features">
+            {valueProps.map((item) => (
+              <article key={item.title} className="eh-ms-card">
+                <div
+                  className="mb-4 grid h-12 w-12 place-items-center rounded-2xl text-white"
+                  style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                >
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-base leading-relaxed text-slate-600">{item.desc}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="eh-ms-timeline eh-ms-card">
+            <ol className="eh-ms-timeline-list">
+              {agendaItems.map((item) => (
+                <li key={item.title} className="eh-ms-timeline-item">
+                  <p className="eh-ms-eyebrow" style={{ color: primaryColor }}>{item.time}</p>
+                  <p className="text-base font-medium leading-snug text-slate-900">{item.title}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
@@ -476,71 +402,67 @@ const MicrositeHome = () => {
       <PricingSection primaryColor={primaryColor} secondaryColor={secondaryColor} />
 
       {/* REGISTRATION */}
-      <div id="registration" className="scroll-mt-24 bg-white px-4 py-14 sm:px-6">
-        {isEventPassed ? (
-          <div className="mx-auto max-w-3xl rounded-[2rem] border border-slate-200 bg-slate-50 px-6 py-20 text-center shadow-sm">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-slate-200 text-slate-500">
-              <Clock size={32} />
-            </div>
-            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Registration Closed
-            </h2>
-            <p className="text-lg font-normal leading-relaxed text-slate-600">
-              The registration for this event has ended because the event date has passed.
-            </p>
-          </div>
-        ) : (
-          <EventRegistration primaryColor={primaryColor} />
-        )}
-      </div>
-
-      {/* MAP */}
-      <section className="relative h-[340px] w-full bg-slate-100 sm:h-[430px]">
-        <iframe
-          src={`https://maps.google.com/maps?q=${encodeURIComponent(
-            event.location || "New Delhi"
-          )}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-          width="100%"
-          height="100%"
-          loading="lazy"
-          title="Event Location"
-          className="absolute inset-0 grayscale transition-all duration-500 hover:grayscale-0"
-          style={{ border: 0 }}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-10 mix-blend-overlay"
-          style={{ backgroundColor: primaryColor }}
-        />
-        <div className="absolute bottom-6 left-1/2 w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 rounded-[1.7rem] border border-white/70 bg-white/90 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.14)] backdrop-blur-xl">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <div
-                className="grid h-12 w-12 place-items-center rounded-2xl text-white"
-                style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-              >
-                <Navigation size={22} />
-              </div>
+      <section id="registration" className="eh-ms-section bg-white">
+        <div className="eh-ms-container">
+          {isEventPassed ? (
+            <div className="eh-ms-registration-closed eh-ms-card">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-200 text-slate-600">
+                <Clock size={25} />
+              </span>
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Event Location
-                </p>
-                <p className="text-base font-bold text-slate-900">
-                  {event.location || "Venue TBA"}
+                <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Registration Closed</h2>
+                <p className="mt-1 text-base leading-relaxed text-slate-600">
+                  The registration for this event has ended because the event date has passed.
                 </p>
               </div>
             </div>
-            <button
-              onClick={() =>
-                document
-                  .getElementById("registration")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
-              style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-            >
-              Register Now
-              <ArrowRight size={17} />
-            </button>
+          ) : (
+            <EventRegistration primaryColor={primaryColor} />
+          )}
+        </div>
+      </section>
+
+      {/* MAP — existing location and action, arranged below the map. */}
+      <section className="eh-ms-section bg-[#FFF8F3]">
+        <div className="eh-ms-container">
+          <div className="eh-ms-card overflow-hidden">
+            <iframe
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                event.location || "New Delhi"
+              )}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              width="100%"
+              height="340"
+              loading="lazy"
+              title="Event Location"
+              className="eh-ms-location-map"
+              style={{ border: 0 }}
+            />
+            <div className="flex flex-wrap items-center justify-between gap-4 p-6">
+              <div className="flex min-w-0 items-center gap-3">
+                <span
+                  className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-white"
+                  style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                >
+                  <Navigation size={22} />
+                </span>
+                <div className="min-w-0">
+                  <p className="eh-ms-eyebrow text-slate-500">Event Location</p>
+                  <p className="mt-1 break-words text-base font-bold text-slate-900">
+                    {event.location || "Venue TBA"}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => document.getElementById("registration")?.scrollIntoView({ behavior: "smooth" })}
+                disabled={isEventPassed}
+                className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white ${isEventPassed ? "eh-ms-closed" : ""}`}
+                style={isEventPassed ? undefined : { background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+              >
+                Register Now
+                <ArrowRight size={17} />
+              </button>
+            </div>
           </div>
         </div>
       </section>

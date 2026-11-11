@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 import { apiPath } from "../../Utils/Utils";
 import { auth } from "../Firebase";
 import { getErrorMessage } from "../utils/error";
 
 const useDeleteRegistration = () => {
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +34,7 @@ const useDeleteRegistration = () => {
         `${apiPath}/Registrations/${eventId}/${regId}.json?auth=${token}`
       );
 
+      await queryClient.invalidateQueries({ queryKey: ["registrations"] });
       toast.success("Registration deleted.");
       return true;
     } catch (err: unknown) {

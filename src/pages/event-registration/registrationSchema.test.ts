@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { registrationSchema } from "./registrationSchema";
 
 const createFileList = (file: File): FileList => {
-  const transfer = new DataTransfer();
-  transfer.items.add(file);
-  return transfer.files;
+  // jsdom does not implement DataTransfer; this fixture supports the FileList API the schema reads.
+  const files = [file];
+  return Object.assign(files, { item: (index: number) => files[index] ?? null }) as unknown as FileList;
 };
 
 const validData = {
