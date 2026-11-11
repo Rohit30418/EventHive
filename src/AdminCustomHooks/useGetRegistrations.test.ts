@@ -14,9 +14,9 @@ describe("fetchRegistrations access scope", () => {
   beforeEach(() => get.mockReset());
 
   it("only reads an organizer's selected event subtrees", async () => {
-    get.mockImplementation(async (url) => ({
-      data: url.includes("/event-a.json") ? { "reg-1": { fullName: "A" } } : {},
-    } as never));
+    get.mockResolvedValueOnce({
+      data: { "reg-1": { fullName: "A" } },
+    } as never);
 
     const data = await fetchRegistrations("organizer-1", "Organizer", ["event-a"]);
     expect(data).toEqual([{ eventId: "event-a", regId: "reg-1", fullName: "A" }]);
