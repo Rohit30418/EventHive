@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "./AuthContext";
 import {
   ArrowLeft,
@@ -81,9 +82,10 @@ const categories = ["Technology", "Webinar", "Music", "Art", "Sports"];
 
 const CreateEvent: React.FC = () => {
   const { addEvent, isLoading } = useAddEvent();
+  const queryClient = useQueryClient();
   const { EventID } = useParams();
   const navigate = useNavigate();
-  const {user}=useAuth();
+  const { user, role } = useAuth();
   const userId:UserId = user?.uid
 
   const [bannerPreview, setBannerPreview] = useState<string>("");
@@ -117,6 +119,11 @@ const CreateEvent: React.FC = () => {
         toast.error("Event not found.");
         return;
       }
+      if (role !== "SuperAdmin" && eventData.userId !== user?.uid) {
+        toast.error("You can only edit your own events.");
+        navigate("/Dashboard/Events", { replace: true });
+        return;
+      }
       reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4", ...eventData });
       setSpeakers(eventData.speakers || []);
       setBannerPreview(eventData.banner || "");
@@ -125,7 +132,7 @@ const CreateEvent: React.FC = () => {
     } finally {
       setLoadingEvent(false);
     }
-  }, [EventID, reset]);
+  }, [EventID, reset, role, user?.uid, navigate]);
 
   useEffect(() => { fetchEvent(); }, [fetchEvent]);
 
@@ -153,17 +160,26 @@ const CreateEvent: React.FC = () => {
         const user = auth.currentUser;
 if (!user) throw new Error("You must be logged in.");
 const token = await user.getIdToken();
+        // Check current ownership for UX; database rules must enforce it too.
+        if (role !== "SuperAdmin") {
+          const existing = await axios.get(`${apiPath}/Events/${EventID}.json?auth=${token}`);
+          if (existing.data?.userId !== user.uid) {
+            throw new Error("You can only edit your own events.");
+          }
+        }
         await axios.patch(`${apiPath}/Events/${EventID}.json?auth=${token}`, payload);
+        await queryClient.invalidateQueries({ queryKey: ["events"] });
         toast.success("Event updated successfully.");
       } else {
-        await addEvent(payload);
+        const saved = await addEvent(payload);
+        if (!saved) return; // Retain user input on a failed request.
       }
       reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" });
       setBannerPreview("");
       setSpeakers([]);
       navigate("/Dashboard/Events");
-    } catch {
-      toast.error("Operation failed");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Operation failed");
     }
   };
 

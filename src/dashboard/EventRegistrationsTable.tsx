@@ -24,7 +24,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const { user, role, loading: authLoading } = useAuth();
 
-  const { data: allRegistrations = [], isLoading: regLoading, error: regError, refetch: refetchRegistrations } = useGetRegistrations();
+  const { data: allRegistrations = [], isLoading: regLoading, error: regError } = useGetRegistrations();
   const { data: allEvents = [], isLoading: eventsLoading, error: eventsError } = useGetEvents();
   const { deleteRegistration, isLoading: isDeleting } = useDeleteRegistration();
 
@@ -35,7 +35,7 @@ const EventRegistrationsTable: React.FC<Props> = ({ eventId: propEventId, eventN
     if (!confirmed) return;
 
     const success = await deleteRegistration(eventId, regId);
-    if (success) refetchRegistrations();
+    if (!success) return; // Mutation hook invalidates the registration query on success.
   };
 
   const filteredData = useMemo(() => {
