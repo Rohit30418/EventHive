@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- Existing consumers import the context and hook alongside the provider; defer a cross-module API refactor. */
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth } from "../Firebase";
