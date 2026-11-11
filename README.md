@@ -4,6 +4,8 @@ A multi-role event management platform built with React and TypeScript for event
 
 EventHive demonstrates practical frontend engineering patterns including protected routing, server-state management, form validation, reusable UI, code splitting, testing, and Firebase-backed application flows.
 
+> **Independent portfolio project.** React and TypeScript here are independent-project experience, not commercial React employment. See the [engineering case study](docs/ENGINEERING_CASE_STUDY.md) for code references, architecture trade-offs, test coverage and honest limitations—including simulated payments and the need to verify Firebase security rules.
+
 ## Preview
 
 <img width="1229" height="770" alt="image" src="https://github.com/user-attachments/assets/841a78ad-7cf0-4825-9d61-774de95efe69" />
