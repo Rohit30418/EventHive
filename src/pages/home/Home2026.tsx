@@ -2,8 +2,8 @@ import { useEffect, useRef, useState, type CSSProperties, type FormEvent, type K
 import { Link } from "react-router-dom";
 import {
   ArrowRight, ArrowUpRight, CalendarDays, Check, CheckCircle2,
-  ChevronRight, ClipboardList, CreditCard, IndianRupee, Mail,
-  MapPin, MessageCircle, ShieldCheck, TicketCheck, UsersRound,
+  ClipboardList, CreditCard, IndianRupee, Mail,
+  MapPin, MessageCircle, TicketCheck, UsersRound,
 } from "lucide-react";
 import { createSlug } from "../../../Utils/createSlug";
 import type { EventType } from "../../Types/eventType";
