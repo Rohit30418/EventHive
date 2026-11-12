@@ -75,13 +75,13 @@ const Login = () => {
   };
 
   return (
-    <section className="bg-[#FFF8F3] py-10 text-[#1F1C1A] sm:py-12 lg:py-16">
-      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E7D8CC] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="relative hidden min-w-0 overflow-hidden bg-[#1F1C1A] p-6 text-white lg:block lg:p-10">
+    <section className="bg-[#FFFFFF] py-10 text-[#111330] sm:py-12 lg:py-16">
+      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E9EAF2] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+        <aside className="relative hidden min-w-0 overflow-hidden bg-[#111330] p-6 text-white lg:block lg:p-10">
           <div className="relative z-10 flex h-full flex-col">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#f6a06f]">
-                <span className="h-px w-9 bg-[#F26B2A]" /> Organizer workspace
+              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#A79CEA]">
+                <span className="h-px w-9 bg-[#4430B9]" /> Organizer workspace
               </div>
               <h1 className="mt-6 max-w-md font-['Space Grotesk',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
                 Welcome back to your event control center.
@@ -94,7 +94,7 @@ const Login = () => {
             <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
               {highlights.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F26B2A] text-white">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#4430B9] text-white">
                     <Icon size={16} />
                   </span>
                   <p className="pt-1 text-sm font-semibold leading-6 text-white/75">{text}</p>
@@ -107,11 +107,11 @@ const Login = () => {
         <div className="min-w-0 p-6 sm:p-8 lg:p-10">
           <div className="mx-auto w-full min-w-0 max-w-lg">
             <div className="mb-6">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">Secure sign in</p>
-              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#1F1C1A] sm:text-3xl">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">Secure sign in</p>
+              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#111330] sm:text-3xl">
                 Log in to EventHive
               </h2>
-              <p className="mt-3 text-sm leading-6 text-[#77736f]">
+              <p className="mt-3 text-sm leading-6 text-[#73778E]">
                 Use your approved organizer or Super Admin account.
               </p>
             </div>
@@ -126,15 +126,15 @@ const Login = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">Email Address</label>
+                <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">Email Address</label>
                 <div className="group relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a39b95] transition-colors group-focus-within:text-[#F26B2A]" size={18} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9A9DB0] transition-colors group-focus-within:text-[#4430B9]" size={18} />
                   <input
                     type="email"
                     {...register("Email")}
                     placeholder="name@company.com"
-                    className={`w-full rounded-2xl border bg-[#FFF8F3] py-3.5 pl-12 pr-4 font-semibold text-[#1F1C1A] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#F26B2A] focus:bg-white focus:ring-4 focus:ring-[#F26B2A]/10 ${
-                      errors.Email ? "border-red-300" : "border-[#eadfd7]"
+                    className={`w-full rounded-2xl border bg-[#FFFFFF] py-3.5 pl-12 pr-4 font-semibold text-[#111330] outline-none transition-all placeholder:text-[#9A9DB0] focus:border-[#4430B9] focus:bg-white focus:ring-4 focus:ring-[#4430B9]/10 ${
+                      errors.Email ? "border-red-300" : "border-[#E9EAF2]"
                     }`}
                   />
                 </div>
@@ -143,17 +143,17 @@ const Login = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-4">
-                  <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">Password</label>
-                  <button type="button" className="text-xs font-bold text-[#F26B2A] hover:text-[#cf5924]">Forgot password?</button>
+                  <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">Password</label>
+                  <button type="button" className="text-xs font-bold text-[#4430B9] hover:text-[#35238F]">Forgot password?</button>
                 </div>
                 <div className="group relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a39b95] transition-colors group-focus-within:text-[#F26B2A]" size={18} />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9A9DB0] transition-colors group-focus-within:text-[#4430B9]" size={18} />
                   <input
                     type="password"
                     {...register("Password")}
                     placeholder="••••••••"
-                    className={`w-full rounded-2xl border bg-[#FFF8F3] py-4 pl-12 pr-4 font-semibold text-[#1F1C1A] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#F26B2A] focus:bg-white focus:ring-4 focus:ring-[#F26B2A]/10 ${
-                      errors.Password ? "border-red-300" : "border-[#eadfd7]"
+                    className={`w-full rounded-2xl border bg-[#FFFFFF] py-4 pl-12 pr-4 font-semibold text-[#111330] outline-none transition-all placeholder:text-[#9A9DB0] focus:border-[#4430B9] focus:bg-white focus:ring-4 focus:ring-[#4430B9]/10 ${
+                      errors.Password ? "border-red-300" : "border-[#E9EAF2]"
                     }`}
                   />
                 </div>
@@ -163,7 +163,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#F26B2A] px-6 py-4 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(239,111,48,0.20)] transition-all hover:-translate-y-0.5 hover:bg-[#dc5f23] disabled:cursor-not-allowed disabled:opacity-70"
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#4430B9] px-6 py-4 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(68,48,185,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#35238F] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <>
@@ -177,18 +177,18 @@ const Login = () => {
               </button>
             </form>
 
-            <div className="mt-6 rounded-2xl border border-[#f0ded2] bg-[#fff3eb] p-4">
+            <div className="mt-6 rounded-2xl border border-[#E9EAF2] bg-[#F8F7FF] p-4">
               <div className="flex items-start gap-3">
-                <CheckCircle2 className="mt-0.5 shrink-0 text-[#F26B2A]" size={18} />
-                <p className="text-xs font-semibold leading-5 text-[#6e6762]">
+                <CheckCircle2 className="mt-0.5 shrink-0 text-[#4430B9]" size={18} />
+                <p className="text-xs font-semibold leading-5 text-[#697087]">
                   Pending organizer accounts remain locked until Super Admin approval.
                 </p>
               </div>
             </div>
 
-            <p className="mt-7 text-center text-sm text-[#77736f]">
+            <p className="mt-7 text-center text-sm text-[#73778E]">
               Don&apos;t have an account?{" "}
-              <Link to="/OrganizerRegistration" className="font-extrabold text-[#F26B2A] hover:text-[#cf5924]">
+              <Link to="/OrganizerRegistration" className="font-extrabold text-[#4430B9] hover:text-[#35238F]">
                 Create account
               </Link>
             </p>
