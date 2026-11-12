@@ -23,11 +23,14 @@ import { hexToRgba, interestsList, trustPoints } from "./event-registration/pres
 interface EventRegistrationProps {
   primaryColor?: string;
   secondaryColor?: string;
+  /** Show the real form design without allowing registrations in draft preview. */
+  previewMode?: boolean;
 }
 
 const EventRegistration = ({
   primaryColor = "#F26B2A",
   secondaryColor = "#E88A54",
+  previewMode = false,
 }: EventRegistrationProps) => {
   const {
     register,
@@ -154,7 +157,9 @@ const EventRegistration = ({
             <div className="h-2 w-full" style={gradientStyle} />
 
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={previewMode ? (event) => event.preventDefault() : handleSubmit(onSubmit)}
+              inert={previewMode}
+              aria-label={previewMode ? "Registration form preview — not interactive" : undefined}
               className="space-y-8 p-5 sm:p-7 lg:p-9"
             >
               {serverError && (
