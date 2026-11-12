@@ -179,12 +179,9 @@
 }
 .eh-extras-story-meta span { font-size: 13px; font-weight: 800; color: #3848BE; }
 .eh-extras-story-meta small { font-size: 12px; font-weight: 650; color: #79839A; }
-.eh-extras-testimonials > .eh-home-container:last-child {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-}
-.eh-extras-testimonials .eh-home-text-link { margin-top: 24px; }
+/* The old marquee used a flex footer container here. The new testimonial section
+   has its heading, 3-column grid and footer in ONE container; it must flow
+   vertically and must never inherit that marquee footer rule. */
 @media (prefers-reduced-motion: reduce) {
   .eh-extras-story-viewport { overflow-x: auto; scrollbar-width: thin; }
   .eh-extras-story-track { animation: none; will-change: auto; }
