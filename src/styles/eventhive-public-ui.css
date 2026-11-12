@@ -170,3 +170,25 @@ html.a11y-pause-animations .public-theme :is(a,button,article,svg,.eh-home-card)
   transition-duration: .01ms !important;
   animation-duration: .01ms !important;
 }
+
+
+/* Keep the public header call-to-action in the same brand system. */
+.public-theme > header nav a[class*="bg-[#111831]"] {
+  background: #3848be;
+  color: #fff;
+  box-shadow: 0 7px 18px rgba(47,65,174,.13);
+}
+@media (hover:hover) and (pointer:fine) {
+  .public-theme > header nav a[class*="bg-[#111831]"]:hover {
+    background: #2b3899;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(47,65,174,.18);
+  }
+  .public-theme > header nav a[class*="bg-[#111831]"]:hover svg {
+    color: #83e4c0;
+    transform: translate(2px,-2px);
+  }
+  .public-theme > header nav a[aria-current="page"] {
+    color: #3848be;
+  }
+}
