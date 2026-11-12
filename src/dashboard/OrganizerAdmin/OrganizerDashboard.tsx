@@ -235,7 +235,7 @@ const OrganizerDashboard = () => {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               to="/Dashboard/CreateEvent"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-6 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-6 py-3 text-sm font-bold text-white hover:bg-[#2B3899] shadow-sm transition-colors"
             >
               <Plus size={18} />
               Create Event
@@ -250,17 +250,6 @@ const OrganizerDashboard = () => {
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* Reference design banner — existing create flow and route retained. */}
-      <div className="eh-ref-promo-banner">
-        <div>
-          <h2>Bring your next idea to life.</h2>
-          <p>Create an event page, share it with your audience and welcome registrations.</p>
-        </div>
-        <Link to="/Dashboard/CreateEvent">
-          Create an event <ArrowRight size={17} aria-hidden="true" />
-        </Link>
       </div>
 
       {/* Metric Cards */}
