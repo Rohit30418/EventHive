@@ -50,6 +50,7 @@
 }
 .eh-dashboard main > div{max-width:1320px}
 .eh-dashboard main > div > .space-y-6{display:grid;gap:23px}
+.eh-dashboard main > div > .space-y-6 > * + *{margin-top:0!important}
 .eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card),
 .eh-dashboard main .rounded-2xl.border{
   border:1px solid #e8e9f2!important;border-radius:18px!important;
