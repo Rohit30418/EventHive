@@ -204,7 +204,7 @@ const AddWebsiteContentForm = () => {
             <button
               type="button"
               onClick={openAddSpeaker}
-              className="mb-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-4 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
+              className="mb-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-4 py-3 text-sm font-bold text-[#111831] shadow-sm transition-colors"
             >
               <Plus size={17} />
               Add Speaker
