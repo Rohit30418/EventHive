@@ -254,3 +254,145 @@
 @media(prefers-reduced-motion:reduce) {
   .eh-home .eh-hero-stage *, .eh-home .eh-hero-stage {animation:none!important;transition:none!important}
 }
+
+
+/* Final polish — the header, hero, sections and footer share one container. */
+.eh-home .eh-home-container {
+  width: 100%;
+  max-width: var(--eh-page-width, 1256px);
+  padding-inline: var(--eh-page-gutter, clamp(20px, 4vw, 44px));
+  margin-inline: auto;
+}
+.eh-home .eh-home-heading {
+  font-size: clamp(29px, 3vw, 43px);
+  line-height: 1.18;
+  text-wrap: balance;
+}
+.eh-home .eh-hero-title {
+  max-width: 565px;
+  font-size: clamp(38px, 3.75vw, 58px) !important;
+  text-wrap: balance;
+}
+.eh-home .eh-home-actions .eh-home-btn {
+  white-space: normal;
+  text-align: center;
+}
+.eh-home .eh-home-btn { gap: 9px; }
+.eh-home .eh-home-btn-outline:hover {
+  color: #087457 !important;
+  border-color: #8bdabd !important;
+  background: #f2fbf7 !important;
+}
+.eh-home .eh-home-btn-outline:hover svg,
+.eh-home .eh-hero-watch:hover svg { color: #0a956d; }
+.eh-home .eh-hero-status-dot { background: #13b785; }
+.eh-home .eh-hero-trust p strong { color: #121a37; }
+.eh-home .eh-trust-avatars span:nth-child(2) { background: #13b785; }
+.eh-home .eh-hero-points svg { color: #0b966b; }
+.eh-home .eh-home-section-intro { margin-bottom: clamp(27px,3vw,40px); }
+.eh-home .eh-features-grid,.eh-home .eh-workflow-grid { gap: 20px; }
+.eh-home .eh-features-grid > *,.eh-home .eh-workflow-grid > *,
+.eh-home .eh-events-grid > * { min-width: 0; }
+.eh-home .eh-feature-card,
+.eh-home .eh-about-benefit,
+.eh-home .eh-workflow-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.eh-home .eh-feature-card::before,
+.eh-home .eh-about-benefit::before,
+.eh-home .eh-workflow-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(19,183,133,.085), transparent 47%);
+  transition: opacity .3s ease;
+}
+.eh-home :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card)
+  :is(.eh-home-icon,.eh-feature-illustration-icon) {
+  transition: color .25s ease, background-color .25s ease, transform .25s ease;
+}
+.eh-home .eh-feature-card :is(.eh-home-icon,.eh-feature-illustration-icon),
+.eh-home .eh-about-benefit .eh-home-icon {
+  background: #edf1ff;
+  color: #3848be;
+}
+@media (hover: hover) and (pointer: fine) {
+  .eh-home :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card):hover::before {
+    opacity: 1;
+  }
+  .eh-home :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card):hover {
+    border-color: #b8dfd2;
+    box-shadow: 0 15px 35px rgba(25,67,107,.085);
+    transform: translateY(-4px);
+  }
+  .eh-home :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card):hover
+    :is(.eh-home-icon,.eh-feature-illustration-icon) {
+    background: #e5f8ef;
+    color: #087457;
+    transform: rotate(-4deg);
+  }
+  .eh-home .eh-events-grid article:hover {
+    border-color: #c7d5f6;
+    box-shadow: 0 13px 30px rgba(25,49,120,.09);
+  }
+  .eh-home .eh-hero-watch:hover span { background:#d8f5e6; }
+  .eh-home .eh-trust-avatars:hover span svg { transform: rotate(-8deg) scale(1.08); }
+}
+@keyframes eh-trust-icon-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .eh-home .eh-trust-avatars span:nth-child(2) {
+    animation: eh-trust-icon-breathe 4s ease-in-out infinite;
+  }
+}
+.eh-home :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card):focus-within {
+  border-color: #9dc4d8;
+}
+
+/* Tablet and phone: readable typography, safe cards, equal gutters. */
+@media (max-width: 1023px) {
+  .eh-home .eh-about-grid { gap: 18px; }
+  .eh-home .eh-home-section { padding-block: 56px; }
+}
+@media (max-width: 900px) {
+  .eh-home .eh-hero-grid { grid-template-columns: minmax(0,1fr); gap: 20px; }
+  .eh-home .eh-hero-copy { max-width: 660px; }
+  .eh-home .eh-hero-title { font-size: clamp(39px,5.5vw,54px)!important; }
+  .eh-home .eh-hero-stage { max-width: 520px; margin-inline: auto; }
+}
+@media (max-width: 640px) {
+  .eh-home .eh-home-section { padding-block: 48px; }
+  .eh-home .eh-home-hero { padding-top: 36px; padding-bottom: 18px; }
+  .eh-home .eh-hero-title { font-size: clamp(34px,8vw,43px)!important; letter-spacing:-.045em; }
+  .eh-home .eh-home-lead { font-size: 15px; line-height:1.7; }
+  .eh-home .eh-hero-stage { width: 100%; max-width: 400px; }
+  .eh-home .eh-hero-trust { flex-wrap: wrap; }
+  .eh-home .eh-home-btn { min-height: 46px; }
+  .eh-home .eh-about-list { grid-template-columns: 1fr; }
+  .eh-home .eh-features-grid, .eh-home .eh-workflow-grid { grid-template-columns:1fr; }
+  .eh-home .eh-extras-pricing-grid { gap: 17px; }
+}
+@media (max-width: 360px) {
+  .eh-home .eh-hero-title { font-size: 32px !important; }
+  .eh-home .eh-hero-stage { height: 325px; }
+  .eh-home .eh-stage-visual { width: min(230px,76%); }
+  .eh-home .eh-stage-float { max-width: 150px; }
+  .eh-home .eh-hero-points { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eh-home .eh-trust-avatars span { animation: none !important; }
+  .eh-home .eh-feature-card::before,
+  .eh-home .eh-about-benefit::before,
+  .eh-home .eh-workflow-card::before { transition: none !important; }
+}
+html.a11y-pause-animations .eh-home .eh-trust-avatars span {
+  animation: none !important;
+}
