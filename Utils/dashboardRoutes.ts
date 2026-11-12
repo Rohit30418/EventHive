@@ -22,6 +22,10 @@ const AddwebsiteContentForm = lazy(
   () => import("../src/dashboard/AddwebsiteContentForm")
 );
 
+const EventDraftPreview = lazy(
+  () => import("../src/dashboard/EventDraftPreview")
+);
+
 const Events = lazy(
   () => import("../src/dashboard/Events")
 );
@@ -79,7 +83,12 @@ export const dashboardRoutes: RouteConfig[] = [
   {
     path: "AddWebsiteContent",
     component: AddwebsiteContentForm,
-    roles: ["Organizer"],
+    roles: ["SuperAdmin", "Organizer"],
+  },
+  {
+    path: "EventPreview",
+    component: EventDraftPreview,
+    roles: ["SuperAdmin", "Organizer"],
   },
 
   // ------------------ SHARED / COMMON ROUTES ------------------
