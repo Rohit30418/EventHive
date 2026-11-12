@@ -373,7 +373,7 @@ function Proof() {
         <h3>Early organizer feedback</h3>
         <p>Are you planning a meetup, workshop, college event or conference? Tell us what's slowing you down. Your feedback can help prioritize the next features.</p>
         <ul><li><Check size={17}/>Share your event workflow</li><li><Check size={17}/>Tell us what integrations matter</li><li><Check size={17}/>Discuss how EventHive could fit your team</li></ul>
-        <Link to="/#contact" className="eh26-text-link">Share your requirements <ArrowRight size={18}/></Link>
+        <a href="mailto:support@eventhive.com?subject=EventHive%20early%20organiser%20feedback" className="eh26-text-link">Share your feedback <ArrowRight size={18}/></a>
       </div></div>
   </section>;
 }
@@ -406,7 +406,7 @@ function SalesContact() {
       <form className="eh26-contact-form" onSubmit={submit}>
         <div className="eh26-contact-fields"><label>Name<input name="name" autoComplete="name" placeholder="Your name" required maxLength={100}/></label><label>Work email<input name="email" type="email" autoComplete="email" placeholder="you@company.in" required maxLength={160}/></label></div>
         <label>Company or college<input name="organization" placeholder="Organization name" required maxLength={160}/></label>
-        <label>What would you like to discuss?<select name="topic" defaultValue="Team and college events"><option>Team and college events</option><option>Paid event requirements</option><option>Organizer onboarding</option><option>Product feedback</option></select></label>
+        <label>What would you like to discuss?<select name="topic" defaultValue="Team and college events"><option>Team and college events</option><option>Paid event requirements</option><option>Organizer onboarding</option><option>Enterprise integrations</option></select></label>
         <label>Your requirements<textarea name="notes" rows={4} required maxLength={2000} placeholder="Event type, expected audience and what you need help with"/></label>
         <button className="eh26-button eh26-button-indigo" type="submit">Compose sales enquiry <ArrowRight size={18}/></button>
         <p className="eh26-form-note" role="status">{prepared?"Your email app should open. Review and send the message there.":"This opens your email app with a draft. Nothing is sent automatically."}</p>
