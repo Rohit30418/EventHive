@@ -7,6 +7,7 @@ import "./home/home-layout.css";
 import "./home/home-extras.css";
 import "./home/home-reference-ui.css";
 import "./home/home-connection.css";
+import "./home/home-testimonials.css";
 import HomeSections from "./home/HomeSections";
 
 const Home = () => {
