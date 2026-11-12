@@ -33,7 +33,10 @@ const extraLinks = [
   { name: "Details", href: "experience" },
 ];
 
-const Header = ({ previewEvent }: { previewEvent?: MicrositeEvent }) => {
+const Header = ({
+  previewEvent,
+  previewMode = false,
+}: { previewEvent?: MicrositeEvent; previewMode?: boolean }) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -77,7 +80,7 @@ const Header = ({ previewEvent }: { previewEvent?: MicrositeEvent }) => {
     setIsMobileMenuOpen(false);
     setMoreOpen(false);
     if (id.startsWith("/")) {
-      navigate(id);
+      if (!previewMode) navigate(id);
       return;
     }
     const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
