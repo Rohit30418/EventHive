@@ -248,14 +248,14 @@ const AllEvents = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-[#111330]">
+    <div className="min-h-screen bg-[#FFFFFF] text-[#111831]">
       <section className="border-b border-[#E9EAF2] bg-[#FFFFFF] py-12 sm:py-14 lg:py-16">
         <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
-          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">
-            <span aria-hidden="true" className="h-0.5 w-10 bg-[#4430B9]" /> Event discovery
+          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#3848BE]">
+            <span aria-hidden="true" className="h-0.5 w-10 bg-[#3848BE]" /> Event discovery
           </div>
           <div className="mt-6 grid items-start gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-12">
-            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#111330]">
+            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#111831]">
               Explore events worth showing up for.
             </h1>
             <p className="max-w-xl text-base leading-8 text-[#73778E] sm:text-lg lg:mb-2">
@@ -270,7 +270,7 @@ const AllEvents = () => {
           <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
             <aside className="min-w-0 lg:sticky lg:top-[104px] lg:self-start">
               <div className="rounded-[1.4rem] border border-[#E9EAF2] bg-white p-6">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3848BE]">
                   Browse by time
                 </p>
                 <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-col lg:overflow-visible lg:pb-0">
@@ -285,8 +285,8 @@ const AllEvents = () => {
                         onClick={() => setEventView(item.id)}
                         className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left transition lg:w-full ${
                           active
-                            ? "bg-[#EFECFF] text-[#4430B9]"
-                            : "text-[#73778E] hover:bg-[#F8F7FF] hover:text-[#111330]"
+                            ? "bg-[#EDF1FF] text-[#3848BE]"
+                            : "text-[#73778E] hover:bg-[#F8F7FF] hover:text-[#111831]"
                         }`}
                       >
                         <span className="flex items-center gap-2.5 whitespace-nowrap text-sm font-bold">
@@ -295,8 +295,8 @@ const AllEvents = () => {
                         <span
                           className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
                             active
-                              ? "bg-white text-[#4430B9]"
-                              : "bg-[#F7F8FC] text-[#8C8FA5]"
+                              ? "bg-white text-[#3848BE]"
+                              : "bg-[#F7F9FE] text-[#8C8FA5]"
                           }`}
                         >
                           {item.count}
@@ -317,8 +317,8 @@ const AllEvents = () => {
                     onClick={() => setCategory(item)}
                     className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-bold transition ${
                       category === item
-                        ? "border-[#4430B9] bg-[#4430B9] text-white"
-                        : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9]"
+                        ? "border-[#3848BE] bg-[#3848BE] text-white"
+                        : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#3848BE]/40 hover:text-[#3848BE]"
                     }`}
                   >
                     {item}
@@ -349,8 +349,8 @@ const AllEvents = () => {
               ) : error ? (
                 <ErrorState title="Could not load events" description={error} />
               ) : displayedEvents.length === 0 ? (
-                <div className="rounded-[1.8rem] border border-dashed border-[#4430B9]/30 bg-white px-5 py-16 text-center">
-                  <CalendarDays size={32} className="mx-auto text-[#4430B9]" />
+                <div className="rounded-[1.8rem] border border-dashed border-[#3848BE]/30 bg-white px-5 py-16 text-center">
+                  <CalendarDays size={32} className="mx-auto text-[#3848BE]" />
                   <h3 className="mt-4 font-['Space Grotesk',sans-serif] text-xl font-extrabold">
                     No events found
                   </h3>
@@ -383,7 +383,7 @@ const AllEvents = () => {
                           aria-label="Previous page"
                           disabled={currentPage === 1}
                           onClick={() => handlePageChange(currentPage - 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9] disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#3848BE]/40 hover:text-[#3848BE] disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           <ChevronLeft size={18} />
                         </button>
@@ -410,8 +410,8 @@ const AllEvents = () => {
                               onClick={() => handlePageChange(page)}
                               className={`flex h-10 min-w-10 items-center justify-center rounded-full border px-3 text-sm font-bold transition ${
                                 active
-                                  ? "border-[#4430B9] bg-[#4430B9] text-white"
-                                  : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9]"
+                                  ? "border-[#3848BE] bg-[#3848BE] text-white"
+                                  : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#3848BE]/40 hover:text-[#3848BE]"
                               }`}
                             >
                               {page}
@@ -424,7 +424,7 @@ const AllEvents = () => {
                           aria-label="Next page"
                           disabled={currentPage === totalPages}
                           onClick={() => handlePageChange(currentPage + 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9] disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#3848BE]/40 hover:text-[#3848BE] disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           <ChevronRight size={18} />
                         </button>
