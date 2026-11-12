@@ -3,7 +3,11 @@ import Input from "../common/Input";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import AddSpeakersModal from "./AddSpeakersModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { replaceDraftSpeakers, updateEventDraft } from "../slice/eventBuilderSlice";
 import {
   Edit3,
   FileText,
@@ -19,7 +23,7 @@ const AddWebsiteContentFormSchema = z.object({
   BannerTagLine: z
     .string()
     .min(3, "Banner tagline must be at least 3 characters"),
-  AboutArea: z.string().min(3, "About content must be at least 3 characters"),
+  AboutArea: z.string().min(10, "About content must be at least 10 characters"),
 });
 
 type FormData = z.infer<typeof AddWebsiteContentFormSchema>;
@@ -31,40 +35,71 @@ type Speaker = {
 };
 
 const AddWebsiteContentForm = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const draft = useAppSelector((state) => state.eventBuilder);
+  const ownerId = user?.uid;
+  const editorKey = draft.editorKey;
+  const hasDraft = Boolean(ownerId && editorKey && draft.ownerId === ownerId);
+  const editorPath = editorKey?.startsWith("edit:")
+    ? `/Dashboard/EditEvent/${encodeURIComponent(editorKey.slice(5))}`
+    : "/Dashboard/CreateEvent";
+
   const {
     register,
     handleSubmit,
-    reset,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(AddWebsiteContentFormSchema),
+    defaultValues: {
+      BannerTagLine: hasDraft ? draft.fields.BannerTagLine || "" : "",
+      AboutArea: hasDraft ? draft.fields.AboutArea || "" : "",
+    },
   });
 
-  const [speakers, setSpeakers] = useState<Speaker[]>([]);
+  const [speakers, setSpeakers] = useState<Speaker[]>(() => hasDraft ? draft.speakers : []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
+  // Keep the microsite fields in the same draft used by CreateEvent and its preview.
+  useEffect(() => {
+    if (!ownerId || !editorKey || !hasDraft) return;
+    const subscription = watch((values) => {
+      dispatch(updateEventDraft({
+        ownerId,
+        editorKey,
+        fields: { BannerTagLine: values.BannerTagLine, AboutArea: values.AboutArea },
+      }));
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, ownerId, editorKey, hasDraft, dispatch]);
+
   const onSubmit = (data: FormData) => {
-    console.log({ ...data, speakers });
-    reset();
-    setSpeakers([]);
+    if (!ownerId || !editorKey || !hasDraft) return;
+    dispatch(updateEventDraft({ ownerId, editorKey, fields: data }));
+    navigate(editorPath);
+  };
+
+  const changeSpeakers = (next: Speaker[]) => {
+    setSpeakers(next);
+    if (ownerId && editorKey && hasDraft) {
+      dispatch(replaceDraftSpeakers({ ownerId, editorKey, speakers: next }));
+    }
   };
 
   const handleAddOrEditSpeaker = (speakerData: Speaker) => {
-    if (editIndex !== null) {
-      const updated = [...speakers];
-      updated[editIndex] = speakerData;
-      setSpeakers(updated);
-      setEditIndex(null);
-    } else {
-      setSpeakers((prev) => [...prev, speakerData]);
-    }
-
+    const next = editIndex !== null
+      ? speakers.map((speaker, index) => index === editIndex ? speakerData : speaker)
+      : [...speakers, speakerData];
+    changeSpeakers(next);
+    setEditIndex(null);
     setIsModalOpen(false);
   };
 
   const handleDeleteSpeaker = (index: number) => {
-    setSpeakers((prev) => prev.filter((_, i) => i !== index));
+    changeSpeakers(speakers.filter((_, i) => i !== index));
   };
 
   const handleEditSpeaker = (index: number) => {
@@ -76,6 +111,21 @@ const AddWebsiteContentForm = () => {
     setEditIndex(null);
     setIsModalOpen(true);
   };
+
+  if (!hasDraft) {
+    return (
+      <div className="eh-dashboard-card mx-auto max-w-2xl p-8 text-center">
+        <h2 className="text-2xl font-bold">Start an event draft first</h2>
+        <p className="mt-3 text-slate-600 dark:text-slate-300">
+          Open the event builder to create or edit an event before customizing its microsite.
+          Drafts are kept in memory while you navigate; refreshing clears unsaved changes.
+        </p>
+        <Link to="/Dashboard/CreateEvent" className="eh-btn-primary mt-5 inline-flex px-6 py-3">
+          Open event builder
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
@@ -119,6 +169,11 @@ const AddWebsiteContentForm = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <Link to={editorPath} className="eh-btn-secondary px-5 py-3 text-sm">Back to event editor</Link>
+        <Link to="/Dashboard/EventPreview" className="eh-btn-secondary px-5 py-3 text-sm">Preview unsaved event</Link>
       </div>
 
       <form
@@ -278,7 +333,7 @@ const AddWebsiteContentForm = () => {
               type="submit"
               className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-slate-950 px-6 py-3 text-sm font-bold text-white transition-colors  hover:bg-indigo-600 dark:bg-white dark:text-slate-950 dark:hover:bg-indigo-400"
             >
-              Submit Content
+              Save draft &amp; return to editor
             </button>
           </div>
         </div>
