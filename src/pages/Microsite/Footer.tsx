@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
+import type { MicrositeEvent } from "../../Types/eventType";
 import {
   ArrowRight,
   CalendarCheck,
@@ -27,8 +28,9 @@ interface EventData {
   location?: string;
 }
 
-const Footer: React.FC = () => {
-  const data = useAppSelector((state) => state.microsite.eventData) as EventData | null;
+const Footer: React.FC<{ previewEvent?: MicrositeEvent }> = ({ previewEvent }) => {
+  const publishedEvent = useAppSelector((state) => state.microsite.eventData) as EventData | null;
+  const data = previewEvent ?? publishedEvent;
   const primaryColor = data?.PrimaryColor || data?.color || "#F26B2A";
   const secondaryColor = data?.SecondaryColor || "#E88A54";
   const eventName = data?.EventName || "EventHive";
