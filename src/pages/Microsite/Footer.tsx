@@ -29,8 +29,8 @@ interface EventData {
 
 const Footer: React.FC = () => {
   const data = useAppSelector((state) => state.microsite.eventData) as EventData | null;
-  const primaryColor = data?.PrimaryColor || data?.color || "#F26B2A";
-  const secondaryColor = data?.SecondaryColor || "#E88A54";
+  const primaryColor = data?.PrimaryColor || data?.color || "#3848BE";
+  const secondaryColor = data?.SecondaryColor || "#14B884";
   const eventName = data?.EventName || "EventHive";
 
   const quickLinks = [
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
                 <CalendarCheck size={14} />
                 Ready to attend?
               </div>
-              <h2 className="eh-ms-heading text-[#1F1C1A]">
+              <h2 className="eh-ms-heading text-[#111831]">
                 Register now and keep your event pass ready.
               </h2>
               <p className="eh-ms-copy">
@@ -88,7 +88,7 @@ const Footer: React.FC = () => {
             <button
               type="button"
               onClick={scrollToRegistration}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-7 py-3 text-sm font-bold text-[#1F1C1A]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-7 py-3 text-sm font-bold text-[#111831]"
               style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
             >
               Register Now
@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
         </div>
       </section>
 
-      <footer className="bg-[#1F1C1A] py-14 text-white">
+      <footer className="bg-[#111831] py-14 text-white">
         <div className="eh-ms-container">
           {/* Three columns; original Explore and Legal links share the middle column. */}
           <div className="eh-ms-footer-grid border-b border-white/10 pb-10">
