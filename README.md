@@ -75,7 +75,7 @@ TanStack React Query is used for remote data fetching and caching. Event queries
 
 Redux Toolkit is used for shared client-side state. The `microsite` slice supplies published event information to microsite components. The `eventBuilder` slice stores **one unsaved event draft at a time**, scoped by signed-in user and editor ID. It connects the Create Event editor, Microsite Content editor, and a safe draft preview without publishing changes to Firebase.
 
-To try the draft workflow: open **Dashboard → Create Event**, fill in details, click **Edit microsite content**, update the tagline/about copy or speaker list, and use **Preview unsaved event**. Return to the editor to publish. Drafts are deliberately in-memory (they do **not** survive refresh), and the draft is cleared after successful save or sign-out.
+To try the draft workflow: open **Dashboard → Create Event**, fill in details, click **Edit microsite content**, update the tagline/about copy or speaker list, and use **Preview unsaved event**. The preview opens full-screen on `/EventPreview` and renders the **same Header, MicrositeHome, and Footer components used by published microsites**, with the Redux draft as its data source. Its hero carousel, speaker lineup, video, pricing, registration layout, location map, and footer match the public page. Preview registration submissions and outgoing links are blocked. Return to the editor to publish. Drafts are deliberately in-memory (they do **not** survive refresh), and the draft is cleared after successful save or sign-out.
 
 **State separation:** Firebase Auth remains exposed through `AuthContext`; React Hook Form and Zod handle input and validation; React Query owns remote data fetching/caching; Redux owns shared unsaved draft state.
 
