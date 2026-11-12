@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState, type ElementType, type ReactNode } from "react";
+import React, { useEffect, useMemo, useRef, useState, type ElementType, type ReactNode } from "react";
 import { useForm, type FieldError } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +30,16 @@ import AddSpeakersModal from "./AddSpeakersModal";
 import { apiPath } from "../../Utils/Utils";
 import { PageLoader } from "../common/StateViews";
 import { auth } from "../Firebase";
+import type { MicrositeEvent } from "../Types/eventType";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import {
+  beginEventDraft,
+  hydrateEventDraft,
+  updateEventDraft,
+  replaceDraftSpeakers,
+  clearEventDraft,
+  emptyEventFields,
+} from "../slice/eventBuilderSlice";
 const todayDate = new Date().toISOString().split("T")[0];
 
 const speakerSchema = z.object({
@@ -86,11 +96,20 @@ const CreateEvent: React.FC = () => {
   const { EventID } = useParams();
   const navigate = useNavigate();
   const { user, role } = useAuth();
-  const userId:UserId = user?.uid
+  const userId: UserId = user?.uid;
 
-  const [bannerPreview, setBannerPreview] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const draft = useAppSelector((state) => state.eventBuilder);
+  const editorKey = EventID ? `edit:${EventID}` : "new";
+  const matchesDraft = Boolean(userId && draft.ownerId === userId && draft.editorKey === editorKey);
+  // The async initialization effect reads the latest draft without re-running on every keystroke.
+  const draftSnapshotRef = useRef(draft);
+  draftSnapshotRef.current = draft;
+
+  const [bannerPreview, setBannerPreview] = useState<string>(() => matchesDraft ? draft.fields.banner || "" : "");
   const [loadingEvent, setLoadingEvent] = useState(false);
-  const [speakers, setSpeakers] = useState<SpeakerType[]>([]);
+  const [speakers, setSpeakers] = useState<SpeakerType[]>(() => matchesDraft ? draft.speakers : []);
+  const [isDraftReady, setIsDraftReady] = useState(!EventID || matchesDraft);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
@@ -103,38 +122,113 @@ const CreateEvent: React.FC = () => {
     formState: { errors },
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
-    defaultValues: { PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" },
+    defaultValues: { ...emptyEventFields, ...(matchesDraft ? draft.fields : {}) },
   });
 
   const watchedValues = watch();
   const primaryColor = watchedValues.PrimaryColor || "#4F46E5";
   const secondaryColor = watchedValues.SecondaryColor || "#06B6D4";
 
-  const fetchEvent = useCallback(async () => {
+  // Resume the in-memory draft when returning from the microsite editor/preview.
+  // Only a new event/identity fetches published data; draft changes never write to Firebase.
+  useEffect(() => {
+    if (!userId) return;
+    let active = true;
+    const saved = draftSnapshotRef.current;
+    const resume = saved.ownerId === userId && saved.editorKey === editorKey;
+
+    if (resume) {
+      reset({ ...emptyEventFields, ...saved.fields });
+      setSpeakers(saved.speakers);
+      setBannerPreview(saved.fields.banner || "");
+      setIsDraftReady(true);
+      setLoadingEvent(false);
+      return;
+    }
+
+    dispatch(beginEventDraft({ ownerId: userId, editorKey }));
+    reset({ ...emptyEventFields });
+    setSpeakers([]);
+    setBannerPreview("");
+    setIsDraftReady(!EventID);
+
     if (!EventID) return;
     setLoadingEvent(true);
-    try {
-      const { data: eventData } = await axios.get(`${apiPath}/Events/${EventID}.json`);
-      if (!eventData) {
-        toast.error("Event not found.");
-        return;
-      }
-      if (role !== "SuperAdmin" && eventData.userId !== user?.uid) {
-        toast.error("You can only edit your own events.");
-        navigate("/Dashboard/Events", { replace: true });
-        return;
-      }
-      reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4", ...eventData });
-      setSpeakers(eventData.speakers || []);
-      setBannerPreview(eventData.banner || "");
-    } catch {
-      toast.error("Error loading event");
-    } finally {
-      setLoadingEvent(false);
-    }
-  }, [EventID, reset, role, user?.uid, navigate]);
 
-  useEffect(() => { fetchEvent(); }, [fetchEvent]);
+    const loadPublishedEvent = async () => {
+      try {
+        const { data: eventData } = await axios.get<MicrositeEvent | null>(
+          `${apiPath}/Events/${EventID}.json`
+        );
+        if (!active) return;
+        if (!eventData) {
+          toast.error("Event not found.");
+          return;
+        }
+        if (role !== "SuperAdmin" && eventData.userId !== userId) {
+          toast.error("You can only edit your own events.");
+          navigate("/Dashboard/Events", { replace: true });
+          return;
+        }
+        const fields = {
+          EventName: eventData.EventName,
+          eventDate: eventData.eventDate,
+          location: eventData.location,
+          eventType: eventData.eventType,
+          banner: eventData.banner,
+          BannerTagLine: eventData.BannerTagLine,
+          AboutArea: eventData.AboutArea,
+          PrimaryColor: eventData.PrimaryColor,
+          SecondaryColor: eventData.SecondaryColor,
+        };
+        dispatch(hydrateEventDraft({
+          ownerId: userId, editorKey, fields, speakers: eventData.speakers || [],
+        }));
+        reset({ ...emptyEventFields, ...fields });
+        setSpeakers(eventData.speakers || []);
+        setBannerPreview(eventData.banner || "");
+        setIsDraftReady(true);
+      } catch {
+        if (active) toast.error("Error loading event");
+      } finally {
+        if (active) setLoadingEvent(false);
+      }
+    };
+
+    void loadPublishedEvent();
+    return () => { active = false; };
+  }, [userId, editorKey, EventID, role, dispatch, reset, navigate]);
+
+  // React Hook Form owns field validation. Redux mirrors only the shared,
+  // unsaved fields so other dashboard routes can preview/edit them.
+  useEffect(() => {
+    if (!userId || !isDraftReady) return;
+    const subscription = watch((values) => {
+      dispatch(updateEventDraft({
+        ownerId: userId,
+        editorKey,
+        fields: {
+          EventName: values.EventName,
+          eventDate: values.eventDate,
+          location: values.location,
+          eventType: values.eventType,
+          banner: values.banner,
+          BannerTagLine: values.BannerTagLine,
+          AboutArea: values.AboutArea,
+          PrimaryColor: values.PrimaryColor,
+          SecondaryColor: values.SecondaryColor,
+        },
+      }));
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, userId, editorKey, isDraftReady, dispatch]);
+
+  const changeSpeakers = (next: SpeakerType[]) => {
+    setSpeakers(next);
+    if (userId) {
+      dispatch(replaceDraftSpeakers({ ownerId: userId, editorKey, speakers: next }));
+    }
+  };
 
   const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -177,6 +271,7 @@ const token = await user.getIdToken();
       reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" });
       setBannerPreview("");
       setSpeakers([]);
+      dispatch(clearEventDraft());
       navigate("/Dashboard/Events");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Operation failed");
@@ -184,7 +279,7 @@ const token = await user.getIdToken();
   };
 
   const handleAddOrEditSpeaker = (speaker: SpeakerType) => {
-    setSpeakers((prev) => editIndex !== null ? prev.map((s, i) => (i === editIndex ? speaker : s)) : [...prev, speaker]);
+    changeSpeakers(editIndex !== null ? speakers.map((s, i) => (i === editIndex ? speaker : s)) : [...speakers, speaker]);
     setEditIndex(null);
     setIsModalOpen(false);
   };
@@ -344,7 +439,7 @@ const token = await user.getIdToken();
                         <p className="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{speaker.speakerDesignation}</p>
                       </div>
                     </button>
-                    <button type="button" onClick={() => setSpeakers((prev) => prev.filter((_, index) => index !== i))} className="rounded-2xl bg-red-50 p-3 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300">
+                    <button type="button" onClick={() => changeSpeakers(speakers.filter((_, index) => index !== i))} className="rounded-2xl bg-red-50 p-3 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300">
                       <Trash2 size={17} />
                     </button>
                   </div>
@@ -363,6 +458,14 @@ const token = await user.getIdToken();
             <button type="submit" disabled={isLoading} className="eh-btn-primary w-full px-6 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-70">
               {isLoading ? <><Loader2 className="animate-spin" size={18} /> Saving...</> : <>{EventID ? "Update Event" : "Create Event"} <CheckCircle2 size={18} /></>}
             </button>
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <Link to="/Dashboard/AddWebsiteContent" className="eh-btn-secondary justify-center px-4 py-3 text-sm">
+                Edit microsite content
+              </Link>
+              <Link to="/Dashboard/EventPreview" className="eh-btn-secondary justify-center px-4 py-3 text-sm">
+                Preview unsaved event
+              </Link>
+            </div>
           </div>
         </form>
 
