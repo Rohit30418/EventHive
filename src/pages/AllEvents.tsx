@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import useGetEvent from "../AdminCustomHooks/useGetEvents";
 import EventCard from "../components/EventCard";
+import "./events-banner.css";
 import {
   CalendarCheck,
   CalendarDays,
@@ -249,19 +250,16 @@ const AllEvents = () => {
 
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#111831]">
-      <section className="border-b border-[#E9EAF2] bg-[#FFFFFF] py-12 sm:py-14 lg:py-16">
-        <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
-          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#3848BE]">
-            <span aria-hidden="true" className="h-0.5 w-10 bg-[#3848BE]" /> Event discovery
-          </div>
-          <div className="mt-6 grid items-start gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-12">
-            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#111831]">
-              Explore events worth showing up for.
-            </h1>
-            <p className="max-w-xl text-base leading-8 text-[#73778E] sm:text-lg lg:mb-2">
-              Browse upcoming and past events, filter by category, and open each event's dedicated microsite for details and registration.
-            </p>
-          </div>
+      <section className="eh-events-banner" aria-labelledby="eh-events-page-title">
+        <div className="eh-events-banner__content">
+          <p className="eh-events-banner__eyebrow">Event discovery</p>
+          <h1 id="eh-events-page-title" className="eh-events-banner__title">
+            Explore events worth showing up for.
+          </h1>
+          <p className="eh-events-banner__text">
+            Discover upcoming experiences, explore categories and find an event
+            worth being part of.
+          </p>
         </div>
       </section>
 
