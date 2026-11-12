@@ -158,7 +158,6 @@ const EventRegistration = ({
 
             <form
               onSubmit={previewMode ? (event) => event.preventDefault() : handleSubmit(onSubmit)}
-              inert={previewMode}
               aria-label={previewMode ? "Registration form preview — not interactive" : undefined}
               className="space-y-8 p-5 sm:p-7 lg:p-9"
             >
