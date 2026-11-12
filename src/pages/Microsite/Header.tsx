@@ -10,6 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useAppSelector } from "../../store/hooks";
+import type { MicrositeEvent } from "../../Types/eventType";
 
 interface EventData {
   PrimaryColor?: string;
@@ -32,13 +33,14 @@ const extraLinks = [
   { name: "Details", href: "experience" },
 ];
 
-const Header = () => {
+const Header = ({ previewEvent, previewMode = false }: { previewEvent?: MicrositeEvent; previewMode?: boolean }) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
 
-  const data = useAppSelector((state) => state.microsite.eventData) as EventData | null;
+  const publishedEvent = useAppSelector((state) => state.microsite.eventData) as EventData | null;
+  const data = previewEvent ?? publishedEvent;
   const primaryColor = data?.PrimaryColor || data?.color || "#3848BE";
   const secondaryColor = data?.SecondaryColor || "#14B884";
   const eventName = data?.EventName || "EventHive";
@@ -75,7 +77,7 @@ const Header = () => {
     setIsMobileMenuOpen(false);
     setMoreOpen(false);
     if (id.startsWith("/")) {
-      navigate(id);
+      if (!previewMode) navigate(id);
       return;
     }
     const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
