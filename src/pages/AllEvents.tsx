@@ -248,17 +248,17 @@ const AllEvents = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFF8F3] text-[#1F1C1A]">
-      <section className="border-b border-[#E7D8CC] bg-[#FFF8F3] py-12 sm:py-14 lg:py-16">
+    <div className="min-h-screen bg-[#FFFFFF] text-[#111330]">
+      <section className="border-b border-[#E9EAF2] bg-[#FFFFFF] py-12 sm:py-14 lg:py-16">
         <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
-          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#B64412]">
-            <span aria-hidden="true" className="h-0.5 w-10 bg-[#F26B2A]" /> Event discovery
+          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">
+            <span aria-hidden="true" className="h-0.5 w-10 bg-[#4430B9]" /> Event discovery
           </div>
           <div className="mt-6 grid items-start gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-12">
-            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#1F1C1A]">
+            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#111330]">
               Explore events worth showing up for.
             </h1>
-            <p className="max-w-xl text-base leading-8 text-[#554941] sm:text-lg lg:mb-2">
+            <p className="max-w-xl text-base leading-8 text-[#73778E] sm:text-lg lg:mb-2">
               Browse upcoming and past events, filter by category, and open each event's dedicated microsite for details and registration.
             </p>
           </div>
@@ -269,8 +269,8 @@ const AllEvents = () => {
         <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
           <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
             <aside className="min-w-0 lg:sticky lg:top-[104px] lg:self-start">
-              <div className="rounded-[1.4rem] border border-[#E7D8CC] bg-white p-6">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">
+              <div className="rounded-[1.4rem] border border-[#E9EAF2] bg-white p-6">
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">
                   Browse by time
                 </p>
                 <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-col lg:overflow-visible lg:pb-0">
@@ -285,8 +285,8 @@ const AllEvents = () => {
                         onClick={() => setEventView(item.id)}
                         className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left transition lg:w-full ${
                           active
-                            ? "bg-[#fff0e6] text-[#F26B2A]"
-                            : "text-[#625d59] hover:bg-[#fff6ef] hover:text-[#1F1C1A]"
+                            ? "bg-[#EFECFF] text-[#4430B9]"
+                            : "text-[#73778E] hover:bg-[#F8F7FF] hover:text-[#111330]"
                         }`}
                       >
                         <span className="flex items-center gap-2.5 whitespace-nowrap text-sm font-bold">
@@ -295,8 +295,8 @@ const AllEvents = () => {
                         <span
                           className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
                             active
-                              ? "bg-white text-[#F26B2A]"
-                              : "bg-[#f4efeb] text-[#8f8882]"
+                              ? "bg-white text-[#4430B9]"
+                              : "bg-[#F7F8FC] text-[#8C8FA5]"
                           }`}
                         >
                           {item.count}
@@ -317,8 +317,8 @@ const AllEvents = () => {
                     onClick={() => setCategory(item)}
                     className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-bold transition ${
                       category === item
-                        ? "border-[#F26B2A] bg-[#F26B2A] text-white"
-                        : "border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A]"
+                        ? "border-[#4430B9] bg-[#4430B9] text-white"
+                        : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9]"
                     }`}
                   >
                     {item}
@@ -326,16 +326,16 @@ const AllEvents = () => {
                 ))}
               </div>
 
-              <div className="mb-7 flex items-end justify-between gap-3 border-b border-[#e9ddd4] pb-5">
+              <div className="mb-7 flex items-end justify-between gap-3 border-b border-[#E9EAF2] pb-5">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#9a938d]">
+                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#9A9DB0]">
                     Results
                   </p>
                   <h2 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold tracking-[-0.04em]">
                     {viewTitle}
                   </h2>
                 </div>
-                <span className="text-sm font-semibold text-[#77736f]">
+                <span className="text-sm font-semibold text-[#73778E]">
                   {displayedEvents.length} {displayedEvents.length === 1 ? "event" : "events"}
                 </span>
               </div>
@@ -349,12 +349,12 @@ const AllEvents = () => {
               ) : error ? (
                 <ErrorState title="Could not load events" description={error} />
               ) : displayedEvents.length === 0 ? (
-                <div className="rounded-[1.8rem] border border-dashed border-[#F26B2A]/30 bg-white px-5 py-16 text-center">
-                  <CalendarDays size={32} className="mx-auto text-[#F26B2A]" />
+                <div className="rounded-[1.8rem] border border-dashed border-[#4430B9]/30 bg-white px-5 py-16 text-center">
+                  <CalendarDays size={32} className="mx-auto text-[#4430B9]" />
                   <h3 className="mt-4 font-['Space Grotesk',sans-serif] text-xl font-extrabold">
                     No events found
                   </h3>
-                  <p className="mt-2 text-sm text-[#77736f]">
+                  <p className="mt-2 text-sm text-[#73778E]">
                     No events are currently available in this category.
                   </p>
                 </div>
@@ -371,8 +371,8 @@ const AllEvents = () => {
                   </div>
 
                   {totalPages > 1 && (
-                    <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-[#e9ddd4] pt-6 sm:flex-row">
-                      <p className="text-sm text-[#77736f]">
+                    <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-[#E9EAF2] pt-6 sm:flex-row">
+                      <p className="text-sm text-[#73778E]">
                         Showing {(currentPage - 1) * EVENTS_PER_PAGE + 1}–
                         {Math.min(currentPage * EVENTS_PER_PAGE, displayedEvents.length)} of {displayedEvents.length}
                       </p>
@@ -383,7 +383,7 @@ const AllEvents = () => {
                           aria-label="Previous page"
                           disabled={currentPage === 1}
                           onClick={() => handlePageChange(currentPage - 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A] disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9] disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           <ChevronLeft size={18} />
                         </button>
@@ -410,8 +410,8 @@ const AllEvents = () => {
                               onClick={() => handlePageChange(page)}
                               className={`flex h-10 min-w-10 items-center justify-center rounded-full border px-3 text-sm font-bold transition ${
                                 active
-                                  ? "border-[#F26B2A] bg-[#F26B2A] text-white"
-                                  : "border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A]"
+                                  ? "border-[#4430B9] bg-[#4430B9] text-white"
+                                  : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9]"
                               }`}
                             >
                               {page}
@@ -424,7 +424,7 @@ const AllEvents = () => {
                           aria-label="Next page"
                           disabled={currentPage === totalPages}
                           onClick={() => handlePageChange(currentPage + 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A] disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40 hover:text-[#4430B9] disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           <ChevronRight size={18} />
                         </button>
