@@ -37,6 +37,10 @@ const MicrositeHome = lazy(
   () => import("./pages/Microsite/MicrositeHome")
 );
 
+const EventDraftPreview = lazy(
+  () => import("./dashboard/EventDraftPreview")
+);
+
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 const Unauthorized = lazy(() => import("./pages/Unauthorized"));
 
@@ -122,6 +126,16 @@ function App() {
               element={<MicrositeHome />}
             />
           </Route>
+
+          {/* Full-width, authenticated draft preview: the actual public microsite. */}
+          <Route
+            path="/EventPreview"
+            element={
+              <PrivateRoute allowedRoles={["SuperAdmin", "Organizer"]}>
+                <EventDraftPreview />
+              </PrivateRoute>
+            }
+          />
 
           {/* DASHBOARD */}
           <Route

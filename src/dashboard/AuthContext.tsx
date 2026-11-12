@@ -1,10 +1,12 @@
 /* eslint-disable react-refresh/only-export-components -- Keep the existing context/provider/hook import API; split modules in a dedicated refactor. */
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { auth } from "../Firebase";
 import { apiPath } from "../../Utils/Utils";
+import { useAppDispatch } from "../store/hooks";
+import { clearEventDraft } from "../slice/eventBuilderSlice";
 
 interface AuthContextType {
   user: User | null;
@@ -22,12 +24,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isApproved, setIsApproved] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const lastUidRef = useRef<string | null>(null);
 
   useEffect(() => {
     let active = true;
     let requestId = 0;
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       const currentRequest = ++requestId;
+      // An unsaved draft belongs to one account. Never retain it on sign-out or account switch.
+      const nextUid = currentUser?.uid ?? null;
+      if (!currentUser || nextUid !== lastUidRef.current) dispatch(clearEventDraft());
+      lastUidRef.current = nextUid;
       // Clear sensitive per-session query data before allowing a new identity.
       queryClient.removeQueries({ queryKey: ["registrations"] });
       setUser(currentUser);
@@ -61,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       requestId++;
       unsubscribe();
     };
-  }, [queryClient]);
+  }, [queryClient, dispatch]);
 
   const logout = async () => {
     await auth.signOut();
