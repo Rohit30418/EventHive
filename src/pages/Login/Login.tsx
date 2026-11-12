@@ -77,27 +77,27 @@ const Login = () => {
   return (
     <section className="bg-[#FFFFFF] py-10 text-[#111831] sm:py-12 lg:py-16">
       <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E9EAF2] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="relative hidden min-w-0 overflow-hidden bg-[#111831] p-6 text-white lg:block lg:p-10">
+        <aside className="relative hidden min-w-0 overflow-hidden bg-[#3848BE] p-6 text-white lg:block lg:p-10">
           <div className="relative z-10 flex h-full flex-col">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#A79CEA]">
-                <span className="h-px w-9 bg-[#3848BE]" /> Organizer workspace
+              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
+                <span className="h-px w-9 bg-white/60" /> Organizer workspace
               </div>
               <h1 className="mt-6 max-w-md font-['Space Grotesk',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
                 Welcome back to your event control center.
               </h1>
-              <p className="mt-4 max-w-md text-sm leading-7 text-white/60 sm:text-base">
+              <p className="mt-4 max-w-md text-sm leading-7 text-white/75 sm:text-base">
                 Sign in to manage events, review registrations and keep your public event experience up to date.
               </p>
             </div>
 
             <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
               {highlights.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#3848BE] text-white">
+                <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#3848BE]">
                     <Icon size={16} />
                   </span>
-                  <p className="pt-1 text-sm font-semibold leading-6 text-white/75">{text}</p>
+                  <p className="pt-1 text-sm font-semibold leading-6 text-white/90">{text}</p>
                 </div>
               ))}
             </div>
