@@ -151,7 +151,7 @@ const DashboardShell = () => {
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#4430B9] text-[#111330]">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#4430B9] text-white">
               <Sparkles size={22} />
             </div>
 
