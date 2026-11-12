@@ -120,8 +120,8 @@ const OrganizerDashboard = () => {
       datasets: [
         {
           data: [stats.upcomingEvents, stats.completedEvents],
-          backgroundColor: ["#4430B9", "#14AD80"],
-          hoverBackgroundColor: ["#35238F", "#0B896A"],
+          backgroundColor: ["#3848BE", "#14AD80"],
+          hoverBackgroundColor: ["#2B3899", "#0B896A"],
           borderColor: isDark ? "#020617" : "#FFFFFF",
           borderWidth: 4,
           hoverOffset: 8,
@@ -235,7 +235,7 @@ const OrganizerDashboard = () => {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               to="/Dashboard/CreateEvent"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-6 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-6 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
             >
               <Plus size={18} />
               Create Event
