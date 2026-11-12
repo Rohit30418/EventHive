@@ -82,7 +82,7 @@ const Footer = () => {
             <p className="text-sm font-semibold text-slate-500">© {new Date().getFullYear()} EventHive. All rights reserved.</p>
             <p className="mt-2 text-sm text-slate-500">
               Designed and developed by{" "}
-              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className="font-black text-orange-300 hover:text-white">
+              <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer" className="font-black text-emerald-300 hover:text-white">
                 Rohit Pant
               </a>
             </p>
