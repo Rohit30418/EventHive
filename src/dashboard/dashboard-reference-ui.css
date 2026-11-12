@@ -277,3 +277,19 @@ html.a11y-pause-animations .eh-dashboard :is(a,button,svg,.eh-card,.eh-panel,.eh
   transition-duration: .01ms !important;
   animation-duration: .01ms !important;
 }
+
+
+/* Match hover contrast to the dashboard's existing dark-mode switch. */
+@media (hover: hover) and (pointer: fine) {
+  .dark .eh-dashboard > aside nav a:not([class*="bg-[#EDF1FF]"]):hover {
+    background: rgba(17,183,133,.13) !important;
+    color: #91e4c6 !important;
+  }
+  .dark .eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card,.rounded-2xl.border):hover {
+    border-color: #5364a6 !important;
+    box-shadow: 0 12px 28px rgba(4,11,41,.23) !important;
+  }
+  .dark .eh-dashboard main .eh-table tbody tr:hover {
+    background: #24314f;
+  }
+}
