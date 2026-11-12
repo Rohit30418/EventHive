@@ -193,9 +193,9 @@ const OrganizerRegistration = () => {
   };
 
   return (
-    <section className="bg-[#FFFFFF] py-10 text-[#111330] sm:py-12 lg:py-16">
+    <section className="bg-[#FFFFFF] py-10 text-[#111831] sm:py-12 lg:py-16">
       <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E9EAF2] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="hidden min-w-0 bg-[#4430B9] p-6 text-white lg:block lg:p-10">
+        <aside className="hidden min-w-0 bg-[#3848BE] p-6 text-white lg:block lg:p-10">
           <div className="flex h-full flex-col">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
@@ -212,7 +212,7 @@ const OrganizerRegistration = () => {
             <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
               {organizerBenefits.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#4430B9]">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#3848BE]">
                     <Icon size={16} />
                   </span>
                   <p className="pt-1 text-sm font-semibold leading-6 text-white/90">{text}</p>
@@ -230,23 +230,23 @@ const OrganizerRegistration = () => {
                   <div
                     key={item}
                     className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      step >= item ? "bg-[#4430B9]" : "bg-[#E9EAF2]"
+                      step >= item ? "bg-[#3848BE]" : "bg-[#E9EAF2]"
                     }`}
                   />
                 ))}
               </div>
 
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3848BE]">
                 Step {step} of 2
               </p>
-              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#111330] sm:text-3xl">
+              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#111831] sm:text-3xl">
                 {step === 1 ? "Create organizer account" : "Demo checkout — no real payment"}
               </h2>
               <p className="mt-3 text-sm leading-6 text-[#73778E]">
                 {step === 1 ? (
                   <>
                     Already have an account?{" "}
-                    <Link to="/Login" className="font-extrabold text-[#4430B9] hover:text-[#35238F]">
+                    <Link to="/Login" className="font-extrabold text-[#3848BE] hover:text-[#2B3899]">
                       Log in
                     </Link>
                   </>
@@ -337,12 +337,12 @@ const OrganizerRegistration = () => {
                 </div>
 
                 <div className="pt-1">
-                  <label className="group flex cursor-pointer items-start gap-3 rounded-2xl border border-[#E9EAF2] bg-[#FFFFFF] p-4 transition-colors hover:border-[#4430B9]/35">
+                  <label className="group flex cursor-pointer items-start gap-3 rounded-2xl border border-[#E9EAF2] bg-[#FFFFFF] p-4 transition-colors hover:border-[#3848BE]/35">
                     <span className="relative mt-0.5 flex items-center">
                       <input
                         {...register("consent")}
                         type="checkbox"
-                        className="peer h-5 w-5 appearance-none rounded-md border border-[#cfc6bf] bg-white transition-all checked:border-[#4430B9] checked:bg-[#4430B9]"
+                        className="peer h-5 w-5 appearance-none rounded-md border border-[#cfc6bf] bg-white transition-all checked:border-[#3848BE] checked:bg-[#3848BE]"
                       />
                       <CheckCircle
                         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100"
@@ -360,7 +360,7 @@ const OrganizerRegistration = () => {
 
                 <button
                   type="submit"
-                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#111330] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#4430B9]"
+                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#111831] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#3848BE]"
                 >
                   Proceed to Demo Checkout <ArrowRight size={18} />
                 </button>
@@ -373,10 +373,10 @@ const OrganizerRegistration = () => {
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="text-sm font-bold text-[#73778E]">Organizer Pro Subscription</p>
-                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#111330]">$50.00 <span className="text-sm font-semibold text-[#73778E]">(demo price)</span></h3>
+                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#111831]">$50.00 <span className="text-sm font-semibold text-[#73778E]">(demo price)</span></h3>
                     </div>
-                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#4430B9]">
-                      <span className="h-2 w-2 rounded-full bg-[#4430B9]" /> Demo checkout
+                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#3848BE]">
+                      <span className="h-2 w-2 rounded-full bg-[#3848BE]" /> Demo checkout
                     </div>
                   </div>
                 </div>
@@ -393,8 +393,8 @@ const OrganizerRegistration = () => {
                         onClick={() => setPaymentMethod(method.id)}
                         className={`rounded-2xl border p-4 text-left transition-all ${
                           selected
-                            ? "border-[#4430B9] bg-[#F8F7FF] text-[#35238F]"
-                            : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40"
+                            ? "border-[#3848BE] bg-[#F8F7FF] text-[#2B3899]"
+                            : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#3848BE]/40"
                         }`}
                       >
                         <Icon size={22} className="mb-3" />
@@ -419,7 +419,7 @@ const OrganizerRegistration = () => {
                   {paymentMethod === "upi" && (
                     <div className="space-y-3">
                       <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">UPI ID</label>
-                      <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111330] outline-none focus:border-[#4430B9] focus:ring-4 focus:ring-[#4430B9]/10" />
+                      <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111831] outline-none focus:border-[#3848BE] focus:ring-4 focus:ring-[#3848BE]/10" />
                       <p className="text-xs font-semibold text-[#9A9DB0]">Open your UPI app to approve the request.</p>
                     </div>
                   )}
@@ -427,7 +427,7 @@ const OrganizerRegistration = () => {
                   {paymentMethod === "bank" && (
                     <div className="space-y-3">
                       <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">Select bank</label>
-                      <select className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111330] outline-none focus:border-[#4430B9] focus:ring-4 focus:ring-[#4430B9]/10">
+                      <select className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111831] outline-none focus:border-[#3848BE] focus:ring-4 focus:ring-[#3848BE]/10">
                         <option>HDFC Bank</option>
                         <option>SBI</option>
                         <option>ICICI Bank</option>
@@ -442,7 +442,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={() => setStep(1)}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-full border border-[#E9EAF2] bg-white px-6 py-4 text-sm font-bold text-[#73778E] transition-all hover:border-[#4430B9]/40 hover:text-[#4430B9] sm:flex-1"
+                    className="flex items-center justify-center gap-2 rounded-full border border-[#E9EAF2] bg-white px-6 py-4 text-sm font-bold text-[#73778E] transition-all hover:border-[#3848BE]/40 hover:text-[#3848BE] sm:flex-1"
                   >
                     <ChevronLeft size={18} /> Back
                   </button>
@@ -451,7 +451,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={handlePaymentAndRegistration}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-full bg-[#4430B9] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#35238F] disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
+                    className="flex items-center justify-center gap-2 rounded-full bg-[#3848BE] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#2B3899] disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
                   >
                     {isProcessing ? (
                       <>
