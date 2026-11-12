@@ -1,184 +1,99 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
-import { ArrowUpRight, LayoutDashboard, LogIn, LogOut, Menu, X } from "lucide-react";
+import { ArrowUpRight, LayoutDashboard, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../dashboard/AuthContext";
 
-const navigation = [
-  { label: "Features", href: "/#features", id: "features" },
-  { label: "How it works", href: "/#how-it-works", id: "how-it-works" },
-  { label: "Events", href: "/Events", id: "events" },
-  { label: "Pricing", href: "/#pricing", id: "pricing" },
-  { label: "FAQ", href: "/#faq", id: "faq" },
+const links = [
+  { label: "Features", to: "/#features" },
+  { label: "How it works", to: "/#how-it-works" },
+  { label: "Events", to: "/Events" },
+  { label: "Pricing", to: "/#pricing" },
+  { label: "FAQ", to: "/#faq" },
 ];
 
-// One shared site header for the homepage, events directory, account pages
-// and public event microsites. Private dashboard navigation stays separate.
 export default function Header() {
+  const { user, role } = useAuth();
   const location = useLocation();
-  const { user } = useAuth();
-  const reducedMotion = useReducedMotion();
-  const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const toggleRef = useRef<HTMLButtonElement>(null);
-
-  const { scrollYProgress } = useScroll();
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 110, damping: 30 });
+  const [scrolled, setScrolled] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const sync = () => setScrolled(window.scrollY > 24);
-    sync();
-    window.addEventListener("scroll", sync, { passive: true });
-    return () => window.removeEventListener("scroll", sync);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setActive(location.pathname.toLowerCase().startsWith("/events") ? "events" : "");
-    setMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (location.pathname !== "/") return;
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => {
-        if (entry.isIntersecting) setActive(entry.target.id);
-      }),
-      { rootMargin: "-28% 0px -55% 0px" },
-    );
-    ["features", "how-it-works", "events", "faq"].forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-    return () => observer.disconnect();
-  }, [location.pathname]);
+  useEffect(() => { setMenuOpen(false); }, [location.pathname, location.hash]);
 
   useEffect(() => {
     if (!menuOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    toggleRef.current?.focus();
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
     };
-    document.addEventListener("keydown", onKeyDown);
-
+    document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
 
+  const ctaTo = role === "Organizer" ? "/Dashboard/CreateEvent" : user ? "/Dashboard" : "/OrganizerRegistration";
+  const ctaText = user && role !== "Organizer" ? "Open dashboard" : "Create event";
+  const isActive = (to: string) => to === "/Events"
+    ? location.pathname.toLowerCase() === "/events"
+    : location.pathname === "/" && location.hash === to.slice(1);
+
   return (
-    <>
-      <header
-        data-scrolled={scrolled ? "true" : "false"}
-        className={`z-50 w-full border-b border-[#111831]/10 transition-[background-color,box-shadow] duration-200 ${
-          scrolled
-            ? "fixed inset-x-0 top-0 bg-white/95 shadow-[0_8px_28px_rgba(17,24,49,0.08)] backdrop-blur-xl"
-            : "relative bg-white"
-        }`}
-      >
-      <nav aria-label="Primary navigation" className="mx-auto flex h-[76px] w-full max-w-[1296px] items-center justify-between gap-4 px-6 sm:h-[84px] lg:px-12">
-        <Link to="/" aria-label="EventHive home" className="relative z-[60] inline-flex shrink-0 items-center gap-2.5 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3848BE]">
-          <motion.span animate={{ scale: scrolled ? 0.93 : 1 }} transition={{ duration: reducedMotion ? 0 : 0.2 }} className="grid h-10 w-10 place-items-center rounded-2xl bg-[#3848BE] font-black text-white">E</motion.span>
-          <span className="font-['Space_Grotesk',Inter,sans-serif] text-[24px] font-bold tracking-[-.055em] text-[#111831]">
-            Event<span className="text-[#3848BE]">Hive</span>
-          </span>
+    <header className={`eh26-site-header ${scrolled ? "is-scrolled" : ""}`}>
+      <nav className="eh26-site-navbar" aria-label="Primary navigation">
+        <Link to="/" className="eh26-site-logo" aria-label="EventHive homepage">
+          <span className="eh26-site-mark" aria-hidden="true">e.</span>
+          <span>Event<span>Hive</span></span>
         </Link>
 
-        <motion.div
-          className="hidden items-center gap-5 lg:flex"
-          animate={{ scale: scrolled ? 0.96 : 1 }}
-          transition={{ duration: reducedMotion ? 0 : 0.22 }}
-        >
-          {navigation.map((item) => (
-            <Link
-              key={item.id}
-              to={item.href}
-              onClick={() => setActive(item.id)}
-              aria-current={active === item.id ? "page" : undefined}
-              className="relative rounded-full px-4 py-2.5 text-[13px] font-semibold text-[#4D5B73] transition-colors hover:text-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3848BE]"
-            >
-              {item.label}
-              {active === item.id && (
-                <motion.span
-                  layoutId="eventhive-shared-nav-indicator"
-                  className="absolute bottom-1 left-4 right-4 h-[2px] rounded-full bg-[#3848BE]"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
+        <div className="eh26-site-links">
+          {links.map(link => (
+            <Link key={link.to} to={link.to}
+              aria-current={isActive(link.to) ? "page" : undefined}>
+              {link.label}
             </Link>
           ))}
-        </motion.div>
+        </div>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Link
-            to={user ? "/Dashboard" : "/Login"}
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold text-[#111831] hover:text-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3848BE]"
-          >
-            {user ? <LayoutDashboard size={17} /> : <LogIn size={17} />}
+        <div className="eh26-site-actions">
+          <Link className="eh26-site-login" to={user ? "/Dashboard" : "/Login"}>
+            {user ? <LayoutDashboard size={17} aria-hidden="true" /> : null}
             {user ? "Dashboard" : "Log in"}
           </Link>
-          <Link
-            to={user ? "/Logout" : "/OrganizerRegistration"}
-            className="inline-flex items-center gap-2 rounded-full bg-[#111831] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#3848BE]"
-          >
-            {user ? "Logout" : "Start creating"} {user ? <LogOut size={16} /> : <ArrowUpRight size={16} />}
+          <Link className="eh26-site-cta" to={ctaTo}>
+            {ctaText} <ArrowUpRight size={17} aria-hidden="true" />
           </Link>
         </div>
 
-        <button
-          ref={toggleRef}
-          type="button"
-          aria-controls="eventhive-shared-mobile-menu"
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          onClick={() => setMenuOpen((value) => !value)}
-          className="relative z-[60] inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#111831]/15 bg-white text-[#111831] focus-visible:outline-2 focus-visible:outline-[#3848BE] lg:hidden"
-        >
-          {menuOpen ? <X size={23} /> : <Menu size={23} />}
+        <button ref={menuButton} type="button" className="eh26-menu-toggle"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-controls="eh26-mobile-menu" aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(open => !open)}>
+          {menuOpen ? <X size={23} aria-hidden="true" /> : <Menu size={23} aria-hidden="true" />}
         </button>
       </nav>
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left bg-[#3848BE]"
-        style={{ scaleX: reducedMotion ? scrollYProgress : smoothProgress }}
-      />
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="eventhive-shared-mobile-menu"
-            initial={reducedMotion ? false : { opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reducedMotion ? undefined : { opacity: 0, y: -12 }}
-            transition={{ duration: reducedMotion ? 0 : 0.22 }}
-            className="absolute inset-x-0 top-full z-50 flex h-[calc(100dvh-76px)] flex-col justify-between overflow-y-auto bg-[#111831] px-6 pb-10 pt-8 text-[#FFFFFF] sm:h-[calc(100dvh-84px)] lg:hidden"
-          >
-            <div className="flex flex-col gap-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.id}
-                  to={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="border-b border-white/15 py-4 font-['Space_Grotesk',Inter,sans-serif] text-3xl font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-[#3848BE]"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-            <div className="flex flex-col gap-3 pt-8">
-              <Link to={user ? "/Dashboard" : "/Login"} onClick={() => setMenuOpen(false)} className="rounded-full border border-white/35 px-6 py-4 text-center font-bold">{user ? "Dashboard" : "Log in"}</Link>
-              <Link to={user ? "/Logout" : "/OrganizerRegistration"} onClick={() => setMenuOpen(false)} className="rounded-full bg-[#3848BE] px-6 py-4 text-center font-bold text-white">{user ? "Logout" : "Create an event"}</Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      </header>
-      {/* Keep the banner/content stationary when the header enters fixed mode. */}
-      {scrolled && <div aria-hidden="true" className="h-[76px] w-full sm:h-[84px]" />}
-    </>
+      {menuOpen && (
+        <div className="eh26-mobile-menu" id="eh26-mobile-menu">
+          <div>{links.map(link => <Link key={link.to} to={link.to} onClick={() => setMenuOpen(false)}>{link.label}</Link>)}</div>
+          <div className="eh26-mobile-actions">
+            <Link to={user ? "/Dashboard" : "/Login"} onClick={() => setMenuOpen(false)}>{user ? "Dashboard" : "Log in"}</Link>
+            <Link to={ctaTo} className="eh26-site-cta" onClick={() => setMenuOpen(false)}>{ctaText} <ArrowUpRight size={18} /></Link>
+          </div>
+        </div>
+      )}
+    </header>
   );
 }
