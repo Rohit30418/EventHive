@@ -1,4 +1,4 @@
-import type { CSSProperties, FormEvent, MouseEvent } from "react";
+import { useEffect, type CSSProperties, type FormEvent, type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Eye, PencilLine } from "lucide-react";
 import Header from "../pages/Microsite/Header";
@@ -18,6 +18,11 @@ const EventDraftPreview = () => {
   const { user } = useAuth();
   const { ownerId, editorKey, fields, speakers } = useAppSelector((state) => state.eventBuilder);
   const hasDraft = Boolean(user && editorKey && ownerId === user.uid);
+  // Opening preview from the bottom of a long editor should show the hero first.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   const editorPath = editorKey?.startsWith("edit:")
     ? `/Dashboard/EditEvent/${encodeURIComponent(editorKey.slice(5))}`
     : "/Dashboard/CreateEvent";
