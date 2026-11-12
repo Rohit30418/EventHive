@@ -107,12 +107,12 @@ const CreateEvent: React.FC = () => {
     formState: { errors },
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
-    defaultValues: { PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" },
+    defaultValues: { PrimaryColor: "#3848BE", SecondaryColor: "#13B785" },
   });
 
   const watchedValues = watch();
-  const primaryColor = watchedValues.PrimaryColor || "#4F46E5";
-  const secondaryColor = watchedValues.SecondaryColor || "#06B6D4";
+  const primaryColor = watchedValues.PrimaryColor || "#3848BE";
+  const secondaryColor = watchedValues.SecondaryColor || "#13B785";
 
   const fetchEvent = useCallback(async () => {
     if (!EventID) return;
@@ -128,7 +128,7 @@ const CreateEvent: React.FC = () => {
         navigate("/Dashboard/Events", { replace: true });
         return;
       }
-      reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4", ...eventData });
+      reset({ PrimaryColor: "#3848BE", SecondaryColor: "#13B785", ...eventData });
       setSpeakers(eventData.speakers || []);
       setBannerPreview(eventData.banner || "");
     } catch {
@@ -178,7 +178,7 @@ const token = await user.getIdToken();
         const saved = await addEvent(payload);
         if (!saved) return; // Retain user input on a failed request.
       }
-      reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" });
+      reset({ PrimaryColor: "#3848BE", SecondaryColor: "#13B785" });
       setBannerPreview("");
       setSpeakers([]);
       navigate("/Dashboard/Events");
