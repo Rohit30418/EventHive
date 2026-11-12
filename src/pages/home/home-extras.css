@@ -23,7 +23,7 @@
   gap: 16px;
 }
 .eh-extras-price-index {
-  color: #AD8D7A;
+  color: #8C9AB1;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .08em;
@@ -40,14 +40,14 @@
   margin: 17px 0 0;
   padding: 0 0 17px;
   border-bottom: 1px solid rgba(31,28,26,.12);
-  color: #A64116;
+  color: #3848BE;
   font-size: clamp(1.2rem,1.5vw,1.4rem);
   line-height: 1.25;
   font-weight: 800;
 }
 .eh-extras-price-description {
   margin: 17px 0 0;
-  color: #554941;
+  color: #59667F;
   font-size: 16px;
   line-height: 1.65;
 }
@@ -63,16 +63,16 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  color: #443D37;
+  color: #38455D;
   font-size: 15px;
   line-height: 1.6;
 }
-.eh-extras-price-features svg { flex-shrink: 0; margin-top: 3px; color: #B4461B; }
+.eh-extras-price-features svg { flex-shrink: 0; margin-top: 3px; color: #3848BE; }
 .eh-home .eh-extras-price-card .eh-home-btn { width: 100%; align-self: stretch; }
 .eh-extras-pricing-note {
   margin: 20px auto 0;
   max-width: 740px;
-  color: #75655B;
+  color: #626E87;
   font-size: 13px;
   line-height: 1.6;
   text-align: center;
@@ -82,7 +82,7 @@
    until then these are clearly participation invitations, not endorsements. */
 .eh-home .eh-extras-testimonials {
   overflow: hidden;
-  background: #FFF8F3;
+  background: #FFFFFF;
 }
 .eh-extras-testimonial-heading {
   display: flex;
@@ -104,12 +104,12 @@
   border: 1px solid rgba(31,28,26,.18);
   border-radius: 12px;
   background: white;
-  color: #44392F;
+  color: #3C4964;
   font-size: 14px;
   font-weight: 750;
   cursor: pointer;
 }
-.eh-extras-motion-toggle:hover { border-color: #F26B2A; }
+.eh-extras-motion-toggle:hover { border-color: #3848BE; }
 .eh-extras-story-viewport {
   --eh-story-half-gap: 12px;
   position: relative;
@@ -155,8 +155,8 @@
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: #FFEBDD;
-  color: #A43A11;
+  background: #EDF1FF;
+  color: #3848BE;
 }
 .eh-extras-story-card > p {
   margin: 0;
@@ -166,7 +166,7 @@
   font-weight: 600;
   letter-spacing: -.02em;
   line-height: 1.55;
-  color: #24201D;
+  color: #171E39;
 }
 .eh-extras-story-meta {
   display: flex;
@@ -177,8 +177,8 @@
   padding-top: 14px;
   border-top: 1px solid rgba(31,28,26,.11);
 }
-.eh-extras-story-meta span { font-size: 13px; font-weight: 800; color: #8D3A16; }
-.eh-extras-story-meta small { font-size: 12px; font-weight: 650; color: #77655C; }
+.eh-extras-story-meta span { font-size: 13px; font-weight: 800; color: #3848BE; }
+.eh-extras-story-meta small { font-size: 12px; font-weight: 650; color: #79839A; }
 .eh-extras-testimonials > .eh-home-container:last-child {
   display: flex;
   justify-content: center;
@@ -192,7 +192,7 @@
 html.a11y-pause-animations .eh-extras-story-track { animation: none !important; }
 
 /* Enquiry form: intentional two-column layout and native accessible controls. */
-.eh-home .eh-extras-query { background: #FFF1E7; }
+.eh-home .eh-extras-query { background: #F0F4FF; }
 .eh-extras-query-grid {
   display: grid;
   grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr);
@@ -209,10 +209,10 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   max-width: 100%;
   margin-top: 32px;
   text-decoration: none;
-  color: #1F1C1A;
+  color: #121830;
 }
 .eh-extras-query-email > span:nth-child(2) { display: grid; gap: 4px; min-width: 0; }
-.eh-extras-query-email small { color: #8C6A54; font-size: 12px; font-weight: 800; letter-spacing: .1em; }
+.eh-extras-query-email small { color: #66728D; font-size: 12px; font-weight: 800; letter-spacing: .1em; }
 .eh-extras-query-email strong { font-size: 16px; overflow-wrap: anywhere; }
 .eh-extras-query-email > svg:last-child { flex-shrink: 0; }
 .eh-home .eh-extras-query-form {
@@ -221,19 +221,19 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   padding: clamp(24px,3.5vw,36px);
 }
 .eh-extras-query-form-title { display: flex; align-items: center; gap: 13px; margin-bottom: 4px; }
-.eh-extras-query-form-title > span { display:grid; place-items:center; width:45px; height:45px; border-radius:12px; color:#A43A11; background:#FFEBDD; flex-shrink:0; }
+.eh-extras-query-form-title > span { display:grid; place-items:center; width:45px; height:45px; border-radius:12px; color:#3848BE; background:#EDF1FF; flex-shrink:0; }
 .eh-extras-query-form-title h3 { font-size: 22px; font-weight: 700; font-family: "Space Grotesk", Inter, sans-serif; }
-.eh-extras-query-form-title p { margin: 4px 0 0; color: #6B5C54; font-size: 14px; }
+.eh-extras-query-form-title p { margin: 4px 0 0; color: #67738B; font-size: 14px; }
 .eh-extras-query-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
-.eh-extras-query-form label { display: grid; gap: 8px; min-width: 0; font-size: 14px; font-weight: 750; color: #45362D; }
+.eh-extras-query-form label { display: grid; gap: 8px; min-width: 0; font-size: 14px; font-weight: 750; color: #38465E; }
 .eh-extras-query-form :is(input,select,textarea) {
   width: 100%;
   min-width: 0;
-  border: 1px solid #DFD3C9;
+  border: 1px solid #D8E0EF;
   border-radius: 12px;
   padding: 13px 15px;
   background: #FFF;
-  color: #1F1C1A;
+  color: #121830;
   font-family: inherit;
   font-size: 16px;
   font-weight: 450;
@@ -241,13 +241,13 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
 }
 .eh-extras-query-form textarea { min-height: 140px; resize: vertical; }
 .eh-extras-query-form :is(input,select,textarea):focus-visible {
-  outline: 3px solid rgba(242,107,42,.35);
+  outline: 3px solid rgba(56,72,190,.35);
   outline-offset: 1px;
-  border-color: #E3753D;
+  border-color: #3848BE;
 }
-.eh-extras-query-form :is(input,textarea)::placeholder { color:#897C73; }
+.eh-extras-query-form :is(input,textarea)::placeholder { color:#8892A6; }
 .eh-home .eh-extras-query-submit { width: 100%; cursor:pointer; border:0; }
-.eh-extras-query-disclaimer { margin: -4px 0 0; color: #6C605A; font-size: 13px; line-height: 1.6; }
+.eh-extras-query-disclaimer { margin: -4px 0 0; color: #68748C; font-size: 13px; line-height: 1.6; }
 @media(max-width:1023px){
   .eh-extras-pricing-grid { grid-template-columns: 1fr; max-width: 680px; margin-inline: auto; }
   .eh-extras-query-grid { grid-template-columns: 1fr; }
@@ -270,16 +270,16 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
 .eh-home .eh-extras-price-card { position: relative; }
 .eh-home .eh-extras-price-card.is-popular {
   transform: translateY(-5px);
-  border: 2px solid #F26B2A;
+  border: 2px solid #3848BE;
   padding: 23px;
-  background: linear-gradient(180deg, #FFF2E7 0%, #FFFFFF 48%);
-  box-shadow: 0 10px 27px rgba(242, 107, 42, .13), 0 0 0 4px rgba(242, 107, 42, .055);
+  background: linear-gradient(180deg, #F6F8FF 0%, #FFFFFF 48%);
+  box-shadow: 0 10px 27px rgba(56, 72, 190, .13), 0 0 0 4px rgba(56, 72, 190, .055);
   z-index: 1;
   transition: transform .2s ease, box-shadow .2s ease;
 }
 .eh-home .eh-extras-price-card.is-popular:hover {
   transform: translateY(-8px);
-  box-shadow: 0 13px 31px rgba(242, 107, 42, .17), 0 0 0 4px rgba(242, 107, 42, .07);
+  box-shadow: 0 13px 31px rgba(56, 72, 190, .17), 0 0 0 4px rgba(56, 72, 190, .07);
 }
 .eh-extras-popular-badge {
   position: absolute;
@@ -295,25 +295,25 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   min-height: 33px;
   padding: 7px 15px;
   border-radius: 999px;
-  background: #F26B2A;
-  color: #1F1C1A;
+  background: #3848BE;
+  color: #121830;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .025em;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(242, 107, 42, .13);
+  box-shadow: 0 4px 12px rgba(56, 72, 190, .13);
 }
 .eh-home .eh-extras-price-card.is-popular .eh-home-btn-primary {
-  background: #F26B2A;
-  border-color: #F26B2A;
-  color: #1F1C1A;
+  background: #3848BE;
+  border-color: #3848BE;
+  color: #121830;
 }
 .eh-home .eh-extras-price-card.is-popular .eh-extras-price-label {
-  color: #A83D13;
+  color: #3848BE;
 }
 .eh-home .eh-extras-price-card.is-popular .eh-extras-price-top .eh-home-icon {
-  background: #FFE1CD;
-  color: #A83D13;
+  background: #E0EAFF;
+  color: #3848BE;
 }
 
 /* Every community card now uses the same predictable visual layout.
@@ -338,7 +338,7 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   width: 40%;
   flex: 0 0 40%;
   overflow: hidden;
-  background: #FFEBDD;
+  background: #EDF1FF;
 }
 .eh-extras-story-photo img {
   display: block;
@@ -363,7 +363,7 @@ html.a11y-pause-animations .eh-extras-story-track { animation: none !important; 
   font-weight: 600;
   line-height: 1.47;
   letter-spacing: -.022em;
-  color: #28221F;
+  color: #17213D;
 }
 .eh-extras-story-content .eh-extras-story-quote {
   width: 40px;
