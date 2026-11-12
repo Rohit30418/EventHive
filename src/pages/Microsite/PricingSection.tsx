@@ -59,8 +59,8 @@ const pricingPlans: PricingPlan[] = [
 ];
 
 const PricingSection: React.FC<PricingSectionProps> = ({
-  primaryColor = "#F26B2A",
-  secondaryColor = "#E88A54",
+  primaryColor = "#3848BE",
+  secondaryColor = "#14B884",
 }) => {
   return (
     <section id="pricing" className="eh-ms-section bg-white">
