@@ -134,7 +134,7 @@ const DashboardShell = () => {
   };
 
   return (
-    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F8F7F5] text-[#1F1C1A] dark:bg-slate-950 dark:text-slate-200">
+    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F8F7F5] text-[#111330] dark:bg-slate-950 dark:text-slate-200">
       {mobileSidebarOpen && (
         <button
           type="button"
@@ -151,7 +151,7 @@ const DashboardShell = () => {
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F26B2A] text-[#1F1C1A]">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#4430B9] text-[#111330]">
               <Sparkles size={22} />
             </div>
 
@@ -241,7 +241,7 @@ const DashboardShell = () => {
               aria-label={name}
               title={name}
               onClick={() => setMobileSidebarOpen(false)}
-              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#F26B2A] hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#4430B9] hover:text-[#4430B9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#4430B9] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               <Icon size={18} aria-hidden="true" />
               {(sidebarOpen || mobileSidebarOpen) && <span>{name}</span>}
