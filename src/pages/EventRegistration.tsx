@@ -26,8 +26,8 @@ interface EventRegistrationProps {
 }
 
 const EventRegistration = ({
-  primaryColor = "#F26B2A",
-  secondaryColor = "#E88A54",
+  primaryColor = "#3848BE",
+  secondaryColor = "#14B884",
 }: EventRegistrationProps) => {
   const {
     register,
