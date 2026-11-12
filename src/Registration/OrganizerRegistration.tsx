@@ -193,9 +193,9 @@ const OrganizerRegistration = () => {
   };
 
   return (
-    <section className="bg-[#FFF8F3] py-10 text-[#1F1C1A] sm:py-12 lg:py-16">
-      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E7D8CC] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="hidden min-w-0 bg-[#F26B2A] p-6 text-white lg:block lg:p-10">
+    <section className="bg-[#FFFFFF] py-10 text-[#111330] sm:py-12 lg:py-16">
+      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E9EAF2] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+        <aside className="hidden min-w-0 bg-[#4430B9] p-6 text-white lg:block lg:p-10">
           <div className="flex h-full flex-col">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
@@ -212,7 +212,7 @@ const OrganizerRegistration = () => {
             <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
               {organizerBenefits.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#F26B2A]">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#4430B9]">
                     <Icon size={16} />
                   </span>
                   <p className="pt-1 text-sm font-semibold leading-6 text-white/90">{text}</p>
@@ -230,23 +230,23 @@ const OrganizerRegistration = () => {
                   <div
                     key={item}
                     className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      step >= item ? "bg-[#F26B2A]" : "bg-[#eee3db]"
+                      step >= item ? "bg-[#4430B9]" : "bg-[#E9EAF2]"
                     }`}
                   />
                 ))}
               </div>
 
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#4430B9]">
                 Step {step} of 2
               </p>
-              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#1F1C1A] sm:text-3xl">
+              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#111330] sm:text-3xl">
                 {step === 1 ? "Create organizer account" : "Demo checkout — no real payment"}
               </h2>
-              <p className="mt-3 text-sm leading-6 text-[#77736f]">
+              <p className="mt-3 text-sm leading-6 text-[#73778E]">
                 {step === 1 ? (
                   <>
                     Already have an account?{" "}
-                    <Link to="/Login" className="font-extrabold text-[#F26B2A] hover:text-[#cf5924]">
+                    <Link to="/Login" className="font-extrabold text-[#4430B9] hover:text-[#35238F]">
                       Log in
                     </Link>
                   </>
@@ -337,19 +337,19 @@ const OrganizerRegistration = () => {
                 </div>
 
                 <div className="pt-1">
-                  <label className="group flex cursor-pointer items-start gap-3 rounded-2xl border border-[#eadfd7] bg-[#FFF8F3] p-4 transition-colors hover:border-[#F26B2A]/35">
+                  <label className="group flex cursor-pointer items-start gap-3 rounded-2xl border border-[#E9EAF2] bg-[#FFFFFF] p-4 transition-colors hover:border-[#4430B9]/35">
                     <span className="relative mt-0.5 flex items-center">
                       <input
                         {...register("consent")}
                         type="checkbox"
-                        className="peer h-5 w-5 appearance-none rounded-md border border-[#cfc6bf] bg-white transition-all checked:border-[#F26B2A] checked:bg-[#F26B2A]"
+                        className="peer h-5 w-5 appearance-none rounded-md border border-[#cfc6bf] bg-white transition-all checked:border-[#4430B9] checked:bg-[#4430B9]"
                       />
                       <CheckCircle
                         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100"
                         size={12}
                       />
                     </span>
-                    <span className="text-sm font-semibold leading-6 text-[#6e6762]">
+                    <span className="text-sm font-semibold leading-6 text-[#697087]">
                       I agree to the Terms and Privacy Policy and confirm the organizer details are accurate.
                     </span>
                   </label>
@@ -360,7 +360,7 @@ const OrganizerRegistration = () => {
 
                 <button
                   type="submit"
-                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#1F1C1A] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#F26B2A]"
+                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#111330] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#4430B9]"
                 >
                   Proceed to Demo Checkout <ArrowRight size={18} />
                 </button>
@@ -369,14 +369,14 @@ const OrganizerRegistration = () => {
 
             {step === 2 && (
               <div className="space-y-6">
-                <div className="rounded-[1.5rem] border border-[#f0ded2] bg-[#fff3eb] p-5 sm:p-6">
+                <div className="rounded-[1.5rem] border border-[#E9EAF2] bg-[#F8F7FF] p-5 sm:p-6">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-sm font-bold text-[#77736f]">Organizer Pro Subscription</p>
-                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#1F1C1A]">$50.00 <span className="text-sm font-semibold text-[#77736f]">(demo price)</span></h3>
+                      <p className="text-sm font-bold text-[#73778E]">Organizer Pro Subscription</p>
+                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#111330]">$50.00 <span className="text-sm font-semibold text-[#73778E]">(demo price)</span></h3>
                     </div>
-                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#F26B2A]">
-                      <span className="h-2 w-2 rounded-full bg-[#F26B2A]" /> Demo checkout
+                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#4430B9]">
+                      <span className="h-2 w-2 rounded-full bg-[#4430B9]" /> Demo checkout
                     </div>
                   </div>
                 </div>
@@ -393,8 +393,8 @@ const OrganizerRegistration = () => {
                         onClick={() => setPaymentMethod(method.id)}
                         className={`rounded-2xl border p-4 text-left transition-all ${
                           selected
-                            ? "border-[#F26B2A] bg-[#fff3eb] text-[#cf5924]"
-                            : "border-[#eadfd7] bg-white text-[#77736f] hover:border-[#F26B2A]/40"
+                            ? "border-[#4430B9] bg-[#F8F7FF] text-[#35238F]"
+                            : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#4430B9]/40"
                         }`}
                       >
                         <Icon size={22} className="mb-3" />
@@ -405,29 +405,29 @@ const OrganizerRegistration = () => {
                   })}
                 </div>
 
-                <div className="rounded-[1.5rem] border border-[#eadfd7] bg-[#FFF8F3] p-5">
+                <div className="rounded-[1.5rem] border border-[#E9EAF2] bg-[#FFFFFF] p-5">
                   {paymentMethod === "card" && (
                     <div className="space-y-4">
-                      <input type="text" readOnly className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#625d59] outline-none" value="4242 4242 4242 4242" />
+                      <input type="text" readOnly className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#73778E] outline-none" value="4242 4242 4242 4242" />
                       <div className="grid grid-cols-2 gap-4">
-                        <input type="text" readOnly className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#625d59] outline-none" value="12/30" />
-                        <input type="text" readOnly className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#625d59] outline-none" value="123" />
+                        <input type="text" readOnly className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#73778E] outline-none" value="12/30" />
+                        <input type="text" readOnly className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#73778E] outline-none" value="123" />
                       </div>
                     </div>
                   )}
 
                   {paymentMethod === "upi" && (
                     <div className="space-y-3">
-                      <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">UPI ID</label>
-                      <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#1F1C1A] outline-none focus:border-[#F26B2A] focus:ring-4 focus:ring-[#F26B2A]/10" />
-                      <p className="text-xs font-semibold text-[#9a938d]">Open your UPI app to approve the request.</p>
+                      <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">UPI ID</label>
+                      <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111330] outline-none focus:border-[#4430B9] focus:ring-4 focus:ring-[#4430B9]/10" />
+                      <p className="text-xs font-semibold text-[#9A9DB0]">Open your UPI app to approve the request.</p>
                     </div>
                   )}
 
                   {paymentMethod === "bank" && (
                     <div className="space-y-3">
-                      <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">Select bank</label>
-                      <select className="w-full rounded-xl border border-[#eadfd7] bg-white px-4 py-3 font-semibold text-[#1F1C1A] outline-none focus:border-[#F26B2A] focus:ring-4 focus:ring-[#F26B2A]/10">
+                      <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">Select bank</label>
+                      <select className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111330] outline-none focus:border-[#4430B9] focus:ring-4 focus:ring-[#4430B9]/10">
                         <option>HDFC Bank</option>
                         <option>SBI</option>
                         <option>ICICI Bank</option>
@@ -442,7 +442,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={() => setStep(1)}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-full border border-[#eadfd7] bg-white px-6 py-4 text-sm font-bold text-[#625d59] transition-all hover:border-[#F26B2A]/40 hover:text-[#F26B2A] sm:flex-1"
+                    className="flex items-center justify-center gap-2 rounded-full border border-[#E9EAF2] bg-white px-6 py-4 text-sm font-bold text-[#73778E] transition-all hover:border-[#4430B9]/40 hover:text-[#4430B9] sm:flex-1"
                   >
                     <ChevronLeft size={18} /> Back
                   </button>
@@ -451,7 +451,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={handlePaymentAndRegistration}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-full bg-[#F26B2A] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#dc5f23] disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
+                    className="flex items-center justify-center gap-2 rounded-full bg-[#4430B9] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#35238F] disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
                   >
                     {isProcessing ? (
                       <>
