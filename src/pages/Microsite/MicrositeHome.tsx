@@ -53,9 +53,9 @@ const MicrositeHome = () => {
   const { eventData: data } = useAppSelector((state) => state.microsite);
   const event = data ?? { EventName: "", eventDate: "" };
 
-  const primaryColor = event.PrimaryColor || event.primaryColor || "#F26B2A";
+  const primaryColor = event.PrimaryColor || event.primaryColor || "#3848BE";
   const secondaryColor =
-    event.SecondaryColor || event.secondaryColor || "#E88A54";
+    event.SecondaryColor || event.secondaryColor || "#14B884";
 
   const eventDateStr = event.eventDate;
   const isEventPassed = eventDateStr
@@ -121,7 +121,7 @@ const MicrositeHome = () => {
   return (
     <div
       id="top"
-      className="eh-ms-page w-full min-w-0 bg-[#FFF8F3] font-sans text-slate-900 antialiased"
+      className="eh-ms-page w-full min-w-0 bg-[#FFFFFF] font-sans text-slate-900 antialiased"
     >
       <style>
         {`
@@ -133,7 +133,7 @@ const MicrositeHome = () => {
       </style>
 
       {/* HERO SECTION */}
-      <section className="eh-ms-section bg-[#FFF8F3]">
+      <section className="eh-ms-section bg-[#FFFFFF]">
         <div className="eh-ms-container">
           <div className="eh-ms-hero-grid">
             
@@ -423,7 +423,7 @@ const MicrositeHome = () => {
       </section>
 
       {/* MAP — existing location and action, arranged below the map. */}
-      <section className="eh-ms-section bg-[#FFF8F3]">
+      <section className="eh-ms-section bg-[#FFFFFF]">
         <div className="eh-ms-container">
           <div className="eh-ms-card overflow-hidden">
             <iframe
