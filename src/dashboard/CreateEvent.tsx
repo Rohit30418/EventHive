@@ -461,7 +461,7 @@ const token = await user.getIdToken();
               <Link to="/Dashboard/AddWebsiteContent" className="eh-btn-secondary justify-center px-4 py-3 text-sm">
                 Edit microsite content
               </Link>
-              <Link to="/Dashboard/EventPreview" className="eh-btn-secondary justify-center px-4 py-3 text-sm">
+              <Link to="/EventPreview" className="eh-btn-secondary justify-center px-4 py-3 text-sm">
                 Preview unsaved event
               </Link>
             </div>
