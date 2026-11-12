@@ -5,6 +5,7 @@ import HomeHero from "./home/HomeHero";
 import { HomeSmoothScroll } from "./home/HomeMotion";
 import "./home/home-layout.css";
 import "./home/home-extras.css";
+import "./home/home-reference-ui.css";
 import HomeSections from "./home/HomeSections";
 
 const Home = () => {
@@ -53,7 +54,7 @@ const Home = () => {
   }, [data]);
 
   return (
-    <div className="eh-home min-h-screen overflow-x-hidden bg-[#FFF8F3] text-[#1F1C1A] selection:bg-[#F26B2A] selection:text-white">
+    <div className="eh-home min-h-screen overflow-x-hidden bg-white text-[#111330] selection:bg-[#4430B9] selection:text-white">
       <HomeSmoothScroll />
       <HomeHero heroEvent={featuredEvents[0]} />
       <HomeSections
