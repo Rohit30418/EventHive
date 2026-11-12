@@ -120,8 +120,8 @@ const OrganizerDashboard = () => {
       datasets: [
         {
           data: [stats.upcomingEvents, stats.completedEvents],
-          backgroundColor: ["#6366F1", "#10B981"],
-          hoverBackgroundColor: ["#4F46E5", "#059669"],
+          backgroundColor: ["#4430B9", "#14AD80"],
+          hoverBackgroundColor: ["#35238F", "#0B896A"],
           borderColor: isDark ? "#020617" : "#FFFFFF",
           borderWidth: 4,
           hoverOffset: 8,
@@ -219,11 +219,11 @@ const OrganizerDashboard = () => {
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
               <Sparkles size={14} />
-              Organizer Analytics
+              Organizer workspace
             </div>
 
             <h1 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white md:text-3xl">
-              Analytics Overview
+              Organizer Dashboard
             </h1>
 
             <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-500 dark:text-slate-400 md:text-base">
@@ -250,6 +250,17 @@ const OrganizerDashboard = () => {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Reference design banner — existing create flow and route retained. */}
+      <div className="eh-ref-promo-banner">
+        <div>
+          <h2>Bring your next idea to life.</h2>
+          <p>Create an event page, share it with your audience and welcome registrations.</p>
+        </div>
+        <Link to="/Dashboard/CreateEvent">
+          Create an event <ArrowRight size={17} aria-hidden="true" />
+        </Link>
       </div>
 
       {/* Metric Cards */}
