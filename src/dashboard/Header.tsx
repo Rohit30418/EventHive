@@ -134,7 +134,7 @@ const DashboardShell = () => {
   };
 
   return (
-    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F8F7F5] text-[#111330] dark:bg-slate-950 dark:text-slate-200">
+    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F7F9FE] text-[#111831] dark:bg-slate-950 dark:text-slate-200">
       {mobileSidebarOpen && (
         <button
           type="button"
@@ -151,7 +151,7 @@ const DashboardShell = () => {
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#4430B9] text-white">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#3848BE] text-white">
               <Sparkles size={22} />
             </div>
 
@@ -200,7 +200,7 @@ const DashboardShell = () => {
                       to={item.path}
                       className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 ${
                         active
-                          ? "bg-[#FFEBDD] text-[#8C360E] dark:bg-[#5B2B1B] dark:text-[#FFD1B8]"
+                          ? "bg-[#EDF1FF] text-[#8C360E] dark:bg-[#5B2B1B] dark:text-[#FFD1B8]"
                           : "text-slate-500 hover:bg-slate-50 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-white"
                       } ${!sidebarOpen && !mobileSidebarOpen ? "justify-center" : ""}`}
                       title={!sidebarOpen && !mobileSidebarOpen ? item.label : undefined}
@@ -241,7 +241,7 @@ const DashboardShell = () => {
               aria-label={name}
               title={name}
               onClick={() => setMobileSidebarOpen(false)}
-              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#4430B9] hover:text-[#4430B9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#4430B9] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#3848BE] hover:text-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3848BE] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               <Icon size={18} aria-hidden="true" />
               {(sidebarOpen || mobileSidebarOpen) && <span>{name}</span>}
@@ -323,7 +323,7 @@ const DashboardShell = () => {
           </button>
         </header>
 
-        <main className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F8F7F5] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
+        <main className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F7F9FE] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
           <div className="mx-auto w-full min-w-0 max-w-[1440px]">
             <Outlet />
           </div>
