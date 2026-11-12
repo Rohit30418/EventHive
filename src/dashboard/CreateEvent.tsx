@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   ChevronRight,
   ImagePlus,
+  Eye,
+  ExternalLink,
   Loader2,
   MapPin,
   Palette,
@@ -28,6 +30,8 @@ import {
 import useAddEvent from "../AdminCustomHooks/useAddEvent";
 import AddSpeakersModal from "./AddSpeakersModal";
 import { apiPath } from "../../Utils/Utils";
+import { createSlug } from "../../Utils/createSlug";
+import "./event-editor-ui.css";
 import { PageLoader } from "../common/StateViews";
 import { auth } from "../Firebase";
 const todayDate = new Date().toISOString().split("T")[0];
@@ -198,10 +202,10 @@ const token = await user.getIdToken();
   if (loadingEvent) return <PageLoader label="Loading event editor..." />;
 
   return (
-    <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#020617] p-6 text-white shadow-sm md:p-6">
+    <div className="eh-event-editor space-y-7">
+      <div className="eh-editor-hero relative overflow-hidden rounded-2xl border border-white/10 bg-[#293C9F] p-6 text-white shadow-sm md:p-7">
         <div className="eh-premium-grid absolute inset-0 opacity-20" />
-        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[100px]" />
+        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-emerald-300/20 blur-[100px]" />
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-cyan-100 hover:bg-white/15">
@@ -214,8 +218,27 @@ const token = await user.getIdToken();
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300">
               Build the public microsite, registration experience and speaker lineup from a single guided workspace.
             </p>
+            <div className="eh-editor-hero-actions mt-5 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => document.getElementById("eh-event-live-preview")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                className="eh-editor-hero-btn inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/25"
+              >
+                <Eye size={17} aria-hidden="true" /> Live preview
+              </button>
+              {EventID && (
+                <Link
+                  to={`/events/${createSlug(watchedValues.EventName || "event")}/${EventID}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="eh-editor-hero-btn inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/25"
+                >
+                  <ExternalLink size={16} aria-hidden="true" /> Open published page
+                </Link>
+              )}
+            </div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/10 p-4 ">
+          <div className="eh-editor-progress rounded-2xl border border-white/20 bg-white/10 p-4">
             <div className="mb-2 flex items-center justify-between gap-6 text-xs font-bold uppercase tracking-wide text-slate-300">
               <span>Page readiness</span><span>{completion}%</span>
             </div>
@@ -227,7 +250,7 @@ const token = await user.getIdToken();
       </div>
 
       <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
-        <form onSubmit={handleSubmit(onSubmit)} className="min-w-0 space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="eh-editor-form min-w-0 space-y-6">
           <input type="hidden" {...register("banner")} />
 
           <section className="eh-dashboard-card p-6 md:p-6">
@@ -359,15 +382,25 @@ const token = await user.getIdToken();
             )}
           </section>
 
-          <div className="sticky bottom-4 z-20 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm  dark:border-slate-800 dark:bg-slate-900/90">
-            <button type="submit" disabled={isLoading} className="eh-btn-primary w-full px-6 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-70">
+          <div className="eh-editor-actions flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <Link to="/Dashboard/Events" className="eh-editor-back inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 hover:text-indigo-700 dark:text-slate-300">
+              <ArrowLeft size={17} aria-hidden="true" /> Back to events
+            </Link>
+            <button type="submit" disabled={isLoading} className="eh-btn-primary eh-editor-save inline-flex items-center justify-center gap-2 px-7 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-70">
               {isLoading ? <><Loader2 className="animate-spin" size={18} /> Saving...</> : <>{EventID ? "Update Event" : "Create Event"} <CheckCircle2 size={18} /></>}
             </button>
           </div>
         </form>
 
-        <aside className="space-y-6 xl:sticky xl:top-6 xl:self-start">
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <aside id="eh-event-live-preview" className="eh-editor-preview-column min-w-0 space-y-6 xl:sticky xl:top-6 xl:self-start">
+          <div className="eh-editor-preview-heading flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-indigo-600 dark:text-indigo-300">Live preview</p>
+              <h2 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">Your event page</h2>
+            </div>
+            <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Updates as you type</span>
+          </div>
+          <div className="eh-editor-preview-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="relative h-56 overflow-hidden bg-slate-200">
               {bannerPreview ? <img src={bannerPreview} alt="Preview" className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><ImagePlus size={44} /></div>}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent" />
