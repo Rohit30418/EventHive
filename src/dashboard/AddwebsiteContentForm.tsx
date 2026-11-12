@@ -173,7 +173,7 @@ const AddWebsiteContentForm = () => {
 
       <div className="flex flex-wrap gap-3">
         <Link to={editorPath} className="eh-btn-secondary px-5 py-3 text-sm">Back to event editor</Link>
-        <Link to="/Dashboard/EventPreview" className="eh-btn-secondary px-5 py-3 text-sm">Preview unsaved event</Link>
+        <Link to="/EventPreview" className="eh-btn-secondary px-5 py-3 text-sm">Preview unsaved event</Link>
       </div>
 
       <form
