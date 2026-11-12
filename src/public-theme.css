@@ -65,7 +65,7 @@
 }
 
 /* Shared public surfaces echo the homepage without overwriting page-specific layouts. */
-.public-theme { background: #FFF8F3; color: #1F1C1A; }
+.public-theme { background: #FFFFFF; color: #121830; }
 .public-theme main { min-width: 0; }
 .public-theme .eh-page-shell, .public-theme .eh-page { color: var(--eh-text); }
 
@@ -76,7 +76,7 @@
 
 /* Consistent public site frame; retain organizer-selected colors inside event content. */
 .public-theme .eh-home-footer {
-  background-color: #1F1C1A;
+  background-color: #121830;
 }
 
 @media (max-width: 639px) {
