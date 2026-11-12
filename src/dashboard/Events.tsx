@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetEvents from "../AdminCustomHooks/useGetEvents";
 import useDeleteEvent from "../AdminCustomHooks/useDeleteEvent";
-import { CalendarDays, MapPin, Plus, Search, Trash2, Pencil, Inbox } from "lucide-react";
+import { CalendarDays, MapPin, Plus, Search, Trash2, Pencil, Eye, Inbox } from "lucide-react";
+import { createSlug } from "../../Utils/createSlug";
 import { ErrorState, PageLoader } from "../common/StateViews";
 import type { EventType } from "../Types/eventType";
 import { useAuth } from "./AuthContext";
@@ -126,7 +127,17 @@ const Events: React.FC = () => {
             </p>
           </div>
 
-          <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
+          <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
+            {eventId && (
+              <Link
+                to={`/events/${createSlug(item.EventName || "event")}/${eventId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-white px-3 py-2 text-sm font-bold text-indigo-700 hover:border-emerald-300 hover:text-emerald-700 dark:border-slate-700 dark:bg-slate-900 dark:text-indigo-300"
+              >
+                <Eye size={15} aria-hidden="true" /> View
+              </Link>
+            )}
             <Link
               to={eventId ? `/Dashboard/EditEvent/${eventId}` : "#"}
               className="inline-flex items-center gap-2 rounded-xl bg-indigo-50 px-3 py-2 text-sm font-bold text-indigo-700 hover:bg-indigo-600 hover:text-white dark:bg-indigo-950 dark:text-indigo-300 dark:hover:bg-indigo-600"
