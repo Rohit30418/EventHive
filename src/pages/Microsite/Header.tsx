@@ -39,8 +39,8 @@ const Header = () => {
   const moreRef = useRef<HTMLDivElement>(null);
 
   const data = useAppSelector((state) => state.microsite.eventData) as EventData | null;
-  const primaryColor = data?.PrimaryColor || data?.color || "#F26B2A";
-  const secondaryColor = data?.SecondaryColor || "#E88A54";
+  const primaryColor = data?.PrimaryColor || data?.color || "#3848BE";
+  const secondaryColor = data?.SecondaryColor || "#14B884";
   const eventName = data?.EventName || "EventHive";
   const logoLetter = eventName.charAt(0).toUpperCase() || "E";
 
@@ -139,13 +139,13 @@ const Header = () => {
                   More <ChevronDown size={15} aria-hidden="true" />
                 </button>
                 {moreOpen && (
-                  <div id="eh-ms-more-menu" className="absolute right-0 top-full z-[90] mt-2 w-52 rounded-2xl border border-[#E7D8CC] bg-white p-2 shadow-sm">
+                  <div id="eh-ms-more-menu" className="absolute right-0 top-full z-[90] mt-2 w-52 rounded-2xl border border-[#E7ECF5] bg-white p-2 shadow-sm">
                     {extraLinks.map((item) => (
                       <button
                         type="button"
                         key={item.name}
                         onClick={() => scrollToSection(item.href)}
-                        className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 hover:bg-[#FFF8F3]"
+                        className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 hover:bg-[#FFFFFF]"
                       >
                         {item.name}
                         {item.name === "Details" && <Sparkles size={15} aria-hidden="true" />}
@@ -160,14 +160,14 @@ const Header = () => {
               <button
                 type="button"
                 onClick={goToRegistration}
-                className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2.5 text-xs font-bold text-[#1F1C1A] sm:px-5 sm:text-sm"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 py-2.5 text-xs font-bold text-[#111831] sm:px-5 sm:text-sm"
                 style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
               >
                 Register <ArrowRight size={16} aria-hidden="true" />
               </button>
               <button
                 type="button"
-                className="grid h-11 w-11 place-items-center rounded-xl border border-[#E7D8CC] bg-white text-[#1F1C1A] xl:hidden"
+                className="grid h-11 w-11 place-items-center rounded-xl border border-[#E7ECF5] bg-white text-[#111831] xl:hidden"
                 onClick={() => setIsMobileMenuOpen((value) => !value)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMobileMenuOpen}
@@ -190,7 +190,7 @@ const Header = () => {
           />
           <aside
             id="eh-ms-mobile-nav"
-            className="fixed inset-x-4 top-[86px] z-[82] max-h-[calc(100dvh-108px)] overflow-y-auto rounded-[20px] border border-[#E7D8CC] bg-white p-4 shadow-sm xl:hidden"
+            className="fixed inset-x-4 top-[86px] z-[82] max-h-[calc(100dvh-108px)] overflow-y-auto rounded-[20px] border border-[#E7ECF5] bg-white p-4 shadow-sm xl:hidden"
             aria-label="Event mobile navigation"
           >
             <div
@@ -211,7 +211,7 @@ const Header = () => {
                   key={item.name}
                   type="button"
                   onClick={() => scrollToSection(item.href)}
-                  className="flex min-h-11 items-center justify-between rounded-xl border border-slate-200 bg-[#FFF8F3] px-4 py-2.5 text-left text-sm font-bold text-slate-800"
+                  className="flex min-h-11 items-center justify-between rounded-xl border border-slate-200 bg-[#FFFFFF] px-4 py-2.5 text-left text-sm font-bold text-slate-800"
                 >
                   {item.name}
                   <ArrowRight size={17} style={{ color: primaryColor }} aria-hidden="true" />
@@ -219,7 +219,7 @@ const Header = () => {
               ))}
             </div>
 
-            <div className="mt-4 rounded-xl border border-slate-200 bg-[#FFF8F3] p-4">
+            <div className="mt-4 rounded-xl border border-slate-200 bg-[#FFFFFF] p-4">
               <p className="flex items-center gap-2 text-sm font-bold" style={{ color: primaryColor }}>
                 <CalendarCheck size={16} aria-hidden="true" />
                 Ready to attend?
