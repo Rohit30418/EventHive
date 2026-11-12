@@ -4,6 +4,19 @@
   overflow: hidden;
   background: linear-gradient(180deg, #fff 0%, #fbfcff 100%);
 }
+/* The whole section is one vertical container: heading above grid above footer.
+   Prevent any legacy carousel rule from turning these siblings into flex columns. */
+.eh-home .eh-extras-testimonials > .eh-home-container {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+.eh-home .eh-testimonial-heading,
+.eh-home .eh-testimonial-grid,
+.eh-home .eh-testimonial-footer {
+  width: 100%;
+  min-width: 0;
+}
 .eh-home .eh-testimonial-heading {
   display: flex;
   align-items: flex-end;
