@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { ErrorState } from "../../common/StateViews";
 import { useAppSelector } from "../../store/hooks";
+import type { MicrositeEvent } from "../../Types/eventType";
 import EventRegistration from "../EventRegistration";
 import PricingSection from "./PricingSection";
 import VideoSection from "./VideoSection";
@@ -49,8 +50,11 @@ const formatDate = (value?: string) => {
   });
 };
 
-const MicrositeHome = () => {
-  const { eventData: data } = useAppSelector((state) => state.microsite);
+type MicrositeHomeProps = { previewEvent?: MicrositeEvent; previewMode?: boolean };
+
+const MicrositeHome = ({ previewEvent, previewMode = false }: MicrositeHomeProps) => {
+  const publishedEvent = useAppSelector((state) => state.microsite.eventData);
+  const data = previewEvent ?? publishedEvent;
   const event = data ?? { EventName: "", eventDate: "" };
 
   const primaryColor = event.PrimaryColor || event.primaryColor || "#3848BE";
@@ -417,7 +421,7 @@ const MicrositeHome = () => {
               </div>
             </div>
           ) : (
-            <EventRegistration primaryColor={primaryColor} />
+            <EventRegistration primaryColor={primaryColor} previewMode={previewMode} />
           )}
         </div>
       </section>
