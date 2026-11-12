@@ -323,7 +323,7 @@ const DashboardShell = () => {
           </button>
         </header>
 
-        <main className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F7F9FE] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
+        <main id="eh-dashboard-scroll-area" className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F7F9FE] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
           <div className="mx-auto w-full min-w-0 max-w-[1440px]">
             <Outlet />
           </div>
