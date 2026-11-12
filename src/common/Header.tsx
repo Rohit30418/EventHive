@@ -91,7 +91,7 @@ export default function Header() {
               to={item.href}
               onClick={() => setActive(item.id)}
               aria-current={active === item.id ? "page" : undefined}
-              className="relative rounded-full px-4 py-2.5 text-[13px] font-semibold text-[#39312B] transition-colors hover:text-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3848BE]"
+              className="relative rounded-full px-4 py-2.5 text-[13px] font-semibold text-[#4D5B73] transition-colors hover:text-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3848BE]"
             >
               {item.label}
               {active === item.id && (
