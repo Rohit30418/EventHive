@@ -12,7 +12,7 @@
 .eh-dashboard > aside > div:first-child{
   min-height:76px;border-color:#e9eaf2!important;padding-inline:21px;
 }
-.eh-dashboard > aside > div:first-child [class*="bg-[#F26B2A]"]{
+.eh-dashboard > aside > div:first-child [class*="bg-[#4430B9]"]{
   background:#4430b9!important;color:#fff!important;
   width:40px;height:40px;border-radius:12px;box-shadow:0 6px 12px #4430b925;
 }
