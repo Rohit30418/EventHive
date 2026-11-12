@@ -1,162 +1,256 @@
-/* Reference mockup applied to the existing React homepage.
-   All event cards continue using useGetEvent and their existing links. */
+/*
+ * EventHive premium landing page – presentation layer only.
+ * The homepage event feed still uses its existing Firebase data and routes.
+ */
 .eh-home {
-  --home-orange:#4430b9; --home-ink:#111330; --home-cream:#fff;
-  --home-peach:#efecff; --home-border:#e9eaf2; --home-muted:#73778e;
-  --home-radius:18px;
-  background:#fff!important; color:#111330; font-family:Inter,'Segoe UI',Arial,sans-serif;
-  font-size:15px; line-height:1.65;
+  --home-orange: var(--eh-primary);
+  --home-ink: #121730;
+  --home-cream: #fff;
+  --home-peach: #eef1ff;
+  --home-border: #e8ecf4;
+  --home-muted: #626a80;
+  --home-radius: 18px;
+  color: #121730;
+  background: #fff;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
 }
-.eh-home .eh-home-container{max-width:1300px;padding-inline:clamp(20px,4vw,46px)}
-.eh-home .eh-home-section{padding-block:clamp(56px,6vw,90px)}
-.eh-home .eh-home-section[id]{scroll-margin-top:90px}
-.eh-home :is(.eh-hero-title,.eh-home-heading,.eh-about-benefit h3,.eh-feature-card h3,.eh-workflow-card h3){
-  font-family:Inter,'Segoe UI',Arial,sans-serif; font-weight:800; letter-spacing:-.045em;
+.eh-home .eh-home-container { max-width: 1256px; padding-inline: clamp(20px, 4vw, 44px); }
+.eh-home .eh-home-section { padding-block: clamp(56px, 5.5vw, 82px); }
+.eh-home :is(h1,h2,h3,h4) { letter-spacing: -.035em; }
+.eh-home :is(.eh-hero-title,.eh-home-heading) {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-weight: 790;
+  letter-spacing: -.047em;
 }
-.eh-home .eh-home-heading {font-size:clamp(30px,3.3vw,46px);line-height:1.14}
-.eh-home .eh-hero-title {font-size:clamp(43px,4.7vw,69px);line-height:1.09;letter-spacing:-.06em}
-.eh-home h1 em,.eh-home h2 em,.eh-home .eh-home-heading em{
-  font-family:inherit;font-style:normal;font-weight:800;letter-spacing:inherit;color:#4430b9!important;
+.eh-home .eh-home-heading { max-width: 650px; font-size: clamp(29px, 3vw, 43px); line-height: 1.17; }
+.eh-home h1 em,.eh-home h2 em {
+  font-family: inherit !important;
+  font-style: normal;
+  font-weight: inherit;
+  color: var(--eh-primary) !important;
+  letter-spacing: inherit;
 }
-.eh-home .eh-home-eyebrow{
-  display:inline-flex;align-items:center;max-width:max-content;gap:8px;
-  margin-bottom:19px;padding:8px 13px;border-radius:999px;background:#f0eefc;
-  color:#4430b9!important;font-size:11px;letter-spacing:.09em;font-weight:800;line-height:1.35;
+.eh-home .eh-home-copy,.eh-home .eh-home-lead {
+  color: #626a80; font-size: 15px; line-height: 1.72;
 }
-.eh-home .eh-home-lead {max-width:515px;font-size:17px;line-height:1.85;color:#696f84}
-.eh-home .eh-home-copy {font-size:15px;line-height:1.8;color:#73778e}
-.eh-home .eh-home-btn{min-height:47px;padding:11px 24px;font-size:14px;font-weight:750;gap:10px;border-radius:999px}
-.eh-home .eh-home-btn-primary{background:#4430b9!important;border-color:#4430b9!important;color:white!important;box-shadow:0 8px 16px rgba(68,48,185,.16)}
-.eh-home .eh-home-btn-primary:hover {background:#35238f!important}
-.eh-home .eh-home-btn-outline{background:white!important;border:1px solid #deddea!important;color:#111330!important}
-.eh-home .eh-home-btn-outline:hover {background:#f5f3ff!important;border-color:#4430b9!important;color:#4430b9!important}
-.eh-home .eh-home-btn-dark{background:#111330;color:#fff}
-.eh-home .eh-home-card{border:1px solid #e9eaf2;border-radius:18px;background:#fff;box-shadow:0 14px 38px rgba(25,20,75,.045)}
-.eh-home .eh-home-icon,.eh-home .eh-event-empty-icon,.eh-home .eh-feature-illustration-icon{background:#efecff;color:#4430b9}
-.eh-home .eh-home-text-link{border-bottom-color:#4430b9;color:#4430b9}
+.eh-home .eh-home-eyebrow {
+  display: inline-flex; align-items: center; gap: 9px;
+  margin-bottom: 20px; padding: 8px 12px;
+  background: #edf0ff; color: #3848be;
+  border: 1px solid #e4e9ff; border-radius: 999px;
+  font-size: 10px; font-weight: 800; letter-spacing: .12em; line-height: 1.3;
+}
+.eh-home .eh-home-card {
+  border: 1px solid #e8ecf4; border-radius: 17px; background: #fff;
+  box-shadow: 0 9px 24px rgba(25,38,88,.045);
+}
+.eh-home .eh-home-btn {
+  min-height: 47px; padding: 11px 23px; font-size: 14px;
+  font-weight: 720; line-height: 1.3; gap: 9px; border-radius: 999px;
+}
+.eh-home .eh-home-btn-primary {
+  background: var(--eh-primary) !important; border-color: var(--eh-primary) !important;
+  color: #fff !important; box-shadow: 0 10px 22px rgba(56,72,190,.16);
+}
+.eh-home .eh-home-btn-primary:hover { background: var(--eh-primary-hover) !important; }
+.eh-home .eh-home-btn-outline {
+  background: #fff !important; color: #17213d !important;
+  border: 1px solid #d9e0ed !important;
+}
+.eh-home .eh-home-btn-outline:hover { border-color: var(--eh-primary) !important; color: var(--eh-primary) !important; background:#f8f9ff !important; }
+.eh-home .eh-home-btn-dark { color: #fff; background: #17213d; }
+.eh-home .eh-home-icon,.eh-home .eh-event-empty-icon,.eh-home .eh-feature-illustration-icon {
+  color: var(--eh-primary); background: #edf0ff;
+}
+.eh-home .eh-home-text-link { border-bottom-color: var(--eh-primary); color: var(--eh-primary); }
 
-/* Hero layout matches the approved white/violet concept. */
-.eh-home .eh-home-hero{padding-top:clamp(60px,6.5vw,100px);padding-bottom:45px;background:#fff}
-.eh-home .eh-hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.03fr);gap:clamp(24px,5vw,70px);align-items:center}
-.eh-home .eh-hero-copy{max-width:610px}
-.eh-home .eh-hero-title{max-width:640px}
-.eh-home .eh-hero-title em{display:inline;color:#4430b9!important}
-.eh-home .eh-home-actions{margin-top:33px;gap:13px}
-.eh-home .eh-hero-points{margin-top:29px;gap:14px 21px}
-.eh-home .eh-hero-points span{font-size:12.5px;font-weight:650;gap:7px;color:#565c70}
-.eh-home .eh-hero-points svg{width:15px;height:15px;color:#0fa77a}
-.eh-reference-art{
-  position:relative;min-height:470px;min-width:0;display:flex;align-items:center;justify-content:center;
-  isolation:isolate;
+/* Hero: clear 55/45 composition instead of oversized type or overlapping content. */
+.eh-home .eh-home-hero { padding-top: clamp(44px, 5vw, 76px); padding-bottom: 30px; background: #fff; }
+.eh-home .eh-hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
+  align-items: center; gap: clamp(24px, 4.5vw, 64px);
 }
-.eh-reference-art::before{
-  content:"";position:absolute;inset:12% 8% 10% 9%;z-index:-1;border-radius:33px;
-  background:linear-gradient(140deg,#f9f7ff,#e9e5ff);
-  box-shadow:0 22px 62px rgba(58,45,150,.07);transform:rotate(.8deg);
+.eh-home .eh-hero-copy { min-width: 0; max-width: 575px; }
+.eh-home .eh-hero-title {
+  max-width: 565px;
+  font-size: clamp(40px, 3.8vw, 59px) !important;
+  line-height: 1.095; letter-spacing: -.052em; font-weight: 800;
+  color: #111631; overflow-wrap: normal;
 }
-.eh-reference-art::after{
-  content:"";position:absolute;inset:-5%;z-index:-2;pointer-events:none;
-  background:radial-gradient(circle at 56% 52%,#e6fff1 0,transparent 58%);filter:blur(24px);
+.eh-home .eh-hero-title em { color: var(--eh-primary) !important; }
+.eh-home .eh-home-lead {
+  max-width: 505px; margin-top: 22px; font-size: 16px;
+  font-weight: 400; line-height: 1.78; color: #626a80;
 }
-.eh-reference-poster{
-  position:relative;overflow:hidden;width:min(313px,72%);min-height:365px;padding:23px 22px;
-  border-radius:22px;background:linear-gradient(157deg,#4631bd,#28177b);
-  color:#fff;transform:rotate(-4deg);box-shadow:0 27px 52px rgba(35,21,116,.21);
-  display:flex;flex-direction:column;justify-content:space-between;
+.eh-hero-status-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background:#15b785; box-shadow: 0 0 0 4px #dcf9ec; }
+.eh-home .eh-home-actions { display: flex; flex-wrap: wrap; margin-top: 28px; gap: 12px; }
+.eh-home .eh-hero-watch {
+  display: inline-flex; align-items: center; gap: 11px; margin-top: 20px;
+  padding: 3px 0; color:#1c2945; font-size: 13px; font-weight: 700;
+  text-decoration: none; border-radius: 6px;
 }
-.eh-reference-poster-top{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.14em;font-weight:750;color:#d6d0ff}
-.eh-reference-orbit{
-  position:absolute;left:10%;top:14%;width:90%;aspect-ratio:1;border:1px solid #ffffff3a;border-radius:50%;
+.eh-home .eh-hero-watch span {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  color: #0ba879; background: #e5f9f0; border-radius: 50%;
 }
-.eh-reference-orbit::before,.eh-reference-orbit::after{
-  content:"";position:absolute;border:1px solid #ffffff45;border-radius:50%;
-}
-.eh-reference-orbit::before{inset:15%}
-.eh-reference-orbit::after{inset:29%;background:radial-gradient(circle at 40% 35%,#5ee3b4,#3fa5ad 54%,#4430b9 59%)}
-.eh-reference-poster h2{
-  z-index:1;position:relative;margin:56px 0 18px;font-size:clamp(30px,3.2vw,39px);
-  line-height:1.06;font-weight:800;letter-spacing:-.065em;color:#fff;max-width:280px;
-}
-.eh-reference-poster h2 span{color:#7ce3c3}
-.eh-reference-poster-bottom{position:relative;z-index:1;padding-top:11px;border-top:1px solid #ffffff40;font-size:10px;letter-spacing:.09em;font-weight:750}
-.eh-reference-float{
-  z-index:2;position:absolute;background:#fff;color:#111330;border:1px solid #e8e8f4;
-  box-shadow:0 15px 36px rgba(30,25,94,.12);border-radius:15px;padding:15px 16px;
-}
-.eh-reference-float strong{display:block;font-size:16px;line-height:1.25;letter-spacing:-.04em}
-.eh-reference-float small{display:block;margin-top:5px;font-size:10px;color:#767b92}
-.eh-reference-float-left{top:17%;left:0;display:flex;align-items:center;gap:12px;transform:rotate(-2deg)}
-.eh-reference-float-check{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:11px;background:#e9f9f1;color:#0ca87a}
-.eh-reference-float-right{right:0;bottom:16%;width:215px;transform:rotate(3deg)}
-.eh-reference-float-right .eh-reference-mini-label{margin:0 0 5px;color:#9297aa;font-size:10px;letter-spacing:.05em}
-.eh-reference-bars{display:flex;align-items:end;gap:5px;height:33px;margin-top:11px}
-.eh-reference-bars i{flex:1;height:38%;border-radius:4px 4px 0 0;background:#e3def9}
-.eh-reference-bars i:nth-child(2){height:58%}.eh-reference-bars i:nth-child(3){height:47%}
-.eh-reference-bars i:nth-child(4){height:78%;background:#aaa0e7}
-.eh-reference-bars i:nth-child(5){height:65%;background:#4430b9}
-.eh-reference-trust{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:55px;padding-top:24px;border-top:1px solid #ececf3}
-.eh-reference-trust>span{color:#9c9fb3;font-size:10px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;white-space:nowrap}
-.eh-reference-trust>div{display:flex;flex:1;justify-content:space-between;gap:12px 18px;flex-wrap:wrap}
-.eh-reference-trust>div span{color:#9295aa;font-size:12px;font-weight:750}
+.eh-home .eh-hero-watch:hover { color: var(--eh-primary); }
+.eh-home .eh-hero-points { display: flex; gap: 12px 18px; flex-wrap: wrap; margin-top: 27px; }
+.eh-home .eh-hero-points span { display:inline-flex; align-items:center; gap:6px; color:#646c81; font-size:12px; font-weight:620; }
+.eh-home .eh-hero-points svg { flex:none; color:#10ad7b; }
 
-/* Main sections use consistent white/lavender surfaces and restrained shadows. */
-.eh-home .eh-about-section{background:#f7f8fc}
-.eh-home .eh-about-intro{background:#efecff;border-color:#e3dcff}
-.eh-home .eh-features-grid{gap:22px}
-.eh-home .eh-feature-card{padding:27px}
-.eh-home .eh-feature-card h3,.eh-home .eh-about-benefit h3{font-size:20px}
-.eh-home .eh-feature-card>p,.eh-home .eh-about-benefit p{font-size:14px;line-height:1.75}
-.eh-home .eh-feature-illustration{color:#4430b9}
-.eh-home .eh-home-dark{background:#151731!important;color:#fff}
-.eh-home .eh-home-dark .eh-home-heading,.eh-home .eh-home-dark .eh-home-heading em{color:#fff!important}
-.eh-home .eh-home-dark .eh-home-eyebrow{color:#4430b9!important}
-.eh-home .eh-home-dark .eh-home-copy{color:#c6c7d7}
-.eh-home .eh-role-tab{border-color:#ffffff80;color:#fff}
-.eh-home .eh-role-tab.is-active{border-color:#4430b9!important;background:#4430b9!important;color:white!important}
-.eh-home .eh-role-preview{background:#f7f8fc}
-.eh-home .eh-role-preview-chip{color:#4430b9}
-.eh-home .eh-role-preview-action{color:#4430b9}
-.eh-home .eh-workflow-card{padding:27px}
-.eh-home .eh-workflow-number{color:#4430b9}
-.eh-home .eh-events-section{background:#f7f8fc}
-.eh-home .eh-event-empty-icon{color:#4430b9}
-.eh-home .eh-extras-pricing,.eh-home .eh-extras-testimonials{background:#fff}
-.eh-home .eh-extras-query{background:#f2f0ff!important}
-.eh-home .eh-extras-popular-badge{background:#4430b9;color:#fff}
-.eh-home .eh-extras-price-card.is-popular{border-color:#4430b9;box-shadow:0 12px 28px #4430b91f;background:#fbfaff}
-.eh-home .eh-extras-price-label,.eh-home .eh-extras-story-meta span{color:#4430b9}
-.eh-home .eh-extras-story-quote,.eh-home .eh-extras-query-form-title>span{background:#efecff;color:#4430b9}
-.eh-home .eh-extras-query-form :is(input,select,textarea){border-color:#d9dbea;border-radius:11px}
-.eh-home .eh-extras-query-form :is(input,select,textarea):focus-visible{outline:2px solid #8172d8;border-color:#8172d8}
+/* Hero preview art is a real component, not an image or fake analytics dashboard. */
+.eh-home .eh-hero-stage { position:relative; height:465px; min-width:0; isolation:isolate; display:grid; place-items:center; }
+.eh-hero-stage::before {
+  content:""; position:absolute; z-index:-2; width:84%; height:76%; left:8%; top:11%;
+  border-radius: 38px; background: linear-gradient(140deg,#f3f6ff 4%,#e7edff 72%,#e7f8f1 100%);
+  transform:rotate(-3deg);
+}
+.eh-home .eh-stage-glow {
+  position:absolute; z-index:-1; inset:8% 4%;
+  border-radius:50%; background:radial-gradient(ellipse,#d9e0ff55,transparent 68%);
+  filter:blur(17px); pointer-events:none;
+}
+.eh-home .eh-stage-visual { position:relative; z-index:1; width:min(332px,76%); }
+.eh-home .eh-stage-preview {
+  background:#fff; border:1px solid #e4e9f3; border-radius:20px; overflow:hidden;
+  padding:10px; box-shadow:0 25px 60px rgba(35,49,119,.15);
+  transform:rotate(-2deg);
+}
+.eh-home .eh-stage-topbar { height:32px; padding:0 10px; display:flex; align-items:center; justify-content:space-between; gap:10px; color:#9aa1b4; font-size:9px; font-weight:800; letter-spacing:.09em; }
+.eh-home .eh-stage-brand-mark { display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--eh-primary);color:#fff;font-size:19px;letter-spacing:-.08em;font-weight:800; }
+.eh-home .eh-stage-brand-mark span { color:#4ae0b3; }
+.eh-home .eh-stage-topbar-action { color:var(--eh-primary); }
+.eh-home .eh-stage-cover { position:relative; height:195px; overflow:hidden; border-radius:12px; background:#243d97; }
+.eh-home .eh-stage-image { display:block;width:100%;height:100%;object-fit:cover; }
+.eh-home .eh-stage-cover-art {
+  width:100%;height:100%;position:relative;overflow:hidden;
+  background:linear-gradient(140deg,#2444ae,#3733a6 65%,#315aad);
+}
+.eh-home .eh-stage-ring { position:absolute; border:1px solid #ffffff55; border-radius:50%;width:185px;height:185px;top:-16px;left:18%; }
+.eh-home .eh-stage-ring-two { width:138px;height:138px;left:25%;top:6px; }
+.eh-home .eh-stage-orb { position:absolute;width:117px;height:117px;left:29%;top:18px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#7ff7c3,#35ceac 50%,#0e8e84 85%);box-shadow:0 18px 36px #0b277755; }
+.eh-home .eh-stage-cover-art b { position:absolute;left:20px;bottom:20px;max-width:185px;color:#fff;font-size:22px;letter-spacing:-.04em;line-height:1.04;font-weight:800; }
+.eh-home .eh-stage-cover-tag { position:absolute;right:13px;top:12px;font-size:8px;letter-spacing:.12em;color:#fff;font-weight:800; }
+.eh-home .eh-stage-preview-body { padding:15px 12px 8px; }
+.eh-home .eh-stage-small-label { font-size:9px;letter-spacing:.12em;font-weight:800;color:#5163cb; }
+.eh-home .eh-stage-preview-body h2 { font-size:18px;line-height:1.28;font-weight:780;letter-spacing:-.045em;margin:6px 0 12px;max-width:260px;color:#141a38; }
+.eh-home .eh-stage-meta { display:flex;gap:8px 14px;flex-wrap:wrap; color:#727b91; font-size:10px; }
+.eh-home .eh-stage-meta span { display:flex;gap:5px;align-items:center;min-width:0;overflow-wrap:anywhere; }
+.eh-home .eh-stage-meta svg { flex:none; color:#5366cf; }
+.eh-home .eh-stage-preview-footer {
+  margin-top:14px;padding-top:12px;border-top:1px solid #e9ecf4;
+  color:#4253c0;display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:730;
+}
+.eh-home .eh-stage-float {
+  z-index:2;position:absolute;min-width:0;max-width:260px;
+  display:flex;align-items:center;gap:11px;padding:13px 15px;
+  background:#fff;border:1px solid #e8ebf3;border-radius:14px;
+  box-shadow:0 14px 32px rgba(35,49,119,.11);
+}
+.eh-home .eh-stage-float-one { top:20%;right:-2%; }
+.eh-home .eh-stage-float-two { bottom:14%;left:-4%; }
+.eh-home .eh-stage-float-icon { flex:none;width:37px;height:37px;border-radius:11px;display:grid;place-items:center; }
+.eh-home .eh-stage-float-icon.green { background:#e6f9f0;color:#11a77a; }
+.eh-home .eh-stage-float-icon.blue { background:#edf0ff;color:#3848be; }
+.eh-home .eh-stage-float strong { display:block;font-size:11px;color:#17203e;font-weight:750;line-height:1.3; }
+.eh-home .eh-stage-float small { display:block;font-size:10px;color:#7e849b;margin-top:3px;line-height:1.3; }
 
-/* Maintain all existing breakpoints, including the live-event card grid. */
-@media(max-width:1023px){
-  .eh-home .eh-hero-grid{grid-template-columns:1fr;gap:15px}
-  .eh-reference-art{max-width:640px;width:100%;margin-inline:auto}
-  .eh-reference-float-left{left:3%}.eh-reference-float-right{right:2%}
+/* Credibility strip – no invented customer numbers, testimonials or logos. */
+.eh-home .eh-hero-trust {
+  display:flex;align-items:center;gap:15px;min-width:0;
+  padding:23px 0 0;margin-top:24px;border-top:1px solid #ebedf5;
 }
-@media(max-width:640px){
-  .eh-home .eh-home-section{padding-block:52px}
-  .eh-home .eh-home-hero{padding-top:52px;padding-bottom:26px}
-  .eh-home .eh-home-container{padding-inline:20px}
-  .eh-home .eh-hero-title{font-size:clamp(38px,9vw,48px)}
-  .eh-home .eh-home-lead{font-size:15px;line-height:1.75}
-  .eh-home .eh-home-btn{min-height:46px;padding:11px 18px;font-size:13px}
-  .eh-home .eh-hero-points{gap:12px}
-  .eh-reference-art{min-height:365px}
-  .eh-reference-poster{min-height:322px;padding:19px;width:min(270px,74%)}
-  .eh-reference-poster h2{font-size:30px}
-  .eh-reference-float{padding:10px 11px;max-width:170px}
-  .eh-reference-float strong{font-size:13px}
-  .eh-reference-float-left{top:12%;left:0}
-  .eh-reference-float-right{right:0;bottom:10%;width:155px}
-  .eh-reference-trust{align-items:flex-start;flex-direction:column;gap:12px;margin-top:25px}
-  .eh-reference-trust>div{justify-content:flex-start}
+.eh-home .eh-trust-avatars { display:flex;align-items:center;flex:none;padding-left:5px; }
+.eh-home .eh-trust-avatars span {
+  display:grid;place-items:center;margin-left:-5px;width:35px;height:35px;
+  border:2px solid #fff;border-radius:50%;color:#fff;background:#3b53c7;
 }
-@media(max-width:375px){
- .eh-reference-art{transform:scale(.9);margin:-15px auto}
- .eh-home .eh-home-actions{gap:9px}
+.eh-home .eh-trust-avatars span:nth-child(2) {background:#16b98c}
+.eh-home .eh-trust-avatars span:nth-child(3) {background:#7888d9}
+.eh-home .eh-hero-trust p { display:flex;flex-direction:column;gap:1px;margin:0;font-size:12px;color:#7a8296;line-height:1.5; }
+.eh-home .eh-hero-trust p strong { font-size:12px;font-weight:760;color:#1a2441; }
+.eh-home .eh-trust-types { display:flex;gap:17px;align-items:center;margin-left:auto;flex-wrap:wrap; }
+.eh-home .eh-trust-types span { font-size:10px;font-weight:800;letter-spacing:.09em;color:#9298aa; }
+
+/* The remaining sections use the same calm surfaces, card rhythm and palette. */
+.eh-home .eh-about-section,.eh-home .eh-events-section { background:#f7f9fe; }
+.eh-home .eh-about-intro { background:#edf0ff;border-color:#dfe5fa; }
+.eh-home .eh-features-grid { gap:20px; }
+.eh-home .eh-feature-card { padding:25px; }
+.eh-home .eh-feature-card h3,.eh-home .eh-about-benefit h3 { font-size:19px; }
+.eh-home .eh-feature-card>p,.eh-home .eh-about-benefit p {font-size:14px;line-height:1.7}
+.eh-home .eh-feature-illustration,.eh-home .eh-workflow-number,.eh-home .eh-role-preview-chip {color:var(--eh-primary)}
+.eh-home .eh-home-dark { background:#151b37;color:#fff; }
+.eh-home .eh-home-dark .eh-home-heading {color:#fff}
+.eh-home .eh-home-dark .eh-home-heading em {color:#a9b8ff!important}
+.eh-home .eh-home-dark .eh-home-copy {color:#c7cede}
+.eh-home .eh-role-tab.is-active {background:var(--eh-primary);border-color:var(--eh-primary);color:#fff}
+.eh-home .eh-role-preview {background:#f7f9fe}
+.eh-home .eh-role-preview-action {color:var(--eh-primary)}
+.eh-home .eh-events-grid article {border-color:#e8ecf4;box-shadow:0 9px 24px rgba(25,38,88,.045)}
+.eh-home .eh-event-empty-icon {background:#edf0ff;color:var(--eh-primary)}
+.eh-home .eh-extras-pricing,.eh-home .eh-extras-testimonials {background:#fff}
+.eh-home .eh-extras-query {background:#f0f3ff}
+.eh-home .eh-extras-price-card.is-popular {border-color:var(--eh-primary);background:#f9faff;box-shadow:0 10px 26px #3448be18}
+.eh-home .eh-extras-popular-badge {background:var(--eh-primary);color:#fff}
+.eh-home .eh-extras-price-label,.eh-home .eh-extras-story-meta span {color:var(--eh-primary)}
+.eh-home .eh-extras-story-quote,.eh-home .eh-extras-query-form-title>span {background:#edf0ff;color:var(--eh-primary)}
+.eh-home .eh-extras-query-form :is(input,select,textarea):focus-visible {outline:2px solid #7487e0;border-color:#7487e0}
+.eh-home .eh-final-cta {background:linear-gradient(115deg,#2e3ba9,#394cc4);border:none;box-shadow:none}
+.eh-home .eh-final-cta :is(.eh-home-heading,.eh-home-heading em,.eh-home-eyebrow) {color:#fff!important}
+.eh-home .eh-final-cta p:last-child {color:#dce3ff}
+.eh-home .eh-final-cta .eh-home-btn-dark {background:#fff;color:#2438a4}
+.eh-home .eh-faq-item button {color:#17213d}
+.eh-home .eh-faq-chevron {color:var(--eh-primary)}
+
+/* Mobile and tablet: real single-column layouts and no clipped floating cards. */
+@media(max-width:1100px) {
+  .eh-home .eh-hero-stage {height:430px}
+  .eh-home .eh-stage-float-one {right:0}
+  .eh-home .eh-stage-float-two {left:0}
+  .eh-home .eh-trust-types {display:none}
 }
-@media(prefers-reduced-motion:reduce){
- .eh-home :is(.eh-reference-art,.eh-reference-poster,.eh-reference-float){transition:none;animation:none}
+@media(max-width:900px) {
+  .eh-home .eh-hero-grid {grid-template-columns:1fr;gap:24px}
+  .eh-home .eh-hero-copy {max-width:650px}
+  .eh-home .eh-hero-title {max-width:630px;font-size:clamp(41px,5.8vw,56px)!important}
+  .eh-home .eh-hero-stage {width:100%;max-width:550px;height:435px;margin-inline:auto}
+  .eh-home .eh-hero-trust {margin-top:0}
+}
+@media(max-width:700px) {
+  .eh-home .eh-home-section {padding-block:51px}
+  .eh-home .eh-home-hero {padding-top:43px;padding-bottom:25px}
+  .eh-home .eh-home-container {padding-inline:20px}
+  .eh-home .eh-hero-title {font-size:clamp(34px,8.8vw,43px)!important;line-height:1.13}
+  .eh-home .eh-home-lead {font-size:15px;line-height:1.72}
+  .eh-home .eh-home-actions {gap:10px}
+  .eh-home .eh-home-btn {min-height:46px;font-size:13px;padding:11px 17px}
+  .eh-home .eh-hero-stage {height:370px;max-width:435px}
+  .eh-home .eh-stage-visual {width:min(280px,76%)}
+  .eh-home .eh-stage-cover {height:157px}
+  .eh-home .eh-stage-preview-body h2 {font-size:15px}
+  .eh-home .eh-stage-cover-art b {font-size:18px}
+  .eh-home .eh-stage-float {padding:10px;gap:7px}
+  .eh-home .eh-stage-float-one {right:0;top:13%}
+  .eh-home .eh-stage-float-two {left:0;bottom:9%}
+  .eh-home .eh-stage-float-icon {width:30px;height:30px}
+  .eh-home .eh-stage-float strong {font-size:10px}
+  .eh-home .eh-stage-float small {font-size:9px}
+  .eh-home .eh-hero-trust {margin-top:4px}
+  .eh-home .eh-hero-points {gap:10px 15px;margin-top:22px}
+}
+@media(max-width:575px) {
+  .eh-home .eh-home-actions {flex-direction:row}
+  .eh-home .eh-home-actions .eh-home-btn {width:auto;flex:1 1 145px}
+}
+@media(max-width:385px) {
+  .eh-home .eh-hero-title {font-size:34px!important}
+  .eh-home .eh-hero-stage {height:332px}
+  .eh-home .eh-stage-visual {width:235px}
+  .eh-home .eh-stage-float {max-width:160px}
+}
+@media(prefers-reduced-motion:reduce) {
+  .eh-home .eh-hero-stage *, .eh-home .eh-hero-stage {animation:none!important;transition:none!important}
 }
