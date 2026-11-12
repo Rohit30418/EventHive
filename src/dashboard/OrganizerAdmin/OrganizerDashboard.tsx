@@ -483,20 +483,11 @@ const OrganizerDashboard = () => {
             </h2>
 
             <p className="mt-3 text-sm font-medium leading-6 text-slate-400">
-              Create new events, review registrations and keep your workspace
-              updated.
+              Review registrations and explore upcoming experiences.
             </p>
           </div>
 
           <div className="space-y-3">
-            <Link
-              to="/Dashboard/CreateEvent"
-              className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 text-sm font-bold text-slate-950 transition-colors "
-            >
-              Create new event
-              <Plus size={17} />
-            </Link>
-
             <Link
               to="/Dashboard/Registrations"
               className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors  hover:bg-white/15"
@@ -506,10 +497,10 @@ const OrganizerDashboard = () => {
             </Link>
 
             <Link
-              to="/Dashboard/Events"
-              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors  hover:bg-white/15"
+              to="/Events"
+              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-white/15"
             >
-              Manage events
+              Browse public events
               <ArrowRight size={17} />
             </Link>
           </div>
