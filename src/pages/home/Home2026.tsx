@@ -272,6 +272,12 @@ function HowItWorks() {
   const ref = useRef<HTMLOListElement>(null);
   const [progress,setProgress]=useState(0);
   useEffect(()=>{
+    // Reduced motion renders a static completed rail, not a scroll-filling line.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        document.documentElement.classList.contains("a11y-pause-animations")) {
+      setProgress(100);
+      return;
+    }
     let frame=0;
     const onScroll=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{
       const el=ref.current;if(!el)return;
