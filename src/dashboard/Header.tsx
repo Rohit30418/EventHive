@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
 import "./dashboard-ui.css";
+import "./dashboard-reference-ui.css";
 
 type MenuItem = {
   label: string;
