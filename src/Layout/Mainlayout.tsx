@@ -4,6 +4,7 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 import "../public-theme.css";
 import "../styles/eventhive-public-ui.css";
+import "../styles/site-2026.css";
 
 const Mainlayout: FC = () => {
 
