@@ -396,3 +396,13 @@
 html.a11y-pause-animations .eh-home .eh-trust-avatars span {
   animation: none !important;
 }
+
+/* With the header static on arrival, the hero can start closer to the top. */
+.eh-home .eh-home-section.eh-home-hero {
+  padding-top: clamp(30px, 3.2vw, 52px);
+}
+@media (max-width: 640px) {
+  .eh-home .eh-home-section.eh-home-hero {
+    padding-top: 22px;
+  }
+}
