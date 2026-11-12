@@ -24,7 +24,7 @@
   width: 100%;
   max-width: var(--eh-page-width, 1256px);
   margin-inline: auto;
-  padding: clamp(48px, 5.5vw, 76px) var(--eh-page-gutter, clamp(20px, 4vw, 44px));
+  padding: clamp(38px, 4vw, 58px) var(--eh-page-gutter, clamp(20px, 4vw, 44px));
 }
 .eh-events-banner__eyebrow {
   display: inline-flex;
@@ -72,7 +72,7 @@
       url("/hero-bg.jpg");
   }
   .eh-events-banner__content {
-    padding-block: 48px;
+    padding-block: 36px;
   }
   .eh-events-banner__title {
     max-width: 510px;
@@ -87,6 +87,6 @@
 }
 @media (max-width: 380px) {
   .eh-events-banner { min-height: 270px; }
-  .eh-events-banner__content { padding-block: 40px; }
+  .eh-events-banner__content { padding-block: 32px; }
   .eh-events-banner__title { font-size: 30px; }
 }
