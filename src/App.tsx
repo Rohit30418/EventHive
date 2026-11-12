@@ -11,6 +11,7 @@ import {
 
 import Preloader from "./common/Preloader";
 import FloatingTools from "./common/FloatingTools";
+import ScrollToTop from "./common/ScrollToTop";
 import PrivateRoute from "./PrivateRoute";
 
 // Layouts
@@ -62,6 +63,7 @@ const DashboardRedirect = () => {
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
       <Suspense fallback={<Preloader />}>
         <ToastContainer
           position="top-right"
