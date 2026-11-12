@@ -1,14 +1,8 @@
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import useGetEvent from "../AdminCustomHooks/useGetEvents";
-import HomeHero from "./home/HomeHero";
-import { HomeSmoothScroll } from "./home/HomeMotion";
-import "./home/home-layout.css";
-import "./home/home-extras.css";
-import "./home/home-reference-ui.css";
-import "./home/home-connection.css";
-import "./home/home-testimonials.css";
-import HomeSections from "./home/HomeSections";
+import Home2026 from "./home/Home2026";
+import "./home/home-2026.css";
 
 const Home = () => {
   const { isLoading, data, error } = useGetEvent();
@@ -56,15 +50,11 @@ const Home = () => {
   }, [data]);
 
   return (
-    <div className="eh-home min-h-screen overflow-x-hidden bg-white text-[#111330] selection:bg-[#4430B9] selection:text-white">
-      <HomeSmoothScroll />
-      <HomeHero heroEvent={featuredEvents[0]} />
-      <HomeSections
-        featuredEvents={featuredEvents}
-        isLoading={isLoading}
-        error={error}
-      />
-    </div>
+    <Home2026
+      featuredEvents={featuredEvents}
+      isLoading={isLoading}
+      error={error}
+    />
   );
 };
 
