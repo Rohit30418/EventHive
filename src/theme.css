@@ -3,60 +3,60 @@
   -----------------------------
   Change the values in :root to update the brand palette across the public
   website and dashboard. Existing indigo/violet/cyan Tailwind utilities are
-  intentionally mapped to this warm palette so older admin screens inherit the
-  same brand without needing a risky mass rewrite.
+  intentionally mapped to the reference violet palette so older admin screens inherit the
+  same brand without changing data or routing.
 */
 
 :root {
   color-scheme: light;
 
   /* Brand */
-  --eh-primary: #F26B2A;
-  --eh-primary-hover: #D9551A;
-  --eh-secondary: #F58B54;
-  --eh-accent: #f6a06f;
+  --eh-primary: #4430B9;
+  --eh-primary-hover: #35238F;
+  --eh-secondary: #6751DA;
+  --eh-accent: #14AD80;
 
   /* Primary scale */
-  --eh-primary-50: #fff7f2;
-  --eh-primary-100: #ffede4;
-  --eh-primary-200: #fbd8c7;
-  --eh-primary-300: #f8b998;
-  --eh-primary-400: #f49a70;
-  --eh-primary-500: #F58B54;
-  --eh-primary-600: #F26B2A;
-  --eh-primary-700: #B94A16;
-  --eh-primary-800: #963B14;
-  --eh-primary-900: #963c18;
-  --eh-primary-950: #51200b;
+  --eh-primary-50: #F8F7FF;
+  --eh-primary-100: #EFECFF;
+  --eh-primary-200: #DED7FF;
+  --eh-primary-300: #B9ADFA;
+  --eh-primary-400: #9582EC;
+  --eh-primary-500: #6751DA;
+  --eh-primary-600: #4430B9;
+  --eh-primary-700: #35238F;
+  --eh-primary-800: #281B73;
+  --eh-primary-900: #20185B;
+  --eh-primary-950: #141033;
 
   /* Accent scale */
-  --eh-accent-50: #fff9f5;
-  --eh-accent-100: #fff0e7;
-  --eh-accent-200: #fde0ce;
-  --eh-accent-300: #f9c8aa;
-  --eh-accent-400: #f6ae85;
-  --eh-accent-500: #f6a06f;
-  --eh-accent-600: #eb8550;
-  --eh-accent-700: #c96936;
-  --eh-accent-800: #a6532f;
-  --eh-accent-900: #87452a;
-  --eh-accent-950: #492216;
+  --eh-accent-50: #F1FCF7;
+  --eh-accent-100: #E7F9F0;
+  --eh-accent-200: #C6F0DE;
+  --eh-accent-300: #92E3C8;
+  --eh-accent-400: #5CCFAE;
+  --eh-accent-500: #25BB94;
+  --eh-accent-600: #14AD80;
+  --eh-accent-700: #0B896A;
+  --eh-accent-800: #0B6C55;
+  --eh-accent-900: #0C5847;
+  --eh-accent-950: #073C31;
 
   /* Surfaces / text */
-  --eh-bg: #FFF8F3;
-  --eh-bg-soft: #FFF3E9;
-  --eh-surface: rgba(255, 255, 255, 0.92);
-  --eh-surface-solid: #ffffff;
-  --eh-border: #E7D8CC;
-  --eh-border-strong: #dfd0c6;
-  --eh-text: #1F1C1A;
-  --eh-muted: #61544D;
-  --eh-muted-strong: #4C403A;
+  --eh-bg: #F7F8FC;
+  --eh-bg-soft: #F1F2F9;
+  --eh-surface: #FFFFFF;
+  --eh-surface-solid: #FFFFFF;
+  --eh-border: #E9EAF2;
+  --eh-border-strong: #D9DBE8;
+  --eh-text: #111330;
+  --eh-muted: #73778E;
+  --eh-muted-strong: #51566D;
 
   /* Effects */
-  --eh-focus-ring: rgba(242, 107, 42, 0.22);
-  --eh-shadow: 0 24px 70px rgba(30, 28, 27, 0.09);
-  --eh-soft-shadow: 0 16px 44px rgba(30, 28, 27, 0.06);
+  --eh-focus-ring: rgba(68, 48, 185, 0.22);
+  --eh-shadow: 0 16px 48px rgba(25, 20, 75, 0.09);
+  --eh-soft-shadow: 0 10px 30px rgba(25, 20, 75, 0.05);
 
   /*
     Runtime Tailwind palette bridge.
@@ -122,7 +122,7 @@
 /*
   Tailwind semantic colors + compatibility mapping.
   New UI can use bg-primary / text-primary / border-primary.
-  Existing admin classes such as bg-indigo-600 automatically inherit orange.
+  Existing admin classes such as bg-indigo-600 automatically inherit violet.
 */
 @theme {
   --color-primary: var(--eh-primary);
