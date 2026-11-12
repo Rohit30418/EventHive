@@ -1,34 +1,34 @@
 /* EventHive 2026 reference — shared public styling, no behavior changes.
    Event microsites retain their event-specific PrimaryColor/SecondaryColor. */
-.public-theme { background: #fff !important; color: #111330; }
+.public-theme { background: #fff !important; color: #111831; }
 .public-theme > header {
   background: rgba(255,255,255,.97) !important;
-  border-color: #e9eaf2 !important;
+  border-color: #e8edf6 !important;
   box-shadow: none !important;
 }
 .public-theme > header nav { max-width: 1300px; min-height: 80px; }
 .public-theme > header nav > a { letter-spacing: -.045em; }
-.public-theme > header nav a:hover { color: #4430b9; }
-.public-theme > header nav a[aria-current="page"] { color: #4430b9; }
+.public-theme > header nav a:hover { color: #3848be; }
+.public-theme > header nav a[aria-current="page"] { color: #3848be; }
 .public-theme > header nav a:focus-visible,
 .public-theme > header nav button:focus-visible,
 .public-theme :is(a,button,input,textarea,select):focus-visible {
-  outline: 2px solid #8172d8;
+  outline: 2px solid #7889df;
   outline-offset: 3px;
 }
-.public-theme :is(.eh-page-shell,.eh-page) { background: #f7f8fc; }
+.public-theme :is(.eh-page-shell,.eh-page) { background: #f7f9fe; }
 .public-theme main { min-width: 0; }
 .public-theme :is(.eh-card,.eh-glass-card) {
-  border: 1px solid #e9eaf2;
+  border: 1px solid #e8edf6;
   border-radius: 18px;
   box-shadow: 0 10px 32px rgba(25,20,75,.05);
   backdrop-filter: none;
 }
-.public-theme :is(.eh-btn-primary) { background: #4430b9; color: #fff; }
-.public-theme :is(.eh-btn-primary):hover { background: #35238f; }
-.public-theme :is(input,select,textarea) { accent-color: #4430b9; }
-.public-theme .eh-home-footer, .public-theme footer { background-color: #151731; }
-.public-theme ::selection { background: #4430b9; color: white; }
+.public-theme :is(.eh-btn-primary) { background: #3848be; color: #fff; }
+.public-theme :is(.eh-btn-primary):hover { background: #2b3899; }
+.public-theme :is(input,select,textarea) { accent-color: #3848be; }
+.public-theme .eh-home-footer, .public-theme footer { background-color: #151B37; }
+.public-theme ::selection { background: #3848be; color: white; }
 @media(max-width:767px) {
   .public-theme > header nav { min-height: 72px; }
   .public-theme :is(.eh-card,.eh-glass-card) { border-radius: 15px; }
