@@ -51,7 +51,7 @@ const socialLinks: { label: string; href: string; icon: ReactNode }[] = [
 
 const Footer = () => {
   return (
-    <footer className="eh-home-footer relative overflow-hidden border-t border-white/10 bg-[#111330] px-0 py-14 text-slate-300 md:py-16">
+    <footer className="eh-home-footer relative overflow-hidden border-t border-white/10 bg-[#111831] px-0 py-14 text-slate-300 md:py-16">
     
       <div className="eh-home-footer-container relative z-10 mx-auto w-full max-w-[1296px] px-6 lg:px-12">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
