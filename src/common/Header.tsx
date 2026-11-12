@@ -71,7 +71,15 @@ export default function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#111831]/10 bg-[#FFFFFF]/95 backdrop-blur-xl">
+    <>
+      <header
+        data-scrolled={scrolled ? "true" : "false"}
+        className={`z-50 w-full border-b border-[#111831]/10 transition-[background-color,box-shadow] duration-200 ${
+          scrolled
+            ? "fixed inset-x-0 top-0 bg-white/95 shadow-[0_8px_28px_rgba(17,24,49,0.08)] backdrop-blur-xl"
+            : "relative bg-white"
+        }`}
+      >
       <nav aria-label="Primary navigation" className="mx-auto flex h-[76px] w-full max-w-[1296px] items-center justify-between gap-4 px-6 sm:h-[84px] lg:px-12">
         <Link to="/" aria-label="EventHive home" className="relative z-[60] inline-flex shrink-0 items-center gap-2.5 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#3848BE]">
           <motion.span animate={{ scale: scrolled ? 0.93 : 1 }} transition={{ duration: reducedMotion ? 0 : 0.2 }} className="grid h-10 w-10 place-items-center rounded-2xl bg-[#3848BE] font-black text-white">E</motion.span>
@@ -168,6 +176,9 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+      </header>
+      {/* Keep the banner/content stationary when the header enters fixed mode. */}
+      {scrolled && <div aria-hidden="true" className="h-[76px] w-full sm:h-[84px]" />}
+    </>
   );
 }
