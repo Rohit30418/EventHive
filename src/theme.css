@@ -3,7 +3,7 @@
   -----------------------------
   Change the values in :root to update the brand palette across the public
   website and dashboard. Existing indigo/violet/cyan Tailwind utilities are
-  intentionally mapped to the reference violet palette so older admin screens inherit the
+  intentionally mapped to the blue and green brand palette so older admin screens inherit the
   same brand without changing data or routing.
 */
 
@@ -11,52 +11,52 @@
   color-scheme: light;
 
   /* Brand */
-  --eh-primary: #4430B9;
-  --eh-primary-hover: #35238F;
-  --eh-secondary: #6751DA;
-  --eh-accent: #14AD80;
+  --eh-primary: #3848BE;
+  --eh-primary-hover: #2B3899;
+  --eh-secondary: #5667D8;
+  --eh-accent: #13B785;
 
   /* Primary scale */
-  --eh-primary-50: #F8F7FF;
-  --eh-primary-100: #EFECFF;
-  --eh-primary-200: #DED7FF;
-  --eh-primary-300: #B9ADFA;
-  --eh-primary-400: #9582EC;
-  --eh-primary-500: #6751DA;
-  --eh-primary-600: #4430B9;
-  --eh-primary-700: #35238F;
-  --eh-primary-800: #281B73;
-  --eh-primary-900: #20185B;
-  --eh-primary-950: #141033;
+  --eh-primary-50: #F6F8FF;
+  --eh-primary-100: #EDF1FF;
+  --eh-primary-200: #DBE3FF;
+  --eh-primary-300: #ACBAF6;
+  --eh-primary-400: #8499E9;
+  --eh-primary-500: #5667D8;
+  --eh-primary-600: #3848BE;
+  --eh-primary-700: #2B3899;
+  --eh-primary-800: #28368A;
+  --eh-primary-900: #1F2B73;
+  --eh-primary-950: #101637;
 
   /* Accent scale */
-  --eh-accent-50: #F1FCF7;
-  --eh-accent-100: #E7F9F0;
-  --eh-accent-200: #C6F0DE;
-  --eh-accent-300: #92E3C8;
-  --eh-accent-400: #5CCFAE;
-  --eh-accent-500: #25BB94;
-  --eh-accent-600: #14AD80;
-  --eh-accent-700: #0B896A;
-  --eh-accent-800: #0B6C55;
-  --eh-accent-900: #0C5847;
-  --eh-accent-950: #073C31;
+  --eh-accent-50: #F0FCF7;
+  --eh-accent-100: #E6FAF0;
+  --eh-accent-200: #BEF1DD;
+  --eh-accent-300: #8DE5C4;
+  --eh-accent-400: #55D6B0;
+  --eh-accent-500: #24C99A;
+  --eh-accent-600: #13B785;
+  --eh-accent-700: #098C68;
+  --eh-accent-800: #087457;
+  --eh-accent-900: #095A47;
+  --eh-accent-950: #063F32;
 
   /* Surfaces / text */
-  --eh-bg: #F7F8FC;
-  --eh-bg-soft: #F1F2F9;
+  --eh-bg: #F7F9FE;
+  --eh-bg-soft: #F0F4FC;
   --eh-surface: #FFFFFF;
   --eh-surface-solid: #FFFFFF;
-  --eh-border: #E9EAF2;
-  --eh-border-strong: #D9DBE8;
-  --eh-text: #111330;
-  --eh-muted: #73778E;
-  --eh-muted-strong: #51566D;
+  --eh-border: #E7ECF5;
+  --eh-border-strong: #D8E0EF;
+  --eh-text: #111831;
+  --eh-muted: #68728B;
+  --eh-muted-strong: #49536D;
 
   /* Effects */
-  --eh-focus-ring: rgba(68, 48, 185, 0.22);
-  --eh-shadow: 0 16px 48px rgba(25, 20, 75, 0.09);
-  --eh-soft-shadow: 0 10px 30px rgba(25, 20, 75, 0.05);
+  --eh-focus-ring: rgba(56, 72, 190, 0.22);
+  --eh-shadow: 0 16px 48px rgba(32, 46, 102, 0.08);
+  --eh-soft-shadow: 0 10px 30px rgba(32, 46, 102, 0.045);
 
   /*
     Runtime Tailwind palette bridge.
@@ -106,15 +106,15 @@
 
 .dark {
   color-scheme: dark;
-  --eh-bg: #171513;
-  --eh-bg-soft: #1c1917;
+  --eh-bg: #111629;
+  --eh-bg-soft: #151a30;
   --eh-surface: rgba(33, 30, 28, 0.9);
-  --eh-surface-solid: #211e1c;
-  --eh-border: rgba(255, 224, 207, 0.12);
-  --eh-border-strong: rgba(255, 224, 207, 0.2);
-  --eh-text: #FFF8F3;
-  --eh-muted: #b7aaa1;
-  --eh-muted-strong: #d1c4bb;
+  --eh-surface-solid: #1d2440;
+  --eh-border: rgba(211, 222, 255, 0.12);
+  --eh-border-strong: rgba(211, 222, 255, 0.2);
+  --eh-text: #F9FAFF;
+  --eh-muted: #ABB6CD;
+  --eh-muted-strong: #D1D9ED;
   --eh-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
   --eh-soft-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
 }
@@ -122,7 +122,7 @@
 /*
   Tailwind semantic colors + compatibility mapping.
   New UI can use bg-primary / text-primary / border-primary.
-  Existing admin classes such as bg-indigo-600 automatically inherit violet.
+  Existing admin classes such as bg-indigo-600 automatically inherit the blue brand.
 */
 @theme {
   --color-primary: var(--eh-primary);
