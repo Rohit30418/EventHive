@@ -33,3 +33,140 @@
   .public-theme > header nav { min-height: 72px; }
   .public-theme :is(.eh-card,.eh-glass-card) { border-radius: 15px; }
 }
+
+
+/* November 2026 refinement — one grid for header, body and footer.
+   Brand: royal blue + mint green; event-level theme overrides stay independent. */
+.public-theme {
+  --eh-page-width: 1256px;
+  --eh-page-gutter: clamp(20px, 4vw, 44px);
+  --eh-ui-blue: #3848be;
+  --eh-ui-blue-hover: #2b3899;
+  --eh-ui-green: #0b966b;
+  --eh-ui-green-soft: #e5f8ef;
+  --eh-ui-line: #e7ecf5;
+  --eh-ui-ink: #111831;
+}
+
+/* Equal left and right spacing across public routes, not just the homepage. */
+.public-theme > header nav[aria-label="Primary navigation"],
+.public-theme .eh-home-footer-container,
+.public-theme main :where([class*="max-w-[1296px]"]) {
+  width: 100%;
+  max-width: var(--eh-page-width) !important;
+  padding-inline: var(--eh-page-gutter) !important;
+  margin-inline: auto;
+}
+.public-theme > header nav[aria-label="Primary navigation"] {
+  gap: clamp(12px, 2vw, 25px);
+}
+.public-theme .eh-home-footer-container {
+  max-width: var(--eh-page-width) !important;
+}
+
+/* Consistent navy/blue/green hierarchy and polished but light spacing. */
+.public-theme :where(h1,h2,h3,h4) { text-wrap: balance; }
+.public-theme :where(p,li) { overflow-wrap: break-word; }
+.public-theme :where(button,a,input,select,textarea):focus-visible {
+  outline: 2px solid var(--eh-ui-blue) !important;
+  outline-offset: 3px;
+}
+.public-theme :where(button,a,input,select,textarea) { -webkit-tap-highlight-color: transparent; }
+.public-theme :where(button,a):disabled { cursor: not-allowed; }
+.public-theme :where(input,select,textarea) { accent-color: var(--eh-ui-blue); }
+.public-theme :where(button,a) svg {
+  flex-shrink: 0;
+  transition: transform .25s cubic-bezier(.22,1,.36,1), color .25s ease;
+}
+
+/* Gentle microinteractions only on hover-capable devices. */
+@media (hover: hover) and (pointer: fine) {
+  .public-theme :is(
+    .eh-home-btn, .eh-home-text-link, .eh-hero-watch,
+    a[class*="rounded-full"], button[class*="rounded-full"]
+  ):not(:disabled):hover > svg:last-child,
+  .public-theme :is(
+    .eh-home-btn, .eh-home-text-link, .eh-hero-watch,
+    a[class*="rounded-full"], button[class*="rounded-full"]
+  ):not(:disabled):hover > :last-child > svg {
+    transform: translateX(3px) scale(1.06);
+  }
+  .public-theme :is(
+    .eh-home-card, .eh-events-grid article, .eh-extras-story-card,
+    .eh-faq-item, main article[class*="rounded"]
+  ) {
+    transition: transform .3s cubic-bezier(.22,1,.36,1),
+                box-shadow .3s ease, border-color .3s ease, background-color .3s ease;
+  }
+  .public-theme :is(
+    .eh-home-card, .eh-events-grid article, .eh-extras-story-card,
+    .eh-faq-item, main article[class*="rounded"]
+  ):hover {
+    border-color: #cad5fb;
+    box-shadow: 0 15px 35px rgba(39,60,137,.085);
+    transform: translateY(-3px);
+  }
+  .public-theme :is(
+    .eh-home-btn, a[class*="rounded-full"], button[class*="rounded-full"]
+  ):not(:disabled):hover {
+    box-shadow: 0 9px 23px rgba(36,56,150,.12);
+  }
+  .public-theme :is(.eh-home-icon,.eh-feature-illustration-icon) svg,
+  .public-theme .eh-trust-avatars svg {
+    transition: transform .38s cubic-bezier(.2,1.5,.4,1), color .25s ease;
+  }
+  .public-theme :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card):hover
+    :is(.eh-home-icon,.eh-feature-illustration-icon) svg {
+    transform: rotate(-8deg) scale(1.14);
+  }
+  .public-theme :is(.eh-feature-card,.eh-about-benefit,.eh-workflow-card):hover
+    :is(.eh-home-icon,.eh-feature-illustration-icon) {
+    background: var(--eh-ui-green-soft);
+    color: var(--eh-ui-green);
+    transition: background-color .3s ease, color .3s ease;
+  }
+  .public-theme nav a:hover,
+  .public-theme footer a:hover { color: var(--eh-ui-green); }
+  .public-theme .eh-home-footer a:hover { color: #7ce1ba; }
+}
+
+/* Buttons use the same visual language across sign-in, browse and registration. */
+.public-theme main a[class*="bg-[#3848BE]"],
+.public-theme main button[class*="bg-[#3848BE]"] {
+  background-color: var(--eh-ui-blue);
+  color: #fff;
+}
+.public-theme main :is(a,button)[class*="bg-[#3848BE]"]:not(:disabled):hover {
+  background-color: var(--eh-ui-blue-hover);
+}
+.public-theme .eh-home-footer a.text-orange-300 { color: #8ce5c3; }
+
+/* Keep horizontal scroll inside filters/tables without creating a page scrollbar. */
+.public-theme main { min-width: 0; }
+.public-theme main :is(section,article,form) { min-width: 0; }
+.public-theme main :where(.grid) > * { min-width: 0; }
+.public-theme main :where(img,video,svg) { max-width: 100%; }
+.public-theme main :where(input,select,textarea) { max-width: 100%; }
+@media (max-width: 1023px) {
+  .public-theme > header nav[aria-label="Primary navigation"] { gap: 10px; }
+}
+@media (max-width: 640px) {
+  .public-theme {
+    --eh-page-gutter: 20px;
+  }
+  .public-theme main [class*="max-w-[1296px]"] { width: 100%; }
+  .public-theme .eh-home-footer-container { padding-bottom: 4px; }
+  .public-theme :where(h1,h2) { overflow-wrap: normal; }
+}
+/* Native reduced-motion and accessibility toggle both disable extra movement. */
+@media (prefers-reduced-motion: reduce) {
+  .public-theme :is(a,button,article,svg,.eh-home-card) {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+html.a11y-pause-animations .public-theme :is(a,button,article,svg,.eh-home-card) {
+  transition-duration: .01ms !important;
+  animation-duration: .01ms !important;
+}
