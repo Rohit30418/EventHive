@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState, type ElementType, type ReactNode } from "react";
+import React, { useEffect, useMemo, useState, type ElementType, type ReactNode } from "react";
 import { useForm, type FieldError } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +32,7 @@ import { PageLoader } from "../common/StateViews";
 import { auth } from "../Firebase";
 import type { MicrositeEvent } from "../Types/eventType";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { store } from "../store/store";
 import {
   beginEventDraft,
   hydrateEventDraft,
@@ -102,9 +103,6 @@ const CreateEvent: React.FC = () => {
   const draft = useAppSelector((state) => state.eventBuilder);
   const editorKey = EventID ? `edit:${EventID}` : "new";
   const matchesDraft = Boolean(userId && draft.ownerId === userId && draft.editorKey === editorKey);
-  // The async initialization effect reads the latest draft without re-running on every keystroke.
-  const draftSnapshotRef = useRef(draft);
-  draftSnapshotRef.current = draft;
 
   const [bannerPreview, setBannerPreview] = useState<string>(() => matchesDraft ? draft.fields.banner || "" : "");
   const [loadingEvent, setLoadingEvent] = useState(false);
@@ -134,7 +132,8 @@ const CreateEvent: React.FC = () => {
   useEffect(() => {
     if (!userId) return;
     let active = true;
-    const saved = draftSnapshotRef.current;
+    // Read once per editor/identity change, not on every Redux update.
+    const saved = store.getState().eventBuilder;
     const resume = saved.ownerId === userId && saved.editorKey === editorKey;
 
     if (resume) {
