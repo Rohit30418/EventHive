@@ -1,0 +1,162 @@
+/* Reference mockup applied to the existing React homepage.
+   All event cards continue using useGetEvent and their existing links. */
+.eh-home {
+  --home-orange:#4430b9; --home-ink:#111330; --home-cream:#fff;
+  --home-peach:#efecff; --home-border:#e9eaf2; --home-muted:#73778e;
+  --home-radius:18px;
+  background:#fff!important; color:#111330; font-family:Inter,'Segoe UI',Arial,sans-serif;
+  font-size:15px; line-height:1.65;
+}
+.eh-home .eh-home-container{max-width:1300px;padding-inline:clamp(20px,4vw,46px)}
+.eh-home .eh-home-section{padding-block:clamp(56px,6vw,90px)}
+.eh-home .eh-home-section[id]{scroll-margin-top:90px}
+.eh-home :is(.eh-hero-title,.eh-home-heading,.eh-about-benefit h3,.eh-feature-card h3,.eh-workflow-card h3){
+  font-family:Inter,'Segoe UI',Arial,sans-serif; font-weight:800; letter-spacing:-.045em;
+}
+.eh-home .eh-home-heading {font-size:clamp(30px,3.3vw,46px);line-height:1.14}
+.eh-home .eh-hero-title {font-size:clamp(43px,4.7vw,69px);line-height:1.09;letter-spacing:-.06em}
+.eh-home h1 em,.eh-home h2 em,.eh-home .eh-home-heading em{
+  font-family:inherit;font-style:normal;font-weight:800;letter-spacing:inherit;color:#4430b9!important;
+}
+.eh-home .eh-home-eyebrow{
+  display:inline-flex;align-items:center;max-width:max-content;gap:8px;
+  margin-bottom:19px;padding:8px 13px;border-radius:999px;background:#f0eefc;
+  color:#4430b9!important;font-size:11px;letter-spacing:.09em;font-weight:800;line-height:1.35;
+}
+.eh-home .eh-home-lead {max-width:515px;font-size:17px;line-height:1.85;color:#696f84}
+.eh-home .eh-home-copy {font-size:15px;line-height:1.8;color:#73778e}
+.eh-home .eh-home-btn{min-height:47px;padding:11px 24px;font-size:14px;font-weight:750;gap:10px;border-radius:999px}
+.eh-home .eh-home-btn-primary{background:#4430b9!important;border-color:#4430b9!important;color:white!important;box-shadow:0 8px 16px rgba(68,48,185,.16)}
+.eh-home .eh-home-btn-primary:hover {background:#35238f!important}
+.eh-home .eh-home-btn-outline{background:white!important;border:1px solid #deddea!important;color:#111330!important}
+.eh-home .eh-home-btn-outline:hover {background:#f5f3ff!important;border-color:#4430b9!important;color:#4430b9!important}
+.eh-home .eh-home-btn-dark{background:#111330;color:#fff}
+.eh-home .eh-home-card{border:1px solid #e9eaf2;border-radius:18px;background:#fff;box-shadow:0 14px 38px rgba(25,20,75,.045)}
+.eh-home .eh-home-icon,.eh-home .eh-event-empty-icon,.eh-home .eh-feature-illustration-icon{background:#efecff;color:#4430b9}
+.eh-home .eh-home-text-link{border-bottom-color:#4430b9;color:#4430b9}
+
+/* Hero layout matches the approved white/violet concept. */
+.eh-home .eh-home-hero{padding-top:clamp(60px,6.5vw,100px);padding-bottom:45px;background:#fff}
+.eh-home .eh-hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.03fr);gap:clamp(24px,5vw,70px);align-items:center}
+.eh-home .eh-hero-copy{max-width:610px}
+.eh-home .eh-hero-title{max-width:640px}
+.eh-home .eh-hero-title em{display:inline;color:#4430b9!important}
+.eh-home .eh-home-actions{margin-top:33px;gap:13px}
+.eh-home .eh-hero-points{margin-top:29px;gap:14px 21px}
+.eh-home .eh-hero-points span{font-size:12.5px;font-weight:650;gap:7px;color:#565c70}
+.eh-home .eh-hero-points svg{width:15px;height:15px;color:#0fa77a}
+.eh-reference-art{
+  position:relative;min-height:470px;min-width:0;display:flex;align-items:center;justify-content:center;
+  isolation:isolate;
+}
+.eh-reference-art::before{
+  content:"";position:absolute;inset:12% 8% 10% 9%;z-index:-1;border-radius:33px;
+  background:linear-gradient(140deg,#f9f7ff,#e9e5ff);
+  box-shadow:0 22px 62px rgba(58,45,150,.07);transform:rotate(.8deg);
+}
+.eh-reference-art::after{
+  content:"";position:absolute;inset:-5%;z-index:-2;pointer-events:none;
+  background:radial-gradient(circle at 56% 52%,#e6fff1 0,transparent 58%);filter:blur(24px);
+}
+.eh-reference-poster{
+  position:relative;overflow:hidden;width:min(313px,72%);min-height:365px;padding:23px 22px;
+  border-radius:22px;background:linear-gradient(157deg,#4631bd,#28177b);
+  color:#fff;transform:rotate(-4deg);box-shadow:0 27px 52px rgba(35,21,116,.21);
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.eh-reference-poster-top{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.14em;font-weight:750;color:#d6d0ff}
+.eh-reference-orbit{
+  position:absolute;left:10%;top:14%;width:90%;aspect-ratio:1;border:1px solid #ffffff3a;border-radius:50%;
+}
+.eh-reference-orbit::before,.eh-reference-orbit::after{
+  content:"";position:absolute;border:1px solid #ffffff45;border-radius:50%;
+}
+.eh-reference-orbit::before{inset:15%}
+.eh-reference-orbit::after{inset:29%;background:radial-gradient(circle at 40% 35%,#5ee3b4,#3fa5ad 54%,#4430b9 59%)}
+.eh-reference-poster h2{
+  z-index:1;position:relative;margin:56px 0 18px;font-size:clamp(30px,3.2vw,39px);
+  line-height:1.06;font-weight:800;letter-spacing:-.065em;color:#fff;max-width:280px;
+}
+.eh-reference-poster h2 span{color:#7ce3c3}
+.eh-reference-poster-bottom{position:relative;z-index:1;padding-top:11px;border-top:1px solid #ffffff40;font-size:10px;letter-spacing:.09em;font-weight:750}
+.eh-reference-float{
+  z-index:2;position:absolute;background:#fff;color:#111330;border:1px solid #e8e8f4;
+  box-shadow:0 15px 36px rgba(30,25,94,.12);border-radius:15px;padding:15px 16px;
+}
+.eh-reference-float strong{display:block;font-size:16px;line-height:1.25;letter-spacing:-.04em}
+.eh-reference-float small{display:block;margin-top:5px;font-size:10px;color:#767b92}
+.eh-reference-float-left{top:17%;left:0;display:flex;align-items:center;gap:12px;transform:rotate(-2deg)}
+.eh-reference-float-check{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:11px;background:#e9f9f1;color:#0ca87a}
+.eh-reference-float-right{right:0;bottom:16%;width:215px;transform:rotate(3deg)}
+.eh-reference-float-right .eh-reference-mini-label{margin:0 0 5px;color:#9297aa;font-size:10px;letter-spacing:.05em}
+.eh-reference-bars{display:flex;align-items:end;gap:5px;height:33px;margin-top:11px}
+.eh-reference-bars i{flex:1;height:38%;border-radius:4px 4px 0 0;background:#e3def9}
+.eh-reference-bars i:nth-child(2){height:58%}.eh-reference-bars i:nth-child(3){height:47%}
+.eh-reference-bars i:nth-child(4){height:78%;background:#aaa0e7}
+.eh-reference-bars i:nth-child(5){height:65%;background:#4430b9}
+.eh-reference-trust{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:55px;padding-top:24px;border-top:1px solid #ececf3}
+.eh-reference-trust>span{color:#9c9fb3;font-size:10px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;white-space:nowrap}
+.eh-reference-trust>div{display:flex;flex:1;justify-content:space-between;gap:12px 18px;flex-wrap:wrap}
+.eh-reference-trust>div span{color:#9295aa;font-size:12px;font-weight:750}
+
+/* Main sections use consistent white/lavender surfaces and restrained shadows. */
+.eh-home .eh-about-section{background:#f7f8fc}
+.eh-home .eh-about-intro{background:#efecff;border-color:#e3dcff}
+.eh-home .eh-features-grid{gap:22px}
+.eh-home .eh-feature-card{padding:27px}
+.eh-home .eh-feature-card h3,.eh-home .eh-about-benefit h3{font-size:20px}
+.eh-home .eh-feature-card>p,.eh-home .eh-about-benefit p{font-size:14px;line-height:1.75}
+.eh-home .eh-feature-illustration{color:#4430b9}
+.eh-home .eh-home-dark{background:#151731!important;color:#fff}
+.eh-home .eh-home-dark .eh-home-heading,.eh-home .eh-home-dark .eh-home-heading em{color:#fff!important}
+.eh-home .eh-home-dark .eh-home-eyebrow{color:#4430b9!important}
+.eh-home .eh-home-dark .eh-home-copy{color:#c6c7d7}
+.eh-home .eh-role-tab{border-color:#ffffff80;color:#fff}
+.eh-home .eh-role-tab.is-active{border-color:#4430b9!important;background:#4430b9!important;color:white!important}
+.eh-home .eh-role-preview{background:#f7f8fc}
+.eh-home .eh-role-preview-chip{color:#4430b9}
+.eh-home .eh-role-preview-action{color:#4430b9}
+.eh-home .eh-workflow-card{padding:27px}
+.eh-home .eh-workflow-number{color:#4430b9}
+.eh-home .eh-events-section{background:#f7f8fc}
+.eh-home .eh-event-empty-icon{color:#4430b9}
+.eh-home .eh-extras-pricing,.eh-home .eh-extras-testimonials{background:#fff}
+.eh-home .eh-extras-query{background:#f2f0ff!important}
+.eh-home .eh-extras-popular-badge{background:#4430b9;color:#fff}
+.eh-home .eh-extras-price-card.is-popular{border-color:#4430b9;box-shadow:0 12px 28px #4430b91f;background:#fbfaff}
+.eh-home .eh-extras-price-label,.eh-home .eh-extras-story-meta span{color:#4430b9}
+.eh-home .eh-extras-story-quote,.eh-home .eh-extras-query-form-title>span{background:#efecff;color:#4430b9}
+.eh-home .eh-extras-query-form :is(input,select,textarea){border-color:#d9dbea;border-radius:11px}
+.eh-home .eh-extras-query-form :is(input,select,textarea):focus-visible{outline:2px solid #8172d8;border-color:#8172d8}
+
+/* Maintain all existing breakpoints, including the live-event card grid. */
+@media(max-width:1023px){
+  .eh-home .eh-hero-grid{grid-template-columns:1fr;gap:15px}
+  .eh-reference-art{max-width:640px;width:100%;margin-inline:auto}
+  .eh-reference-float-left{left:3%}.eh-reference-float-right{right:2%}
+}
+@media(max-width:640px){
+  .eh-home .eh-home-section{padding-block:52px}
+  .eh-home .eh-home-hero{padding-top:52px;padding-bottom:26px}
+  .eh-home .eh-home-container{padding-inline:20px}
+  .eh-home .eh-hero-title{font-size:clamp(38px,9vw,48px)}
+  .eh-home .eh-home-lead{font-size:15px;line-height:1.75}
+  .eh-home .eh-home-btn{min-height:46px;padding:11px 18px;font-size:13px}
+  .eh-home .eh-hero-points{gap:12px}
+  .eh-reference-art{min-height:365px}
+  .eh-reference-poster{min-height:322px;padding:19px;width:min(270px,74%)}
+  .eh-reference-poster h2{font-size:30px}
+  .eh-reference-float{padding:10px 11px;max-width:170px}
+  .eh-reference-float strong{font-size:13px}
+  .eh-reference-float-left{top:12%;left:0}
+  .eh-reference-float-right{right:0;bottom:10%;width:155px}
+  .eh-reference-trust{align-items:flex-start;flex-direction:column;gap:12px;margin-top:25px}
+  .eh-reference-trust>div{justify-content:flex-start}
+}
+@media(max-width:375px){
+ .eh-reference-art{transform:scale(.9);margin:-15px auto}
+ .eh-home .eh-home-actions{gap:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ .eh-home :is(.eh-reference-art,.eh-reference-poster,.eh-reference-float){transition:none;animation:none}
+}
