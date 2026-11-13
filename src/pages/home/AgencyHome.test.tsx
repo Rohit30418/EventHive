@@ -15,9 +15,11 @@ describe("EventHive agency marketing page", () => {
     show();
     expect(screen.getByRole("heading", { level: 1, name: "Fill your next event in days, not weeks." })).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /Register as organiser/i })[0]).toHaveAttribute("href", "/OrganizerRegistration");
-    expect(screen.getByRole("heading", { name: /Tell us what you need to run your events/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Upcoming events across India/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /The organiser.s side of a good event/i })).toBeInTheDocument();
     expect(screen.queryByText("Sample story")).not.toBeInTheDocument();
     expect(screen.queryByText("12 of 20")).not.toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /01\. Create an event page/i })).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("link", { name: /Browse events by category/i })).toHaveAttribute("href", "/Events");
   });
 
