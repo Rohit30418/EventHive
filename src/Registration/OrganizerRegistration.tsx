@@ -25,15 +25,14 @@ import {
   Landmark,
   ChevronLeft,
   AlertCircle,
-  CalendarCheck,
-  Globe2,
-  Users,
 } from "lucide-react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../Firebase";
 import axios from "axios";
 import { apiPath } from "../../Utils/Utils";
 import { getErrorCode, getErrorMessage } from "../utils/error";
+import AuthVisual from "../components/AuthVisual";
+import "../styles/auth-2026.css";
 
 type FormData = z.infer<typeof validationSchema>;
 type PaymentMethod = "card" | "upi" | "bank";
@@ -88,15 +87,9 @@ const Field = ({
 
 // OPTIMIZATION 1: Moved static array outside the component to prevent memory reallocation on keystrokes
 const paymentOptions = [
-  { id: "card" as PaymentMethod, label: "Card", icon: CreditCard, hint: "Visa / MasterCard" },
-  { id: "upi" as PaymentMethod, label: "UPI", icon: Smartphone, hint: "Instant approval" },
-  { id: "bank" as PaymentMethod, label: "NetBanking", icon: Landmark, hint: "Indian banks" },
-];
-
-const organizerBenefits = [
-  { icon: CalendarCheck, text: "Create and publish your own events" },
-  { icon: Globe2, text: "Launch branded public event microsites" },
-  { icon: Users, text: "Manage attendee registrations from one dashboard" },
+  { id: "card" as PaymentMethod, label: "Card", icon: CreditCard, hint: "Simulation only" },
+  { id: "upi" as PaymentMethod, label: "UPI", icon: Smartphone, hint: "No payment" },
+  { id: "bank" as PaymentMethod, label: "NetBanking", icon: Landmark, hint: "Simulation only" },
 ];
 
 const OrganizerRegistration = () => {
@@ -134,7 +127,7 @@ const OrganizerRegistration = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 700));
 
-      toast.info("Demo checkout complete. No payment was charged. Creating organizer account...");
+      toast.info("Simulated checkout complete. No payment was charged. Creating organiser account...");
 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -193,39 +186,14 @@ const OrganizerRegistration = () => {
   };
 
   return (
-    <section className="bg-[#FFFFFF] py-10 text-[#111831] sm:py-12 lg:py-16">
-      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E9EAF2] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="hidden min-w-0 bg-[#3848BE] p-6 text-white lg:block lg:p-10">
-          <div className="flex h-full flex-col">
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-white/75">
-                <span className="h-px w-9 bg-white/60" /> Organizer onboarding
-              </div>
-              <h1 className="mt-6 max-w-md font-['Space Grotesk',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
-                Build your event presence with EventHive.
-              </h1>
-              <p className="mt-4 max-w-md text-sm leading-7 text-white/75 sm:text-base">
-                Create your organizer account, publish event pages and manage registrations from one focused workspace.
-              </p>
-            </div>
+    <section className="eh-auth-page eh-auth-page--register" aria-label="EventHive organiser registration">
+      <div className="eh-auth-container"><div className="eh-auth-panel">
+        <AuthVisual mode="register" />
 
-            <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
-              {organizerBenefits.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#3848BE]">
-                    <Icon size={16} />
-                  </span>
-                  <p className="pt-1 text-sm font-semibold leading-6 text-white/90">{text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        <div className="min-w-0 p-6 sm:p-8 lg:p-10">
-          <div className="mx-auto w-full min-w-0 max-w-2xl">
-            <div className="mb-6">
-              <div className="mb-5 flex max-w-[220px] items-center gap-2">
+        <div className="eh-auth-form-side">
+          <div className="eh-auth-form-inner">
+            <div className="eh-auth-form-heading">
+              <div className="eh-auth-progress mb-5 flex max-w-[220px] items-center gap-2">
                 {[1, 2].map((item) => (
                   <div
                     key={item}
@@ -236,12 +204,10 @@ const OrganizerRegistration = () => {
                 ))}
               </div>
 
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3848BE]">
-                Step {step} of 2
-              </p>
-              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#111831] sm:text-3xl">
-                {step === 1 ? "Create organizer account" : "Demo checkout — no real payment"}
-              </h2>
+              <p className="eh-auth-kicker">Step {step} of 2 · Organiser onboarding</p>
+              <h1>
+                {step === 1 ? "Register as an organiser." : "Complete your account setup."}
+              </h1>
               <p className="mt-3 text-sm leading-6 text-[#73778E]">
                 {step === 1 ? (
                   <>
@@ -251,7 +217,7 @@ const OrganizerRegistration = () => {
                     </Link>
                   </>
                 ) : (
-                  "This is a simulated checkout. No money will be charged or verified."
+                  "Choose a sample payment option to continue. This is a simulation; no money will be charged."
                 )}
               </p>
             </div>
@@ -266,7 +232,7 @@ const OrganizerRegistration = () => {
             )}
 
             {step === 1 && (
-              <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-5">
+              <form onSubmit={handleSubmit(onFormSubmit)} className="eh-auth-form space-y-5">
                 <Field
                   label="Full Name"
                   name="fullName"
@@ -360,28 +326,28 @@ const OrganizerRegistration = () => {
 
                 <button
                   type="submit"
-                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#111831] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#3848BE]"
+                  className="eh-auth-submit"
                 >
-                  Proceed to Demo Checkout <ArrowRight size={18} />
+                  Continue to simulated checkout <ArrowRight size={18} />
                 </button>
               </form>
             )}
 
             {step === 2 && (
               <div className="space-y-6">
-                <div className="rounded-[1.5rem] border border-[#E9EAF2] bg-[#F8F7FF] p-5 sm:p-6">
+                <div className="eh-auth-checkout-summary">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-sm font-bold text-[#73778E]">Organizer Pro Subscription</p>
-                      <h3 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold text-[#111831]">$50.00 <span className="text-sm font-semibold text-[#73778E]">(demo price)</span></h3>
+                      <p className="text-sm font-bold text-[#73778E]">Account setup · Simulated checkout</p>
+                      <h3 className="eh-auth-zero">₹0 <span>(No money charged)</span></h3>
                     </div>
                     <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#3848BE]">
-                      <span className="h-2 w-2 rounded-full bg-[#3848BE]" /> Demo checkout
+                      <span className="h-2 w-2 rounded-full bg-[#3848BE]" /> Simulation only
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div className="eh-auth-payment-grid grid grid-cols-1 gap-3 sm:grid-cols-3">
                   {paymentOptions.map((method) => {
                     const Icon = method.icon;
                     const selected = paymentMethod === method.id;
@@ -391,7 +357,8 @@ const OrganizerRegistration = () => {
                         key={method.id}
                         type="button"
                         onClick={() => setPaymentMethod(method.id)}
-                        className={`rounded-2xl border p-4 text-left transition-all ${
+                        aria-pressed={selected}
+                        className={`eh-auth-payment-option rounded-2xl border p-4 text-left transition-all ${
                           selected
                             ? "border-[#3848BE] bg-[#F8F7FF] text-[#2B3899]"
                             : "border-[#E9EAF2] bg-white text-[#73778E] hover:border-[#3848BE]/40"
@@ -405,7 +372,7 @@ const OrganizerRegistration = () => {
                   })}
                 </div>
 
-                <div className="rounded-[1.5rem] border border-[#E9EAF2] bg-[#FFFFFF] p-5">
+                <div className="eh-auth-checkout-inputs">
                   {paymentMethod === "card" && (
                     <div className="space-y-4">
                       <input type="text" readOnly className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#73778E] outline-none" value="4242 4242 4242 4242" />
@@ -420,7 +387,7 @@ const OrganizerRegistration = () => {
                     <div className="space-y-3">
                       <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#73778E]">UPI ID</label>
                       <input type="text" placeholder="username@oksbi" className="w-full rounded-xl border border-[#E9EAF2] bg-white px-4 py-3 font-semibold text-[#111831] outline-none focus:border-[#3848BE] focus:ring-4 focus:ring-[#3848BE]/10" />
-                      <p className="text-xs font-semibold text-[#9A9DB0]">Open your UPI app to approve the request.</p>
+                      <p className="eh-auth-simulation-note">Sample UPI field only. No payment request will be sent.</p>
                     </div>
                   )}
 
@@ -451,7 +418,7 @@ const OrganizerRegistration = () => {
                     type="button"
                     onClick={handlePaymentAndRegistration}
                     disabled={isProcessing}
-                    className="flex items-center justify-center gap-2 rounded-full bg-[#3848BE] px-6 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-0.5 hover:bg-[#2B3899] disabled:cursor-not-allowed disabled:opacity-70 sm:flex-[2]"
+                    className="eh-auth-submit sm:flex-[2]"
                   >
                     {isProcessing ? (
                       <>
@@ -459,7 +426,7 @@ const OrganizerRegistration = () => {
                       </>
                     ) : (
                       <>
-                        Complete Demo Checkout <ArrowRight size={18} />
+                        Create organiser account <ArrowRight size={18} />
                       </>
                     )}
                   </button>
