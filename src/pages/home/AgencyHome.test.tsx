@@ -11,12 +11,14 @@ function show(events: EventType[] = []) {
 }
 
 describe("EventHive agency marketing page", () => {
-  it("shows the requested organiser outcome, a real creation link and honest proof section", () => {
+  it("shows the organiser headline, an honest registration action and real feedback section", () => {
     show();
     expect(screen.getByRole("heading", { level: 1, name: "Fill your next event in days, not weeks." })).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Create free event/i })[0]).toHaveAttribute("href", "/OrganizerRegistration");
-    expect(screen.getByRole("heading", { name: /We want to hear from people doing the actual work/i })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /Register as organiser/i })[0]).toHaveAttribute("href", "/OrganizerRegistration");
+    expect(screen.getByRole("heading", { name: /Tell us what you need to run your events/i })).toBeInTheDocument();
     expect(screen.queryByText("Sample story")).not.toBeInTheDocument();
+    expect(screen.queryByText("12 of 20")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Browse events by category/i })).toHaveAttribute("href", "/Events");
   });
 
   it("keeps event-card links connected to the original published microsite route", () => {
