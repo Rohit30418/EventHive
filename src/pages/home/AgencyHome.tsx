@@ -30,18 +30,19 @@ function dateLabel(value?: string) {
 }
 
 /** Sample content is explicitly labelled. No fictional registration metrics are presented as real. */
-function Hero() {
+function Hero({ event }: { event?: EventType }) {
+  const eventPath = event ? `/events/${createSlug(event.EventName || "event")}/${event.id}` : "/Events";
   return <section className="ea-hero" aria-labelledby="ea-title">
     <div className="ea-wrap ea-hero-layout">
       <div className="ea-hero-copy">
         <p className="ea-hero-overline">Made for the people who run events.</p>
         <h1 id="ea-title">Fill your next event in days, not weeks.</h1>
-        <p>Build an event page, share the link in your WhatsApp group and keep track of who registered.</p>
+        <p>Once your organiser account is approved, create an event page, share its link and review attendee registrations.</p>
         <div className="ea-hero-actions">
-          <Link to="/OrganizerRegistration" className="ea-btn ea-btn--primary">Create free event <ArrowUpRight size={20} aria-hidden="true" /></Link>
-          <Link to="/Events" className="ea-quiet-link">See an event page <ArrowRight size={18} aria-hidden="true" /></Link>
+          <Link to="/OrganizerRegistration" className="ea-btn ea-btn--primary">Register as organiser <ArrowUpRight size={20} aria-hidden="true" /></Link>
+          <Link to={eventPath} className="ea-quiet-link">{event ? "See a published event" : "Browse events"} <ArrowRight size={18} aria-hidden="true" /></Link>
         </div>
-        <div className="ea-under-cta"><CheckCircle2 size={18} aria-hidden="true" /> No credit card needed to register as an organiser.</div>
+        <div className="ea-under-cta"><CheckCircle2 size={18} aria-hidden="true" /> No charge during account setup. Super Admin approval is required.</div>
       </div>
       <div className="ea-hero-composition" aria-label="Illustrative EventHive product arrangement">
         <div className="ea-hero-browser">
@@ -74,9 +75,9 @@ function Problem() {
   return <section className="ea-section ea-problem" aria-labelledby="ea-problem-heading">
     <div className="ea-wrap ea-problem-layout">
       <div>
-        <h2 id="ea-problem-heading">Your guest list should not live across six WhatsApp chats and a spreadsheet.</h2>
+        <h2 id="ea-problem-heading">Your guest list should not be scattered across WhatsApp chats and spreadsheets.</h2>
         <p>When the event gets busy, finding a registration should be the easy part. Give every attendee one clear place to sign up.</p>
-        <Link className="ea-inline-link" to="/OrganizerRegistration">Set up your event page <ArrowRight size={18}/></Link>
+        <Link className="ea-inline-link" to="/OrganizerRegistration">Register as an organiser <ArrowRight size={18}/></Link>
       </div>
       <div className="ea-problem-visual">
         <AssetSlot id="problem" />
@@ -114,7 +115,7 @@ function ProductShowcase() {
             {index === 0 && <Link className="ea-inline-link" to="/Events">See public event pages <ArrowUpRight size={18}/></Link>}
           </div>
           <div className={`ea-product-frame ea-product-frame--${screen.mode}`}>
-            <div className="ea-frame-header"><span className="ea-browser-dots" aria-hidden="true"><i/><i/><i/></span><span>{screen.label}</span><span className="ea-frame-corner">Asset slot</span></div>
+            <div className="ea-frame-header"><span className="ea-browser-dots" aria-hidden="true"><i/><i/><i/></span><span>{screen.label}</span><span className="ea-frame-corner">Screenshot placeholder</span></div>
             <AssetSlot id={screen.id} />
           </div>
         </article>)}
@@ -138,10 +139,13 @@ function ShareVisual({ event }: { event?: EventType }) {
   </div>;
 }
 function ProgressVisual() {
-  return <div className="ea-progress-widget" aria-label="Illustrative registration goal progress">
-    <div><span>Sample registration goal</span><strong>12 <small>of 20</small></strong></div>
-    <div className="ea-progress-track"><span style={{ width:"60%" }}/></div>
-    <p>Sample figures — not an actual event count</p>
+  return <div className="ea-progress-widget" aria-label="Registration submission workflow">
+    <div><span>Attendee registration</span><strong>Recorded</strong></div>
+    <div className="ea-progress-steps">
+      <span><CheckCircle2 size={17} aria-hidden="true"/> Form submitted</span>
+      <span><ArrowRight size={17} aria-hidden="true"/> Added to event records</span>
+    </div>
+    <p>Review registrations in your organiser dashboard.</p>
   </div>;
 }
 function ApprovalsVisual() {
@@ -151,11 +155,11 @@ function ApprovalsVisual() {
     <span className="ea-approval-status"><Check size={17}/> Approved</span>
   </div>;
 }
-function CityVisual() {
-  const [selected,setSelected] = useState("Pune");
-  return <div className="ea-city-widget" aria-label="Example city filters"><span>Explore by city</span>
-    <div>{["Pune","Bengaluru","Delhi"].map(city=><button key={city} type="button" aria-pressed={selected===city} onClick={()=>setSelected(city)}>{city}</button>)}</div>
-    <small>Example filter selection: {selected}</small>
+function CategoryVisual() {
+  return <div className="ea-city-widget" aria-label="Event category browsing">
+    <span>Categories on the Events page</span>
+    <div>{["Technology","Music","Art","Sports"].map(category=><span className="ea-category-chip" key={category}>{category}</span>)}</div>
+    <Link to="/Events" className="ea-category-link">Browse events by category <ArrowRight size={15} aria-hidden="true"/></Link>
   </div>;
 }
 function SpeakersVisual() {
@@ -180,8 +184,8 @@ function Capabilities({ event }: { event?: EventType }) {
       <div className="ea-bento">
         <article className="ea-bento-share"><h3>Send the same event link to everyone.</h3><ShareVisual event={event} /></article>
         <article className="ea-bento-progress"><h3>Keep track of registrations.</h3><ProgressVisual /></article>
-        <article className="ea-bento-approval"><div><h3>Approve organisers before they publish.</h3><p>The Super Admin controls access.</p></div><ApprovalsVisual /></article>
-        <article className="ea-bento-cities"><h3>Find events by location.</h3><CityVisual /></article>
+        <article className="ea-bento-approval"><div><h3>Know when your organiser account is approved.</h3><p>A Super Admin reviews new accounts before dashboard access.</p></div><ApprovalsVisual /></article>
+        <article className="ea-bento-cities"><h3>Browse events by category.</h3><CategoryVisual /></article>
         <article className="ea-bento-speakers"><h3>Keep details ready for guests.</h3><SpeakersVisual /></article>
         <article className="ea-bento-pass"><h3>Give guests a pass to keep.</h3><PassVisual /></article>
       </div>
@@ -197,7 +201,7 @@ function Steps() {
     ["04","Review registrations","Keep your attendee details in order."],
   ];
   return <section id="how-it-works" className="ea-section ea-steps" aria-labelledby="ea-steps-heading"><div className="ea-wrap">
-    <div className="ea-section-heading"><h2 id="ea-steps-heading">From planning to registrations in four steps.</h2></div>
+    <div className="ea-section-heading"><h2 id="ea-steps-heading">From planning to registrations in four steps.</h2><p>First register as an organiser and wait for Super Admin approval. Then follow this flow in your dashboard.</p></div>
     <ol>{steps.map(([number,title,desc])=><li key={number}><span>{number}</span><h3>{title}</h3><p>{desc}</p></li>)}</ol>
   </div></section>;
 }
@@ -235,7 +239,7 @@ function EventCards({ events, loading, error }: { events:EventType[], loading:bo
           <AssetSlot id="eventPoster" src={event.banner} alt={event.banner ? `Poster for ${event.EventName}` : undefined}/>
           <div className="ea-event-body"><p><CalendarDays size={16}/>{dateLabel(event.eventDate)}</p><h4>{event.EventName}</h4><p><MapPin size={16}/>{event.location || "Venue to be announced"}</p><EventUrl event={event}/></div>
         </article>)}
-      </div> : <div className="ea-events-empty"><AssetSlot id="empty"/><p>No upcoming events are listed yet.</p><Link to="/OrganizerRegistration">Create an event <ArrowRight size={17}/></Link></div>}
+      </div> : <div className="ea-events-empty"><AssetSlot id="empty"/><p>No upcoming events are listed yet.</p><Link to="/OrganizerRegistration">Register as organiser <ArrowRight size={17}/></Link></div>}
   </div>;
 }
 
@@ -256,10 +260,10 @@ function Founding() {
     <div className="ea-founding-portrait"><AssetSlot id="founder"/></div>
     <div className="ea-founding-copy">
       <span className="ea-small-index">FOR EARLY ORGANISERS</span>
-      <h2 id="ea-founding-heading">We want to hear from people doing the actual work.</h2>
+      <h2 id="ea-founding-heading">Tell us what you need to run your events.</h2>
       <p>Planning a college fest, running community meetups or coordinating a conference? Tell us where registration gets messy. Real feedback should shape what comes next.</p>
-      <Link to="/?topic=founding#contact" className="ea-inline-link">Apply as a founding organiser <ArrowUpRight size={18}/></Link>
-      <small>There are no customer quotes or logos displayed until organisers approve them.</small>
+      <Link to="/?topic=founding#contact" className="ea-inline-link">Share your organiser feedback <ArrowUpRight size={18}/></Link>
+      <small>We publish customer feedback and logos only with permission.</small>
     </div>
   </div></section>;
 }
@@ -269,16 +273,16 @@ function Pricing() {
     <div className="ea-section-heading"><h2 id="ea-pricing-heading">Start without a ticketing bill.</h2><p>Free event pages are available today. Paid ticketing is not launched yet.</p></div>
     <div className="ea-pricing-layout">
       <article className="ea-price-free">
-        <div><h3>Free events</h3><strong>₹0</strong><span>to create an event today</span></div>
-        <p>For college events, community groups and meetups that do not charge attendees.</p>
+        <div><h3>Free events</h3><strong>₹0</strong><span>to create an event after account approval</span></div>
+        <p>For free meetups and college events. Account setup includes a simulated checkout, but no payment is charged.</p>
         <ul><li><Check size={17}/> Event page and registration</li><li><Check size={17}/> Organiser dashboard</li><li><Check size={17}/> QR pass generation</li></ul>
-        <Link className="ea-btn ea-btn--outline" to="/OrganizerRegistration">Create free event <ArrowUpRight size={18}/></Link>
+        <Link className="ea-btn ea-btn--outline" to="/OrganizerRegistration">Register as organiser <ArrowUpRight size={18}/></Link>
       </article>
       <article className="ea-price-paid">
         <span className="ea-coming-label">Coming soon</span><h3>Paid events</h3>
         <p>UPI, card payments, payouts and refund handling are not available yet.</p>
         <div className="ea-price-divider"/><strong>No fees announced.</strong><span>We're collecting requirements before publishing rates.</span>
-        <Link className="ea-inline-link" to="/?topic=paid#contact">Join the paid-events waitlist <ArrowRight size={18}/></Link>
+        <Link className="ea-inline-link" to="/?topic=paid#contact">Ask about planned paid events <ArrowRight size={18}/></Link>
       </article>
       <article className="ea-price-teams">
         <h3>Teams and colleges</h3><p>Need institution-specific access or help with a larger event programme?</p>
@@ -290,7 +294,7 @@ function Pricing() {
 }
 
 const faq = [
-  ["What does it cost to create a free event?", "Event pages and registration collection are currently available without a ticketing charge. Organiser accounts require Super Admin approval."],
+  ["How do I start creating events?", "Register as an organiser, complete the simulated checkout (no payment is charged) and wait for Super Admin approval. Once approved, sign in to create an event page."],
   ["Can attendees register through their phone?", "Yes. Visitors can open an event page and register using the event form."],
   ["Does EventHive collect UPI payments?", "Not yet. UPI and card payments are planned for a paid-events release. No live checkout or settlement service is connected."],
   ["When will paid-event payouts and refunds be available?", "Payouts and automated refunds are not available. Terms, fees and timelines will be published before paid registrations launch."],
@@ -309,14 +313,14 @@ function Faq() {
 
 function FinalCTA() {
   return <section className="ea-final" aria-labelledby="ea-final-heading"><div className="ea-wrap"><div className="ea-final-band">
-    <div><h2 id="ea-final-heading">The event is yours. Make the first link count.</h2><p>Set up a page for the event you've been planning.</p><Link to="/OrganizerRegistration" className="ea-btn ea-btn--primary">Create free event <ArrowUpRight size={19}/></Link></div>
+    <div><h2 id="ea-final-heading">The event is yours. Make the first link count.</h2><p>Set up a page for the event you've been planning.</p><Link to="/OrganizerRegistration" className="ea-btn ea-btn--primary">Register as organiser <ArrowUpRight size={19}/></Link></div>
     <AssetSlot id="finalMotif" />
   </div></div></section>;
 }
 
 export default function AgencyHome(props:Props) {
   return <div className="ea-home">
-    <Hero />
+    <Hero event={props.featuredEvents[0]} />
     <Problem />
     <ProductShowcase />
     <Capabilities event={props.featuredEvents[0]} />
