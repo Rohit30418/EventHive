@@ -51,9 +51,9 @@ export default function ContactForm() {
         body:JSON.stringify(request),
         signal:controller.signal,
       });
-      if(!response.ok) {
-        const details=await response.json().catch(()=>({}));
-        throw new Error(typeof details.error === "string" ? details.error : "We couldn't send your request. Please try again.");
+      const details = await response.json().catch(()=>null);
+      if (!response.ok || details?.ok !== true) {
+        throw new Error(typeof details?.error === "string" ? details.error : "The contact service is not configured yet. Please try again or email us.");
       }
       setStatus("success");
       setMessage("Your enquiry has been received. The team can review it in the organiser enquiries collection.");
