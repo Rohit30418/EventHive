@@ -131,10 +131,11 @@
 .ea-home .ea-progress-widget {display:grid;gap:12px;}
 .ea-home .ea-progress-widget > div:first-child {display:flex;align-items:end;justify-content:space-between;gap:12px;}
 .ea-home .ea-progress-widget span {color:#e7e5ff;font-size:12px;font-weight:680;}
-.ea-home .ea-progress-widget strong {color:#fff;font-size:40px;font-weight:800;letter-spacing:-.05em;line-height:1;}
+.ea-home .ea-progress-widget strong {color:#fff;font-size:clamp(23px,2.8vw,31px);font-weight:800;letter-spacing:-.04em;line-height:1.15;}
 .ea-home .ea-progress-widget strong small {font-size:17px;font-weight:590;color:#e8e6ff;}
-.ea-home .ea-progress-track {height:10px;border-radius:9px;background:#474273;overflow:hidden;}
-.ea-home .ea-progress-track > span {display:block;height:100%;background:#8d83ff;border-radius:9px;}
+.ea-home .ea-progress-steps {display:grid;gap:9px;border-top:1px solid #585382;padding-top:14px;}
+.ea-home .ea-progress-steps > span {display:flex;align-items:center;gap:9px;color:#efeefe;font-size:14px;line-height:1.45;}
+.ea-home .ea-progress-steps svg {flex:none;color:#a9a2ff;}
 .ea-home .ea-progress-widget p {color:#e1dfff;font-size:12px;}
 .ea-home .ea-bento-approval {grid-column:span 4;display:flex;flex-direction:column;justify-content:space-between;gap:24px;background:#fff;}
 .ea-home .ea-bento-approval > div:first-child p {margin-top:9px;}
@@ -148,8 +149,8 @@
 .ea-home .ea-city-widget {display:grid;gap:12px;}
 .ea-home .ea-city-widget > span {color:var(--ea-text);font-size:13px;font-weight:740;}
 .ea-home .ea-city-widget > div {display:flex;flex-wrap:wrap;gap:8px;}
-.ea-home .ea-city-widget button {min-height:44px;padding:9px 13px;border:1px solid #d8d6e9;border-radius:13px;color:#302c61;background:#fff;font-size:13px;font-weight:730;cursor:pointer;}
-.ea-home .ea-city-widget button[aria-pressed="true"] {background:#5b4bff;border-color:#5b4bff;color:#fff;}
+.ea-home .ea-category-chip {display:inline-flex;align-items:center;min-height:38px;padding:7px 12px;border:1px solid #d8d6e9;border-radius:12px;color:#302c61;background:#fff;font-size:13px;font-weight:730;line-height:1.4;}
+.ea-home .ea-category-link {display:inline-flex;align-items:center;gap:7px;width:max-content;max-width:100%;min-height:44px;padding:8px 0;color:#493adb;font-size:13px;font-weight:770;line-height:1.4;}
 .ea-home .ea-city-widget small {font-size:12px;color:var(--ea-text);}
 .ea-home .ea-bento-speakers {grid-column:span 4;display:flex;flex-direction:column;justify-content:space-between;gap:22px;background:#e9f7ef;border-color:#cae8d9;}
 .ea-home .ea-speaker-widget {display:grid;gap:9px;}
@@ -410,7 +411,8 @@ html.a11y-pause-animations .ea-home * {animation:none!important;transition:none!
 .dark .ea-home .ea-sample-input span {background:#211e3c;color:#f0edff;border-color:#514b70;}
 .dark .ea-home .ea-problem-corner {background:#292644;color:#fff;border-color:#5e587d;}
 .dark .ea-home .ea-product-frame {background:#28253f;border-color:#54516b;}
-.dark .ea-home .ea-share-link,.dark .ea-home .ea-approval-widget,.dark .ea-home .ea-city-widget button,.dark .ea-home .ea-pass-ticket {background:#302b51;border-color:#555079;color:#f7f4ff;}
+.dark .ea-home .ea-share-link,.dark .ea-home .ea-approval-widget,.dark .ea-home .ea-category-chip,.dark .ea-home .ea-pass-ticket {background:#302b51;border-color:#555079;color:#f7f4ff;}
+.dark .ea-home .ea-category-link {color:#dcd7ff;}
 .dark .ea-home .ea-share-widget p,.dark .ea-home .ea-pill-label,.dark .ea-home .ea-approval-widget strong,.dark .ea-home .ea-approval-widget span,.dark .ea-home .ea-city-widget small {color:#e9e5ff;}
 .dark .ea-home .ea-bento-share {background:#322c57;}
 .dark .ea-home .ea-bento-cities,.dark .ea-home .ea-bento-approval {background:#27253d;}
