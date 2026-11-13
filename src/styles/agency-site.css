@@ -86,3 +86,12 @@
 @media (prefers-reduced-motion:reduce) {
   .public-theme .ea-site-header,.public-theme .ea-site-create {transition:none!important;}
 }
+
+/* Supplied ZIP's compact navigation and hexagonal EventHive mark. */
+.public-theme .ea-site-brand .ea-site-hex {display:block;width:31px;height:31px;flex:none;}
+.public-theme .ea-site-brand {font-weight:740;letter-spacing:-.035em;}
+.public-theme .ea-site-nav {min-height:67px;}
+.public-theme .ea-site-links a,.public-theme .ea-site-actions > a:first-child {font-weight:620;font-size:14px;}
+.public-theme .ea-site-create {min-height:41px;border-radius:9px;font-weight:730;}
+.dark .public-theme .ea-site-brand .ea-site-hex path:first-child {fill:#F6F4FF;}
+@media(max-width:920px){.public-theme .ea-site-nav {min-height:64px;}}
