@@ -1,4 +1,23 @@
-# EventHive marketing homepage — agency design implementation
+# EventHive marketing homepage — adapted from supplied UI ZIP
+
+**Current implementation (13 November 2026):** The user-supplied `eventhive.zip` was reviewed as a **design reference**, not installed as a replacement application. The existing Firebase, Redux, auth, event CRUD and registration routes remain owned by this repository.
+
+## Reference integration
+
+- `src/pages/home/reference/ReferenceHero.tsx` — compact 12-column hero, event microsite image, layered sample registration preview, pointer-depth effect, SVG ticket and animated yellow headline underline.
+- `src/pages/home/reference/ReferenceShowcase.tsx` — the requested scroll-reactive four-stage product story, sticky screen, SVG progress path, accessible mobile tabs and desktop/phone preview switch.
+- `src/pages/home/reference/ReferenceStories.tsx` — current Firebase event data and a compact three-scenario carousel. Scenarios are explicitly marked as illustrative, **not real customer testimonials or five-star reviews**.
+- `src/pages/home/reference/reference-upgrade.css` — matching reference visual system, 48px grid backgrounds, compact section rhythm, high-contrast navy stage, responsive styling down to 360px, reduced-motion support and dark-theme overrides.
+- `src/common/Header.tsx` / `src/styles/agency-site.css` — reference-inspired hexagon wordmark and Showcase / Capabilities / Explore events navigation, preserving real login and organiser routes.
+
+The active `AgencyHome.tsx` now mounts **Hero → Showcase → Capabilities → Four steps → Events & scenarios → Pricing → FAQ → Contact → Final CTA**. The prior long Problem/Comparison/Founder sections and four separate oversized product previews are no longer mounted, reducing overall page height.
+
+**Flow accuracy:** Signed-out visitors register as organisers, complete the simulated no-charge checkout, await Super Admin approval, then create and preview event pages. Attendees follow a genuine published-event route and register through the full form. QR passes are downloadable, but gate scanning/check-in verification, seat approvals, UPI checkout, GST invoices and refunds are not claimed as working features.
+
+**Verification:** GitHub Actions checks lint, unit tests, TypeScript, Vite production build and the contact-function TypeScript build. Run the homepage in Chrome/Edge and on 390px/360px devices for a final visual review before merging. Deployment remains a separate operation.
+
+---
+
 
 This document describes the **current** marketing page mounted by `src/pages/Home.tsx`. The earlier `Home2026.tsx` and its stylesheet remain in the repository as unmounted design history; **AgencyHome.tsx** is the active homepage.
 
