@@ -2,9 +2,9 @@
 
 ## Replacement rule
 
-All 15 image slots now have generated PNG artwork in `public/eventhive-assets/` and their paths are connected in `src/data/assetSlots.ts`. The source SVG for every PNG is also committed under the same base filename. To replace an image, change only that slot's `src` to a real approved asset, retaining `alt`, `width`, `height` and `focalPoint`. The `AssetSlot` component reserves the correct ratio before the file loads.
+**The ten main marketing image slots now display finished AI-generated visuals**, optimized as `.webp` and committed under `public/eventhive-assets/` (hero, problem, four product concepts, three scenarios and the final CTA). The other five supplementary slots still use the previously generated PNG artworks. Exact filenames and dimensions are connected in `src/data/assetSlots.ts`. Source PNG files of the new ten images are available in the accompanying image ZIP. To replace an image later, change only its `src`, retaining `alt`, `width`, `height` and `focalPoint`.
 
-**Important distinction:** The public event page, attendee registration, attendee-list and microsite preview are **designed sample UI**, not screenshots captured from a live account. Replace them with verified screenshots when available. The `founder.png` image deliberately says to add a real team portrait; it is not an image of the founder or an endorsement.
+**Important distinction:** The four generated product visuals are **illustrative UI concepts**, not genuine screenshots of live registrations. They may contain speculative or invented details such as ticket prices, registrations, payment badges or check-in controls: those details must not be treated as product features or actual counts. The new images carry small concept labels. The Pune/Bengaluru/Delhi photos are AI-generated illustrative scenes, **not photographs of real customers or company events**. The remaining `founder.png` artwork is deliberately not a portrait of a real EventHive founder or team member.
 
 | Slot ID | Visual to produce | Dimensions | Ratio | Preferred format |
 |---|---|---:|---|---|
