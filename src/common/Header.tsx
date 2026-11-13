@@ -46,7 +46,8 @@ export default function Header() {
 
   const createPath = user && role === "Organizer" ? "/Dashboard/CreateEvent" :
     user && role === "SuperAdmin" ? "/Dashboard" : "/OrganizerRegistration";
-  const createLabel = user && role === "SuperAdmin" ? "Open dashboard" : "Create event";
+  const createLabel = user && role === "SuperAdmin" ? "Open dashboard" :
+    user && role === "Organizer" ? "Create event" : "Register as organiser";
 
   return <header className={`ea-site-header ${scrolled ? "ea-site-header--scrolled" : ""}`}>
     <nav className="ea-site-nav" aria-label="Main navigation">
