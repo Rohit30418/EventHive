@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   ArrowUpRight,
-  CalendarDays,
   ChevronLeft,
   ChevronRight,
   Search,
@@ -14,18 +13,11 @@ import DirectoryEventCard from "../components/DirectoryEventCard";
 import AssetSlot from "../components/media/AssetSlot";
 import { ErrorState } from "../common/StateViews";
 import type { EventType } from "../Types/eventType";
-import { createSlug } from "../../Utils/createSlug";
 import "./events-directory-2026.css";
 
 const categories = ["All", "Technology", "Webinar", "Music", "Art", "Sports"];
 const EVENTS_PER_PAGE = 6;
 type EventView = "all" | "upcoming" | "past";
-
-function formatDate(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
-}
 
 function EventsCardSkeleton() {
   return <div className="eh-directory-skeleton" aria-hidden="true">
@@ -53,14 +45,6 @@ export default function AllEvents() {
   const categoryOptions = useMemo(() => {
     const fromEvents = events.map(event => event.eventType || event.category).filter(Boolean) as string[];
     return ["All", ...Array.from(new Set([...categories.slice(1), ...fromEvents]))];
-  }, [events]);
-
-  const nextEvent = useMemo(() => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    return events
-      .filter(event => event.eventDate && Number.isFinite(new Date(event.eventDate).getTime()) && new Date(event.eventDate) >= now)
-      .sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime())[0];
   }, [events]);
 
   const { upcomingEvents, pastEvents, allFilteredEvents } = useMemo(() => {
@@ -140,55 +124,15 @@ export default function AllEvents() {
   };
 
   const viewTitle = eventView === "upcoming" ? "Upcoming events" : eventView === "past" ? "Past events" : "Explore all events";
-  const spotlightLink = nextEvent ? `/events/${createSlug(nextEvent.EventName || "event")}/${nextEvent.id}` : null;
 
   return <div className="eh-directory">
-    <section className="eh-directory-hero" aria-labelledby="eh-events-page-title">
-      <div className="eh-directory-wrap eh-directory-hero__grid">
-        <div className="eh-directory-hero__copy">
-          <span className="eh-directory-kicker">EventHive · Events in India</span>
-          <h1 id="eh-events-page-title">Find an event worth <span className="eh-directory-underline">showing up for.
-            <svg viewBox="0 0 290 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10C75 2 218 3 286 8" stroke="#FFC233" strokeWidth="5" fill="none" strokeLinecap="round" pathLength="1"/></svg>
-          </span></h1>
-          <p>Discover events, browse what interests you and register directly on the organiser's page.</p>
-          <div className="eh-directory-hero__actions">
-            <a href="#eh-directory-results" className="eh-directory-btn eh-directory-btn--primary">Explore events <ArrowRight size={18} aria-hidden="true"/></a>
-            <Link to="/OrganizerRegistration" className="eh-directory-text-link">Hosting an event? <ArrowUpRight size={16} aria-hidden="true"/></Link>
-          </div>
-        </div>
-        <div className="eh-directory-hero__visual">
-          <div className="eh-directory-hero__card">
-            <div className="eh-directory-hero__browser">
-              <span className="eh-directory-dots" aria-hidden="true"><i/><i/><i/></span>
-              <span>{nextEvent ? "Next on the calendar" : "Explore EventHive"}</span>
-              <span>EVENTS</span>
-            </div>
-            <div className="eh-directory-hero__poster">
-              <AssetSlot id="eventPoster" src={nextEvent?.banner} alt={nextEvent ? `Event poster: ${nextEvent.EventName}` : "EventHive event-themed illustration"}/>
-            </div>
-            <div className="eh-directory-hero__featured">
-              <span>{nextEvent ? (nextEvent.eventType || nextEvent.category || "Upcoming event") : "Discover what's happening"}</span>
-              <h2>{nextEvent ? nextEvent.EventName : "Your next event starts here."}</h2>
-              {nextEvent && <p><CalendarDays size={15} aria-hidden="true"/>{formatDate(nextEvent.eventDate)}</p>}
-              {spotlightLink && <Link to={spotlightLink} state={{ event: nextEvent }}>View event <ArrowUpRight size={16} aria-hidden="true"/></Link>}
-            </div>
-          </div>
-          <svg className="eh-directory-ticket" viewBox="0 0 118 83" width="118" height="83" fill="none" aria-hidden="true">
-            <path d="M10 8H108V27C101 27 96 32 96 41.5C96 51 101 56 108 56V75H10V56C17 56 22 51 22 41.5C22 32 17 27 10 27V8Z" fill="#CFF5E4" stroke="#14133A" strokeWidth="3" strokeLinejoin="round"/>
-            <path d="M79 15V68" stroke="#14133A" strokeWidth="2" strokeDasharray="4 5"/>
-            <circle cx="45" cy="33" r="10" fill="#5B4BFF"/>
-            <path d="M30 52H61" stroke="#14133A" strokeWidth="4" strokeLinecap="round"/>
-          </svg>
-        </div>
-      </div>
-    </section>
-
     <section className="eh-directory-listing" id="eh-directory-results" aria-labelledby="eh-directory-results-title">
       <div className="eh-directory-wrap">
         <div className="eh-directory-toolbar">
           <div className="eh-directory-toolbar__heading">
-            <span className="eh-directory-kicker">Find your kind of event</span>
-            <h2 id="eh-directory-results-title">Explore the calendar.</h2>
+            <span className="eh-directory-kicker">EventHive · Events in India</span>
+            <h1 id="eh-directory-results-title">Discover your next event<span className="eh-directory-heading-mark" aria-hidden="true">.</span></h1>
+            <p className="eh-directory-toolbar__intro">Explore events by category, location or date. Open the event page to register.</p>
           </div>
           <label className="eh-directory-search">
             <Search size={19} aria-hidden="true"/>
