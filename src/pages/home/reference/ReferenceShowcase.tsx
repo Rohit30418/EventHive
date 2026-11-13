@@ -80,8 +80,8 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       <div className="eh-ref-showcase-layout">
         <div className="eh-ref-stages">
           <svg className="eh-ref-path" viewBox="0 0 12 100" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M6 2V98" stroke="#E1DEF6" strokeWidth="1.8" fill="none"/>
-            <path d="M6 2V98" stroke="#5B4BFF" strokeWidth="2.4" fill="none"
+            <path d="M6 0V100" stroke="#E1DEF6" strokeWidth="1.8" fill="none"/>
+            <path d="M6 0V100" stroke="#5B4BFF" strokeWidth="2.4" fill="none"
               pathLength="1" strokeDasharray="1" strokeDashoffset={1 - (active + 1) / stages.length}
               style={{ transition:"stroke-dashoffset .36s ease" }}/>
           </svg>
