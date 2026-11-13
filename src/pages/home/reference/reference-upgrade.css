@@ -111,14 +111,14 @@
 .ea-home .eh-ref-section-intro h2 {font-size:clamp(32px,3.5vw,46px);max-width:630px;font-weight:710;letter-spacing:-.045em;}
 .ea-home .eh-ref-section-intro > p {font-size:15px;line-height:1.55;color:#474560;max-width:350px;}
 .ea-home .eh-ref-showcase-layout {display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start;gap:clamp(25px,4.4vw,60px);}
-.ea-home .eh-ref-stages {position:relative;padding:6px 0 0 33px;}
-.ea-home .eh-ref-path {position:absolute;left:4px;top:26px;width:14px;height:calc(100% - 88px);overflow:visible;}
-.ea-home .eh-ref-stage {position:relative;min-height:215px;scroll-margin-top:180px;}
-.ea-home .eh-ref-stage:last-child {min-height:190px;}
-.ea-home .eh-ref-stage-button {position:relative;width:100%;display:grid;gap:8px;text-align:left;padding:18px 17px 18px 19px;border-radius:13px;border:1px solid transparent;background:transparent;color:#14133A;cursor:pointer;transition:border-color .25s ease,background-color .25s ease;}
+.ea-home .eh-ref-stages {position:relative;padding:0 0 0 42px;--eh-ref-step-height:188px;}
+.ea-home .eh-ref-path {position:absolute;left:14px;top:31px;width:12px;height:calc(100% - var(--eh-ref-step-height));overflow:visible;pointer-events:none;}
+.ea-home .eh-ref-stage {position:relative;min-height:var(--eh-ref-step-height);scroll-margin-top:160px;}
+.ea-home .eh-ref-stage:last-child {min-height:var(--eh-ref-step-height);}
+.ea-home .eh-ref-stage-button {position:relative;width:100%;min-height:163px;display:grid;align-content:start;gap:7px;text-align:left;padding:16px 18px 17px 20px;border-radius:13px;border:1px solid transparent;background:transparent;color:#14133A;cursor:pointer;transition:border-color .25s ease,background-color .25s ease;}
 .ea-home .eh-ref-stage-button.is-active {border-color:#BBB4FF;background:#F8F7FF;}
 .ea-home .eh-ref-stage-button:hover {background:#F8F7FF;}
-.ea-home .eh-ref-stage-dot {position:absolute;top:23px;left:-39px;display:grid;place-items:center;width:19px;height:19px;border:2px solid #A7A1C5;border-radius:50%;background:white;color:#57516C;font-size:10px;font-weight:760;z-index:1;}
+.ea-home .eh-ref-stage-dot {position:absolute;top:21px;left:-32px;display:grid;place-items:center;width:20px;height:20px;border:2px solid #A7A1C5;border-radius:50%;background:white;color:#57516C;font-size:10px;font-weight:760;z-index:1;}
 .ea-home .eh-ref-stage-button.is-active .eh-ref-stage-dot {border-color:#5B4BFF;color:#14133A;background:#FFC233;}
 .ea-home .eh-ref-stage-index {display:flex;align-items:center;justify-content:space-between;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;font-weight:750;letter-spacing:.04em;color:#5142D2;}
 .ea-home .eh-ref-stage-index em {font-family:"Inter Tight",sans-serif;font-style:normal;font-size:11px;letter-spacing:0;color:#343257;}
