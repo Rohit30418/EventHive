@@ -123,16 +123,17 @@ function ProductShowcase() {
   </section>;
 }
 
-function ShareVisual() {
+function ShareVisual({ event }: { event?: EventType }) {
   const [copied,setCopied] = useState(false);
+  const eventPath = event ? `/events/${createSlug(event.EventName || "event")}/${event.id}` : "/Events";
   const share = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.origin + "/Events");
+      await navigator.clipboard.writeText(window.location.origin + eventPath);
       setCopied(true);
     } catch { setCopied(false); }
   };
-  return <div className="ea-share-widget"><span className="ea-pill-label">Public event link</span>
-    <div className="ea-share-link"><Link2 size={19} aria-hidden="true"/><span>/Events</span><button type="button" aria-label="Copy EventHive events link" onClick={share}><Copy size={17} aria-hidden="true"/></button></div>
+  return <div className="ea-share-widget"><span className="ea-pill-label">{event ? "Published event link" : "Events directory link"}</span>
+    <div className="ea-share-link"><Link2 size={19} aria-hidden="true"/><span>{eventPath}</span><button type="button" aria-label={event ? "Copy published event link" : "Copy EventHive events directory link"} onClick={share}><Copy size={17} aria-hidden="true"/></button></div>
     <p aria-live="polite">{copied?"Link copied to clipboard.":"Share the published link in your WhatsApp group."}</p>
   </div>;
 }
@@ -172,12 +173,12 @@ function PassVisual() {
   </div>;
 }
 
-function Capabilities() {
+function Capabilities({ event }: { event?: EventType }) {
   return <section id="features" className="ea-section ea-capabilities" aria-labelledby="ea-cap-heading">
     <div className="ea-wrap">
       <div className="ea-section-heading"><h2 id="ea-cap-heading">Small details that save the event day.</h2><p>The useful parts of the organiser workflow, shown in context.</p></div>
       <div className="ea-bento">
-        <article className="ea-bento-share"><h3>Send the same event link to everyone.</h3><ShareVisual /></article>
+        <article className="ea-bento-share"><h3>Send the same event link to everyone.</h3><ShareVisual event={event} /></article>
         <article className="ea-bento-progress"><h3>Keep track of registrations.</h3><ProgressVisual /></article>
         <article className="ea-bento-approval"><div><h3>Approve organisers before they publish.</h3><p>The Super Admin controls access.</p></div><ApprovalsVisual /></article>
         <article className="ea-bento-cities"><h3>Find events by location.</h3><CityVisual /></article>
@@ -318,7 +319,7 @@ export default function AgencyHome(props:Props) {
     <Hero />
     <Problem />
     <ProductShowcase />
-    <Capabilities />
+    <Capabilities event={props.featuredEvents[0]} />
     <Steps />
     <Comparison />
     <Scenarios {...props}/>
