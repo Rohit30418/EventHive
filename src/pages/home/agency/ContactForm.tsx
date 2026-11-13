@@ -56,7 +56,7 @@ export default function ContactForm() {
         throw new Error(typeof details?.error === "string" ? details.error : "The contact service is not configured yet. Please try again or email us.");
       }
       setStatus("success");
-      setMessage("Your enquiry has been received. The team can review it in the organiser enquiries collection.");
+      setMessage("Thanks — your enquiry has been received. We can review the details you shared.");
       form.reset();
     } catch(err) {
       setStatus("error");
