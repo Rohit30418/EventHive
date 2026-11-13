@@ -38,6 +38,13 @@ jobs:
               cairosvg.svg2png(url=str(asset), write_to=str(png))
               print(f"Created {png}")
           PY
+      - name: Package generated PNG assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: EventHive_Named_PNG_Assets
+          path: public/eventhive-assets/*.png
+          if-no-files-found: error
+          retention-days: 7
       - name: Commit image PNGs to the existing design branch
         run: |
           git config user.name "github-actions[bot]"
