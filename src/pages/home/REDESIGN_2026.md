@@ -26,6 +26,14 @@ This document describes the **current** marketing page mounted by `src/pages/Hom
 - Homepage includes layered product hero, problem illustration, alternating product screens, six distinct bento cards, four-step path, Google Forms comparison, city scenarios and real event listings, honest founding invitation, free/coming-soon/team pricing, accessible FAQ, real inquiry form and final CTA.
 - No customer quotes, invented published-event counts, fake logos, photo stock substitutes, pretend check-in scanners, fictional fees or payment success.
 
+## Actual user journeys and content guardrails
+
+- **Organiser:** `/OrganizerRegistration` → enter details → complete an explicitly simulated checkout (no charge) → wait for Super Admin approval → `/Login` → dashboard `CreateEvent` → microsite editor/Redux preview → published event link → registration records. Marketing links for signed-out visitors say **Register as organiser**, not instant event creation.
+- **Attendee:** `/Events` (time and category filters) → `/events/:slug/:id` → attendee registration form (including photo and other details) → downloadable event pass. The short form shown in the hero is explicitly marked as a sample.
+- **Super Admin:** review and approve organiser account requests before they can access the organiser dashboard.
+- The homepage **does not pretend** to have city filtering (the actual Events page filters by time and category), a live registration-progress dashboard counter, a launched paid-events waiting list, or deployed payment/refund infrastructure. Pricing and the FAQ state which features are not built.
+- The contact form's validated Firestore backend has been written but still requires a Firebase deploy. Without that deployment it shows an error and offers an email alternative, never a fake confirmation.
+
 ## Live data and feature boundaries
 
 Real published events come from the existing Firebase useGetEvent hook. Their banners display only when provided by organisers; otherwise they use a correctly sized poster illustration slot. Existing organiser login and registration, event creation/editing, role guards, attendee registrations, QR pass creation and Redux microsite draft preview are **not modified**.
