@@ -27,3 +27,7 @@ jobs:
         run: npm test
       - name: Typecheck and production build
         run: npm run build
+      - name: Install contact backend dependencies
+        run: npm --prefix functions install --no-audit --no-fund
+      - name: Typecheck Firebase contact backend
+        run: npm --prefix functions run build
