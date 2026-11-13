@@ -1,8 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import useGetEvent from "../AdminCustomHooks/useGetEvents";
-import Home2026 from "./home/Home2026";
-import "./home/home-2026.css";
+import AgencyHome from "./home/AgencyHome";
 
 const Home = () => {
   const { isLoading, data, error } = useGetEvent();
@@ -50,7 +49,7 @@ const Home = () => {
   }, [data]);
 
   return (
-    <Home2026
+    <AgencyHome
       featuredEvents={featuredEvents}
       isLoading={isLoading}
       error={error}
