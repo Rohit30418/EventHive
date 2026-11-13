@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const links = [
   { title: "Product", entries: [
-    { label: "Create free event", to: "/OrganizerRegistration" },
+    { label: "Register as organiser", to: "/OrganizerRegistration" },
     { label: "Product", to: "/#product" },
     { label: "Browse events", to: "/Events" },
   ] },
@@ -38,7 +38,7 @@ export default function Footer() {
           </div>)}
         </div>
       </div>
-      <div className="ea-site-footer-bottom"><span>© {new Date().getFullYear()} EventHive</span><span>Built for organisers in India.</span><span>Paid ticketing and QR scanning are coming later.</span></div>
+      <div className="ea-site-footer-bottom"><span>© {new Date().getFullYear()} EventHive</span><span>Built for organisers in India.</span><span>Free registration pages available. Paid checkout not yet supported.</span></div>
     </div>
   </footer>;
 }
