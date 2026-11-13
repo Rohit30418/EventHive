@@ -2,7 +2,9 @@
 
 ## Replacement rule
 
-All placeholders and dimensions are defined in `src/data/assetSlots.ts`. To replace a slot, set its `src: null` to a file like `src: "/assets/hero-ticket.avif"` and keep `alt`, `width`, `height` and `focalPoint`. The `AssetSlot` component reserves that exact ratio before the file loads.
+All 15 image slots now have generated PNG artwork in `public/eventhive-assets/` and their paths are connected in `src/data/assetSlots.ts`. The source SVG for every PNG is also committed under the same base filename. To replace an image, change only that slot's `src` to a real approved asset, retaining `alt`, `width`, `height` and `focalPoint`. The `AssetSlot` component reserves the correct ratio before the file loads.
+
+**Important distinction:** The public event page, attendee registration, attendee-list and microsite preview are **designed sample UI**, not screenshots captured from a live account. Replace them with verified screenshots when available. The `founder.png` image deliberately says to add a real team portrait; it is not an image of the founder or an endorsement.
 
 | Slot ID | Visual to produce | Dimensions | Ratio | Preferred format |
 |---|---|---:|---|---|
@@ -30,7 +32,7 @@ All placeholders and dimensions are defined in `src/data/assetSlots.ts`. To repl
 - Photos of organisers or founders must come from your team or consenting participants.
 - Show **real EventHive UI** for all four screenshot slots. Mask email addresses, names and phone numbers in production examples. Preserve existing screen labels, frame ratios and corner radius.
 - Export raster at the specified pixel size. Aim for under 160KB per small illustration, under 250KB per large screenshot, and under 150KB for the homepage OG PNG if quality allows; use responsive srcset if needed.
-- For EventHive WhatsApp previews, supply **1200 × 630 PNG/JPEG** hosted at a publicly accessible absolute HTTPS URL. The current SEO metadata uses an existing project favicon as a *temporary raster fallback*, not final production artwork.
+- For EventHive WhatsApp previews, supply **1200 × 630 PNG/JPEG** hosted at a publicly accessible absolute HTTPS URL. The SEO metadata now uses the generated `open-graph.png` as the full-size placeholder; replace with approved branded artwork before launch.
 
 ## Client inputs needed
 
