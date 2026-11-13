@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight, ArrowUpRight, CalendarDays, Check, CheckCircle2,
-  ChevronRight, ClipboardCheck, Copy, ExternalLink, Link2, MapPin,
-  MessageCircle, Ticket, UsersRound,
+  Copy, Link2, MapPin, Ticket, UsersRound,
 } from "lucide-react";
 import type { EventType } from "../../Types/eventType";
 import { createSlug } from "../../../Utils/createSlug";
