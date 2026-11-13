@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { ArrowRight, ArrowUpRight, Monitor, Smartphone, Check } from "lucide-react";
+import { ArrowUpRight, Monitor, Smartphone, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import AssetSlot from "../../../components/media/AssetSlot";
 import type { AssetId } from "../../../data/assetSlots";
