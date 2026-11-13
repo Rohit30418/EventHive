@@ -115,7 +115,7 @@ function ProductShowcase() {
             {index === 0 && <Link className="ea-inline-link" to="/Events">See public event pages <ArrowUpRight size={18}/></Link>}
           </div>
           <div className={`ea-product-frame ea-product-frame--${screen.mode}`}>
-            <div className="ea-frame-header"><span className="ea-browser-dots" aria-hidden="true"><i/><i/><i/></span><span>{screen.label}</span><span className="ea-frame-corner">Screenshot placeholder</span></div>
+            <div className="ea-frame-header"><span className="ea-browser-dots" aria-hidden="true"><i/><i/><i/></span><span>{screen.label}</span><span className="ea-frame-corner">Illustrative concept</span></div>
             <AssetSlot id={screen.id} />
           </div>
         </article>)}
