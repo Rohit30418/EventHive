@@ -58,7 +58,7 @@ function Hero({ event }: { event?: EventType }) {
           </div>
         </div>
         <div className="ea-hero-registration">
-          <span className="ea-ui-mark">Sample registration</span>
+          <span className="ea-ui-mark">Sample · live form has more fields</span>
           <h3>Save a place</h3>
           <div className="ea-sample-input">Full name <span>Attendee name</span></div>
           <div className="ea-sample-input">Email <span>name@example.com</span></div>
