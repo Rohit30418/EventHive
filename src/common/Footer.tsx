@@ -1,66 +1,44 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const columns = [
-  {
-    heading: "Product",
-    items: [
-      { label: "Create event", to: "/OrganizerRegistration" },
-      { label: "Features", to: "/#features" },
-      { label: "Pricing", to: "/#pricing" },
-      { label: "Discover events", to: "/Events" },
-    ],
-  },
-  {
-    heading: "Company",
-    items: [
-      { label: "How EventHive works", to: "/#how-it-works" },
-      { label: "For organisers", to: "/#roles" },
-      { label: "Contact sales", to: "/#contact" },
-    ],
-  },
-  {
-    heading: "Resources",
-    items: [
-      { label: "Frequently asked questions", to: "/#faq" },
-      { label: "Organizer login", to: "/Login" },
-      { label: "Support", to: "mailto:support@eventhive.com" },
-    ],
-  },
-  {
-    heading: "Legal",
-    items: [
-      { label: "Request privacy information", to: "mailto:support@eventhive.com?subject=EventHive%20privacy%20information" },
-      { label: "Request terms", to: "mailto:support@eventhive.com?subject=EventHive%20terms" },
-    ],
-  },
+const links = [
+  { title: "Product", entries: [
+    { label: "Create free event", to: "/OrganizerRegistration" },
+    { label: "Product", to: "/#product" },
+    { label: "Browse events", to: "/Events" },
+  ] },
+  { title: "Resources", entries: [
+    { label: "How it works", to: "/#how-it-works" },
+    { label: "Pricing", to: "/#pricing" },
+    { label: "Questions", to: "/#faq" },
+  ] },
+  { title: "Company & legal", entries: [
+    { label: "Founding organisers", to: "/#founding" },
+    { label: "Contact", to: "/#contact" },
+    { label: "Request terms", to: "mailto:support@eventhive.com?subject=Request%20EventHive%20terms" },
+    { label: "Request privacy policy", to: "mailto:support@eventhive.com?subject=Request%20EventHive%20privacy%20policy" },
+  ] },
 ];
 
 export default function Footer() {
-  return (
-    <footer className="eh26-site-footer">
-      <div className="eh26-footer-inner">
-        <div className="eh26-footer-main">
-          <div className="eh26-footer-brand">
-            <Link to="/" className="eh26-footer-logo"><span aria-hidden="true">e.</span> EventHive</Link>
-            <p>Make the event page. Share the link. Bring people together.</p>
-            <a href="mailto:support@eventhive.com" className="eh26-footer-contact">Contact support <ArrowUpRight size={16} aria-hidden="true" /></a>
-          </div>
-          <div className="eh26-footer-links">
-            {columns.map(group=><div key={group.heading}>
-              <h2>{group.heading}</h2>
-              <ul>{group.items.map(item=><li key={item.label}>{item.to.startsWith("mailto:")?
-                <a href={item.to}>{item.label}</a> : <Link to={item.to}>{item.label}</Link>}
-              </li>)}</ul>
-            </div>)}
-          </div>
+  return <footer className="ea-site-footer">
+    <div className="ea-site-footer-wrap">
+      <div className="ea-site-footer-top">
+        <div className="ea-site-footer-identity">
+          <Link to="/" className="ea-site-footer-brand"><span>e.</span> EventHive</Link>
+          <p>One event page. A clear guest list. More room to focus on the people turning up.</p>
+          <a href="mailto:support@eventhive.com" className="ea-site-footer-mail">Contact EventHive <ArrowUpRight size={16}/></a>
         </div>
-        <div className="eh26-footer-bottom">
-          <p>© {new Date().getFullYear()} EventHive. All rights reserved.</p>
-          <p>Made by <a href="https://rohitpant.in/" target="_blank" rel="noopener noreferrer">Rohit Pant</a></p>
-          <p>Payment and invoicing features shown on the homepage are planned, not live.</p>
+        <div className="ea-site-footer-columns">
+          {links.map(group => <div key={group.title}>
+            <h2>{group.title}</h2>
+            <ul>{group.entries.map(link => <li key={link.label}>
+              {link.to.startsWith("mailto:") ? <a href={link.to}>{link.label}</a> : <Link to={link.to}>{link.label}</Link>}
+            </li>)}</ul>
+          </div>)}
         </div>
       </div>
-    </footer>
-  );
+      <div className="ea-site-footer-bottom"><span>© {new Date().getFullYear()} EventHive</span><span>Built for organisers in India.</span><span>Paid ticketing and QR scanning are coming later.</span></div>
+    </div>
+  </footer>;
 }
