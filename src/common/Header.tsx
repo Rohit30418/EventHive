@@ -3,97 +3,72 @@ import { ArrowUpRight, LayoutDashboard, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../dashboard/AuthContext";
 
-const links = [
-  { label: "Features", to: "/#features" },
-  { label: "How it works", to: "/#how-it-works" },
-  { label: "Events", to: "/Events" },
-  { label: "Pricing", to: "/#pricing" },
-  { label: "FAQ", to: "/#faq" },
+const pages = [
+  { title: "Product", to: "/#product" },
+  { title: "How it works", to: "/#how-it-works" },
+  { title: "Events", to: "/Events" },
+  { title: "Pricing", to: "/#pricing" },
+  { title: "FAQ", to: "/#faq" },
 ];
 
 export default function Header() {
   const { user, role } = useAuth();
   const location = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const menuButton = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); }, [location.pathname, location.hash]);
+  useEffect(() => { setMobileOpen(false); }, [location.pathname, location.search, location.hash]);
 
   useEffect(() => {
-    if (!menuOpen) return;
-    const previous = document.body.style.overflow;
+    if (!mobileOpen) return;
+    const oldOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (event: KeyboardEvent) => {
+    const onEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setMenuOpen(false);
-        menuButton.current?.focus();
+        setMobileOpen(false);
+        menuRef.current?.focus();
       }
     };
-    document.addEventListener("keydown", onKey);
+    document.addEventListener("keydown", onEscape);
     return () => {
-      document.body.style.overflow = previous;
-      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keydown", onEscape);
+      document.body.style.overflow = oldOverflow;
     };
-  }, [menuOpen]);
+  }, [mobileOpen]);
 
-  const ctaTo = role === "Organizer" ? "/Dashboard/CreateEvent" : user ? "/Dashboard" : "/OrganizerRegistration";
-  const ctaText = user && role !== "Organizer" ? "Open dashboard" : "Create event";
-  const isActive = (to: string) => to === "/Events"
-    ? location.pathname.toLowerCase() === "/events"
-    : location.pathname === "/" && location.hash === to.slice(1);
+  const createPath = user && role === "Organizer" ? "/Dashboard/CreateEvent" :
+    user && role === "SuperAdmin" ? "/Dashboard" : "/OrganizerRegistration";
+  const createLabel = user && role === "SuperAdmin" ? "Open dashboard" : "Create event";
 
-  return (
-    <header className={`eh26-site-header ${scrolled ? "is-scrolled" : ""}`}>
-      <nav className="eh26-site-navbar" aria-label="Primary navigation">
-        <Link to="/" className="eh26-site-logo" aria-label="EventHive homepage">
-          <span className="eh26-site-mark" aria-hidden="true">e.</span>
-          <span>Event<span>Hive</span></span>
-        </Link>
-
-        <div className="eh26-site-links">
-          {links.map(link => (
-            <Link key={link.to} to={link.to}
-              aria-current={isActive(link.to) ? "page" : undefined}>
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="eh26-site-actions">
-          <Link className="eh26-site-login" to={user ? "/Dashboard" : "/Login"}>
-            {user ? <LayoutDashboard size={17} aria-hidden="true" /> : null}
-            {user ? "Dashboard" : "Log in"}
-          </Link>
-          <Link className="eh26-site-cta" to={ctaTo}>
-            {ctaText} <ArrowUpRight size={17} aria-hidden="true" />
-          </Link>
-        </div>
-
-        <button ref={menuButton} type="button" className="eh26-menu-toggle"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-controls="eh26-mobile-menu" aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(open => !open)}>
-          {menuOpen ? <X size={23} aria-hidden="true" /> : <Menu size={23} aria-hidden="true" />}
-        </button>
-      </nav>
-
-      {menuOpen && (
-        <div className="eh26-mobile-menu" id="eh26-mobile-menu">
-          <div>{links.map(link => <Link key={link.to} to={link.to} onClick={() => setMenuOpen(false)}>{link.label}</Link>)}</div>
-          <div className="eh26-mobile-actions">
-            <Link to={user ? "/Dashboard" : "/Login"} onClick={() => setMenuOpen(false)}>{user ? "Dashboard" : "Log in"}</Link>
-            <Link to={ctaTo} className="eh26-site-cta" onClick={() => setMenuOpen(false)}>{ctaText} <ArrowUpRight size={18} /></Link>
-          </div>
-        </div>
-      )}
-    </header>
-  );
+  return <header className={`ea-site-header ${scrolled ? "ea-site-header--scrolled" : ""}`}>
+    <nav className="ea-site-nav" aria-label="Main navigation">
+      <Link to="/" className="ea-site-brand" aria-label="EventHive home"><span className="ea-site-monogram" aria-hidden="true">e.</span><span>EventHive</span></Link>
+      <div className="ea-site-links">
+        {pages.map(item => <Link key={item.to} to={item.to}
+          aria-current={location.pathname.toLowerCase()==="/events" && item.to==="/Events" ? "page" : undefined}>{item.title}</Link>)}
+      </div>
+      <div className="ea-site-actions">
+        <Link to={user ? "/Dashboard" : "/Login"}>{user ? <LayoutDashboard size={17} aria-hidden="true"/> : null}{user ? "Dashboard" : "Log in"}</Link>
+        <Link className="ea-site-create" to={createPath}>{createLabel} <ArrowUpRight size={17} aria-hidden="true"/></Link>
+      </div>
+      <button ref={menuRef} className="ea-site-menu-toggle" type="button"
+        aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+        aria-controls="ea-site-mobile-menu" onClick={() => setMobileOpen(v => !v)}>
+        {mobileOpen ? <X size={23} aria-hidden="true"/> : <Menu size={23} aria-hidden="true"/>}
+      </button>
+    </nav>
+    {mobileOpen && <div className="ea-site-mobile" id="ea-site-mobile-menu">
+      {pages.map(item=><Link key={item.to} to={item.to} onClick={()=>setMobileOpen(false)}>{item.title}</Link>)}
+      <Link to={user ? "/Dashboard" : "/Login"} onClick={()=>setMobileOpen(false)}>{user?"Dashboard":"Log in"}</Link>
+      <Link className="ea-site-create" to={createPath} onClick={()=>setMobileOpen(false)}>{createLabel} <ArrowUpRight size={17}/></Link>
+    </div>}
+  </header>;
 }
