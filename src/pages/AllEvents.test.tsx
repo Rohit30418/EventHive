@@ -31,7 +31,7 @@ describe("EventHive Events directory", () => {
   it("renders the reference-inspired hero and links actual Firebase events to microsites", () => {
     showPage();
     expect(screen.getByRole("heading", { level: 1, name: /Find an event worth showing up for/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Design Meetup Bengaluru" })).toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { name: "Design Meetup Bengaluru" })).toHaveLength(2);
     const events = screen.getAllByRole("article");
     expect(events).toHaveLength(3);
     expect(within(events[0]).getByRole("link", { name: /View event details/i }))
