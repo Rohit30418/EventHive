@@ -167,20 +167,10 @@
 
 /* Mobile: no overly tall banner, controls remain touch accessible at 360px. */
 @media(max-width:960px){
-  .eh-directory-hero__copy {grid-column:1/span 6;}
-  .eh-directory-hero__visual {grid-column:7/-1;}
   .eh-directory-cards {grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
-  .eh-directory-hero__grid {min-height:345px;}
 }
 @media(max-width:720px){
   .eh-directory-wrap {width:calc(100% - 36px);}
-  .eh-directory-hero__grid {grid-template-columns:1fr;gap:15px;padding-block:34px 37px;min-height:0;}
-  .eh-directory-hero__copy,.eh-directory-hero__visual {grid-column:1;padding-right:0;}
-  .eh-directory-hero__copy h1 {font-size:clamp(38px,8.4vw,51px);}
-  .eh-directory-hero__visual {width:min(100%,430px);padding:0 15px 10px 10px;margin:11px auto 0;}
-  .eh-directory-hero__poster {height:140px;}
-  .eh-directory-hero__featured {padding:13px 16px 15px;}
-  .eh-directory-ticket {width:90px;height:auto;right:-5px;top:-14px;}
   .eh-directory-toolbar {align-items:stretch;flex-direction:column;gap:18px;}
   .eh-directory-search {flex:auto;width:100%;}
   .eh-directory-filter-row {gap:14px;}
@@ -214,13 +204,10 @@
   --ev-paper:#211E39;
   color:var(--ev-navy);background:#221F39;
 }
-.dark .eh-directory-hero {background-color:#211E39;background-image:linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px);}
 .dark .eh-directory-kicker {color:#C3B8FF;}
 .dark .eh-directory-toolbar__intro,.dark .eh-directory-results-header p {color:#E3DFF6;}
 .dark .eh-directory-text-link {color:#DCD5FF;}
 .dark .eh-directory-card,.dark .eh-directory-search,.dark .eh-directory-pagination button {background:#2C2847;border-color:#5C557B;color:#FFF;}
-.dark .eh-directory-hero__browser,.dark .eh-directory-hero__featured h2 {color:#FFF;}
-.dark .eh-directory-hero__featured a {color:#DBD5FF;}
 .dark .eh-directory-search input {color:#FFF;}
 .dark .eh-directory-search input::placeholder {color:#DFDCF5;}
 .dark .eh-directory-view-switch {background:#322D52;border-color:#5F587E;}
@@ -240,7 +227,6 @@
 .dark .eh-directory-empty button {background:#41396A;color:#EEE9FF;border-color:#736A9F;}
 .dark .eh-directory-closer {background:#221F39;}
 .dark .eh-directory-pagination button.is-active {background:#5B4BFF;color:#FFF;}
-.dark .eh-directory-hero__featured h2,.dark .eh-directory-hero__featured p {color:#FFF;}
 @media (prefers-reduced-motion:reduce){
   .eh-directory *, .eh-directory *::before, .eh-directory *::after {transition:none!important;animation:none!important;scroll-behavior:auto!important;}
 }
