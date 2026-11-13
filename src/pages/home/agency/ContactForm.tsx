@@ -5,8 +5,8 @@ import { ArrowRight, CheckCircle2, Mail, ShieldCheck } from "lucide-react";
 type Status = "idle" | "sending" | "success" | "error";
 
 const topics = [
-  { value:"founding", label:"Founding organiser invitation" },
-  { value:"paid", label:"Paid events waitlist" },
+  { value:"founding", label:"Organiser feedback" },
+  { value:"paid", label:"Questions about planned paid events" },
   { value:"teams", label:"College and team requirements" },
   { value:"general", label:"Other organiser enquiry" },
 ] as const;
@@ -73,7 +73,7 @@ export default function ContactForm() {
       <div className="ea-contact-copy">
         <span className="ea-small-index">TALK TO THE TEAM</span>
         <h2 id="ea-contact-heading">Tell us about the event you're planning.</h2>
-        <p>For founding organisers, college committees and teams asking about future paid-event features.</p>
+        <p>Ask about organiser registration, college events, or paid-event features we are planning.</p>
         <div className="ea-contact-assurance"><ShieldCheck size={21}/><span>We only use these details to respond to your enquiry.</span></div>
       </div>
       <form className="ea-contact-form" onSubmit={send}>
