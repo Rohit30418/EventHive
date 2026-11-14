@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight, ArrowUpRight, Check, CheckCircle2,
@@ -11,8 +11,10 @@ import ContactForm from "./agency/ContactForm";
 import ReferenceHero from "./reference/ReferenceHero";
 import ReferenceShowcase from "./reference/ReferenceShowcase";
 import ReferenceStories from "./reference/ReferenceStories";
+import { useHomeScrollMotion } from "./motion/useHomeScrollMotion";
 import "./agency-home.css";
 import "./reference/reference-upgrade.css";
+import "./motion/home-scroll-motion.css";
 
 type Props = {
   featuredEvents: EventType[];
@@ -76,9 +78,22 @@ function PassVisual() {
 function Capabilities({ event }: { event?: EventType }) {
   return <section id="features" className="ea-section ea-capabilities" aria-labelledby="ea-cap-heading">
     <div className="ea-wrap">
-      <div className="ea-section-heading"><h2 id="ea-cap-heading">Small details that save the event day.</h2><p>The useful parts of the organiser workflow, shown in context.</p></div>
+      <div className="ea-section-heading">
+        <h2 id="ea-cap-heading">Small details that <span className="eh-motion-sketch">save the event day.
+          <svg viewBox="0 0 265 14" fill="none" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M3 10C74 3 178 5 262 8" stroke="#5B4BFF" strokeWidth="3.6" pathLength="1"/>
+          </svg>
+        </span></h2>
+        <p>The useful parts of the organiser workflow, shown in context.</p>
+      </div>
       <div className="ea-bento">
-        <article className="ea-bento-share"><h3>Send the same event link to everyone.</h3><ShareVisual event={event} /></article>
+        <article className="ea-bento-share">
+          <svg className="eh-motion-share-arc" viewBox="0 0 148 102" fill="none" aria-hidden="true">
+            <path d="M10 74C43 6 85 7 133 28M133 28L112 26M133 28L122 45"
+              stroke="#7469CE" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1"/>
+          </svg>
+          <h3>Send the same event link to everyone.</h3><ShareVisual event={event} />
+        </article>
         <article className="ea-bento-progress"><h3>Keep track of registrations.</h3><ProgressVisual /></article>
         <article className="ea-bento-approval"><div><h3>Know when your organiser account is approved.</h3><p>A Super Admin reviews new accounts before dashboard access.</p></div><ApprovalsVisual /></article>
         <article className="ea-bento-cities"><h3>Browse events by category.</h3><CategoryVisual /></article>
@@ -147,13 +162,19 @@ function Faq() {
 
 function FinalCTA() {
   return <section className="ea-final" aria-labelledby="ea-final-heading"><div className="ea-wrap"><div className="ea-final-band">
-    <div><h2 id="ea-final-heading">The event is yours. Make the first link count.</h2><p>Set up a page for the event you've been planning.</p><Link to="/OrganizerRegistration" className="ea-btn ea-btn--primary">Register as organiser <ArrowUpRight size={19}/></Link></div>
+    <div><h2 id="ea-final-heading">The event is yours. <span className="eh-motion-sketch">Make the first link count.
+      <svg viewBox="0 0 360 14" fill="none" aria-hidden="true" preserveAspectRatio="none">
+        <path d="M3 8C90 2 236 3 357 10" stroke="#FFC233" strokeWidth="3.8" pathLength="1"/>
+      </svg>
+    </span></h2><p>Set up a page for the event you've been planning.</p><Link to="/OrganizerRegistration" className="ea-btn ea-btn--primary">Register as organiser <ArrowUpRight size={19}/></Link></div>
     <AssetSlot id="finalMotif" />
   </div></div></section>;
 }
 
 export default function AgencyHome(props:Props) {
-  return <div className="ea-home">
+  const homeRef = useRef<HTMLDivElement>(null);
+  useHomeScrollMotion(homeRef);
+  return <div className="ea-home" ref={homeRef}>
     <ReferenceHero event={props.featuredEvents[0]} />
     <ReferenceShowcase event={props.featuredEvents[0]} />
     <Capabilities event={props.featuredEvents[0]} />
