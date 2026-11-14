@@ -187,12 +187,13 @@
 .ea-home .ea-bento-share,.ea-home .ea-bento-progress {min-height:245px;}
 .ea-home .ea-bento h3 {font-size:clamp(19px,2vw,24px);font-weight:715;}
 .ea-home .ea-bento-progress {background:#14133A;}
-.ea-home .ea-bento-share {background:#EBE9FF;}
+.ea-home .ea-bento-share {background:#EBE9FF;box-shadow:none!important;transform:none!important;}
 .ea-home .ea-bento-approval,.ea-home .ea-bento-cities,.ea-home .ea-bento-speakers {min-height:234px;}
 .ea-home .ea-bento-pass {min-height:143px;}
 .ea-home .ea-bento > article {transition:transform .22s ease,box-shadow .22s ease;}
 @media (hover:hover) and (pointer:fine){
   .ea-home .ea-bento > article:hover {transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,19,58,.075);}
+  .ea-home .ea-bento > article.ea-bento-share:hover {transform:none!important;box-shadow:none!important;}
 }
 .ea-home .ea-steps {background-color:#14133A;background-image:linear-gradient(to right,rgba(250,250,255,.055) 1px,transparent 1px),linear-gradient(to bottom,rgba(250,250,255,.055) 1px,transparent 1px);background-size:56px 56px;padding-block:clamp(53px,6vw,77px);}
 .ea-home .ea-steps h2,.ea-home .ea-steps h3,.ea-home .ea-steps li h3 {color:#FFF!important;}
