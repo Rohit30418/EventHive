@@ -59,7 +59,9 @@
 .public-theme .ea-site-footer-wrap {width:min(1200px,calc(100% - 48px));margin-inline:auto;padding:68px 0 27px;}
 .public-theme .ea-site-footer-top {display:grid;grid-template-columns:minmax(220px,1.15fr) minmax(0,2fr);gap:clamp(35px,5vw,85px);}
 .public-theme .ea-site-footer-brand {display:inline-flex;align-items:center;gap:10px;font-size:23px;font-weight:810;letter-spacing:-.045em;color:#fff;text-decoration:none;}
-.public-theme .ea-site-footer-brand span {display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:#5b4bff;font-size:24px;line-height:1;color:#fff;}
+.public-theme .ea-site-footer-brand .ea-site-footer-brand-icon {display:grid;place-items:center;flex:none;width:42px;height:42px;padding:6px;border-radius:11px;background:#FAFAFF;}
+.public-theme .ea-site-footer-brand .ea-site-hex {width:30px;height:30px;display:block;flex:none;}
+.public-theme .ea-site-footer-brand > span:last-child {display:inline;color:#fff;width:auto;height:auto;background:transparent;font-size:23px;font-weight:740;letter-spacing:-.035em;line-height:1.2;}
 .public-theme .ea-site-footer-identity > p {margin:20px 0 16px;max-width:340px;color:#e1def6;font-size:15px;line-height:1.7;}
 .public-theme .ea-site-footer-mail {display:inline-flex;align-items:center;gap:7px;color:#e4dcff;font-size:15px;font-weight:730;text-decoration:none;}
 .public-theme .ea-site-footer-columns {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px;}
