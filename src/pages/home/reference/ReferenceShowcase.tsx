@@ -1,5 +1,5 @@
 import { useState, type KeyboardEvent } from "react";
-import { ArrowUpRight, Monitor, Smartphone, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import AssetSlot from "../../../components/media/AssetSlot";
 import { assetSlots, type AssetId } from "../../../data/assetSlots";
@@ -52,7 +52,6 @@ const stages: Stage[] = [
 
 export default function ReferenceShowcase({ event }: { event?: EventType }) {
   const [active, setActive] = useState(0);
-  const [view, setView] = useState<"desktop" | "phone">("desktop");
   const stage = stages[active];
   const liveEventPath = event
     ? `/events/${createSlug(event.EventName || "event")}/${event.id}`
@@ -60,7 +59,6 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
 
   const selectStage = (index: number) => {
     setActive(index);
-    setView(stages[index].mode);
   };
 
   const handleTabKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -131,16 +129,8 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
           >
             <div className="eh-ref-showcase-toolbar">
               <span>Stage {stage.number} / 04 <span className="eh-ref-toolbar-title">· {stage.title}</span></span>
-              <div className="eh-ref-view-switch" role="group" aria-label="Preview screen size">
-                <button type="button" aria-pressed={view === "desktop"} onClick={() => setView("desktop")}>
-                  <Monitor size={15} aria-hidden="true" /> Desktop
-                </button>
-                <button type="button" aria-pressed={view === "phone"} onClick={() => setView("phone")}>
-                  <Smartphone size={15} aria-hidden="true" /> Phone
-                </button>
-              </div>
             </div>
-            <div className={`eh-ref-showcase-screen eh-compact-screen ${view === "phone" ? "is-phone" : "is-desktop"}`} key={stage.id + view}>
+            <div className={`eh-ref-showcase-screen eh-compact-screen ${stage.mode === "phone" ? "is-phone" : "is-desktop"}`} key={stage.id}>
               <div className="eh-ref-screen-topbar">
                 <span className="eh-ref-browser-dots" aria-hidden="true"><i /><i /><i /></span>
                 <span>{
