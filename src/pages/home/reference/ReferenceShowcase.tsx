@@ -34,6 +34,7 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
   const [active, setActive] = useState(0);
   const [view, setView] = useState<"desktop" | "phone">("desktop");
   const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const activeStageRef = useRef(0);
   const activeStage = stages[active];
 
   useEffect(() => {
@@ -42,7 +43,8 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         const index = Number((entry.target as HTMLElement).dataset.stage);
-        if (Number.isInteger(index) && index >= 0 && index < stages.length) {
+        if (Number.isInteger(index) && index >= 0 && index < stages.length && index !== activeStageRef.current) {
+          activeStageRef.current = index;
           setActive(index);
           setView(stages[index].mode === "phone" ? "phone" : "desktop");
         }
@@ -53,9 +55,10 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
   }, []);
 
   const jumpTo = (idx: number) => {
+    activeStageRef.current = idx;
     setActive(idx);
     setView(stages[idx].mode === "phone" ? "phone" : "desktop");
-    if (!window.matchMedia("(min-width: 1200px)").matches) return;
+    if (!window.matchMedia("(min-width: 1400px)").matches) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     stageRefs.current[idx]?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   };
@@ -65,6 +68,7 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       e.key === "Home" ? 0 : e.key === "End" ? stages.length - 1 : -1;
     if (next === -1) return;
     e.preventDefault();
+    activeStageRef.current = next;
     setActive(next);
     setView(stages[next].mode === "phone" ? "phone" : "desktop");
     document.getElementById(`eh-ref-stage-tab-${next}`)?.focus();
@@ -80,7 +84,7 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       <div className="eh-ref-mobile-tabs" role="tablist" aria-label="EventHive product views">
         {stages.map((step, i) => <button id={`eh-ref-stage-tab-${i}`} key={step.id}
           type="button" role="tab" aria-selected={active === i} aria-controls="eh-ref-product-panel" tabIndex={active === i ? 0 : -1}
-          onKeyDown={e => onTabKey(e, i)} onClick={() => { setActive(i); setView(step.mode === "phone" ? "phone" : "desktop"); }}>
+          onKeyDown={e => onTabKey(e, i)} onClick={() => { activeStageRef.current = i; setActive(i); setView(step.mode === "phone" ? "phone" : "desktop"); }}>
           {step.number}. {step.title.replace(".", "")}</button>)}
       </div>
       <div className="eh-ref-showcase-layout">
