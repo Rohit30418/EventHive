@@ -1,6 +1,6 @@
 /* EventHive homepage motion — progressive enhancement only.
    All information remains visible without JS, IntersectionObserver or animations. */
-.ea-home .eh-motion-sketch {position:relative;display:inline-block;isolation:isolate;}
+.ea-home .eh-motion-sketch {position:relative;display:inline-block;max-width:100%;white-space:normal;isolation:isolate;}
 .ea-home .eh-motion-sketch > svg {
   position:absolute;left:0;bottom:-10px;width:100%;height:13px;
   overflow:visible;pointer-events:none;
