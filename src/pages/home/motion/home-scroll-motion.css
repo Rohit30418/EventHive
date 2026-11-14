@@ -73,7 +73,7 @@
   transition:transform .22s ease,background-color .22s ease,border-color .22s ease;
 }
 @media (hover:hover) and (pointer:fine) {
-  .ea-home .ea-share-link button:hover {transform:rotate(-9deg);}
+  /* The share card is intentionally static on hover. Only copying changes its button label. */
   .ea-home .eh-ref-story-nav button:hover {transform:translateX(2px);background:#F1EFFF;}
   .ea-home .eh-ref-event-register:hover {transform:translateY(-2px);}
   .ea-home .ea-bento-pass:hover .ea-pass-ticket {transform:rotate(-1.5deg) translateY(-2px);}
@@ -87,7 +87,7 @@
   .ea-home .eh-ref-story-portrait,
   .ea-home .ea-final-band .ea-asset {translate:none!important;}
 }
-@media (max-width:640px) {
+@media (max-width:680px) {
   .ea-home .ea-steps ol::after {
     top:20px;left:23px;width:2px;height:calc(100% - 20px);
     transform:scaleY(var(--eh-timeline-progress,1));transform-origin:center top;
@@ -127,7 +127,7 @@
 }
 .ea-home .ea-steps ol::before {background:#7B769F;}
 .ea-home .ea-steps ol::after {background:#FFC233;}
-@media (max-width:640px) {
+@media (max-width:680px) {
   .ea-home .ea-steps ol::before,
   .ea-home .ea-steps ol::after {
     top:var(--eh-step-track-top,25px)!important;
@@ -135,4 +135,16 @@
     width:var(--eh-step-track-width,2px)!important;
     height:var(--eh-step-track-height,calc(100% - 110px))!important;
   }
+}
+
+/* The real four-step timeline switches to a vertical column at 680px.
+   Place the rail UNDER solid marker tiles so it never draws through labels. */
+.ea-home .ea-steps ol { isolation:isolate; }
+.ea-home .ea-steps ol::before,
+.ea-home .ea-steps ol::after { z-index:0;pointer-events:none; }
+.ea-home .ea-steps ol > li { z-index:1; }
+.ea-home .ea-steps ol > li > span {
+  z-index:2;
+  background:#252251;
+  isolation:isolate;
 }
