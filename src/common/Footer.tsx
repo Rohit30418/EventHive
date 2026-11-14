@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import BrandMark from "./BrandMark";
 
 const links = [
   { title: "Product", entries: [
@@ -25,7 +26,7 @@ export default function Footer() {
     <div className="ea-site-footer-wrap">
       <div className="ea-site-footer-top">
         <div className="ea-site-footer-identity">
-          <Link to="/" className="ea-site-footer-brand"><span>e.</span> EventHive</Link>
+          <Link to="/" className="ea-site-footer-brand"><span className="ea-site-footer-brand-icon"><BrandMark className="ea-site-hex" /></span><span>EventHive</span></Link>
           <p>One event page. A clear guest list. More room to focus on the people turning up.</p>
           <a href="mailto:support@eventhive.com" className="ea-site-footer-mail">Contact EventHive <ArrowUpRight size={16}/></a>
         </div>
