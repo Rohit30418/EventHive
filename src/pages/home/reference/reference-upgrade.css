@@ -368,9 +368,9 @@
 .ea-home .eh-ref-section-intro {min-width:0;}
 .ea-home .eh-ref-section-intro > * {min-width:0;}
 
-/* Below wide desktop the scroll story becomes an animated, fully visible
+/* Below 1400px the scroll story becomes an animated, fully visible
    tabbed screen, rather than forcing a narrow sticky side panel. */
-@media (min-width:900px) and (max-width:1199px) {
+@media (min-width:900px) and (max-width:1399px) {
   .ea-home .eh-ref-section-intro {display:block;}
   .ea-home .eh-ref-section-intro > p {margin-top:13px;max-width:650px;}
   .ea-home .eh-ref-mobile-tabs {
