@@ -48,8 +48,8 @@ describe("EventHive agency marketing page", () => {
 
   it("lets visitors switch the product screenshot frame between phone and desktop", () => {
     show();
-    const phone = screen.getByRole("button", { name: /Phone/i });
-    const desktop = screen.getByRole("button", { name: /Desktop/i });
+    const phone = screen.getByRole("button", { name: "Phone" });
+    const desktop = screen.getByRole("button", { name: "Desktop" });
     expect(desktop).toHaveAttribute("aria-pressed", "true");
     fireEvent.click(phone);
     expect(phone).toHaveAttribute("aria-pressed", "true");
