@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Mail, Lock, Loader2, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
 import AuthVisual from "../../components/AuthVisual";
 import "../../styles/auth-2026.css";
@@ -25,6 +25,16 @@ const Login = () => {
   const [resettingPassword, setResettingPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const logoutNotifiedRef = useRef(false);
+
+  useEffect(() => {
+    const logoutSuccess = (location.state as { logoutSuccess?: boolean } | null)?.logoutSuccess === true;
+    if (!logoutSuccess || logoutNotifiedRef.current) return;
+    logoutNotifiedRef.current = true;
+    toast.success("You are logged out.");
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.pathname, location.state, navigate]);
 
   const {
     register,
