@@ -213,7 +213,7 @@ const OrganizerDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
+      <div className="eh-dashboard-intro relative min-w-0 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none">
 
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -232,10 +232,10 @@ const OrganizerDashboard = () => {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap lg:justify-end">
             <Link
               to="/Dashboard/CreateEvent"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-6 py-3 text-sm font-bold text-white hover:bg-[#2B3899] shadow-sm transition-colors"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-6 py-3 text-sm font-bold text-white hover:bg-[#2B3899] transition-colors sm:w-auto"
             >
               <Plus size={18} />
               Create Event
@@ -243,7 +243,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Events"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-800 dark:hover:text-indigo-300 sm:w-auto"
             >
               Manage Events
               <ArrowRight size={17} />
