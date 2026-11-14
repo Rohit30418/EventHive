@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pie } from "react-chartjs-2";
+import { Link } from "react-router-dom";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import {
   Activity,
+  ArrowRight,
   CalendarDays,
   CheckCircle2,
   Clock3,
@@ -140,7 +142,7 @@ const SuperAdminDashboard = () => {
       datasets: [
         {
           data: [approvedOrganizers, pendingRequests],
-          backgroundColor: ["#10B981", "#F59E0B"],
+          backgroundColor: ["#14AD80", "#F59E0B"],
           borderColor: isDark ? "#020617" : "#ffffff",
           borderWidth: 4,
           hoverOffset: 8,
@@ -240,6 +242,17 @@ const SuperAdminDashboard = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Reference design banner — approval handling remains in ManageRequest. */}
+      <div className="eh-ref-promo-banner">
+        <div>
+          <h2>Keep everything moving.</h2>
+          <p>Review organizer requests and make sure event creators have the access they need.</p>
+        </div>
+        <Link to="/Dashboard/ManageRequest">
+          Manage requests <ArrowRight size={17} aria-hidden="true" />
+        </Link>
       </div>
 
       {/* Metric Cards */}

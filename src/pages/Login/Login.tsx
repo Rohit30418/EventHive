@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
-import { Mail, Lock, Loader2, ArrowRight, AlertCircle, CheckCircle2, CalendarCheck, LayoutDashboard, ShieldCheck } from "lucide-react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Mail, Lock, Loader2, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
+import AuthVisual from "../../components/AuthVisual";
+import "../../styles/auth-2026.css";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../Firebase";
 import { getErrorCode, getErrorMessage } from "../../utils/error";
 import axios from "axios";
@@ -18,20 +20,26 @@ const validationSchema = z.object({
 
 type FormData = z.infer<typeof validationSchema>;
 
-const highlights = [
-  { icon: CalendarCheck, text: "Create and manage events from one workspace" },
-  { icon: LayoutDashboard, text: "Keep registrations and event data organized" },
-  { icon: ShieldCheck, text: "Role-based access for approved organizers" },
-];
-
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [resettingPassword, setResettingPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const logoutNotifiedRef = useRef(false);
+
+  useEffect(() => {
+    const logoutSuccess = (location.state as { logoutSuccess?: boolean } | null)?.logoutSuccess === true;
+    if (!logoutSuccess || logoutNotifiedRef.current) return;
+    logoutNotifiedRef.current = true;
+    toast.success("You are logged out.");
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.pathname, location.state, navigate]);
 
   const {
     register,
     handleSubmit,
+    getValues,
     reset,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(validationSchema) });
@@ -74,45 +82,38 @@ const Login = () => {
     }
   };
 
+
+  const handlePasswordReset = async () => {
+    const email = getValues("Email")?.trim();
+    if (!email || !z.string().email().safeParse(email).success) {
+      toast.info("Enter your email address above to reset your password.");
+      return;
+    }
+    setResettingPassword(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Password reset instructions have been sent if the address is registered.");
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error, "Could not request a password reset. Please try again."));
+    } finally {
+      setResettingPassword(false);
+    }
+  };
+
   return (
-    <section className="bg-[#FFF8F3] py-10 text-[#1F1C1A] sm:py-12 lg:py-16">
-      <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12"><div className="mx-auto grid min-w-0 w-full max-w-[760px] overflow-hidden rounded-[20px] border border-[#E7D8CC] bg-white shadow-[0_4px_20px_rgba(31,28,26,0.03)] lg:max-w-none lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-        <aside className="relative hidden min-w-0 overflow-hidden bg-[#1F1C1A] p-6 text-white lg:block lg:p-10">
-          <div className="relative z-10 flex h-full flex-col">
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#f6a06f]">
-                <span className="h-px w-9 bg-[#F26B2A]" /> Organizer workspace
-              </div>
-              <h1 className="mt-6 max-w-md font-['Space Grotesk',sans-serif] text-2xl font-extrabold leading-[1.15] tracking-[-0.004em] sm:text-3xl lg:text-4xl">
-                Welcome back to your event control center.
+    <section className="eh-auth-page eh-auth-page--login" aria-label="EventHive login">
+      <div className="eh-auth-container"><div className="eh-auth-panel">
+        <AuthVisual mode="login" />
+
+        <div className="eh-auth-form-side">
+          <div className="eh-auth-form-inner">
+            <div className="eh-auth-form-heading">
+              <p className="eh-auth-kicker">Secure organiser access</p>
+              <h1>
+                Welcome back.
               </h1>
-              <p className="mt-4 max-w-md text-sm leading-7 text-white/60 sm:text-base">
-                Sign in to manage events, review registrations and keep your public event experience up to date.
-              </p>
-            </div>
-
-            <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:mt-auto lg:grid-cols-1 lg:pt-10">
-              {highlights.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F26B2A] text-white">
-                    <Icon size={16} />
-                  </span>
-                  <p className="pt-1 text-sm font-semibold leading-6 text-white/75">{text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        <div className="min-w-0 p-6 sm:p-8 lg:p-10">
-          <div className="mx-auto w-full min-w-0 max-w-lg">
-            <div className="mb-6">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">Secure sign in</p>
-              <h2 className="mt-3 font-['Space Grotesk',sans-serif] text-2xl font-extrabold tracking-[-0.004em] text-[#1F1C1A] sm:text-3xl">
-                Log in to EventHive
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-[#77736f]">
-                Use your approved organizer or Super Admin account.
+              <p className="mt-3 text-sm leading-6 text-[#73778E]">
+                Log in to your organiser or Super Admin workspace.
               </p>
             </div>
 
@@ -124,17 +125,20 @@ const Login = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="eh-auth-form space-y-5">
               <div className="space-y-2">
-                <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">Email Address</label>
+                <label htmlFor="eh-login-email">Email address</label>
                 <div className="group relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a39b95] transition-colors group-focus-within:text-[#F26B2A]" size={18} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9A9DB0] transition-colors group-focus-within:text-[#3848BE]" size={18} />
                   <input
+                    id="eh-login-email"
                     type="email"
+                    autoComplete="email"
+                    aria-invalid={Boolean(errors.Email)}
                     {...register("Email")}
                     placeholder="name@company.com"
-                    className={`w-full rounded-2xl border bg-[#FFF8F3] py-3.5 pl-12 pr-4 font-semibold text-[#1F1C1A] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#F26B2A] focus:bg-white focus:ring-4 focus:ring-[#F26B2A]/10 ${
-                      errors.Email ? "border-red-300" : "border-[#eadfd7]"
+                    className={`w-full rounded-2xl border bg-[#FFFFFF] py-3.5 pl-12 pr-4 font-semibold text-[#111831] outline-none transition-all placeholder:text-[#9A9DB0] focus:border-[#3848BE] focus:bg-white focus:ring-4 focus:ring-[#3848BE]/10 ${
+                      errors.Email ? "border-red-300" : "border-[#E9EAF2]"
                     }`}
                   />
                 </div>
@@ -143,17 +147,20 @@ const Login = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-4">
-                  <label className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#7f7872]">Password</label>
-                  <button type="button" className="text-xs font-bold text-[#F26B2A] hover:text-[#cf5924]">Forgot password?</button>
+                  <label htmlFor="eh-login-password">Password</label>
+                  <button type="button" className="eh-auth-reset" onClick={handlePasswordReset} disabled={resettingPassword}>{resettingPassword ? "Sending..." : "Forgot password?"}</button>
                 </div>
                 <div className="group relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a39b95] transition-colors group-focus-within:text-[#F26B2A]" size={18} />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9A9DB0] transition-colors group-focus-within:text-[#3848BE]" size={18} />
                   <input
+                    id="eh-login-password"
                     type="password"
+                    autoComplete="current-password"
+                    aria-invalid={Boolean(errors.Password)}
                     {...register("Password")}
                     placeholder="••••••••"
-                    className={`w-full rounded-2xl border bg-[#FFF8F3] py-4 pl-12 pr-4 font-semibold text-[#1F1C1A] outline-none transition-all placeholder:text-[#b5ada6] focus:border-[#F26B2A] focus:bg-white focus:ring-4 focus:ring-[#F26B2A]/10 ${
-                      errors.Password ? "border-red-300" : "border-[#eadfd7]"
+                    className={`w-full rounded-2xl border bg-[#FFFFFF] py-4 pl-12 pr-4 font-semibold text-[#111831] outline-none transition-all placeholder:text-[#9A9DB0] focus:border-[#3848BE] focus:bg-white focus:ring-4 focus:ring-[#3848BE]/10 ${
+                      errors.Password ? "border-red-300" : "border-[#E9EAF2]"
                     }`}
                   />
                 </div>
@@ -163,7 +170,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#F26B2A] px-6 py-4 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(239,111,48,0.20)] transition-all hover:-translate-y-0.5 hover:bg-[#dc5f23] disabled:cursor-not-allowed disabled:opacity-70"
+                className="eh-auth-submit"
               >
                 {loading ? (
                   <>
@@ -171,25 +178,25 @@ const Login = () => {
                   </>
                 ) : (
                   <>
-                    Log In <ArrowRight className="h-4 w-4" />
+                    Log in to dashboard <ArrowRight className="h-4 w-4" />
                   </>
                 )}
               </button>
             </form>
 
-            <div className="mt-6 rounded-2xl border border-[#f0ded2] bg-[#fff3eb] p-4">
+            <div className="eh-auth-note">
               <div className="flex items-start gap-3">
-                <CheckCircle2 className="mt-0.5 shrink-0 text-[#F26B2A]" size={18} />
-                <p className="text-xs font-semibold leading-5 text-[#6e6762]">
+                <CheckCircle2 className="mt-0.5 shrink-0 text-[#3848BE]" size={18} />
+                <p className="text-xs font-semibold leading-5 text-[#697087]">
                   Pending organizer accounts remain locked until Super Admin approval.
                 </p>
               </div>
             </div>
 
-            <p className="mt-7 text-center text-sm text-[#77736f]">
-              Don&apos;t have an account?{" "}
-              <Link to="/OrganizerRegistration" className="font-extrabold text-[#F26B2A] hover:text-[#cf5924]">
-                Create account
+            <p className="mt-7 text-center text-sm text-[#73778E]">
+              New to EventHive?{" "}
+              <Link to="/OrganizerRegistration" className="font-extrabold text-[#3848BE] hover:text-[#2B3899]">
+                Register as organiser
               </Link>
             </p>
           </div>

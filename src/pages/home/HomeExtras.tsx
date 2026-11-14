@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { ArrowRight, CheckCircle2, Mail, MessageCircle, Pause, Play, Send, ShieldCheck, Sparkles, Ticket } from "lucide-react";
+import { ArrowRight, CheckCircle2, Mail, Quote, Send, ShieldCheck, Sparkles, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const supportEmail = "support@eventhive.com";
@@ -35,27 +35,38 @@ const accessOptions = [
   },
 ];
 
-// Swap these temporary portraits for approved customer images later.
-// Their subjects are NOT EventHive customers and the invitations below are NOT reviews.
-const samplePortraits = [
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=520&h=640&q=72",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=520&h=640&q=72",
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=520&h=640&q=72",
-] as const;
-
-type CommunityStory = {
-  audience: string;
-  message: string;
-  label: string;
-  portrait?: string;
+/*
+ * Testimonial layout examples, NOT user endorsements.
+ * There is currently no verified customer feedback in this repository.
+ * Replace quote, role and portrait only after receiving permission.
+ */
+type TestimonialExample = {
+  role: string;
+  headline: string;
+  quote: string;
+  portrait: string;
 };
-const approvedTestimonials: CommunityStory[] = [];
-const storyInvitations: CommunityStory[] = [
-  { audience: "Event organizers", message: "Have you created an event with EventHive? Share what worked well for your team.", label: "Share your experience", portrait: samplePortraits[0] },
-  { audience: "Event attendees", message: "Joined an event through EventHive? Tell us what made the experience memorable.", label: "Your voice matters", portrait: samplePortraits[1] },
-  { audience: "Admin teams", message: "Helped manage an event? We would love to hear which parts made your work easier.", label: "Tell us your story", portrait: samplePortraits[2] },
+
+const testimonialExamples: TestimonialExample[] = [
+  {
+    role: "Event organizer",
+    headline: "One clear place for the whole event",
+    quote: "I want to focus on creating a great experience, not keeping track of details across different tools. Having the event page and registrations together makes the process feel simpler.",
+    portrait: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&crop=faces&w=160&h=160&q=80",
+  },
+  {
+    role: "Event attendee",
+    headline: "Finding the right experience",
+    quote: "When I explore an event, I want the important information upfront. Seeing the event details and registration in one place makes it easier to decide what to attend.",
+    portrait: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&crop=faces&w=160&h=160&q=80",
+  },
+  {
+    role: "Platform admin",
+    headline: "A more organized event workspace",
+    quote: "A dedicated dashboard for organizer requests and event activity would help me stay focused on what needs attention, without switching between spreadsheets.",
+    portrait: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=160&h=160&q=80",
+  },
 ];
-const stories = approvedTestimonials.length > 0 ? approvedTestimonials : storyInvitations;
 
 export function HomePricing() {
   return (
@@ -104,58 +115,58 @@ export function HomePricing() {
 }
 
 export function HomeTestimonials() {
-  const [paused, setPaused] = useState(false);
-  const hasQuotes = approvedTestimonials.length > 0;
   return (
     <section className="eh-home-section eh-extras-testimonials" id="testimonials" aria-labelledby="eh-testimonials-title">
       <div className="eh-home-container">
-        <div className="eh-extras-testimonial-heading">
+        <div className="eh-testimonial-heading">
           <div>
-            <p className="eh-home-eyebrow">COMMUNITY VOICES</p>
-            <h2 id="eh-testimonials-title" className="eh-home-heading">Stories worth <em>sharing.</em></h2>
+            <p className="eh-home-eyebrow">COMMUNITY STORIES</p>
+            <h2 id="eh-testimonials-title" className="eh-home-heading">
+              Great events start with <em>great experiences.</em>
+            </h2>
             <p className="eh-home-copy">
-              {hasQuotes
-                ? "Read what people are saying about their EventHive experience."
-                : "We're collecting genuine community testimonials. Share your experience and help others discover EventHive."}
+              A preview of the voices we hope to feature: organizers, attendees and
+              the people behind the scenes.
             </p>
           </div>
-          <button type="button" className="eh-extras-motion-toggle" onClick={() => setPaused((value) => !value)} aria-label={paused ? "Play moving community cards" : "Pause moving community cards"} aria-pressed={paused}>
-            {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
-            {paused ? "Play" : "Pause"}
-          </button>
+          <span className="eh-testimonial-demo-note">Illustrative testimonials — not verified reviews</span>
         </div>
-      </div>
-      <div className={"eh-extras-story-viewport" + (paused ? " is-paused" : "")} aria-label="Moving community feedback cards">
-        <div className="eh-extras-story-track">
-          {[0, 1].map((copy) => (
-            <div className="eh-extras-story-group" key={copy} aria-hidden={copy === 1}>
-              {stories.map((story, index) => (
-                <article className="eh-home-card eh-extras-story-card" key={story.audience}>
-                  <div className="eh-extras-story-photo">
-                    <img
-                      src={story.portrait || samplePortraits[index % samplePortraits.length]}
-                      alt={hasQuotes ? "Customer portrait" : "Temporary portrait for layout preview, not an EventHive customer"}
-                      loading="eager"
-                      decoding="async"
-                    />
 
-                  </div>
-                  <div className="eh-extras-story-content">
-                    <span className="eh-extras-story-quote" aria-hidden="true"><MessageCircle size={21} /></span>
-                    <p>{story.message}</p>
-                    <div className="eh-extras-story-meta">
-                      <span>{story.audience}</span>
-                      <small>{hasQuotes ? story.label : "Invitation to share"}</small>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+        <div className="eh-testimonial-grid">
+          {testimonialExamples.map((story) => (
+            <article className="eh-home-card eh-testimonial-card" key={story.role}>
+              <div className="eh-testimonial-card-top">
+                <span className="eh-testimonial-quote-icon" aria-hidden="true">
+                  <Quote size={20} strokeWidth={2} />
+                </span>
+                <span className="eh-testimonial-sample">SAMPLE STORY</span>
+              </div>
+              <h3>{story.headline}</h3>
+              <blockquote className="eh-testimonial-quote">“{story.quote}”</blockquote>
+              <div className="eh-testimonial-person">
+                <img
+                  src={story.portrait}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  width={50}
+                  height={50}
+                />
+                <div>
+                  <strong>{story.role}</strong>
+                  <span>Illustrative quote · stock portrait</span>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
-      </div>
-      <div className="eh-home-container">
-        <Link to="/#contact" className="eh-home-text-link">Share your experience <ArrowRight size={18} aria-hidden="true" /></Link>
+
+        <div className="eh-testimonial-footer">
+          <p>Have a genuine EventHive experience to share? We’d love to feature it with your permission.</p>
+          <Link to="/#contact" className="eh-home-text-link">
+            Share your experience <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );

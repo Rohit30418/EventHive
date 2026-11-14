@@ -51,7 +51,7 @@ const destination =
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.3) }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white shadow-[0_20px_70px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-2 dark:border-slate-800 dark:bg-slate-900 ${homeFeatured ? "border-[#F26B2A]/20 hover:border-[#F26B2A]/70" : "border-slate-200/80 hover:border-indigo-200"}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[2rem] border bg-white shadow-[0_20px_70px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-2 dark:border-slate-800 dark:bg-slate-900 ${homeFeatured ? "border-[#3848BE]/20 hover:border-[#3848BE]/70" : "border-slate-200/80 hover:border-indigo-200"}`}
     >
       <div className="relative h-60 overflow-hidden bg-slate-200">
         <img

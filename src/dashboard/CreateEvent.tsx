@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState, type ElementType, type ReactNode } from "react";
+import React, { useEffect, useMemo, useState, type ElementType, type ReactNode } from "react";
 import { useForm, type FieldError } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   ChevronRight,
   ImagePlus,
+  Eye,
+  ExternalLink,
   Loader2,
   MapPin,
   Palette,
@@ -28,8 +30,21 @@ import {
 import useAddEvent from "../AdminCustomHooks/useAddEvent";
 import AddSpeakersModal from "./AddSpeakersModal";
 import { apiPath } from "../../Utils/Utils";
+import { createSlug } from "../../Utils/createSlug";
+import "./event-editor-ui.css";
 import { PageLoader } from "../common/StateViews";
 import { auth } from "../Firebase";
+import type { MicrositeEvent } from "../Types/eventType";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { store } from "../store/store";
+import {
+  beginEventDraft,
+  hydrateEventDraft,
+  updateEventDraft,
+  replaceDraftSpeakers,
+  clearEventDraft,
+  emptyEventFields,
+} from "../slice/eventBuilderSlice";
 const todayDate = new Date().toISOString().split("T")[0];
 
 const speakerSchema = z.object({
@@ -86,11 +101,17 @@ const CreateEvent: React.FC = () => {
   const { EventID } = useParams();
   const navigate = useNavigate();
   const { user, role } = useAuth();
-  const userId:UserId = user?.uid
+  const userId: UserId = user?.uid;
 
-  const [bannerPreview, setBannerPreview] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const draft = useAppSelector((state) => state.eventBuilder);
+  const editorKey = EventID ? `edit:${EventID}` : "new";
+  const matchesDraft = Boolean(userId && draft.ownerId === userId && draft.editorKey === editorKey);
+
+  const [bannerPreview, setBannerPreview] = useState<string>(() => matchesDraft ? draft.fields.banner || "" : "");
   const [loadingEvent, setLoadingEvent] = useState(false);
-  const [speakers, setSpeakers] = useState<SpeakerType[]>([]);
+  const [speakers, setSpeakers] = useState<SpeakerType[]>(() => matchesDraft ? draft.speakers : []);
+  const [isDraftReady, setIsDraftReady] = useState(!EventID || matchesDraft);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
@@ -103,38 +124,114 @@ const CreateEvent: React.FC = () => {
     formState: { errors },
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
-    defaultValues: { PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" },
+    defaultValues: { ...emptyEventFields, ...(matchesDraft ? draft.fields : {}) },
   });
 
   const watchedValues = watch();
-  const primaryColor = watchedValues.PrimaryColor || "#4F46E5";
-  const secondaryColor = watchedValues.SecondaryColor || "#06B6D4";
+  const primaryColor = watchedValues.PrimaryColor || "#3848BE";
+  const secondaryColor = watchedValues.SecondaryColor || "#13B785";
 
-  const fetchEvent = useCallback(async () => {
+  // Resume the in-memory draft when returning from the microsite editor/preview.
+  // Only a new event/identity fetches published data; draft changes never write to Firebase.
+  useEffect(() => {
+    if (!userId) return;
+    let active = true;
+    // Read once per editor/identity change, not on every Redux update.
+    const saved = store.getState().eventBuilder;
+    const resume = saved.ownerId === userId && saved.editorKey === editorKey;
+
+    if (resume) {
+      reset({ ...emptyEventFields, ...saved.fields });
+      setSpeakers(saved.speakers);
+      setBannerPreview(saved.fields.banner || "");
+      setIsDraftReady(true);
+      setLoadingEvent(false);
+      return;
+    }
+
+    dispatch(beginEventDraft({ ownerId: userId, editorKey }));
+    reset({ ...emptyEventFields });
+    setSpeakers([]);
+    setBannerPreview("");
+    setIsDraftReady(!EventID);
+
     if (!EventID) return;
     setLoadingEvent(true);
-    try {
-      const { data: eventData } = await axios.get(`${apiPath}/Events/${EventID}.json`);
-      if (!eventData) {
-        toast.error("Event not found.");
-        return;
-      }
-      if (role !== "SuperAdmin" && eventData.userId !== user?.uid) {
-        toast.error("You can only edit your own events.");
-        navigate("/Dashboard/Events", { replace: true });
-        return;
-      }
-      reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4", ...eventData });
-      setSpeakers(eventData.speakers || []);
-      setBannerPreview(eventData.banner || "");
-    } catch {
-      toast.error("Error loading event");
-    } finally {
-      setLoadingEvent(false);
-    }
-  }, [EventID, reset, role, user?.uid, navigate]);
 
-  useEffect(() => { fetchEvent(); }, [fetchEvent]);
+    const loadPublishedEvent = async () => {
+      try {
+        const { data: eventData } = await axios.get<MicrositeEvent | null>(
+          `${apiPath}/Events/${EventID}.json`
+        );
+        if (!active) return;
+        if (!eventData) {
+          toast.error("Event not found.");
+          return;
+        }
+        if (role !== "SuperAdmin" && eventData.userId !== userId) {
+          toast.error("You can only edit your own events.");
+          navigate("/Dashboard/Events", { replace: true });
+          return;
+        }
+        const fields = {
+          EventName: eventData.EventName,
+          eventDate: eventData.eventDate,
+          location: eventData.location,
+          eventType: eventData.eventType,
+          banner: eventData.banner,
+          BannerTagLine: eventData.BannerTagLine,
+          AboutArea: eventData.AboutArea,
+          PrimaryColor: eventData.PrimaryColor,
+          SecondaryColor: eventData.SecondaryColor,
+        };
+        dispatch(hydrateEventDraft({
+          ownerId: userId, editorKey, fields, speakers: eventData.speakers || [],
+        }));
+        reset({ ...emptyEventFields, ...fields });
+        setSpeakers(eventData.speakers || []);
+        setBannerPreview(eventData.banner || "");
+        setIsDraftReady(true);
+      } catch {
+        if (active) toast.error("Error loading event");
+      } finally {
+        if (active) setLoadingEvent(false);
+      }
+    };
+
+    void loadPublishedEvent();
+    return () => { active = false; };
+  }, [userId, editorKey, EventID, role, dispatch, reset, navigate]);
+
+  // React Hook Form owns field validation. Redux mirrors only the shared,
+  // unsaved fields so other dashboard routes can preview/edit them.
+  useEffect(() => {
+    if (!userId || !isDraftReady) return;
+    const subscription = watch((values) => {
+      dispatch(updateEventDraft({
+        ownerId: userId,
+        editorKey,
+        fields: {
+          EventName: values.EventName,
+          eventDate: values.eventDate,
+          location: values.location,
+          eventType: values.eventType,
+          banner: values.banner,
+          BannerTagLine: values.BannerTagLine,
+          AboutArea: values.AboutArea,
+          PrimaryColor: values.PrimaryColor,
+          SecondaryColor: values.SecondaryColor,
+        },
+      }));
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, userId, editorKey, isDraftReady, dispatch]);
+
+  const changeSpeakers = (next: SpeakerType[]) => {
+    setSpeakers(next);
+    if (userId) {
+      dispatch(replaceDraftSpeakers({ ownerId: userId, editorKey, speakers: next }));
+    }
+  };
 
   const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -174,9 +271,10 @@ const token = await user.getIdToken();
         const saved = await addEvent(payload);
         if (!saved) return; // Retain user input on a failed request.
       }
-      reset({ PrimaryColor: "#4F46E5", SecondaryColor: "#06B6D4" });
+      reset({ ...emptyEventFields });
       setBannerPreview("");
       setSpeakers([]);
+      dispatch(clearEventDraft());
       navigate("/Dashboard/Events");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Operation failed");
@@ -184,7 +282,7 @@ const token = await user.getIdToken();
   };
 
   const handleAddOrEditSpeaker = (speaker: SpeakerType) => {
-    setSpeakers((prev) => editIndex !== null ? prev.map((s, i) => (i === editIndex ? speaker : s)) : [...prev, speaker]);
+    changeSpeakers(editIndex !== null ? speakers.map((s, i) => (i === editIndex ? speaker : s)) : [...speakers, speaker]);
     setEditIndex(null);
     setIsModalOpen(false);
   };
@@ -198,10 +296,10 @@ const token = await user.getIdToken();
   if (loadingEvent) return <PageLoader label="Loading event editor..." />;
 
   return (
-    <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#020617] p-6 text-white shadow-sm md:p-6">
+    <div className="eh-event-editor space-y-7">
+      <div className="eh-editor-hero relative overflow-hidden rounded-2xl border border-white/10 bg-[#293C9F] p-6 text-white shadow-sm md:p-7">
         <div className="eh-premium-grid absolute inset-0 opacity-20" />
-        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[100px]" />
+        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-emerald-300/20 blur-[100px]" />
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <Link to="/Dashboard/Events" className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-cyan-100 hover:bg-white/15">
@@ -214,8 +312,42 @@ const token = await user.getIdToken();
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300">
               Build the public microsite, registration experience and speaker lineup from a single guided workspace.
             </p>
+            <div className="eh-editor-hero-actions mt-5 flex flex-wrap gap-3">
+              <Link
+                to="/EventPreview"
+                className="eh-editor-hero-btn inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/25"
+              >
+                <Eye size={17} aria-hidden="true" /> Preview full microsite
+              </Link>
+              <Link
+                to="/Dashboard/AddWebsiteContent"
+                className="eh-editor-hero-btn inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/25"
+              >
+                <Wand2 size={17} aria-hidden="true" /> Edit microsite content
+              </Link>
+              <button
+                type="button"
+                onClick={() => document.getElementById("eh-event-live-preview")?.scrollIntoView({
+                  behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                  block: "start"
+                })}
+                className="eh-editor-hero-btn inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/25"
+              >
+                <Eye size={17} aria-hidden="true" /> Quick card preview
+              </button>
+              {EventID && (
+                <Link
+                  to={`/events/${createSlug(watchedValues.EventName || "event")}/${EventID}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="eh-editor-hero-btn inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/25"
+                >
+                  <ExternalLink size={16} aria-hidden="true" /> Open published page
+                </Link>
+              )}
+            </div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/10 p-4 ">
+          <div className="eh-editor-progress rounded-2xl border border-white/20 bg-white/10 p-4">
             <div className="mb-2 flex items-center justify-between gap-6 text-xs font-bold uppercase tracking-wide text-slate-300">
               <span>Page readiness</span><span>{completion}%</span>
             </div>
@@ -227,7 +359,7 @@ const token = await user.getIdToken();
       </div>
 
       <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
-        <form onSubmit={handleSubmit(onSubmit)} className="min-w-0 space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="eh-editor-form min-w-0 space-y-6">
           <input type="hidden" {...register("banner")} />
 
           <section className="eh-dashboard-card p-6 md:p-6">
@@ -344,7 +476,7 @@ const token = await user.getIdToken();
                         <p className="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{speaker.speakerDesignation}</p>
                       </div>
                     </button>
-                    <button type="button" onClick={() => setSpeakers((prev) => prev.filter((_, index) => index !== i))} className="rounded-2xl bg-red-50 p-3 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300">
+                    <button type="button" onClick={() => changeSpeakers(speakers.filter((_, index) => index !== i))} className="rounded-2xl bg-red-50 p-3 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-950/40 dark:text-red-300">
                       <Trash2 size={17} />
                     </button>
                   </div>
@@ -359,15 +491,25 @@ const token = await user.getIdToken();
             )}
           </section>
 
-          <div className="sticky bottom-4 z-20 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm  dark:border-slate-800 dark:bg-slate-900/90">
-            <button type="submit" disabled={isLoading} className="eh-btn-primary w-full px-6 py-4 text-sm disabled:cursor-not-allowed disabled:opacity-70">
+          <div className="eh-editor-actions flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <Link to="/Dashboard/Events" className="eh-editor-back inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 hover:text-indigo-700 dark:text-slate-300">
+              <ArrowLeft size={17} aria-hidden="true" /> Back to events
+            </Link>
+            <button type="submit" disabled={isLoading} className="eh-btn-primary eh-editor-save inline-flex items-center justify-center gap-2 px-7 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-70">
               {isLoading ? <><Loader2 className="animate-spin" size={18} /> Saving...</> : <>{EventID ? "Update Event" : "Create Event"} <CheckCircle2 size={18} /></>}
             </button>
           </div>
         </form>
 
-        <aside className="space-y-6 xl:sticky xl:top-6 xl:self-start">
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <aside id="eh-event-live-preview" className="eh-editor-preview-column min-w-0 space-y-6 xl:sticky xl:top-6 xl:self-start">
+          <div className="eh-editor-preview-heading flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-indigo-600 dark:text-indigo-300">Live preview</p>
+              <h2 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">Your event page</h2>
+            </div>
+            <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Updates as you type</span>
+          </div>
+          <div className="eh-editor-preview-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="relative h-56 overflow-hidden bg-slate-200">
               {bannerPreview ? <img src={bannerPreview} alt="Preview" className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-600 to-cyan-500 text-white"><ImagePlus size={44} /></div>}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent" />

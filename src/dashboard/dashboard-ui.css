@@ -1,9 +1,9 @@
 /* Dashboard-only design system. Public pages and event microsites are untouched. */
 .eh-dashboard {
-  --dash-orange: #F26B2A;
-  --dash-ink: #1F1C1A;
-  --dash-border: #E7E3DE;
-  --dash-bg: #F8F7F5;
+  --dash-orange: #3848BE;
+  --dash-ink: #121830;
+  --dash-border: #E7ECF5;
+  --dash-bg: #F7F9FE;
   color: var(--dash-ink);
   font-family: Inter, Arial, sans-serif;
   font-size: 16px;
@@ -42,7 +42,7 @@
 .eh-dashboard .eh-table :is(th, td) { padding: 12px 14px; font-size: 14px; }
 .eh-dashboard .eh-table th { font-weight: 700; }
 .eh-dashboard .eh-field-label {
-  color: #514A44;
+  color: #4D5B73;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: .04em;
@@ -53,16 +53,16 @@
   font-size: 16px;
 }
 .eh-dashboard :is(button, a, input, select, textarea):focus-visible {
-  outline: 2px solid #B44411;
+  outline: 2px solid #3848BE;
   outline-offset: 2px;
 }
 .eh-dashboard :is(.eh-btn-primary) {
-  background: #F26B2A;
-  border-color: #F26B2A;
-  color: #1F1C1A;
+  background: #3848BE;
+  border-color: #3848BE;
+  color: #121830;
   box-shadow: none;
 }
-.eh-dashboard .eh-btn-primary:hover { background: #FF985F; box-shadow: none; }
+.eh-dashboard .eh-btn-primary:hover { background: #5C70D6; box-shadow: none; }
 .eh-dashboard .eh-surface-hover:hover { box-shadow: 0 3px 10px rgba(31,28,26,.06); }
 .eh-dashboard :is(.eh-status-pill, .eh-kicker) {
   font-size: 12px;

@@ -1,0 +1,326 @@
+/* Animated connection hero: only decorative stock portraits, no Firebase writes.
+   Uses the existing EventHive blue (#3848BE) and green (#13B785). */
+.eh-home .eh-hero-stage.eh-connection-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  height: 470px;
+  min-height: 0;
+  max-width: 560px;
+  margin-inline: auto;
+  isolation: isolate;
+  overflow: visible;
+}
+.eh-home .eh-hero-stage.eh-connection-stage::before,
+.eh-home .eh-hero-stage.eh-connection-stage::after {
+  content: none !important;
+}
+.eh-home .eh-connection-background {
+  position: absolute;
+  z-index: -2;
+  inset: 8% 4%;
+  border-radius: 36px;
+  transform: rotate(-3deg);
+  background: radial-gradient(circle at 46% 48%, #dfe7ff 0%, #eff3ff 50%, #eaf9f3 85%);
+  box-shadow: 0 22px 62px rgba(40, 59, 146, .055);
+}
+.eh-home .eh-connection-paths {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.eh-home .eh-connection-paths path {
+  fill: none;
+  stroke: rgba(56, 72, 190, .36);
+  stroke-width: 2;
+  stroke-dasharray: 6 10;
+  stroke-linecap: round;
+  animation: eh-connection-flow 16s linear infinite;
+}
+.eh-home .eh-connection-origin {
+  fill: #13b785;
+  opacity: .7;
+  transform-origin: center;
+  animation: eh-connection-pulse 3.5s ease-in-out infinite;
+}
+@keyframes eh-connection-flow {
+  to { stroke-dashoffset: -160; }
+}
+@keyframes eh-connection-pulse {
+  0%, 100% { transform: scale(.9); opacity: .35; }
+  50% { transform: scale(1.5); opacity: .85; }
+}
+/* The photos are deliberately not labeled as actual EventHive members. */
+.eh-home .eh-connection-person {
+  --portrait-ring: #ffffff;
+  position: absolute;
+  z-index: 4;
+  display: block;
+  width: 81px;
+  height: 81px;
+  padding: 5px;
+  background: var(--portrait-ring);
+  border: 1px solid #dce5f6;
+  border-radius: 50%;
+  box-shadow: 0 12px 30px rgba(37, 57, 130, .13);
+  transition: box-shadow .3s ease, border-color .3s ease;
+}
+.eh-home .eh-connection-person img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  background: #edf1ff;
+}
+.eh-home .eh-connection-person-1 { top: 8%; left: 4%; }
+.eh-home .eh-connection-person-2 { top: 9%; right: 3%; }
+.eh-home .eh-connection-person-3 { right: 5%; bottom: 6%; }
+.eh-home .eh-connection-person-4 { left: 4%; bottom: 9%; }
+.eh-home .eh-connection-online {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 17px;
+  height: 17px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: #13b785;
+}
+.eh-home .eh-connection-person-2 .eh-connection-online,
+.eh-home .eh-connection-person-4 .eh-connection-online { background: #3848be; }
+.eh-home .eh-connection-event {
+  position: relative;
+  z-index: 3;
+  width: min(298px, 67%);
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid #dee5f4;
+  border-radius: 21px;
+  background: #fff;
+  box-shadow: 0 24px 55px rgba(33, 49, 115, .15);
+}
+.eh-home .eh-connection-event-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 32px;
+  padding-inline: 6px;
+  color: #7f89a2;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .11em;
+}
+.eh-home .eh-connection-event-top svg { color: #3848be; }
+.eh-home .eh-connection-event-logo {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  color: white;
+  background: #3848be;
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: -.07em;
+  line-height: 1;
+}
+.eh-home .eh-connection-event-logo span { color: #67ebbb; }
+.eh-home .eh-connection-event-cover {
+  position: relative;
+  height: 162px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #3446b5;
+}
+.eh-home .eh-connection-event-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.eh-home .eh-connection-event-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14,23,57,.02), rgba(14,23,57,.26));
+  pointer-events: none;
+}
+.eh-home .eh-connection-event-cover > span {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 13px;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-shadow: 0 1px 5px rgba(0,0,0,.22);
+}
+.eh-home .eh-connection-event-body { padding: 16px 7px 5px; }
+.eh-home .eh-connection-event-body > p {
+  margin: 0 0 7px;
+  color: #3848be;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.eh-home .eh-connection-event-body h2 {
+  display: -webkit-box;
+  margin: 0 0 11px;
+  max-width: 100%;
+  min-height: 42px;
+  overflow: hidden;
+  color: #111831;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.045em;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.eh-home .eh-connection-event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 11px;
+  color: #67738b;
+  font-size: 10px;
+}
+.eh-home .eh-connection-event-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.eh-home .eh-connection-event-meta svg { color: #3848be; flex: none; }
+.eh-home .eh-connection-event-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #ebeff8;
+  color: #3848be;
+  font-size: 10px;
+  font-weight: 750;
+}
+.eh-home .eh-connection-success {
+  position: absolute;
+  z-index: 5;
+  right: -2%;
+  top: 59%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: 218px;
+  padding: 12px 15px;
+  border: 1px solid #e0ebe9;
+  border-radius: 15px;
+  background: rgba(255,255,255,.98);
+  box-shadow: 0 16px 33px rgba(24, 68, 84, .13);
+  pointer-events: none;
+}
+.eh-home .eh-connection-success > span {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #e4f9ee;
+  color: #0b966b;
+}
+.eh-home .eh-connection-success strong {
+  display: block;
+  color: #192440;
+  font-size: 11px;
+  font-weight: 780;
+  white-space: nowrap;
+}
+.eh-home .eh-connection-success small {
+  display: block;
+  margin-top: 4px;
+  color: #768198;
+  font-size: 10px;
+  white-space: nowrap;
+}
+/* Trust strip now uses only real photographs rather than initials or icons. */
+.eh-home .eh-trust-avatars span {
+  overflow: hidden;
+  border: 2px solid #fff;
+  background: #edf1ff;
+}
+.eh-home .eh-trust-avatars span img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+@media (hover: hover) and (pointer: fine) {
+  .eh-home .eh-connection-person:hover {
+    border-color: #9edbc7;
+    box-shadow: 0 14px 34px rgba(24, 111, 99, .18);
+  }
+  .eh-home .eh-connection-event:hover {
+    box-shadow: 0 28px 60px rgba(32, 50, 133, .18);
+  }
+}
+/* Compact on tablets, and keep photographs inside the viewport on mobile. */
+@media (max-width: 900px) {
+  .eh-home .eh-hero-stage.eh-connection-stage {
+    width: 100%;
+    max-width: 500px;
+    height: 440px;
+  }
+  .eh-home .eh-connection-success { right: 0; }
+}
+@media (max-width: 640px) {
+  .eh-home .eh-hero-stage.eh-connection-stage {
+    max-width: 395px;
+    height: 355px;
+  }
+  .eh-home .eh-connection-person { width: 57px; height: 57px; padding: 3px; }
+  .eh-home .eh-connection-person-1 { top: 8%; left: 2%; }
+  .eh-home .eh-connection-person-2 { top: 8%; right: 2%; }
+  .eh-home .eh-connection-person-3 { right: 1%; bottom: 6%; }
+  .eh-home .eh-connection-person-4 { left: 1%; bottom: 8%; }
+  .eh-home .eh-connection-online { width: 13px; height: 13px; border-width: 2px; }
+  .eh-home .eh-connection-event { width: min(248px, 70%); padding: 8px; }
+  .eh-home .eh-connection-event-cover { height: 130px; }
+  .eh-home .eh-connection-event-body { padding: 11px 5px 4px; }
+  .eh-home .eh-connection-event-body h2 { font-size: 15px; min-height: 36px; }
+  .eh-home .eh-connection-event-meta { font-size: 9px; gap: 5px; }
+  .eh-home .eh-connection-event-footer { margin-top: 9px; padding-top: 9px; }
+  .eh-home .eh-connection-success { right: 0; top: 65%; max-width: 160px; padding: 9px; gap: 7px; }
+  .eh-home .eh-connection-success > span { width: 27px; height: 27px; }
+  .eh-home .eh-connection-success strong { font-size: 9px; }
+  .eh-home .eh-connection-success small { font-size: 8px; margin-top: 2px; }
+}
+@media (max-width: 360px) {
+  .eh-home .eh-hero-stage.eh-connection-stage { height: 320px; }
+  .eh-home .eh-connection-event { width: min(216px, 68%); }
+  .eh-home .eh-connection-event-cover { height: 104px; }
+  .eh-home .eh-connection-person { width: 47px; height: 47px; }
+  .eh-home .eh-connection-success { top: 68%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eh-home .eh-connection-paths path,
+  .eh-home .eh-connection-origin { animation: none !important; }
+}
+html.a11y-pause-animations .eh-home .eh-connection-paths path,
+html.a11y-pause-animations .eh-home .eh-connection-origin {
+  animation: none !important;
+}

@@ -120,8 +120,8 @@ const OrganizerDashboard = () => {
       datasets: [
         {
           data: [stats.upcomingEvents, stats.completedEvents],
-          backgroundColor: ["#6366F1", "#10B981"],
-          hoverBackgroundColor: ["#4F46E5", "#059669"],
+          backgroundColor: ["#3848BE", "#14AD80"],
+          hoverBackgroundColor: ["#2B3899", "#0B896A"],
           borderColor: isDark ? "#020617" : "#FFFFFF",
           borderWidth: 4,
           hoverOffset: 8,
@@ -213,17 +213,17 @@ const OrganizerDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:p-6">
+      <div className="eh-dashboard-intro relative min-w-0 overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none">
 
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-700 dark:border-indigo-900/70 dark:bg-indigo-950/40 dark:text-indigo-300">
               <Sparkles size={14} />
-              Organizer Analytics
+              Organizer workspace
             </div>
 
             <h1 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white md:text-3xl">
-              Analytics Overview
+              Organizer Dashboard
             </h1>
 
             <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-slate-500 dark:text-slate-400 md:text-base">
@@ -232,10 +232,10 @@ const OrganizerDashboard = () => {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap lg:justify-end">
             <Link
               to="/Dashboard/CreateEvent"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F26B2A] px-6 py-3 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-[#3848BE] px-6 py-3 text-sm font-bold text-white hover:bg-[#2B3899] transition-colors sm:w-auto"
             >
               <Plus size={18} />
               Create Event
@@ -243,7 +243,7 @@ const OrganizerDashboard = () => {
 
             <Link
               to="/Dashboard/Events"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-colors hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-indigo-800 dark:hover:text-indigo-300 sm:w-auto"
             >
               Manage Events
               <ArrowRight size={17} />
@@ -483,20 +483,11 @@ const OrganizerDashboard = () => {
             </h2>
 
             <p className="mt-3 text-sm font-medium leading-6 text-slate-400">
-              Create new events, review registrations and keep your workspace
-              updated.
+              Review registrations and explore upcoming experiences.
             </p>
           </div>
 
           <div className="space-y-3">
-            <Link
-              to="/Dashboard/CreateEvent"
-              className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 text-sm font-bold text-slate-950 transition-colors "
-            >
-              Create new event
-              <Plus size={17} />
-            </Link>
-
             <Link
               to="/Dashboard/Registrations"
               className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors  hover:bg-white/15"
@@ -506,10 +497,10 @@ const OrganizerDashboard = () => {
             </Link>
 
             <Link
-              to="/Dashboard/Events"
-              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors  hover:bg-white/15"
+              to="/Events"
+              className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-white/15"
             >
-              Manage events
+              Browse public events
               <ArrowRight size={17} />
             </Link>
           </div>
