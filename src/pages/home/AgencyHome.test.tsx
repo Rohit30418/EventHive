@@ -19,7 +19,7 @@ describe("EventHive agency marketing page", () => {
     expect(screen.getByRole("heading", { name: /The organiser.s side of a good event/i })).toBeInTheDocument();
     expect(screen.queryByText("Sample story")).not.toBeInTheDocument();
     expect(screen.queryByText("12 of 20")).not.toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: /01\. Create an event page/i })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tab", { name: /01 Create an event page/i })).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("link", { name: /Browse events by category/i })).toHaveAttribute("href", "/Events");
   });
 
