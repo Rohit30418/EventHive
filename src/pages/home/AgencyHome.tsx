@@ -15,6 +15,7 @@ import { useHomeScrollMotion } from "./motion/useHomeScrollMotion";
 import "./agency-home.css";
 import "./reference/reference-upgrade.css";
 import "./motion/home-scroll-motion.css";
+import "./reference/compact-showcase.css";
 
 type Props = {
   featuredEvents: EventType[];
