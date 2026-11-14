@@ -17,6 +17,8 @@ import {
   X,
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
+import BrandMark from "../common/BrandMark";
+import { toast } from "react-toastify";
 import "./dashboard-ui.css";
 import "./dashboard-reference-ui.css";
 
@@ -129,8 +131,12 @@ const DashboardShell = () => {
     .toUpperCase();
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/Login");
+    try {
+      await logout();
+      navigate("/Login", { replace: true, state: { logoutSuccess: true } });
+    } catch {
+      toast.error("Unable to log out. Please try again.");
+    }
   };
 
   return (
@@ -151,8 +157,8 @@ const DashboardShell = () => {
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#3848BE] text-white">
-              <Sparkles size={22} />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ECE9F6] bg-[#FAFAFF]" aria-hidden="true">
+              <BrandMark className="h-9 w-9" />
             </div>
 
             {(sidebarOpen || mobileSidebarOpen) && (
@@ -269,7 +275,7 @@ const DashboardShell = () => {
       </aside>
 
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 shadow-sm dark:border-slate-800 dark:bg-slate-950 sm:px-5">
+        <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-950 sm:px-5">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
