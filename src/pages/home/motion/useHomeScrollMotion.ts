@@ -60,6 +60,29 @@ export function useHomeScrollMotion(rootRef: RefObject<HTMLDivElement | null>) {
     const finaleArt = root.querySelector<HTMLElement>(".ea-final-band .ea-asset");
     const storyArt = root.querySelector<HTMLElement>(".eh-ref-story-portrait");
     const stepsSection = root.querySelector<HTMLElement>(".ea-steps");
+    const stepsList = stepsSection?.querySelector<HTMLOListElement>("ol") ?? null;
+    const stepMarkers = stepsList
+      ? Array.from(stepsList.querySelectorAll<HTMLElement>(":scope > li > span"))
+      : [];
+    // Calculate the line from the actual marker centres, not assumed row
+    // heights. This remains aligned when text or fonts reflow at any width.
+    const measureStepsLine = () => {
+      if (!stepsList || stepMarkers.length < 2) return;
+      const first = stepMarkers[0];
+      const last = stepMarkers[stepMarkers.length - 1];
+      const firstRow = first.parentElement;
+      const lastRow = last.parentElement;
+      if (!firstRow || !lastRow) return;
+      const startX = firstRow.offsetLeft + first.offsetLeft + first.offsetWidth / 2;
+      const endX = lastRow.offsetLeft + last.offsetLeft + last.offsetWidth / 2;
+      const startY = firstRow.offsetTop + first.offsetTop + first.offsetHeight / 2;
+      const endY = lastRow.offsetTop + last.offsetTop + last.offsetHeight / 2;
+      const isVertical = window.matchMedia("(max-width: 640px)").matches;
+      stepsList.style.setProperty("--eh-step-track-left", `${startX.toFixed(1)}px`);
+      stepsList.style.setProperty("--eh-step-track-top", `${startY.toFixed(1)}px`);
+      stepsList.style.setProperty("--eh-step-track-width", `${(isVertical ? 2 : Math.max(0, endX - startX)).toFixed(1)}px`);
+      stepsList.style.setProperty("--eh-step-track-height", `${(isVertical ? Math.max(0, endY - startY) : 2).toFixed(1)}px`);
+    };
     const parallaxTargets = [
       { element: heroArt, speed: 0.10, limit: 28 },
       { element: storyArt, speed: -0.065, limit: 15 },
@@ -112,9 +135,18 @@ export function useHomeScrollMotion(rootRef: RefObject<HTMLDivElement | null>) {
       }
     };
 
+    const handleResize = () => { measureStepsLine(); schedulePaint(); };
+    const timelineResizeObserver = typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(handleResize)
+      : null;
+    if (stepsList && timelineResizeObserver) {
+      timelineResizeObserver.observe(stepsList);
+      stepMarkers.forEach(marker => timelineResizeObserver.observe(marker));
+    }
+    measureStepsLine();
     root.classList.toggle("eh-motion-enabled", !reduced.matches);
     window.addEventListener("scroll", schedulePaint, { passive: true });
-    window.addEventListener("resize", schedulePaint, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
     reduced.addEventListener("change", syncPreference);
     parallaxAllowed.addEventListener("change", schedulePaint);
     schedulePaint();
@@ -122,7 +154,13 @@ export function useHomeScrollMotion(rootRef: RefObject<HTMLDivElement | null>) {
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", schedulePaint);
-      window.removeEventListener("resize", schedulePaint);
+      window.removeEventListener("resize", handleResize);
+      timelineResizeObserver?.disconnect();
+      if (stepsList) {
+        for (const name of ["--eh-step-track-left", "--eh-step-track-top", "--eh-step-track-width", "--eh-step-track-height"]) {
+          stepsList.style.removeProperty(name);
+        }
+      }
       reduced.removeEventListener("change", syncPreference);
       parallaxAllowed.removeEventListener("change", schedulePaint);
       if (frame) window.cancelAnimationFrame(frame);
