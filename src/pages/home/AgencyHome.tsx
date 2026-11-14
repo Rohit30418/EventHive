@@ -32,7 +32,14 @@ function ShareVisual({ event }: { event?: EventType }) {
     } catch { setCopied(false); }
   };
   return <div className="ea-share-widget"><span className="ea-pill-label">{event ? "Published event link" : "Events directory link"}</span>
-    <div className="ea-share-link"><Link2 size={19} aria-hidden="true"/><span>{eventPath}</span><button type="button" aria-label={event ? "Copy published event link" : "Copy EventHive events directory link"} onClick={share}><Copy size={17} aria-hidden="true"/></button></div>
+    <div className="ea-share-link">
+      <Link2 size={19} aria-hidden="true" className="ea-share-link-icon"/>
+      <span className="ea-share-link-path" title={eventPath}>{eventPath}</span>
+      <button className="ea-share-link-copy" type="button" aria-label={event ? "Copy published event link" : "Copy EventHive events directory link"} onClick={share}>
+        {copied ? <Check size={17} aria-hidden="true"/> : <Copy size={17} aria-hidden="true"/>}
+        <span>{copied ? "Copied" : "Copy"}</span>
+      </button>
+    </div>
     <p aria-live="polite">{copied?"Link copied to clipboard.":"Share the published link in your WhatsApp group."}</p>
   </div>;
 }
