@@ -123,8 +123,8 @@
 .ea-home .ea-share-widget {display:grid;gap:10px;max-width:100%;width:100%;min-width:0;}
 .ea-home .ea-pill-label {font-size:12px;font-weight:770;color:#4236ae;}
 .ea-home .ea-share-link {display:flex;align-items:center;gap:10px;min-width:0;width:100%;max-width:100%;padding:11px 12px 11px 16px;background:#fff;border:1px solid #cdc7fb;border-radius:14px;color:#292268;font-weight:700;overflow:hidden;}
-.ea-home .ea-share-link > span {display:block;flex:1 1 0%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(12px,1.35vw,15px);line-height:1.5;}
-.ea-home .ea-share-link button {flex:0 0 44px;width:44px;height:44px;display:grid;place-items:center;border:1px solid #dcd9f6;border-radius:12px;background:#f6f4ff;color:#4938d2;cursor:pointer;}
+.ea-home .ea-share-link > .ea-share-link-path {display:block;flex:1 1 0%;min-width:0;overflow-wrap:anywhere;word-break:break-word;white-space:normal;font-size:clamp(12px,1.35vw,15px);line-height:1.5;}
+.ea-home .ea-share-link .ea-share-link-copy {display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;gap:7px;min-width:86px;min-height:44px;padding:9px 10px;border:1px solid #dcd9f6;border-radius:12px;background:#f6f4ff;color:#4938d2;font-size:13px;font-weight:760;cursor:pointer;}
 .ea-home .ea-share-widget p {color:#433e77;}
 .ea-home .ea-bento-progress {grid-column:span 5;min-height:310px;background:#14133a;border-color:#14133a;color:white;display:flex;flex-direction:column;justify-content:space-between;gap:28px;}
 .ea-home .ea-bento-progress h3 {color:white;max-width:280px;}
@@ -389,7 +389,7 @@
   .ea-home .ea-hero-attendee-chip strong {font-size:10px;}
   .ea-home .ea-hero-attendee-chip small {font-size:10px;}
   .ea-home .ea-share-link {gap:6px;padding:8px;}
-  .ea-home .ea-share-link button {width:41px;height:44px;}
+  .ea-home .ea-share-link .ea-share-link-copy {min-width:75px;min-height:44px;padding:9px 8px;}
   .ea-home .ea-events-empty {flex-wrap:wrap;}
 }
 @media (prefers-reduced-motion:reduce) {
@@ -435,3 +435,8 @@ html.a11y-pause-animations .ea-home * {animation:none!important;transition:none!
 .dark .ea-home .ea-contact-form {background:#292641;}
 .dark .ea-home .ea-contact-form :is(input,textarea,select){background:#211f38;color:#fff;border-color:#78718e;}
 .dark .ea-home .ea-btn--outline {background:#312d4e;color:#fff;}
+
+/* Allow the complete published event URL to wrap instead of hiding the usable link. */
+.ea-home .ea-share-link-icon {flex:0 0 auto;color:#5445C6;}
+.ea-home .ea-share-link .ea-share-link-copy > span {flex:0 0 auto;white-space:nowrap;font-size:13px;line-height:1;}
+@media(max-width:390px){.ea-home .ea-share-link .ea-share-link-copy > span {font-size:12px;}}
