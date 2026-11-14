@@ -77,7 +77,7 @@ export function useHomeScrollMotion(rootRef: RefObject<HTMLDivElement | null>) {
       const endX = lastRow.offsetLeft + last.offsetLeft + last.offsetWidth / 2;
       const startY = firstRow.offsetTop + first.offsetTop + first.offsetHeight / 2;
       const endY = lastRow.offsetTop + last.offsetTop + last.offsetHeight / 2;
-      const isVertical = window.matchMedia("(max-width: 640px)").matches;
+      const isVertical = window.matchMedia("(max-width: 680px)").matches;
       stepsList.style.setProperty("--eh-step-track-left", `${startX.toFixed(1)}px`);
       stepsList.style.setProperty("--eh-step-track-top", `${startY.toFixed(1)}px`);
       stepsList.style.setProperty("--eh-step-track-width", `${(isVertical ? 2 : Math.max(0, endX - startX)).toFixed(1)}px`);
