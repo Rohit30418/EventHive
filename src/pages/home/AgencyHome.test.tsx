@@ -59,6 +59,21 @@ describe("EventHive agency marketing page", () => {
     expect(document.querySelector(".eh-ref-showcase-screen.is-desktop")).toBeTruthy();
   });
 
+  it("switches all four product-tour stages without a tall sticky screenshot column", () => {
+    show();
+    const registrationTab = screen.getByRole("tab", { name: /02 Collect attendee registrations/i });
+    fireEvent.click(registrationTab);
+    expect(registrationTab).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("heading", { name: "Collect attendee registrations." })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Phone" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("link", { name: /Open full-size image/i })).toHaveAttribute(
+      "href",
+      "/eventhive-assets/registration.webp"
+    );
+    expect(document.querySelector(".eh-compact-layout")).toBeTruthy();
+    expect(document.querySelector(".eh-ref-stages")).toBeNull();
+  });
+
   it("reserves a labelled artwork frame rather than loading a stock event poster", () => {
     show([{
       id: "sample-id",
