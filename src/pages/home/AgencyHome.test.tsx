@@ -46,17 +46,13 @@ describe("EventHive agency marketing page", () => {
     expect(screen.getByRole("button", { name: "Copy published event link" })).toHaveTextContent("Copy");
   });
 
-  it("lets visitors switch the product screenshot frame between phone and desktop", () => {
+  it("automatically fits each stage without showing Desktop or Phone controls", () => {
     show();
-    const phone = screen.getByRole("button", { name: "Phone" });
-    const desktop = screen.getByRole("button", { name: "Desktop" });
-    expect(desktop).toHaveAttribute("aria-pressed", "true");
-    fireEvent.click(phone);
-    expect(phone).toHaveAttribute("aria-pressed", "true");
-    expect(document.querySelector(".eh-ref-showcase-screen.is-phone")).toBeTruthy();
-    fireEvent.click(desktop);
-    expect(desktop).toHaveAttribute("aria-pressed", "true");
+    expect(screen.queryByRole("button", { name: "Desktop" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Phone" })).not.toBeInTheDocument();
     expect(document.querySelector(".eh-ref-showcase-screen.is-desktop")).toBeTruthy();
+    fireEvent.click(screen.getByRole("tab", { name: /02 Collect attendee registrations/i }));
+    expect(document.querySelector(".eh-ref-showcase-screen.is-phone")).toBeTruthy();
   });
 
   it("switches all four product-tour stages without a tall sticky screenshot column", () => {
@@ -65,7 +61,7 @@ describe("EventHive agency marketing page", () => {
     fireEvent.click(registrationTab);
     expect(registrationTab).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("heading", { name: "Collect attendee registrations." })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Phone" })).toHaveAttribute("aria-pressed", "true");
+    expect(document.querySelector(".eh-ref-showcase-screen.is-phone")).toBeTruthy();
     expect(screen.getByRole("link", { name: /Open full-size image/i })).toHaveAttribute(
       "href",
       "/eventhive-assets/registration.webp"
