@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import type { EventType } from "../../Types/eventType";
@@ -33,6 +33,30 @@ describe("EventHive agency marketing page", () => {
     const link = screen.getByRole("link", { name: /View event/i });
     expect(link.getAttribute("href")).toContain("/events/");
     expect(link.getAttribute("href")).toContain("/sample-id");
+  });
+
+  it("shows an entire event link and an explicit copy action instead of hiding the URL", () => {
+    show([{
+      id: "sample-id",
+      EventName: "Community Meetup",
+      eventDate: "2027-01-16",
+      location: "Pune",
+    }]);
+    expect(screen.getByText("/events/community-meetup/sample-id")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Copy published event link" })).toHaveTextContent("Copy");
+  });
+
+  it("lets visitors switch the product screenshot frame between phone and desktop", () => {
+    show();
+    const phone = screen.getByRole("button", { name: /Phone/i });
+    const desktop = screen.getByRole("button", { name: /Desktop/i });
+    expect(desktop).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(phone);
+    expect(phone).toHaveAttribute("aria-pressed", "true");
+    expect(document.querySelector(".eh-ref-showcase-screen.is-phone")).toBeTruthy();
+    fireEvent.click(desktop);
+    expect(desktop).toHaveAttribute("aria-pressed", "true");
+    expect(document.querySelector(".eh-ref-showcase-screen.is-desktop")).toBeTruthy();
   });
 
   it("reserves a labelled artwork frame rather than loading a stock event poster", () => {
