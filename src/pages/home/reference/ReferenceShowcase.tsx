@@ -42,7 +42,10 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         const index = Number((entry.target as HTMLElement).dataset.stage);
-        if (Number.isInteger(index) && index >= 0 && index < stages.length) setActive(index);
+        if (Number.isInteger(index) && index >= 0 && index < stages.length) {
+          setActive(index);
+          setView(stages[index].mode === "phone" ? "phone" : "desktop");
+        }
       }
     }, { rootMargin: "-29% 0px -48% 0px", threshold: 0.1 });
     stageRefs.current.forEach(node => { if (node) observer.observe(node); });
@@ -51,7 +54,8 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
 
   const jumpTo = (idx: number) => {
     setActive(idx);
-    if (!window.matchMedia("(min-width: 900px)").matches) return;
+    setView(stages[idx].mode === "phone" ? "phone" : "desktop");
+    if (!window.matchMedia("(min-width: 1200px)").matches) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     stageRefs.current[idx]?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   };
@@ -60,7 +64,9 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       e.key === "ArrowLeft" ? (i + stages.length - 1) % stages.length :
       e.key === "Home" ? 0 : e.key === "End" ? stages.length - 1 : -1;
     if (next === -1) return;
-    e.preventDefault(); setActive(next);
+    e.preventDefault();
+    setActive(next);
+    setView(stages[next].mode === "phone" ? "phone" : "desktop");
     document.getElementById(`eh-ref-stage-tab-${next}`)?.focus();
   };
   const liveEventPath = event ? `/events/${createSlug(event.EventName || "event")}/${event.id}` : "/Events";
@@ -74,7 +80,7 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
       <div className="eh-ref-mobile-tabs" role="tablist" aria-label="EventHive product views">
         {stages.map((step, i) => <button id={`eh-ref-stage-tab-${i}`} key={step.id}
           type="button" role="tab" aria-selected={active === i} aria-controls="eh-ref-product-panel" tabIndex={active === i ? 0 : -1}
-          onKeyDown={e => onTabKey(e, i)} onClick={() => setActive(i)}>
+          onKeyDown={e => onTabKey(e, i)} onClick={() => { setActive(i); setView(step.mode === "phone" ? "phone" : "desktop"); }}>
           {step.number}. {step.title.replace(".", "")}</button>)}
       </div>
       <div className="eh-ref-showcase-layout">
@@ -97,7 +103,7 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
             </button>
           </div>)}
         </div>
-        <div className="eh-ref-showcase-sticky" id="eh-ref-product-panel" role="tabpanel" aria-labelledby={`eh-ref-stage-tab-${active}`}>
+        <div className="eh-ref-showcase-sticky" id="eh-ref-product-panel" role="tabpanel" aria-label={`EventHive product preview: ${activeStage.title}`}>
           <div className="eh-ref-showcase-toolbar">
             <span>Stage {activeStage.number} / 04 <span className="eh-ref-toolbar-title">· {activeStage.title}</span></span>
             <div className="eh-ref-view-switch" aria-label="Preview screen size">
@@ -105,7 +111,7 @@ export default function ReferenceShowcase({ event }: { event?: EventType }) {
               <button type="button" aria-pressed={view === "phone"} onClick={() => setView("phone")}><Smartphone size={15}/> Phone</button>
             </div>
           </div>
-          <div className={`eh-ref-showcase-screen ${view === "phone" || activeStage.mode === "phone" ? "is-phone" : "is-desktop"}`} key={activeStage.id + view}>
+          <div className={`eh-ref-showcase-screen ${view === "phone" ? "is-phone" : "is-desktop"}`} key={activeStage.id + view}>
             <div className="eh-ref-screen-topbar">
               <span className="eh-ref-browser-dots" aria-hidden="true"><i/><i/><i/></span>
               <span>{activeStage.id === "registration" ? "Attendee form" : activeStage.id === "attendeeList" ? "Registration records" : activeStage.id === "preview" ? "Microsite editor" : "Event microsite"}</span>
