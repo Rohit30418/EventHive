@@ -110,3 +110,29 @@
   .ea-home .ea-bento-pass:hover .ea-pass-ticket,
   .ea-home .ea-speaker-widget p:hover svg {transform:none!important;}
 }
+
+
+/* Measure from actual step marker centres, avoiding broken lines at tablet,
+   Chrome/Edge font reflow, mobile wrapping and browser zoom. */
+.ea-home .ea-steps ol::before,
+.ea-home .ea-steps ol::after {
+  top:var(--eh-step-track-top,25px)!important;
+  left:var(--eh-step-track-left,25px)!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:var(--eh-step-track-width,calc(75% + 22.5px))!important;
+  height:var(--eh-step-track-height,2px)!important;
+  border:0!important;
+  border-radius:3px;
+}
+.ea-home .ea-steps ol::before {background:#7B769F;}
+.ea-home .ea-steps ol::after {background:#FFC233;}
+@media (max-width:640px) {
+  .ea-home .ea-steps ol::before,
+  .ea-home .ea-steps ol::after {
+    top:var(--eh-step-track-top,25px)!important;
+    left:var(--eh-step-track-left,25px)!important;
+    width:var(--eh-step-track-width,2px)!important;
+    height:var(--eh-step-track-height,calc(100% - 110px))!important;
+  }
+}
