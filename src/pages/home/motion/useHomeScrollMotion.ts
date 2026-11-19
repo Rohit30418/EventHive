@@ -27,7 +27,6 @@ export function useHomeScrollMotion(rootRef: RefObject<HTMLDivElement | null>) {
       ".ea-pricing .ea-section-heading",
       ".ea-pricing-layout > article",
       ".ea-faq-layout > div",
-      ".ea-contact-layout > *",
       ".ea-final-band > div:first-child",
     ].join(", ");
 

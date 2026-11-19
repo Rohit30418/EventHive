@@ -210,11 +210,9 @@
 .ea-home .ea-faq {padding-top:48px;padding-bottom:48px;}
 .ea-home .ea-faq-layout>div:first-child h2 {font-size:clamp(29px,3vw,40px);}
 .ea-home .ea-faq-list summary {min-height:57px;padding:16px 0;font-size:15px;}
-.ea-home .ea-contact {padding-top:48px;padding-bottom:48px;}
 .ea-home .ea-final {padding-block:26px 40px;}
 .ea-home .ea-final-band {border-radius:20px;padding:clamp(26px,4vw,48px);}
 .ea-home .ea-final h2 {font-size:clamp(31px,3.4vw,46px);}
-.ea-home .ea-contact-form {padding:clamp(21px,2.5vw,31px);}
 
 /* Dark theme: high contrast for both sticky walkthrough and grid panels. */
 .dark .ea-home .eh-ref-hero {background-color:#211F3A;background-image:linear-gradient(to right,rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.06) 1px,transparent 1px);border-color:#46415F;}

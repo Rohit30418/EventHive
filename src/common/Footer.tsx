@@ -15,7 +15,6 @@ const links = [
   ] },
   { title: "Company & legal", entries: [
     { label: "Organiser stories", to: "/#who-its-for" },
-    { label: "Contact", to: "/#contact" },
     { label: "Request terms", to: "mailto:support@eventhive.com?subject=Request%20EventHive%20terms" },
     { label: "Request privacy policy", to: "mailto:support@eventhive.com?subject=Request%20EventHive%20privacy%20policy" },
   ] },

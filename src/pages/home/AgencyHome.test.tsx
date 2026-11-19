@@ -23,6 +23,13 @@ describe("EventHive agency marketing page", () => {
     expect(screen.getByRole("link", { name: /Browse events by category/i })).toHaveAttribute("href", "/Events");
   });
 
+  it("does not display the removed contact enquiry form or broken enquiry links", () => {
+    show();
+    expect(screen.queryByRole("button", { name: /Send enquiry/i })).not.toBeInTheDocument();
+    expect(document.querySelector("form.ea-contact-form")).toBeNull();
+    expect(document.querySelector("a[href*='#contact']")).toBeNull();
+  });
+
   it("keeps event-card links connected to the original published microsite route", () => {
     show([{
       id: "sample-id",

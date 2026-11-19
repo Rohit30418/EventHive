@@ -7,7 +7,6 @@ import {
 import type { EventType } from "../../Types/eventType";
 import { createSlug } from "../../../Utils/createSlug";
 import AssetSlot from "../../components/media/AssetSlot";
-import ContactForm from "./agency/ContactForm";
 import ReferenceHero from "./reference/ReferenceHero";
 import ReferenceShowcase from "./reference/ReferenceShowcase";
 import ReferenceStories from "./reference/ReferenceStories";
@@ -139,12 +138,12 @@ function Pricing() {
         <span className="ea-coming-label">Coming soon</span><h3>Paid events</h3>
         <p>UPI, card payments, payouts and refund handling are not available yet.</p>
         <div className="ea-price-divider"/><strong>No fees announced.</strong><span>We're collecting requirements before publishing rates.</span>
-        <Link className="ea-inline-link" to="/?topic=paid#contact">Ask about planned paid events <ArrowRight size={18}/></Link>
+        <p>Paid-event options will be announced when available.</p>
       </article>
       <article className="ea-price-teams">
         <h3>Teams and colleges</h3><p>Need institution-specific access or help with a larger event programme?</p>
         <div className="ea-teams-mark" aria-hidden="true"><span/><span/><span/></div>
-        <Link className="ea-inline-link" to="/?topic=teams#contact">Contact the team <ArrowRight size={18}/></Link>
+        <Link className="ea-inline-link" to="/OrganizerRegistration">Register as organiser <ArrowRight size={18}/></Link>
       </article>
     </div>
   </div></section>;
@@ -156,7 +155,7 @@ const faq = [
   ["Does EventHive collect UPI payments?", "Not yet. UPI and card payments are planned for a paid-events release. No live checkout or settlement service is connected."],
   ["When will paid-event payouts and refunds be available?", "Payouts and automated refunds are not available. Terms, fees and timelines will be published before paid registrations launch."],
   ["Can we share the event in a WhatsApp group?", "Yes. Share the public event page link in your group. Automated WhatsApp reminders are not implemented."],
-  ["Can my college team have separate access?", "The current roles are Organiser and Super Admin. More detailed team permissions are not yet available; you can contact us with institutional requirements."],
+  ["Can my college team have separate access?", "The current roles are Organiser and Super Admin. More detailed team permissions are not yet available."],
   ["Can I check people in by scanning their QR pass?", "EventHive can generate a downloadable QR pass, but a QR scanning and attendance verification workflow is not available yet."],
   ["Can I edit the public event page before publishing?", "Yes. Organisers can draft and preview microsite changes through the EventHive editor, then save the event."],
 ];
@@ -190,7 +189,6 @@ export default function AgencyHome(props:Props) {
     <ReferenceStories events={props.featuredEvents} isLoading={props.isLoading} error={props.error} />
     <Pricing />
     <Faq />
-    <ContactForm />
     <FinalCTA />
   </div>;
 }
