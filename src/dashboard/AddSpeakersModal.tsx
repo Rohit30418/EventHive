@@ -200,7 +200,7 @@ const AddSpeakersModal = ({
               type="button"
               onClick={handleSave}
               disabled={!speakerName.trim() || !speakerDesignation.trim()}
-              className="rounded-2xl bg-[#F26B2A] px-5 py-4 text-sm font-bold text-[#1F1C1A] shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+              className="rounded-2xl bg-[#3848BE] px-5 py-4 text-sm font-bold text-[#111831] shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
             >
               {defaultData ? "Update Speaker" : "Add Speaker"}
             </button>

@@ -1,0 +1,92 @@
+/*
+ * Events directory banner.
+ * Presentation-only: filtering, pagination, Firebase data and event links stay in AllEvents.tsx.
+ * Uses the existing /public/hero-bg.jpg asset and shared blue/navy palette.
+ */
+.eh-events-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: clamp(295px, 26vw, 355px);
+  overflow: hidden;
+  color: #fff;
+  background-color: #182958;
+  background-image:
+    linear-gradient(90deg, rgba(11, 19, 46, .88) 0%, rgba(24, 39, 91, .77) 51%, rgba(32, 57, 110, .40) 100%),
+    url("/hero-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.eh-events-banner__content {
+  width: 100%;
+  max-width: var(--eh-page-width, 1256px);
+  margin-inline: auto;
+  padding: clamp(38px, 4vw, 58px) var(--eh-page-gutter, clamp(20px, 4vw, 44px));
+}
+.eh-events-banner__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 17px;
+  color: #9cf2d2;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.eh-events-banner__eyebrow::before {
+  content: "";
+  width: 25px;
+  height: 2px;
+  border-radius: 2px;
+  background: #21c790;
+}
+.eh-events-banner__title {
+  max-width: 720px;
+  margin: 0;
+  color: #fff !important;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: clamp(34px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -.05em;
+  line-height: 1.09;
+  text-wrap: balance;
+}
+.eh-events-banner__text {
+  max-width: 570px;
+  margin: 18px 0 0;
+  color: #e7edf9;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.7;
+}
+@media (max-width: 767px) {
+  .eh-events-banner {
+    min-height: 285px;
+    background-position: 57% center;
+    background-image:
+      linear-gradient(90deg, rgba(11, 19, 46, .91) 0%, rgba(24, 39, 91, .81) 100%),
+      url("/hero-bg.jpg");
+  }
+  .eh-events-banner__content {
+    padding-block: 36px;
+  }
+  .eh-events-banner__title {
+    max-width: 510px;
+    font-size: clamp(32px, 7.2vw, 43px);
+    line-height: 1.14;
+  }
+  .eh-events-banner__text {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+}
+@media (max-width: 380px) {
+  .eh-events-banner { min-height: 270px; }
+  .eh-events-banner__content { padding-block: 32px; }
+  .eh-events-banner__title { font-size: 30px; }
+}

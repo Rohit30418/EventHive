@@ -17,7 +17,10 @@ import {
   X,
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
+import BrandMark from "../common/BrandMark";
+import { toast } from "react-toastify";
 import "./dashboard-ui.css";
+import "./dashboard-reference-ui.css";
 
 type MenuItem = {
   label: string;
@@ -128,12 +131,16 @@ const DashboardShell = () => {
     .toUpperCase();
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/Login");
+    try {
+      await logout();
+      navigate("/Login", { replace: true, state: { logoutSuccess: true } });
+    } catch {
+      toast.error("Unable to log out. Please try again.");
+    }
   };
 
   return (
-    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F8F7F5] text-[#1F1C1A] dark:bg-slate-950 dark:text-slate-200">
+    <div className="eh-dashboard flex h-dvh min-h-0 overflow-hidden bg-[#F7F9FE] text-[#111831] dark:bg-slate-950 dark:text-slate-200">
       {mobileSidebarOpen && (
         <button
           type="button"
@@ -150,8 +157,8 @@ const DashboardShell = () => {
       >
         <div className="flex h-20 items-center justify-between gap-3 border-b border-slate-100 px-5 dark:border-slate-800">
           <Link to="/Dashboard" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F26B2A] text-[#1F1C1A]">
-              <Sparkles size={22} />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#ECE9F6] bg-[#FAFAFF]" aria-hidden="true">
+              <BrandMark className="h-9 w-9" />
             </div>
 
             {(sidebarOpen || mobileSidebarOpen) && (
@@ -199,7 +206,7 @@ const DashboardShell = () => {
                       to={item.path}
                       className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 ${
                         active
-                          ? "bg-[#FFEBDD] text-[#8C360E] dark:bg-[#5B2B1B] dark:text-[#FFD1B8]"
+                          ? "bg-[#EDF1FF] text-[#8C360E] dark:bg-[#5B2B1B] dark:text-[#FFD1B8]"
                           : "text-slate-500 hover:bg-slate-50 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-white"
                       } ${!sidebarOpen && !mobileSidebarOpen ? "justify-center" : ""}`}
                       title={!sidebarOpen && !mobileSidebarOpen ? item.label : undefined}
@@ -240,7 +247,7 @@ const DashboardShell = () => {
               aria-label={name}
               title={name}
               onClick={() => setMobileSidebarOpen(false)}
-              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#F26B2A] hover:text-[#B64412] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F26B2A] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              className="mb-2 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-700 hover:border-[#3848BE] hover:text-[#3848BE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#3848BE] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               <Icon size={18} aria-hidden="true" />
               {(sidebarOpen || mobileSidebarOpen) && <span>{name}</span>}
@@ -268,7 +275,7 @@ const DashboardShell = () => {
       </aside>
 
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 shadow-sm dark:border-slate-800 dark:bg-slate-950 sm:px-5">
+        <header className="sticky top-0 z-40 flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-950 sm:px-5">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
@@ -322,7 +329,7 @@ const DashboardShell = () => {
           </button>
         </header>
 
-        <main className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F8F7F5] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
+        <main id="eh-dashboard-scroll-area" className="custom-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto bg-[#F7F9FE] p-4 dark:bg-slate-950 sm:p-5 lg:p-6">
           <div className="mx-auto w-full min-w-0 max-w-[1440px]">
             <Outlet />
           </div>

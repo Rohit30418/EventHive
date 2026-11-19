@@ -11,6 +11,7 @@ import {
 
 import Preloader from "./common/Preloader";
 import FloatingTools from "./common/FloatingTools";
+import ScrollToTop from "./common/ScrollToTop";
 import PrivateRoute from "./PrivateRoute";
 
 // Layouts
@@ -37,6 +38,7 @@ const MicrositeHome = lazy(
   () => import("./pages/Microsite/MicrositeHome")
 );
 
+const EventDraftPreview = lazy(() => import("./dashboard/EventDraftPreview"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 const Unauthorized = lazy(() => import("./pages/Unauthorized"));
 
@@ -61,6 +63,7 @@ const DashboardRedirect = () => {
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
       <Suspense fallback={<Preloader />}>
         <ToastContainer
           position="top-right"
@@ -122,6 +125,16 @@ function App() {
               element={<MicrositeHome />}
             />
           </Route>
+
+          {/* Authenticated full-width preview of unsaved Redux draft. */}
+          <Route
+            path="/EventPreview"
+            element={
+              <PrivateRoute allowedRoles={["SuperAdmin", "Organizer"]}>
+                <EventDraftPreview />
+              </PrivateRoute>
+            }
+          />
 
           {/* DASHBOARD */}
           <Route

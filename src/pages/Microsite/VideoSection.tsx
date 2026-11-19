@@ -7,8 +7,8 @@ interface VideoSectionProps {
 }
 
 const VideoSection: React.FC<VideoSectionProps> = ({
-  primaryColor = "#F26B2A",
-  secondaryColor = "#E88A54",
+  primaryColor = "#3848BE",
+  secondaryColor = "#13B785",
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 

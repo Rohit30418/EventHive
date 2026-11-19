@@ -1,0 +1,150 @@
+/* EventHive homepage motion — progressive enhancement only.
+   All information remains visible without JS, IntersectionObserver or animations. */
+.ea-home .eh-motion-sketch {position:relative;display:inline-block;max-width:100%;white-space:normal;isolation:isolate;}
+.ea-home .eh-motion-sketch > svg {
+  position:absolute;left:0;bottom:-10px;width:100%;height:13px;
+  overflow:visible;pointer-events:none;
+}
+.ea-home .eh-motion-sketch path {
+  stroke-dasharray:1;stroke-dashoffset:0;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.ea-home.eh-motion-enabled .eh-motion-sketch path {stroke-dashoffset:1;}
+.ea-home.eh-motion-enabled .eh-motion-visible .eh-motion-sketch path {
+  stroke-dashoffset:0;
+  transition:stroke-dashoffset .94s .24s cubic-bezier(.15,.86,.24,1);
+}
+
+/* CSS translate composes with the existing hover transforms: no layout shift. */
+.ea-home.eh-motion-enabled .eh-motion-reveal {
+  opacity:0;
+  translate:0 18px;
+  transition:
+    opacity .72s var(--eh-motion-delay,0ms) cubic-bezier(.16,1,.3,1),
+    translate .72s var(--eh-motion-delay,0ms) cubic-bezier(.16,1,.3,1);
+}
+.ea-home.eh-motion-enabled .eh-motion-reveal.eh-motion-visible {
+  opacity:1;translate:0 0;
+}
+.ea-home.eh-motion-enabled .eh-motion-reveal:focus-within {
+  opacity:1;translate:0 0;
+}
+
+/* Artwork moves much less than the page; only JS updates this property
+   on desktop with a fine pointer. Existing hover/click styles are unaffected. */
+.ea-home .eh-ref-hero-stage,
+.ea-home .eh-ref-story-portrait,
+.ea-home .ea-final-band .ea-asset {
+  translate:0 var(--eh-scroll-shift,0px);
+}
+
+/* Real scroll progress, not a looping fake activity indicator. */
+.ea-home .ea-steps ol::after {
+  content:"";position:absolute;top:25px;left:0;width:100%;height:2px;
+  z-index:0;pointer-events:none;
+  background:#FFC233;border-radius:2px;
+  transform:scaleX(var(--eh-timeline-progress,1));
+  transform-origin:left center;will-change:transform;
+}
+.ea-home.eh-motion-enabled .ea-steps ol::after {
+  transform:scaleX(var(--eh-timeline-progress,0));
+}
+.ea-home .ea-steps ol > li > span {z-index:1;transition:border-color .22s ease,background-color .22s ease;}
+.ea-home .ea-steps ol > li:hover > span {background:#5B4BFF;border-color:#B9B0FF;}
+
+/* Sketched line in the share card. Kept behind its actual copy controls. */
+.ea-home .ea-bento-share .eh-motion-share-arc {
+  position:absolute;top:13px;right:17px;width:min(34%,155px);
+  height:auto;pointer-events:none;opacity:.84;
+}
+.ea-home .eh-motion-share-arc path {stroke-dasharray:1;stroke-dashoffset:0;}
+.ea-home.eh-motion-enabled .eh-motion-share-arc path {stroke-dashoffset:1;}
+.ea-home.eh-motion-enabled .ea-bento-share.eh-motion-visible .eh-motion-share-arc path {
+  stroke-dashoffset:0;
+  transition:stroke-dashoffset .8s .34s cubic-bezier(.16,1,.3,1);
+}
+.ea-home .ea-bento-share h3,.ea-home .ea-bento-share .ea-share-widget {position:relative;z-index:1;}
+
+/* Responsive micro-interactions: quick, functional, never a perpetual bounce. */
+.ea-home .ea-share-link button,
+.ea-home .ea-faq-list summary .ea-faq-symbol,
+.ea-home .eh-ref-event-register,
+.ea-home .eh-ref-story-nav button {
+  transition:transform .22s ease,background-color .22s ease,border-color .22s ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  /* The share card is intentionally static on hover. Only copying changes its button label. */
+  .ea-home .eh-ref-story-nav button:hover {transform:translateX(2px);background:#F1EFFF;}
+  .ea-home .eh-ref-event-register:hover {transform:translateY(-2px);}
+  .ea-home .ea-bento-pass:hover .ea-pass-ticket {transform:rotate(-1.5deg) translateY(-2px);}
+  .ea-home .ea-speaker-widget p:hover svg {transform:scale(1.12);}
+}
+.ea-home .ea-pass-ticket,.ea-home .ea-speaker-widget p svg {transition:transform .22s ease;}
+
+/* No parallax when touch screens or narrow screens cannot show enough depth. */
+@media (max-width:899px),(pointer:coarse) {
+  .ea-home .eh-ref-hero-stage,
+  .ea-home .eh-ref-story-portrait,
+  .ea-home .ea-final-band .ea-asset {translate:none!important;}
+}
+@media (max-width:680px) {
+  .ea-home .ea-steps ol::after {
+    top:20px;left:23px;width:2px;height:calc(100% - 20px);
+    transform:scaleY(var(--eh-timeline-progress,1));transform-origin:center top;
+  }
+  .ea-home.eh-motion-enabled .ea-steps ol::after {
+    transform:scaleY(var(--eh-timeline-progress,0));
+  }
+  .ea-home .ea-bento-share .eh-motion-share-arc {width:95px;top:10px;right:9px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .ea-home .eh-motion-sketch path,
+  .ea-home .eh-motion-share-arc path {stroke-dashoffset:0!important;transition:none!important;}
+  .ea-home .eh-motion-reveal {
+    opacity:1!important;translate:none!important;transition:none!important;
+  }
+  .ea-home .ea-steps ol::after {transform:none!important;will-change:auto;}
+  .ea-home .eh-ref-hero-stage,
+  .ea-home .eh-ref-story-portrait,
+  .ea-home .ea-final-band .ea-asset {translate:none!important;}
+  .ea-home .ea-bento-pass:hover .ea-pass-ticket,
+  .ea-home .ea-speaker-widget p:hover svg {transform:none!important;}
+}
+
+
+/* Measure from actual step marker centres, avoiding broken lines at tablet,
+   Chrome/Edge font reflow, mobile wrapping and browser zoom. */
+.ea-home .ea-steps ol::before,
+.ea-home .ea-steps ol::after {
+  top:var(--eh-step-track-top,25px)!important;
+  left:var(--eh-step-track-left,25px)!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:var(--eh-step-track-width,calc(75% + 22.5px))!important;
+  height:var(--eh-step-track-height,2px)!important;
+  border:0!important;
+  border-radius:3px;
+}
+.ea-home .ea-steps ol::before {background:#7B769F;}
+.ea-home .ea-steps ol::after {background:#FFC233;}
+@media (max-width:680px) {
+  .ea-home .ea-steps ol::before,
+  .ea-home .ea-steps ol::after {
+    top:var(--eh-step-track-top,25px)!important;
+    left:var(--eh-step-track-left,25px)!important;
+    width:var(--eh-step-track-width,2px)!important;
+    height:var(--eh-step-track-height,calc(100% - 110px))!important;
+  }
+}
+
+/* The real four-step timeline switches to a vertical column at 680px.
+   Place the rail UNDER solid marker tiles so it never draws through labels. */
+.ea-home .ea-steps ol { isolation:isolate; }
+.ea-home .ea-steps ol::before,
+.ea-home .ea-steps ol::after { z-index:0;pointer-events:none; }
+.ea-home .ea-steps ol > li { z-index:1; }
+.ea-home .ea-steps ol > li > span {
+  z-index:2;
+  background:#252251;
+  isolation:isolate;
+}

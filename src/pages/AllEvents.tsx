@@ -1,444 +1,205 @@
 import { useEffect, useMemo, useState } from "react";
-import useGetEvent from "../AdminCustomHooks/useGetEvents";
-import EventCard from "../components/EventCard";
+import { Link } from "react-router-dom";
 import {
-  CalendarCheck,
-  CalendarDays,
+  ArrowRight,
+  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
-  History,
+  Search,
+  X,
 } from "lucide-react";
+import useGetEvent from "../AdminCustomHooks/useGetEvents";
+import DirectoryEventCard from "../components/DirectoryEventCard";
+import AssetSlot from "../components/media/AssetSlot";
 import { ErrorState } from "../common/StateViews";
-import { type EventType } from "../Types/eventType";
+import type { EventType } from "../Types/eventType";
+import "./events-directory-2026.css";
 
-const categories = [
-  "All",
-  "Technology",
-  "Webinar",
-  "Music",
-  "Art",
-  "Sports",
-];
-
+const categories = ["All", "Technology", "Webinar", "Music", "Art", "Sports"];
 const EVENTS_PER_PAGE = 6;
-
 type EventView = "all" | "upcoming" | "past";
 
-const EventCardSkeleton = () => {
-  return (
-    <div className="overflow-hidden rounded-2xl border border-[#EAECF2] bg-white shadow-[0_8px_30px_rgba(15,23,42,0.05)]">
-      <div className="animate-pulse">
-        {/* Image placeholder */}
-        <div className="h-48 w-full bg-slate-200 sm:h-52" />
-
-        <div className="p-5">
-          {/* Category / badge */}
-          <div className="mb-4 h-6 w-24 rounded-full bg-slate-200" />
-
-          {/* Title */}
-          <div className="mb-2 h-5 w-[85%] rounded bg-slate-200" />
-          <div className="mb-5 h-5 w-[58%] rounded bg-slate-200" />
-
-          {/* Date / location style rows */}
-          <div className="mb-3 flex items-center gap-3">
-            <div className="h-8 w-8 shrink-0 rounded-lg bg-slate-200" />
-            <div className="h-4 w-[65%] rounded bg-slate-200" />
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 shrink-0 rounded-lg bg-slate-200" />
-            <div className="h-4 w-[48%] rounded bg-slate-200" />
-          </div>
-        </div>
-      </div>
+function EventsCardSkeleton() {
+  return <div className="eh-directory-skeleton" aria-hidden="true">
+    <div className="eh-directory-skeleton__image" />
+    <div className="eh-directory-skeleton__body">
+      <span /><span /><span /><span />
     </div>
-  );
-};
+  </div>;
+}
 
-const AllEvents = () => {
+export default function AllEvents() {
   const [category, setCategory] = useState("All");
   const [eventView, setEventView] = useState<EventView>("all");
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const {
-    data = [],
-    isLoading,
-    error,
-  } = useGetEvent() as {
+  const { data = [], isLoading, error } = useGetEvent() as {
     data?: EventType[];
     isLoading: boolean;
     error?: string | null;
   };
 
+  const events = Array.isArray(data) ? data : [];
+
   const categoryOptions = useMemo(() => {
-    if (!Array.isArray(data)) {
-      return categories;
-    }
-
-    const eventCategories = data
-      .map((event) => event.eventType || event.category)
-      .filter(Boolean) as string[];
-
-    return [
-      "All",
-      ...Array.from(
-        new Set([...categories.slice(1), ...eventCategories])
-      ),
-    ];
-  }, [data]);
+    const fromEvents = events.map(event => event.eventType || event.category).filter(Boolean) as string[];
+    return ["All", ...Array.from(new Set([...categories.slice(1), ...fromEvents]))];
+  }, [events]);
 
   const { upcomingEvents, pastEvents, allFilteredEvents } = useMemo(() => {
-    if (!Array.isArray(data)) {
-      return {
-        upcomingEvents: [],
-        pastEvents: [],
-        allFilteredEvents: [],
-      };
-    }
-
-    const filtered = data.filter((event) => {
+    const query = search.trim().toLocaleLowerCase();
+    const filtered = events.filter(event => {
       const eventCategory = event.eventType || event.category || "Event";
-
-      return (
-        category === "All" ||
-        eventCategory.toLowerCase() === category.toLowerCase()
-      );
+      const categoryMatches = category === "All" || eventCategory.toLocaleLowerCase() === category.toLocaleLowerCase();
+      const searchable = [event.EventName, event.location, eventCategory, event.ShortDesc, event.BannerTagLine]
+        .filter(Boolean).join(" ").toLocaleLowerCase();
+      return categoryMatches && (!query || searchable.includes(query));
     });
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     const upcoming: EventType[] = [];
     const past: EventType[] = [];
 
-    filtered.forEach((event) => {
+    filtered.forEach(event => {
       if (!event.eventDate) return;
-
-      const eventDate = new Date(event.eventDate);
-
-      if (Number.isNaN(eventDate.getTime())) {
-        return;
-      }
-
-      if (eventDate >= today) {
-        upcoming.push(event);
-      } else {
-        past.push(event);
-      }
+      const date = new Date(event.eventDate);
+      if (Number.isNaN(date.getTime())) return;
+      if (date >= today) upcoming.push(event);
+      else past.push(event);
     });
 
-    upcoming.sort(
-      (a, b) =>
-        new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime()
-    );
-
-    past.sort(
-      (a, b) =>
-        new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime()
-    );
+    upcoming.sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime());
+    past.sort((a, b) => new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime());
 
     return {
       upcomingEvents: upcoming,
       pastEvents: past,
       allFilteredEvents: [...upcoming, ...past],
     };
-  }, [data, category]);
+  }, [events, category, search]);
 
   const displayedEvents = useMemo(() => {
-    if (eventView === "upcoming") {
-      return upcomingEvents;
-    }
-
-    if (eventView === "past") {
-      return pastEvents;
-    }
-
+    if (eventView === "upcoming") return upcomingEvents;
+    if (eventView === "past") return pastEvents;
     return allFilteredEvents;
   }, [eventView, upcomingEvents, pastEvents, allFilteredEvents]);
 
   const totalPages = Math.ceil(displayedEvents.length / EVENTS_PER_PAGE);
-
   const paginatedEvents = useMemo(() => {
-    const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
-    const endIndex = startIndex + EVENTS_PER_PAGE;
-
-    return displayedEvents.slice(startIndex, endIndex);
+    const start = (currentPage - 1) * EVENTS_PER_PAGE;
+    return displayedEvents.slice(start, start + EVENTS_PER_PAGE);
   }, [displayedEvents, currentPage]);
 
-  // Reset pagination when filters change.
+  useEffect(() => { setCurrentPage(1); }, [category, eventView, search]);
   useEffect(() => {
-    setCurrentPage(1);
-  }, [category, eventView]);
-
-  // Keep current page valid if data changes.
-  useEffect(() => {
-    if (totalPages > 0 && currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
+    if (totalPages > 0 && currentPage > totalPages) setCurrentPage(totalPages);
   }, [currentPage, totalPages]);
 
   const paginationPages = useMemo(() => {
-    if (totalPages <= 5) {
-      return Array.from({ length: totalPages }, (_, index) => index + 1);
-    }
-
-    if (currentPage <= 3) {
-      return [1, 2, 3, 4, "ellipsis-right", totalPages] as const;
-    }
-
+    if (totalPages <= 5) return Array.from({ length: totalPages }, (_, index) => index + 1);
+    if (currentPage <= 3) return [1, 2, 3, 4, "ellipsis-right", totalPages] as const;
     if (currentPage >= totalPages - 2) {
-      return [
-        1,
-        "ellipsis-left",
-        totalPages - 3,
-        totalPages - 2,
-        totalPages - 1,
-        totalPages,
-      ] as const;
+      return [1, "ellipsis-left", totalPages - 3, totalPages - 2, totalPages - 1, totalPages] as const;
     }
-
-    return [
-      1,
-      "ellipsis-left",
-      currentPage - 1,
-      currentPage,
-      currentPage + 1,
-      "ellipsis-right",
-      totalPages,
-    ] as const;
+    return [1, "ellipsis-left", currentPage - 1, currentPage, currentPage + 1, "ellipsis-right", totalPages] as const;
   }, [currentPage, totalPages]);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages || page === currentPage) return;
-
     setCurrentPage(page);
-
-    window.scrollTo({
-      top: 180,
-      behavior: "smooth",
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById("eh-directory-results")?.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+      block: "start",
     });
   };
 
-  const viewTitle =
-    eventView === "upcoming"
-      ? "Upcoming Events"
-      : eventView === "past"
-      ? "Past Events"
-      : "All Events";
+  const resetFilters = () => {
+    setSearch("");
+    setCategory("All");
+    setEventView("all");
+    setCurrentPage(1);
+  };
 
-  const sidebarItems = [
-    {
-      id: "all" as const,
-      label: "All Events",
-      count: allFilteredEvents.length,
-      icon: CalendarDays,
-    },
-    {
-      id: "upcoming" as const,
-      label: "Upcoming Events",
-      count: upcomingEvents.length,
-      icon: CalendarCheck,
-    },
-    {
-      id: "past" as const,
-      label: "Past Events",
-      count: pastEvents.length,
-      icon: History,
-    },
-  ];
+  const viewTitle = eventView === "upcoming" ? "Upcoming events" : eventView === "past" ? "Past events" : "Explore all events";
 
-  return (
-    <div className="min-h-screen bg-[#FFF8F3] text-[#1F1C1A]">
-      <section className="border-b border-[#E7D8CC] bg-[#FFF8F3] py-12 sm:py-14 lg:py-16">
-        <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
-          <div className="flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.18em] text-[#B64412]">
-            <span aria-hidden="true" className="h-0.5 w-10 bg-[#F26B2A]" /> Event discovery
+  return <div className="eh-directory">
+    <section className="eh-directory-listing" id="eh-directory-results" aria-labelledby="eh-directory-results-title">
+      <div className="eh-directory-wrap">
+        <div className="eh-directory-toolbar">
+          <div className="eh-directory-toolbar__heading">
+            <span className="eh-directory-kicker">EventHive · Events in India</span>
+            <h1 id="eh-directory-results-title">Discover your next event<span className="eh-directory-heading-mark" aria-hidden="true">.</span></h1>
+            <p className="eh-directory-toolbar__intro">Explore events by category, location or date. Open the event page to register.</p>
           </div>
-          <div className="mt-6 grid items-start gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-12">
-            <h1 className="max-w-[700px] font-['Space_Grotesk',Inter,sans-serif] text-[clamp(2.75rem,4.3vw,4.5rem)] font-bold leading-[1.08] tracking-[-0.055em] text-[#1F1C1A]">
-              Explore events worth showing up for.
-            </h1>
-            <p className="max-w-xl text-base leading-8 text-[#554941] sm:text-lg lg:mb-2">
-              Browse upcoming and past events, filter by category, and open each event's dedicated microsite for details and registration.
-            </p>
+          <label className="eh-directory-search">
+            <Search size={19} aria-hidden="true"/>
+            <span className="sr-only">Search events by name, location or category</span>
+            <input type="search" placeholder="Search events, cities or categories" value={search} onChange={event => setSearch(event.target.value)}
+              aria-label="Search events by name, location or category"/>
+            {search && <button type="button" onClick={() => setSearch("")} aria-label="Clear search"><X size={17} aria-hidden="true"/></button>}
+          </label>
+        </div>
+
+        <div className="eh-directory-filter-row">
+          <div className="eh-directory-view-switch" role="group" aria-label="Filter events by date">
+            {([
+              { id:"all" as const, label:"All events", count:allFilteredEvents.length },
+              { id:"upcoming" as const, label:"Upcoming", count:upcomingEvents.length },
+              { id:"past" as const, label:"Past", count:pastEvents.length },
+            ]).map(item => <button type="button" key={item.id} onClick={() => setEventView(item.id)}
+              aria-pressed={eventView === item.id} className={eventView === item.id ? "is-active" : ""}>
+                {item.label}<span>{item.count}</span>
+              </button>)}
+          </div>
+          <div className="eh-directory-categories" role="group" aria-label="Filter events by category">
+            {categoryOptions.map(item => <button key={item} type="button" onClick={() => setCategory(item)}
+              aria-pressed={category === item} className={category === item ? "is-active" : ""}>{item}</button>)}
           </div>
         </div>
-      </section>
 
-      <section className="py-10 lg:py-14">
-        <div className="mx-auto w-full max-w-[1296px] px-6 lg:px-12">
-          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
-            <aside className="min-w-0 lg:sticky lg:top-[104px] lg:self-start">
-              <div className="rounded-[1.4rem] border border-[#E7D8CC] bg-white p-6">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F26B2A]">
-                  Browse by time
-                </p>
-                <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-col lg:overflow-visible lg:pb-0">
-                  {sidebarItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = eventView === item.id;
-
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => setEventView(item.id)}
-                        className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left transition lg:w-full ${
-                          active
-                            ? "bg-[#fff0e6] text-[#F26B2A]"
-                            : "text-[#625d59] hover:bg-[#fff6ef] hover:text-[#1F1C1A]"
-                        }`}
-                      >
-                        <span className="flex items-center gap-2.5 whitespace-nowrap text-sm font-bold">
-                          <Icon size={17} /> {item.label}
-                        </span>
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
-                            active
-                              ? "bg-white text-[#F26B2A]"
-                              : "bg-[#f4efeb] text-[#8f8882]"
-                          }`}
-                        >
-                          {item.count}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </aside>
-
-            <main className="min-w-0">
-              <div className="mb-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {categoryOptions.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setCategory(item)}
-                    className={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-bold transition ${
-                      category === item
-                        ? "border-[#F26B2A] bg-[#F26B2A] text-white"
-                        : "border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A]"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mb-7 flex items-end justify-between gap-3 border-b border-[#e9ddd4] pb-5">
-                <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#9a938d]">
-                    Results
-                  </p>
-                  <h2 className="mt-1 font-['Space Grotesk',sans-serif] text-3xl font-extrabold tracking-[-0.04em]">
-                    {viewTitle}
-                  </h2>
-                </div>
-                <span className="text-sm font-semibold text-[#77736f]">
-                  {displayedEvents.length} {displayedEvents.length === 1 ? "event" : "events"}
-                </span>
-              </div>
-
-              {isLoading ? (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  {Array.from({ length: EVENTS_PER_PAGE }).map((_, index) => (
-                    <EventCardSkeleton key={index} />
-                  ))}
-                </div>
-              ) : error ? (
-                <ErrorState title="Could not load events" description={error} />
-              ) : displayedEvents.length === 0 ? (
-                <div className="rounded-[1.8rem] border border-dashed border-[#F26B2A]/30 bg-white px-5 py-16 text-center">
-                  <CalendarDays size={32} className="mx-auto text-[#F26B2A]" />
-                  <h3 className="mt-4 font-['Space Grotesk',sans-serif] text-xl font-extrabold">
-                    No events found
-                  </h3>
-                  <p className="mt-2 text-sm text-[#77736f]">
-                    No events are currently available in this category.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    {paginatedEvents.map((event, index) => (
-                      <EventCard
-                        key={event.id || `${event.EventName}-${index}`}
-                        event={event}
-                        index={(currentPage - 1) * EVENTS_PER_PAGE + index}
-                      />
-                    ))}
-                  </div>
-
-                  {totalPages > 1 && (
-                    <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-[#e9ddd4] pt-6 sm:flex-row">
-                      <p className="text-sm text-[#77736f]">
-                        Showing {(currentPage - 1) * EVENTS_PER_PAGE + 1}–
-                        {Math.min(currentPage * EVENTS_PER_PAGE, displayedEvents.length)} of {displayedEvents.length}
-                      </p>
-
-                      <div className="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          aria-label="Previous page"
-                          disabled={currentPage === 1}
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A] disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          <ChevronLeft size={18} />
-                        </button>
-
-                        {paginationPages.map((page, index) => {
-                          if (typeof page !== "number") {
-                            return (
-                              <span
-                                key={`${page}-${index}`}
-                                className="flex h-10 min-w-8 items-center justify-center text-sm text-[#aaa19a]"
-                              >
-                                ...
-                              </span>
-                            );
-                          }
-
-                          const active = currentPage === page;
-                          return (
-                            <button
-                              key={page}
-                              type="button"
-                              aria-label={`Go to page ${page}`}
-                              aria-current={active ? "page" : undefined}
-                              onClick={() => handlePageChange(page)}
-                              className={`flex h-10 min-w-10 items-center justify-center rounded-full border px-3 text-sm font-bold transition ${
-                                active
-                                  ? "border-[#F26B2A] bg-[#F26B2A] text-white"
-                                  : "border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A]"
-                              }`}
-                            >
-                              {page}
-                            </button>
-                          );
-                        })}
-
-                        <button
-                          type="button"
-                          aria-label="Next page"
-                          disabled={currentPage === totalPages}
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e8ddd5] bg-white text-[#77736f] hover:border-[#F26B2A]/40 hover:text-[#F26B2A] disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          <ChevronRight size={18} />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </main>
-          </div>
+        <div className="eh-directory-results-header">
+          <div><h3>{viewTitle}</h3><p>{displayedEvents.length} {displayedEvents.length === 1 ? "event" : "events"} found</p></div>
+          {(search || category !== "All" || eventView !== "all") && <button type="button" onClick={resetFilters}>Clear filters <X size={16} aria-hidden="true"/></button>}
         </div>
-      </section>
-    </div>
-  );
-};
 
-export default AllEvents;
+        <div className="eh-directory-results-content" aria-busy={isLoading}>
+          {isLoading ? <div className="eh-directory-cards" role="status" aria-label="Loading events">
+            {Array.from({ length: EVENTS_PER_PAGE }).map((_, index) => <EventsCardSkeleton key={index}/>)}
+          </div> : error ? <ErrorState title="Could not load events" description={error}/> :
+          displayedEvents.length === 0 ? <div className="eh-directory-empty">
+            <div><h3>No matching events right now.</h3><p>Try another category, a different search or switch between upcoming and past events.</p>
+              <button type="button" onClick={resetFilters}>See all events <ArrowRight size={17} aria-hidden="true"/></button></div>
+            <AssetSlot id="empty"/>
+          </div> : <>
+            <div className="eh-directory-cards">
+              {paginatedEvents.map((event,index) => <DirectoryEventCard
+                key={event.id || `${event.EventName}-${index}`} event={event}/>)}
+            </div>
+            {totalPages > 1 && <nav className="eh-directory-pagination" aria-label="Event results pages">
+              <p>Showing {(currentPage - 1) * EVENTS_PER_PAGE + 1}–{Math.min(currentPage * EVENTS_PER_PAGE, displayedEvents.length)} of {displayedEvents.length}</p>
+              <div>
+                <button type="button" aria-label="Previous page" disabled={currentPage === 1}
+                  onClick={() => handlePageChange(currentPage - 1)}><ChevronLeft size={19} aria-hidden="true"/></button>
+                {paginationPages.map((page,index) => typeof page !== "number"
+                  ? <span key={`${page}-${index}`} aria-hidden="true" className="eh-directory-pagination__ellipsis">…</span>
+                  : <button type="button" key={page} aria-label={`Go to page ${page}`} aria-current={page === currentPage ? "page" : undefined}
+                      className={page === currentPage ? "is-active" : ""} onClick={() => handlePageChange(page)}>{page}</button>)}
+                <button type="button" aria-label="Next page" disabled={currentPage === totalPages}
+                  onClick={() => handlePageChange(currentPage + 1)}><ChevronRight size={19} aria-hidden="true"/></button>
+              </div>
+            </nav>}
+          </>}
+        </div>
+      </div>
+    </section>
+    <section className="eh-directory-closer" aria-label="Create your own event">
+      <div className="eh-directory-wrap eh-directory-closer__content">
+        <div><span>Hosting something soon?</span><h2>Give your event a page worth sharing.</h2></div>
+        <Link to="/OrganizerRegistration">Register as organiser <ArrowUpRight size={19} aria-hidden="true"/></Link>
+      </div>
+    </section>
+  </div>;
+}

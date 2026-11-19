@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+import { Navigate } from "react-router-dom";
 
 // ==================== LAZY IMPORTS ====================
 
@@ -21,6 +22,8 @@ const OrganizerDashboard = lazy(
 const AddwebsiteContentForm = lazy(
   () => import("../src/dashboard/AddwebsiteContentForm")
 );
+
+const EventDraftPreviewRedirect = () => React.createElement(Navigate, { to: "/EventPreview", replace: true });
 
 const Events = lazy(
   () => import("../src/dashboard/Events")
@@ -79,7 +82,13 @@ export const dashboardRoutes: RouteConfig[] = [
   {
     path: "AddWebsiteContent",
     component: AddwebsiteContentForm,
-    roles: ["Organizer"],
+    roles: ["SuperAdmin", "Organizer"],
+  },
+
+  {
+    path: "EventPreview",
+    component: EventDraftPreviewRedirect,
+    roles: ["SuperAdmin", "Organizer"],
   },
 
   // ------------------ SHARED / COMMON ROUTES ------------------

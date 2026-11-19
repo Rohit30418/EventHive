@@ -43,7 +43,8 @@ const buildFallbackSpeakers = (): Speaker[] => [
 const useMicrositePresentation = (event: MicrositeEvent) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const heroImages = useMemo(() => HERO_IMAGES, []);
+  // The uploaded event banner leads both the preview and published hero carousel.
+  const heroImages = useMemo(() => event.banner ? [event.banner, ...HERO_IMAGES] : HERO_IMAGES, [event.banner]);
   const fallbackPortraits = useMemo(() => FALLBACK_PORTRAITS, []);
   const speakers = useMemo(
     () => (event.speakers?.length ? event.speakers : buildFallbackSpeakers()),

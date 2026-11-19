@@ -1,0 +1,335 @@
+/* EventHive reference dashboard. Visual-only overrides for existing authenticated pages.
+   React routes, Firebase hooks, CRUD handlers, chart data, and RBAC stay unchanged. */
+.eh-dashboard {
+  --dash-orange:#3848be; --dash-ink:#111831; --dash-border:#e8edf6; --dash-bg:#f7f9fe;
+  color:#111831; background:#f7f9fe!important;
+  font-family:Inter,'Segoe UI',Arial,sans-serif;font-size:14px;line-height:1.6;
+}
+.eh-dashboard :is(h1,h2,h3,h4){font-family:Inter,'Segoe UI',Arial,sans-serif;letter-spacing:-.045em;line-height:1.19}
+.eh-dashboard > aside{
+  background:#fff!important;border-right:1px solid #e8eaf2!important;box-shadow:none!important;
+}
+.eh-dashboard > aside > div:first-child{
+  min-height:76px;border-color:#e8edf6!important;padding-inline:21px;
+}
+.eh-dashboard > aside > div:first-child [class*="bg-[#3848BE]"]{
+  background:#3848be!important;color:#fff!important;
+  width:40px;height:40px;border-radius:12px;box-shadow:0 6px 12px #3848be25;
+}
+.eh-dashboard > aside > div:first-child p:first-child{
+  font-size:23px!important;letter-spacing:-.055em;color:#111831!important;font-weight:800;
+}
+.eh-dashboard > aside > nav{padding:20px 14px!important}
+.eh-dashboard > aside > nav p{
+  font-size:10px!important;letter-spacing:.12em;text-transform:uppercase;color:#9da1b5;
+}
+.eh-dashboard > aside nav a{
+  min-height:46px;border-radius:11px!important;padding:11px 13px!important;
+  font-size:13px!important;color:#70758e;
+}
+.eh-dashboard > aside nav a:hover{background:#f3f6ff;color:#3848be}
+.eh-dashboard > aside nav a[class*="bg-[#EDF1FF]"]{
+  background:#edf1ff!important;color:#3848be!important;font-weight:750;
+}
+.eh-dashboard > aside nav a[class*="bg-[#EDF1FF]"] span span:last-child{color:#6a7591!important}
+.eh-dashboard > aside nav a span span:first-child{font-size:13px;font-weight:740}
+.eh-dashboard > aside nav a span span:last-child{font-size:11px;font-weight:500}
+.eh-dashboard > aside > div:last-child{border-color:#e8edf6}
+.eh-dashboard > aside > div:last-child a{border-color:#e7e8f2;border-radius:11px;font-size:13px}
+.eh-dashboard > aside > div:last-child a:hover{border-color:#acb8ef;color:#3848be}
+.eh-dashboard > aside > div:last-child > div:last-child{border-radius:15px;border-color:#e8edf6;background:#f9f9fc}
+.eh-dashboard > aside > div:last-child > div:last-child > div > div:first-child{background:#3848be;color:#fff;border-radius:50%}
+.eh-dashboard > div:last-child > header{
+  min-height:76px;border-color:#e8edf6!important;background:#fff!important;box-shadow:none!important;
+  padding-inline:clamp(16px,2.7vw,36px);
+}
+.eh-dashboard > div:last-child > header h1{font-size:17px!important;font-weight:750!important;letter-spacing:-.035em}
+.eh-dashboard > div:last-child > header [class*="bg-slate-50"]{background:#f8f8fc}
+.eh-dashboard > div:last-child > main{
+  background:#f7f9fe!important;padding:clamp(18px,3vw,36px)!important;
+}
+.eh-dashboard main > div{max-width:1320px}
+.eh-dashboard main > div > .space-y-6{display:grid;gap:23px}
+.eh-dashboard main > div > .space-y-6 > * + *{margin-top:0!important}
+.eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card),
+.eh-dashboard main .rounded-2xl.border{
+  border:1px solid #e8e9f2!important;border-radius:18px!important;
+  background-color:#fff;
+  box-shadow:0 4px 18px rgba(25,20,75,.035)!important;
+}
+.eh-dashboard main > div > .space-y-6 > div:first-child{
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  padding:0!important;overflow:visible!important;
+}
+.eh-dashboard main > div > .space-y-6 > div:first-child [class*="bg-indigo-50"]{
+  background:#edf1ff!important;color:#3848be!important;border-color:#e4eaff!important;
+  font-size:10px!important;letter-spacing:.09em!important;padding:8px 12px!important;
+}
+.eh-dashboard main > div > .space-y-6 > div:first-child h1{
+  font-size:clamp(25px,2.5vw,33px)!important;letter-spacing:-.055em;
+  font-weight:800;color:#111831;
+}
+.eh-dashboard main > div > .space-y-6 > div:first-child p{
+  margin-top:9px!important;max-width:750px;font-size:13px!important;line-height:1.65!important;color:#73778e;
+}
+.eh-dashboard main > div > .space-y-6 > div:first-child a{
+  min-height:44px;border-radius:999px!important;font-size:13px!important;font-weight:750;
+}
+.eh-dashboard main a[class*="bg-[#3848BE]"],.eh-dashboard main button[class*="bg-[#3848BE]"]{
+  background:#3848be!important;border-color:#3848be!important;color:#fff!important;
+}
+.eh-dashboard main a[class*="bg-[#3848BE]"]:hover,.eh-dashboard main button[class*="bg-[#3848BE]"]:hover{
+  background:#2b3899!important;
+}
+.eh-dashboard main a[class*="text-indigo-600"],.eh-dashboard main button[class*="text-indigo-600"]{color:#3848be}
+.eh-dashboard main :is(.eh-btn-primary){background:#3848be;color:#fff;box-shadow:none}
+.eh-dashboard main :is(.eh-btn-primary):hover{background:#2b3899}
+.eh-dashboard main .eh-ref-promo-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:105px;
+  padding:25px 31px!important;position:relative;isolation:isolate;overflow:hidden;
+  background:linear-gradient(107deg,#3c4cc3,#2a389b)!important;border:0!important;
+  border-radius:18px!important;box-shadow:none!important;color:white;
+}
+.eh-dashboard .eh-ref-promo-banner::after{
+  content:"";position:absolute;z-index:-1;right:12%;top:-107px;width:270px;height:270px;
+  border-radius:50%;border:38px solid rgba(255,255,255,.09);pointer-events:none;
+}
+.eh-dashboard .eh-ref-promo-banner h2{color:#fff!important;margin:0;font-size:22px;font-weight:800;letter-spacing:-.045em}
+.eh-dashboard .eh-ref-promo-banner p{color:#dce4ff!important;font-size:13px;line-height:1.65;margin:6px 0 0}
+.eh-dashboard .eh-ref-promo-banner a{
+  flex:none;display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:45px;
+  padding:10px 22px;background:#fff;color:#3848be!important;border-radius:999px;
+  text-decoration:none;font-size:13px;font-weight:750;
+}
+.eh-dashboard .eh-ref-promo-banner a:hover{background:#edf1ff}
+.eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5{gap:17px}
+.eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div{
+  min-height:140px;padding:20px!important;box-shadow:none!important;
+}
+.eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div :is(h2,p:first-child){
+  font-size:12px!important;color:#777b92;font-weight:720!important;text-transform:none!important;letter-spacing:0!important;
+}
+.eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div :is(h3,p:nth-child(2)){
+  font-size:31px!important;font-weight:800!important;color:#111831!important;letter-spacing:-.055em!important;
+}
+.eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div [class*="rounded-2xl"]{
+  width:40px;height:40px;padding:10px!important;display:grid;place-items:center;border-radius:11px!important;
+  background:#edf1ff!important;color:#3848be!important;
+}
+.eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div [class*="rounded-2xl"] svg{
+  width:19px;height:19px;
+}
+.eh-dashboard main :is(.eh-table,.eh-table-wrap) {border-color:#e8edf6}
+.eh-dashboard main .eh-table th {font-size:12px;letter-spacing:0;color:#8b8fa5;background:#f8f8fc}
+.eh-dashboard main .eh-table td{font-size:13px;color:#555c74}
+.eh-dashboard main .eh-table tbody tr:hover{background:#f8f7ff}
+.eh-dashboard main :is(input,select,textarea){border-radius:11px;accent-color:#3848be}
+.eh-dashboard main :is(input,select,textarea):focus-visible{outline:2px solid #8b9ce9;outline-offset:2px}
+.eh-dashboard main :is(a,button):focus-visible{outline:2px solid #8b9ce9;outline-offset:3px}
+.eh-dashboard main .eh-kicker,.eh-dashboard main .eh-status-pill{letter-spacing:.035em}
+.dark .eh-dashboard{--dash-ink:#f1f1ff;--dash-border:#302e48;--dash-bg:#151B30;color:#f1f1ff;background:#151B30!important}
+.dark .eh-dashboard > aside,.dark .eh-dashboard > div:last-child > header{background:#1b2540!important;border-color:#32314b!important}
+.dark .eh-dashboard > div:last-child > main{background:#151B30!important}
+.dark .eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card),
+.dark .eh-dashboard main .rounded-2xl.border{background:#212d4b;border-color:#34324b!important}
+.dark .eh-dashboard main > div > .space-y-6 > div:first-child h1{color:#f9f9ff}
+.dark .eh-dashboard main > div > .space-y-6 > div:first-child{background:transparent!important}
+.dark .eh-dashboard > aside > div:first-child p:first-child{color:#fff!important}
+@media(max-width:1023px){
+ .eh-dashboard main > div > .space-y-6 > div:first-child{padding:0!important}
+ .eh-dashboard .eh-ref-promo-banner{padding:24px!important}
+}
+@media(max-width:640px){
+ .eh-dashboard > div:last-child > main{padding:17px!important}
+ .eh-dashboard .eh-ref-promo-banner{flex-direction:column;align-items:flex-start;padding:22px!important}
+ .eh-dashboard .eh-ref-promo-banner a{width:100%}
+ .eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div{min-height:126px;padding:16px!important}
+ .eh-dashboard main > div > .space-y-6 > div:first-child h1{font-size:26px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .eh-dashboard :is(button,a){transition:none!important;animation:none!important}
+}
+
+
+/* Blue + green interaction pass: preserve React routes, permissions and data. */
+.eh-dashboard {
+  --eh-dash-blue: #3848be;
+  --eh-dash-green: #0b966b;
+  --eh-dash-ink: #111831;
+  --eh-dash-outline: #e7ecf5;
+  --eh-dash-mint: #e5f8ef;
+}
+.eh-dashboard > div:last-child > header {
+  /* Match the content start edge even on very wide displays. */
+  padding-inline: max(clamp(17px, 2.7vw, 36px), calc((100% - 1320px) / 2)) !important;
+}
+.eh-dashboard > div:last-child > main {
+  padding-inline: clamp(17px, 2.7vw, 36px) !important;
+}
+.eh-dashboard > div:last-child > main > div {
+  width: 100%;
+  max-width: 1320px !important;
+  margin-inline: auto;
+}
+.eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card),
+.eh-dashboard main .rounded-2xl.border,
+.eh-dashboard > aside nav a {
+  transition: transform .29s cubic-bezier(.22,1,.36,1),
+              box-shadow .29s ease, border-color .29s ease,
+              background-color .29s ease, color .29s ease;
+}
+.eh-dashboard main :is(button,a):focus-visible,
+.eh-dashboard > aside a:focus-visible {
+  outline: 2px solid var(--eh-dash-blue) !important;
+  outline-offset: 3px;
+}
+.eh-dashboard :is(a,button) svg {
+  flex-shrink: 0;
+  transition: transform .26s cubic-bezier(.22,1,.36,1),
+              color .26s ease;
+}
+.eh-dashboard > aside nav a[class*="bg-[#EDF1FF]"] {
+  color: var(--eh-dash-blue) !important;
+  background: #edf1ff !important;
+}
+.eh-dashboard main :where(.grid) > * { min-width: 0; }
+.eh-dashboard main :where(section,article,form) { min-width: 0; }
+.eh-dashboard main :is(input,select,textarea) { max-width: 100%; }
+.eh-dashboard main :is(table,.eh-table-wrap) { max-width: 100%; }
+.eh-dashboard .eh-ref-promo-banner {
+  background: linear-gradient(115deg, #3447b7 0%, #273b9c 74%, #245c89 100%) !important;
+}
+.eh-dashboard .eh-ref-promo-banner a {
+  transition: background-color .24s ease, color .24s ease,
+              transform .24s ease, box-shadow .24s ease;
+}
+
+/* Compact hover choreography: green highlights, icon motion, restrained lift. */
+@media (hover: hover) and (pointer: fine) {
+  .eh-dashboard > aside nav a:not([class*="bg-[#EDF1FF]"]):hover {
+    color: var(--eh-dash-green) !important;
+    background: var(--eh-dash-mint) !important;
+  }
+  .eh-dashboard > aside nav a:hover svg {
+    transform: translateX(3px) rotate(-5deg) scale(1.06);
+  }
+  .eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div:hover,
+  .eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card):hover,
+  .eh-dashboard main :is(article.rounded-2xl,.rounded-2xl.border):hover {
+    transform: translateY(-3px);
+    border-color: #cbd6fa !important;
+    box-shadow: 0 13px 31px rgba(28,47,116,.085) !important;
+  }
+  .eh-dashboard main > div > .space-y-6 > .grid.grid-cols-1.gap-5 > div:hover [class*="rounded-2xl"] svg,
+  .eh-dashboard main :is(article,.eh-dashboard-card):hover [class*="rounded-2xl"] svg {
+    color: var(--eh-dash-green) !important;
+    transform: rotate(-7deg) scale(1.12);
+  }
+  .eh-dashboard main :is(button,a):not(:disabled):hover > svg:last-child,
+  .eh-dashboard .eh-ref-promo-banner a:hover svg {
+    transform: translateX(3px) scale(1.08);
+  }
+  .eh-dashboard .eh-ref-promo-banner a:hover {
+    background: #e5f8ef !important;
+    color: #087457 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(12,76,108,.12);
+  }
+  .eh-dashboard main button:not(:disabled):hover {
+    border-color: #c9d4f2;
+  }
+  .eh-dashboard main .eh-table tbody tr:hover {
+    background: #f3f8ff;
+  }
+}
+/* A single softly animated selected-navigation icon; motion stops when requested. */
+@keyframes eh-nav-icon-glow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .eh-dashboard > aside nav a[class*="bg-[#EDF1FF]"] svg {
+    animation: eh-nav-icon-glow 4.5s ease-in-out infinite;
+    transform-origin: center;
+  }
+}
+@media (max-width: 640px) {
+  .eh-dashboard > div:last-child > header {
+    min-height: 68px;
+    padding-inline: 17px !important;
+  }
+  .eh-dashboard > div:last-child > main {
+    padding: 18px 17px 25px !important;
+  }
+  .eh-dashboard > div:last-child > header h1 {
+    max-width: min(44vw, 250px);
+    font-size: 16px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eh-dashboard :is(a,button,svg,.eh-card,.eh-panel,.eh-dashboard-card,.rounded-2xl.border) {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+html.a11y-pause-animations .eh-dashboard :is(a,button,svg,.eh-card,.eh-panel,.eh-dashboard-card,.rounded-2xl.border) {
+  transition-duration: .01ms !important;
+  animation-duration: .01ms !important;
+}
+
+
+/* Match hover contrast to the dashboard's existing dark-mode switch. */
+@media (hover: hover) and (pointer: fine) {
+  .dark .eh-dashboard > aside nav a:not([class*="bg-[#EDF1FF]"]):hover {
+    background: rgba(17,183,133,.13) !important;
+    color: #91e4c6 !important;
+  }
+  .dark .eh-dashboard main :is(.eh-card,.eh-panel,.eh-dashboard-card,.eh-glass-card,.rounded-2xl.border):hover {
+    border-color: #5364a6 !important;
+    box-shadow: 0 12px 28px rgba(4,11,41,.23) !important;
+  }
+  .dark .eh-dashboard main .eh-table tbody tr:hover {
+    background: #24314f;
+  }
+}
+
+
+/* The organiser intro is a flat heading, not an interactive dashboard card.
+   Keep CTA links clickable; remove only the panel shadow and hover choreography. */
+.eh-dashboard main .eh-dashboard-intro,
+.eh-dashboard main .eh-dashboard-intro:hover {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+.eh-dashboard main .eh-dashboard-intro a,
+.eh-dashboard main .eh-dashboard-intro a:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+.eh-dashboard > div:last-child > header {
+  box-shadow: none !important;
+}
+@media (max-width: 640px) {
+  .eh-dashboard main .eh-dashboard-intro {
+    min-width: 0 !important;
+    padding: 0 !important;
+  }
+  .eh-dashboard main .eh-dashboard-intro > div {
+    min-width: 0;
+    gap: 15px;
+  }
+  .eh-dashboard main .eh-dashboard-intro h1,
+  .eh-dashboard main .eh-dashboard-intro p {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  .eh-dashboard main .eh-dashboard-intro a {
+    min-width: 0;
+    white-space: normal;
+    min-height: 44px;
+  }
+}

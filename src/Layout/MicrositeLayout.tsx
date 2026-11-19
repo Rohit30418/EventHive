@@ -16,7 +16,7 @@ const MicrositeLayout = () => {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const event = useAppSelector((state) => state.microsite.eventData);
-  const primaryColor = event?.PrimaryColor || event?.primaryColor || '#F26B2A';
+  const primaryColor = event?.PrimaryColor || event?.primaryColor || '#3848BE';
 
   useEffect(() => {
     let active = true;
@@ -61,7 +61,7 @@ const MicrositeLayout = () => {
   }
 
   return (
-    <div className="public-theme eh-event-microsite eh-microsite min-h-screen overflow-x-clip bg-[#FFF8F3] text-[#1F1C1A]"
+    <div className="public-theme eh-event-microsite eh-microsite min-h-screen overflow-x-clip bg-[#F8FAFF] text-[#1F1C1A]"
       style={{ "--ms-primary": primaryColor } as CSSProperties}>
       <Header />
       <Outlet />

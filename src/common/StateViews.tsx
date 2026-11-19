@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { AlertTriangle, ArrowRight, Inbox, Loader2, RefreshCw, SearchX } from "lucide-react";
+import { AlertTriangle, ArrowRight, Loader2, RefreshCw } from "lucide-react";
+import AssetSlot from "../components/media/AssetSlot";
 
 interface StateViewProps {
   title: string;
@@ -21,7 +22,7 @@ const toneStyles = {
 export const EmptyState = ({ title, description, icon, actionLabel, onAction, tone = "default", className = "" }: StateViewProps) => (
   <div className={`eh-state-card ${className}`}>
     <div className={`eh-state-icon ${toneStyles[tone]}`}>
-      {icon || <Inbox size={34} />}
+      {icon || <div style={{ width: 156, maxWidth: "100%", borderRadius: 14 }}><AssetSlot id="empty" /></div>}
     </div>
     <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-950 dark:text-white">{title}</h3>
     {description && <p className="mt-2 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">{description}</p>}
@@ -52,7 +53,6 @@ export const SearchEmptyState = ({ title = "No matching results", description, c
   <EmptyState
     title={title}
     description={description || "Try a different keyword, remove filters, or check the spelling."}
-    icon={<SearchX size={34} />}
     className={className}
   />
 );

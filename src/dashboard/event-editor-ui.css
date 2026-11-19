@@ -1,0 +1,239 @@
+/*
+ * Scoped EventHive event editor overrides.
+ * Shared by Create Event and Edit Event (same React component).
+ * No changes to event API, Firebase, Redux or form submission.
+ */
+.eh-dashboard main .eh-event-editor {
+  --eh-editor-blue: #3848be;
+  --eh-editor-mint: #13b785;
+  --eh-editor-border: #e4eaf5;
+  width: 100%;
+  min-width: 0;
+}
+.eh-dashboard main .eh-event-editor > .eh-editor-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 0;
+  background: linear-gradient(116deg, #192b79 0%, #3345b5 66%, #1a777e 130%) !important;
+  background-color: #263a9c !important;
+  border: 1px solid #3448b5 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 14px 36px rgba(25, 44, 123, .15) !important;
+  color: #fff !important;
+  overflow: hidden !important;
+}
+.eh-dashboard main .eh-event-editor > .eh-editor-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 290px;
+  height: 290px;
+  right: -115px;
+  top: -125px;
+  border-radius: 50%;
+  border: 48px solid rgba(255,255,255,.045);
+  pointer-events: none;
+}
+.eh-dashboard main .eh-editor-hero h1 {
+  color: #fff !important;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: clamp(26px, 2.1vw, 33px) !important;
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -.045em;
+}
+.eh-dashboard main .eh-editor-hero p {
+  color: #e4eaff !important;
+  line-height: 1.6;
+}
+.eh-dashboard main .eh-editor-hero > .eh-premium-grid {
+  opacity: .075 !important;
+  pointer-events: none;
+}
+.eh-dashboard main .eh-editor-hero a:not(.eh-editor-hero-btn) {
+  color: #e6fff2 !important;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  text-decoration: none;
+}
+.eh-dashboard main .eh-editor-hero a:not(.eh-editor-hero-btn):hover {
+  color: #fff !important;
+  background: rgba(255,255,255,.2);
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-hero-btn {
+  color: #fff !important;
+  background: rgba(255,255,255,.14) !important;
+  border: 1px solid rgba(255,255,255,.34) !important;
+  min-height: 40px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 740;
+  box-shadow: none;
+  text-decoration: none;
+  transition: background-color .2s ease, transform .2s ease, border-color .2s ease;
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-hero-btn:hover {
+  background: rgba(255,255,255,.25) !important;
+  border-color: rgba(255,255,255,.65) !important;
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-progress {
+  width: min(100%, 275px);
+  min-width: 225px;
+  flex: none;
+  padding: 17px !important;
+  background: rgba(12,23,75,.24) !important;
+  border: 1px solid rgba(255,255,255,.3) !important;
+  color: white !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-progress span {
+  color: #e4eaff !important;
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-progress > div:last-child {
+  background: rgba(255,255,255,.2) !important;
+}
+.eh-dashboard main .eh-editor-hero .eh-editor-progress > div:last-child > div {
+  background: linear-gradient(90deg,#80e9bb,#d2ffee) !important;
+  min-width: 0;
+}
+
+/* Stable two-column form and always-available preview on smaller screens. */
+.eh-dashboard main .eh-event-editor > .grid {
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(288px, 355px);
+  gap: clamp(18px, 2.5vw, 30px);
+}
+.eh-dashboard main .eh-event-editor .eh-editor-form {
+  min-width: 0;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-form > section {
+  scroll-margin-top: 26px;
+  border: 1px solid var(--eh-editor-border) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 3px 14px rgba(33, 49, 107, .04) !important;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-form .eh-input {
+  background: #fff;
+  color: #17213d;
+  border: 1px solid #dce3ef;
+  border-radius: 12px;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-form .eh-input:focus {
+  border-color: #3848be;
+  box-shadow: 0 0 0 4px rgba(56,72,190,.12);
+}
+.eh-dashboard main .eh-event-editor .eh-editor-form .eh-field-label {
+  color: #495470;
+  font-weight: 740;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-preview-column {
+  min-width: 0;
+  scroll-margin-top: 24px;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-preview-heading {
+  padding: 3px 2px 0;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-preview-column .eh-editor-preview-card {
+  border: 1px solid var(--eh-editor-border) !important;
+  border-radius: 18px !important;
+  background-color: white;
+  box-shadow: 0 9px 26px rgba(32,47,112,.075) !important;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-preview-column .eh-editor-preview-card h3 {
+  color: #fff !important;
+  font-size: clamp(19px,1.6vw,23px);
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-preview-column .eh-editor-preview-card img {
+  max-width: 100%;
+}
+/* The submit button sits at the END of the form, never over its fields. */
+.eh-dashboard main .eh-event-editor .eh-editor-actions {
+  position: static !important;
+  z-index: auto !important;
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px !important;
+  border: 1px solid var(--eh-editor-border) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 4px 15px rgba(31,48,108,.04) !important;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-save {
+  min-height: 46px;
+  min-width: 180px;
+  color: #fff !important;
+  border-radius: 999px;
+  background: var(--eh-editor-blue) !important;
+  box-shadow: 0 7px 17px rgba(56,72,190,.16) !important;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-save:not(:disabled):hover {
+  background: #2b3899 !important;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-save:disabled {
+  opacity: .6;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-back {
+  text-decoration: none;
+  transition: color .2s ease, background-color .2s ease;
+}
+.eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-back:hover {
+  color: #087457;
+  background: #edfaf3;
+}
+@media (min-width: 1280px) {
+  .eh-dashboard main .eh-event-editor .eh-editor-preview-column {
+    position: sticky;
+    top: 25px;
+  }
+}
+@media (max-width: 1279px) {
+  .eh-dashboard main .eh-event-editor > .grid {
+    grid-template-columns: minmax(0,1fr);
+  }
+  .eh-dashboard main .eh-event-editor .eh-editor-preview-column {
+    position: static;
+    width: 100%;
+    max-width: 700px;
+  }
+}
+@media (max-width: 640px) {
+  .eh-dashboard main .eh-event-editor > .eh-editor-hero {
+    padding: 22px !important;
+    border-radius: 16px !important;
+  }
+  .eh-dashboard main .eh-editor-hero h1 {
+    font-size: 26px !important;
+  }
+  .eh-dashboard main .eh-editor-hero .eh-editor-progress {
+    width: 100%;
+    min-width: 0;
+  }
+  .eh-dashboard main .eh-event-editor .eh-editor-form > section {
+    padding: 18px !important;
+  }
+  .eh-dashboard main .eh-event-editor .eh-editor-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-save {
+    width: 100%;
+  }
+  .eh-dashboard main .eh-event-editor .eh-editor-actions .eh-editor-back {
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eh-dashboard main .eh-event-editor .eh-editor-hero-btn,
+  .eh-dashboard main .eh-event-editor .eh-editor-actions :is(button,a) {
+    transition: none !important;
+  }
+}
